@@ -1,6 +1,7 @@
 package com.waicool20.kaga.controllers;
 
 import com.waicool20.kaga.Kaga;
+import javafx.beans.property.IntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -28,6 +29,10 @@ public class SortieTabController {
     @FXML private CheckBox medalStopCheckBox;
     @FXML private CheckBox lastNodePushCheckBox;
 
+    private IntegerProperty fleetComp;
+    private IntegerProperty area;
+    private IntegerProperty subarea;
+
     @FXML public void initialize() {
         enableButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getSortie().enabledProperty());
 
@@ -37,9 +42,14 @@ public class SortieTabController {
             Collectors.toList()));
         subareaComboBox.getItems().setAll(IntStream.range(1, 6).boxed().collect(
             Collectors.toList()));
-        fleetCompComboBox.valueProperty().bindBidirectional(Kaga.PROFILE.getSortie().fleetCompProperty().asObject());
-        areaComboBox.valueProperty().bindBidirectional(Kaga.PROFILE.getSortie().areaProperty().asObject());
-        subareaComboBox.valueProperty().bindBidirectional(Kaga.PROFILE.getSortie().subAreaProperty().asObject());
+
+        fleetComp = IntegerProperty.integerProperty(fleetCompComboBox.valueProperty());
+        area = IntegerProperty.integerProperty(areaComboBox.valueProperty());
+        subarea = IntegerProperty.integerProperty(subareaComboBox.valueProperty());
+
+        fleetComp.bindBidirectional(Kaga.PROFILE.getSortie().fleetCompProperty());
+        area.bindBidirectional(Kaga.PROFILE.getSortie().areaProperty());
+        subarea.bindBidirectional(Kaga.PROFILE.getSortie().subAreaProperty());
 
         combinedFleetCheckBox.selectedProperty().bindBidirectional(Kaga.PROFILE.getSortie().combinedFleetProperty());
         nodesTextField.textProperty().bindBidirectional(Kaga.PROFILE.getSortie().nodesProperty(), new NumberStringConverter());
