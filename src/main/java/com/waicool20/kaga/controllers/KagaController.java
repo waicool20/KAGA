@@ -3,6 +3,7 @@ package com.waicool20.kaga.controllers;
 import com.waicool20.kaga.Kaga;
 import com.waicool20.kaga.config.KancolleAutoProfile;
 import com.waicool20.kaga.util.StreamGobbler;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -114,19 +115,27 @@ public class KagaController {
                 args.add(Kaga.CONFIG.getSikuliScriptJarPath().toString());
                 args.add("-r");
                 args.add(Paths.get(Kaga.CONFIG.getKancolleAutoRootDirPath().toString(), "kancolle_auto.sikuli").toString());
-
-                kancolleAutoProcess = new ProcessBuilder(args)
-                    .start();
-                streamGobbler = new StreamGobbler(kancolleAutoProcess);
-                streamGobbler.run();
-                kagaStatus.setText("Kancolle Auto is running!");
-                startStopButton.setText("Stop");
-                startStopButton.setStyle("-fx-background-color: red");
+                Thread processMonitor = new Thread(() -> {
+                    try {
+                        kancolleAutoProcess = new ProcessBuilder(args).start();
+                        Platform.runLater(() -> kagaStatus.setText("Kancolle Auto is running!"));
+                        Platform.runLater(() -> startStopButton.setText("Stop"));
+                        startStopButton.setStyle("-fx-background-color: red");
+                        streamGobbler = new StreamGobbler(kancolleAutoProcess);
+                        streamGobbler.run();
+                        kancolleAutoProcess.waitFor();
+                        Platform.runLater(() -> kagaStatus.setText("Kancolle Auto is not running!"));
+                        Platform.runLater(() -> startStopButton.setText("Start"));
+                        startStopButton.setStyle("-fx-background-color: lightgreen");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+                processMonitor.start();
             } else {
                 kancolleAutoProcess.destroy();
-                kagaStatus.setText("Kancolle Auto is not running!");
-                startStopButton.setText("Start");
-                startStopButton.setStyle("-fx-background-color: lightgreen");
             }
         } catch (IOException e) {
             e.printStackTrace();
