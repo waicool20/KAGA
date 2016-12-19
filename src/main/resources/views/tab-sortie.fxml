@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.controllers.SortieTabController">
+   <children>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="138.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="462.0" minWidth="10.0" prefWidth="462.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0">
+               <children>
+                  <CheckBox fx:id="enableButton" mnemonicParsing="false" text="Enable" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Fleet Comp:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <ComboBox fx:id="fleetCompComboBox" prefHeight="28.0" prefWidth="75.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="2">
+               <children>
+                  <Label text="Area:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <ComboBox fx:id="areaComboBox" prefHeight="28.0" prefWidth="75.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="3">
+               <children>
+                  <Label text="Subarea:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <ComboBox fx:id="subareaComboBox" prefHeight="28.0" prefWidth="75.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="4">
+               <children>
+                  <Label text="Combined Fleet:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <CheckBox fx:id="combinedFleetCheckBox" mnemonicParsing="false" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="5">
+               <children>
+                  <Label text="Nodes:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <children>
+                  <TextField fx:id="nodesTextField" prefHeight="28.0" prefWidth="75.0" />
+                  <Button mnemonicParsing="false" onAction="#onNodesDec" prefHeight="28.0" prefWidth="28.0" text="-" />
+                  <Button mnemonicParsing="false" onAction="#onNodesInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="6">
+               <children>
+                  <Label text="Node Selects:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <children>
+                  <TextField fx:id="nodeSelectsTextField" prefHeight="28.0" prefWidth="350.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="7">
+               <children>
+                  <Label text="Formations:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onConfigureFormationsButton" text="Configure" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="8">
+               <children>
+                  <Label text="Night Battles:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <children>
+                  <CheckBox fx:id="nightBattlesCheckBox" mnemonicParsing="false" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="9">
+               <children>
+                  <Label text="Retreat Limit:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <children>
+                  <TextField fx:id="retreatLimitTextField" prefHeight="28.0" prefWidth="75.0" />
+                  <Button mnemonicParsing="false" onAction="#onRetreatLimitDec" prefHeight="28.0" prefWidth="28.0" text="-" />
+                  <Button mnemonicParsing="false" onAction="#onRetreatLimitInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="10">
+               <children>
+                  <Label text="Repair Limit:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="10">
+               <children>
+                  <TextField fx:id="repairLimitTextField" prefHeight="28.0" prefWidth="75.0" />
+                  <Button mnemonicParsing="false" onAction="#onRepairLimitDec" prefHeight="28.0" prefWidth="28.0" text="-" />
+                  <Button mnemonicParsing="false" onAction="#onRepairLimitInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="11">
+               <children>
+                  <Label text="Repair Time Limit:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="11">
+               <children>
+                  <TextField fx:id="repairTimeLimitTextField" prefHeight="28.0" prefWidth="75.0" />
+                  <Button mnemonicParsing="false" onAction="#onRepairTimeLimitDec" prefHeight="28.0" prefWidth="28.0" text="-" />
+                  <Button mnemonicParsing="false" onAction="#onRepairTimeLimitInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="12">
+               <children>
+                  <Label text="Check Fatigue:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="12">
+               <children>
+                  <CheckBox fx:id="checkFatigueCheckBox" mnemonicParsing="false" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="13">
+               <children>
+                  <Label text="Check Port:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="14">
+               <children>
+                  <Label text="Medal Stop:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="15">
+               <children>
+                  <Label text="Last Node Push:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="148.0" layoutY="550.0" GridPane.columnIndex="1" GridPane.rowIndex="13">
+               <children>
+                  <CheckBox fx:id="checkPortCheckBox" mnemonicParsing="false" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="14">
+               <children>
+                  <CheckBox fx:id="medalStopCheckBox" mnemonicParsing="false" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="15">
+               <children>
+                  <CheckBox fx:id="lastNodePushCheckBox" mnemonicParsing="false" />
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

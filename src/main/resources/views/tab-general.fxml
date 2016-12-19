@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.controllers.GeneralTabController">
+    <children>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="138.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="531.0" minWidth="10.0" prefWidth="462.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <HBox alignment="CENTER">
+                    <children>
+                        <Label text="Program:" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="1">
+                    <children>
+                        <Label text="Recovery Method:" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                    <children>
+                        <TextField fx:id="programTextField" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <ChoiceBox fx:id="recoveryMethodChoiceBox" prefWidth="150.0" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="4">
+                    <children>
+                        <Label text="Sleep Cycle:" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="3">
+                    <children>
+                        <Label text="Paranoia:" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <children>
+                        <TextField fx:id="sleepCycleTextField" prefHeight="28.0" prefWidth="75.0" />
+                        <Button mnemonicParsing="false" onAction="#onSleepCycleDec" prefHeight="28.0" prefWidth="28.0" text="-" />
+                        <Button mnemonicParsing="false" onAction="#onSleepCycleInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <children>
+                        <TextField fx:id="paranoiaTextField" prefHeight="28.0" prefWidth="75.0" />
+                        <Button mnemonicParsing="false" onAction="#onParanoiaDec" prefHeight="28.0" prefWidth="28.0" text="-" />
+                        <Button mnemonicParsing="false" onAction="#onParanoiaInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="5">
+                    <children>
+                        <Label text="Sleep Modifier:" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <children>
+                        <TextField fx:id="sleepModifierTextField" prefHeight="28.0" prefWidth="75.0" />
+                        <Button mnemonicParsing="false" onAction="#onSleepModifierDec" prefHeight="28.0" prefWidth="28.0" text="-" />
+                        <Button mnemonicParsing="false" onAction="#onSleepModifierInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="2">
+                    <children>
+                        <Label text="Basic Recovery:" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <children>
+                        <CheckBox fx:id="basicRecoveryCheckBox" mnemonicParsing="false" />
+                    </children>
+                </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="6">
+               <children>
+                  <Label text="Sikuli Script Jar:" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.rowIndex="7">
+               <children>
+                  <Label text="Kancolle Auto Root:" />
+               </children>
+            </HBox>
+            <Label fx:id="sikuliScriptJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="kancolleAutoRootPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,31 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+apply plugin: 'java'
+
+group 'com.waicool20'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.ini4j', name: 'ini4j', version: '0.5.4'
+}
+
+shadowJar {
+    classifier = null
+    version = null
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.waicool20.kaga.Kaga'
+    }
+}

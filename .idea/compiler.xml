@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="KAGA_main" target="1.8" />
+      <module name="KAGA_test" target="1.8" />
+      <module name="kancolle-auto-gui-app_main" target="1.8" />
+      <module name="kancolle-auto-gui-app_test" target="1.8" />
+      <module name="kancolle-auto-gui_main" target="1.8" />
+      <module name="kancolle-auto-gui_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
