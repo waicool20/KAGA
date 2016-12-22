@@ -15,13 +15,23 @@ public class TextAreaOutputStream extends OutputStream {
 
     @Override
     public void write(int b) throws IOException {
-        appendText(String.valueOf((char)b));
+        char c = (char) b;
+        switch (c) {
+            case '\u001B':
+                appendText("<ESC>");
+                break;
+            default:
+                appendText(String.valueOf(c));
+                break;
+        }
+
     }
 
-    private void appendText(String valueOf) {
+    private void appendText(String string) {
         Platform.runLater(() -> {
-            console.appendText(valueOf);
+            console.appendText(string);
             console.setScrollTop(Double.MAX_VALUE);
+            console.setText(console.getText().replaceAll("<ESC>\\[.+?m", ""));
         });
     }
 }
