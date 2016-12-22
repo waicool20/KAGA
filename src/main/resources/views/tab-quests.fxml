@@ -44,7 +44,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Spinner fx:id="checkScheduleSpinner" />
+                  <Spinner fx:id="checkScheduleSpinner" editable="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">

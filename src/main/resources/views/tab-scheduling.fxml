@@ -78,7 +78,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Spinner fx:id="sleepLengthSpinner" />
+                  <Spinner fx:id="sleepLengthSpinner" editable="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
@@ -88,7 +88,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
-                  <Spinner fx:id="countSpinner" />
+                  <Spinner fx:id="countSpinner" editable="true" />
                </children>
             </HBox>
          </children>

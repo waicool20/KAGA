@@ -97,7 +97,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <Spinner fx:id="nodesSpinner" />
+                  <Spinner fx:id="nodesSpinner" editable="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="6">
@@ -137,7 +137,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <children>
-                  <Spinner fx:id="retreatLimitSpinner" />
+                  <Spinner fx:id="retreatLimitSpinner" editable="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="10">
@@ -147,7 +147,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <children>
-                  <Spinner fx:id="repairLimitSpinner" />
+                  <Spinner fx:id="repairLimitSpinner" editable="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="11">
@@ -157,7 +157,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="11">
                <children>
-                  <Spinner fx:id="repairTimeLimitSpinner" />
+                  <Spinner fx:id="repairTimeLimitSpinner" editable="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="12">
