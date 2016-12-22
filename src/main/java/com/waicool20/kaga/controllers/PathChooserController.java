@@ -24,14 +24,13 @@ public class PathChooserController {
 
     @FXML private Label pathErrorsText;
 
-    @FXML
-    public void initialize() {
+    @FXML public void initialize() {
         checkErrors();
-        pathChooserFlavorText.setText("Hello there Admiral! "
-            + "This might be your first time starting up this application "
-            + "or there was a problem finding the files below! "
-            + "Either way before you begin your adventures, "
-            + "please configure the paths first!");
+        pathChooserFlavorText.setText(
+            "Hello there Admiral! " + "This might be your first time starting up this application "
+                + "or there was a problem finding the files below! "
+                + "Either way before you begin your adventures, "
+                + "please configure the paths first!");
     }
 
     public void openSikuliScriptJarChooser() {
@@ -66,8 +65,12 @@ public class PathChooserController {
     }
 
     private void checkErrors() {
-        sikuliScriptJarPathTextField.setStyle("-fx-border-color:" + (!Kaga.CONFIG.sikuliScriptJarIsValid() ? "red" : "inherit"));
-        kancolleAutoDirTextField.setStyle("-fx-border-color:" + (!Kaga.CONFIG.kancolleAutoRootDirPathIsValid() ? "red" : "inherit"));
+        sikuliScriptJarPathTextField.setStyle(
+            "-fx-border-color:" + (!Kaga.CONFIG.sikuliScriptJarIsValid() ? "red" : "inherit"));
+        kancolleAutoDirTextField.setStyle(
+            "-fx-border-color:" + (!Kaga.CONFIG.kancolleAutoRootDirPathIsValid() ?
+                "red" :
+                "inherit"));
         setErrorText();
     }
 

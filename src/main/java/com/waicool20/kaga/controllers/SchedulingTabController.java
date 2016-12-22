@@ -23,19 +23,27 @@ public class SchedulingTabController {
 
 
     private void setValues() {
-        sleepLengthSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0,
-            Double.MAX_VALUE, 0, 0.1));
+        sleepLengthSpinner.setValueFactory(
+            new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, 0.1));
         modeChoiceBox.getItems().setAll(KancolleAutoProfile.ScheduledStopMode.values());
-        countSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
+        countSpinner.setValueFactory(
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
     }
 
     private void createBindings() {
-        enableSleepButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getScheduledSleep().enabledProperty());
-        startTimeTextField.textProperty().bindBidirectional(Kaga.PROFILE.getScheduledSleep().startTimeProperty(), new NumberStringConverter("#"));
-        ObjectBindings.bindBidirectionally(sleepLengthSpinner.getValueFactory().valueProperty(), Kaga.PROFILE.getScheduledSleep().lengthProperty());
+        enableSleepButton.selectedProperty()
+            .bindBidirectional(Kaga.PROFILE.getScheduledSleep().enabledProperty());
+        startTimeTextField.textProperty()
+            .bindBidirectional(Kaga.PROFILE.getScheduledSleep().startTimeProperty(),
+                new NumberStringConverter("#"));
+        ObjectBindings.bindBidirectionally(sleepLengthSpinner.getValueFactory().valueProperty(),
+            Kaga.PROFILE.getScheduledSleep().lengthProperty());
 
-        enableAutoStopButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getScheduledStop().enabledProperty());
-        modeChoiceBox.valueProperty().bindBidirectional(Kaga.PROFILE.getScheduledStop().modeProperty());
-        ObjectBindings.bindBidirectionally(countSpinner.getValueFactory().valueProperty(), Kaga.PROFILE.getScheduledStop().countProperty());
+        enableAutoStopButton.selectedProperty()
+            .bindBidirectional(Kaga.PROFILE.getScheduledStop().enabledProperty());
+        modeChoiceBox.valueProperty()
+            .bindBidirectional(Kaga.PROFILE.getScheduledStop().modeProperty());
+        ObjectBindings.bindBidirectionally(countSpinner.getValueFactory().valueProperty(),
+            Kaga.PROFILE.getScheduledStop().countProperty());
     }
 }

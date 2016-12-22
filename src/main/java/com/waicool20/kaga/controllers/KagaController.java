@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -44,16 +43,13 @@ public class KagaController {
     @FXML private void showProfiles() {
         try {
             String currentProfile = profileNameComboBox.getValue();
-            List<String> profiles = Files.walk(Kaga.CONFIG_DIR)
-                .filter(path -> Files.isRegularFile(path))
-                .map(path -> path.getFileName().toString())
-                .map(name -> {
+            List<String> profiles =
+                Files.walk(Kaga.CONFIG_DIR).filter(path -> Files.isRegularFile(path))
+                    .map(path -> path.getFileName().toString()).map(name -> {
                     Matcher matcher = Pattern.compile("(.+?)-config\\.ini").matcher(name);
                     return matcher.matches() ? matcher.group(1) : "";
-                })
-                .filter(name -> !name.isEmpty())
-                .filter(name -> !name.equals(currentProfile))
-                .collect(Collectors.toList());
+                }).filter(name -> !name.isEmpty()).filter(name -> !name.equals(currentProfile))
+                    .collect(Collectors.toList());
             if (!profiles.isEmpty()) {
                 profileNameComboBox.getItems().setAll(profiles);
             }
@@ -108,13 +104,15 @@ public class KagaController {
     @FXML private void onStartStopButton() {
         try {
             if (kancolleAutoProcess == null || !kancolleAutoProcess.isAlive()) {
-                Kaga.PROFILE.save(Paths.get(Kaga.CONFIG.getKancolleAutoRootDirPath().toString(), "config.ini"));
+                Kaga.PROFILE.save(
+                    Paths.get(Kaga.CONFIG.getKancolleAutoRootDirPath().toString(), "config.ini"));
                 List<String> args = new LinkedList<>();
                 args.add("java");
                 args.add("-jar");
                 args.add(Kaga.CONFIG.getSikuliScriptJarPath().toString());
                 args.add("-r");
-                args.add(Paths.get(Kaga.CONFIG.getKancolleAutoRootDirPath().toString(), "kancolle_auto.sikuli").toString());
+                args.add(Paths.get(Kaga.CONFIG.getKancolleAutoRootDirPath().toString(),
+                    "kancolle_auto.sikuli").toString());
                 Thread processMonitor = new Thread(() -> {
                     try {
                         kancolleAutoProcess = new ProcessBuilder(args).start();
@@ -124,7 +122,8 @@ public class KagaController {
                         streamGobbler = new StreamGobbler(kancolleAutoProcess);
                         streamGobbler.run();
                         kancolleAutoProcess.waitFor();
-                        Platform.runLater(() -> kagaStatus.setText("Kancolle Auto is not running!"));
+                        Platform
+                            .runLater(() -> kagaStatus.setText("Kancolle Auto is not running!"));
                         Platform.runLater(() -> startStopButton.setText("Start"));
                         startStopButton.setStyle("-fx-background-color: lightgreen");
                     } catch (IOException e) {

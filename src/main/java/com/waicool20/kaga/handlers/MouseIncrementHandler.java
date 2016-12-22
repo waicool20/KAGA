@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit;
 
 public class MouseIncrementHandler implements EventHandler<MouseEvent> {
 
+    private final long delay;
+    private final AnimationTimer timer;
     private Spinner spinner;
     private boolean isIncrementing;
     private long startTimestamp;
-    private final long delay;
-    private final AnimationTimer timer;
 
     public MouseIncrementHandler(long delayMillis, long incrementInterval) {
         delay = 1000000L * delayMillis;

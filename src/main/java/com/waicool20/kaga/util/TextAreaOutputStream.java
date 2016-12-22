@@ -13,8 +13,7 @@ public class TextAreaOutputStream extends OutputStream {
         this.console = console;
     }
 
-    @Override
-    public void write(int b) throws IOException {
+    @Override public void write(int b) throws IOException {
         char c = (char) b;
         switch (c) {
             case '\u001B':

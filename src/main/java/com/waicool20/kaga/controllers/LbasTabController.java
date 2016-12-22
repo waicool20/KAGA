@@ -3,7 +3,6 @@ package com.waicool20.kaga.controllers;
 import com.waicool20.kaga.Kaga;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 
 public class LbasTabController {
     @FXML private CheckBox enableButton;

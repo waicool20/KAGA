@@ -24,6 +24,19 @@ public class KagaConfig {
         this.kancolleAutoRootDirPath = kancolleAutoRootDirPath;
     }
 
+    public static KagaConfig load(Path path) throws IOException {
+        if (Files.notExists(path)) {
+            Files.createFile(path);
+        }
+        Ini.Section kaga = new Wini(path.toFile()).get("Kaga");
+        if (kaga == null) {
+            return new KagaConfig("", Paths.get(""), Paths.get(""));
+        }
+        return new KagaConfig(IniUtils.getString(kaga, "currentProfile", ""),
+            Paths.get(IniUtils.getString(kaga, "sikuliScriptJarPath", "")),
+            Paths.get(IniUtils.getString(kaga, "kancolleAutoRootDirPath", "")));
+    }
+
     public String getCurrentProfile() {
         return currentProfile;
     }
@@ -67,20 +80,6 @@ public class KagaConfig {
 
     public boolean isValid() {
         return sikuliScriptJarIsValid() && kancolleAutoRootDirPathIsValid();
-    }
-
-    public static KagaConfig load(Path path) throws IOException {
-        if (Files.notExists(path)) {
-            Files.createFile(path);
-        }
-        Ini.Section kaga = new Wini(path.toFile()).get("Kaga");
-        if (kaga == null) {
-            return new KagaConfig("", Paths.get(""), Paths.get(""));
-        }
-        return new KagaConfig(
-            IniUtils.getString(kaga, "currentProfile", ""),
-            Paths.get(IniUtils.getString(kaga, "sikuliScriptJarPath", "")),
-            Paths.get(IniUtils.getString(kaga, "kancolleAutoRootDirPath", "")));
     }
 
     public void save() throws IOException {

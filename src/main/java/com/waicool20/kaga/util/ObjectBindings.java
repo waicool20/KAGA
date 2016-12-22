@@ -13,7 +13,8 @@ import java.util.Map;
 public class ObjectBindings {
     public static Map<ObjectProperty<?>, List<ObjectProperty<?>>> objectBindings = new HashMap<>();
 
-    public static void bindBidirectionally(ObjectProperty<Integer> objectProperty, IntegerProperty integerProperty) {
+    public static void bindBidirectionally(ObjectProperty<Integer> objectProperty,
+        IntegerProperty integerProperty) {
         ObjectProperty<Integer> integerObjectProperty = integerProperty.asObject();
         objectProperty.bindBidirectional(integerObjectProperty);
         if (objectBindings.containsKey(objectProperty)) {
@@ -23,7 +24,8 @@ public class ObjectBindings {
         }
     }
 
-    public static void bindBidirectionally(ObjectProperty<Float> objectProperty, FloatProperty floatProperty) {
+    public static void bindBidirectionally(ObjectProperty<Float> objectProperty,
+        FloatProperty floatProperty) {
         ObjectProperty<Float> floatObjectProperty = floatProperty.asObject();
         objectProperty.bindBidirectional(floatObjectProperty);
         if (objectBindings.containsKey(objectProperty)) {
@@ -33,7 +35,8 @@ public class ObjectBindings {
         }
     }
 
-    public static void bindBidirectionally(ObjectProperty<Double> objectProperty, DoubleProperty doubleProperty) {
+    public static void bindBidirectionally(ObjectProperty<Double> objectProperty,
+        DoubleProperty doubleProperty) {
         ObjectProperty<Double> doubleObjectProperty = doubleProperty.asObject();
         objectProperty.bindBidirectional(doubleObjectProperty);
         if (objectBindings.containsKey(objectProperty)) {

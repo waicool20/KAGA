@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.util.converter.NumberStringConverter;
 
 public class QuestsTabController {
 
@@ -19,13 +18,15 @@ public class QuestsTabController {
     }
 
     private void setValues() {
-        checkScheduleSpinner
-            .setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
+        checkScheduleSpinner.setValueFactory(
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
     }
 
     private void createBindings() {
-        enableButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getQuests().enabledProperty());
-        ObjectBindings.bindBidirectionally(checkScheduleSpinner.getValueFactory().valueProperty(), Kaga.PROFILE.getQuests().checkScheduleProperty());
+        enableButton.selectedProperty()
+            .bindBidirectional(Kaga.PROFILE.getQuests().enabledProperty());
+        ObjectBindings.bindBidirectionally(checkScheduleSpinner.getValueFactory().valueProperty(),
+            Kaga.PROFILE.getQuests().checkScheduleProperty());
     }
 
     @FXML private void onConfigureQuestsButton() {
