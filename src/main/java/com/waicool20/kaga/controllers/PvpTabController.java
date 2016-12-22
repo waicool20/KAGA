@@ -1,6 +1,7 @@
 package com.waicool20.kaga.controllers;
 
 import com.waicool20.kaga.Kaga;
+import com.waicool20.kaga.util.ObjectBindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -13,12 +14,17 @@ public class PvpTabController {
     @FXML private CheckBox enableButton;
     @FXML private ComboBox<Integer> fleetCompComboBox;
 
-    private IntegerProperty fleetComp;
-
     @FXML public void initialize() {
-        enableButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getPvp().enabledProperty());
+        setValues();
+        createBindings();
+    }
+
+    private void setValues() {
         fleetCompComboBox.getItems().setAll(IntStream.range(1, 5).boxed().collect(Collectors.toList()));
-        fleetComp = IntegerProperty.integerProperty(fleetCompComboBox.valueProperty());
-        fleetComp.bindBidirectional(Kaga.PROFILE.getPvp().fleetCompProperty());
+    }
+
+    private void createBindings() {
+        enableButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getPvp().enabledProperty());
+        ObjectBindings.bindBidirectionally(fleetCompComboBox.valueProperty(), Kaga.PROFILE.getPvp().fleetCompProperty());
     }
 }

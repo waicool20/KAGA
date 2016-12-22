@@ -2,11 +2,16 @@ package com.waicool20.kaga;
 
 import com.waicool20.kaga.config.KagaConfig;
 import com.waicool20.kaga.config.KancolleAutoProfile;
-import com.waicool20.kaga.controllers.ConsoleController;
+import com.waicool20.kaga.handlers.KeyboardIncrementHandler;
+import com.waicool20.kaga.handlers.MouseIncrementHandler;
 import javafx.application.Application;
+import javafx.event.EventTarget;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Spinner;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -79,6 +84,12 @@ public class Kaga extends Application {
         ROOT_STAGE.setResizable(false);
         ROOT_STAGE.setScene(scene);
         ROOT_STAGE.show();
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, new KeyboardIncrementHandler());
+        MouseIncrementHandler handler = new MouseIncrementHandler(1000L, 40);
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, handler);
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, handler);
+
         setupConsole();
     }
 
@@ -93,6 +104,5 @@ public class Kaga extends Application {
         CONSOLE_STAGE.setMinHeight(300);
         CONSOLE_STAGE.setMinWidth(600);
         CONSOLE_STAGE.setScene(consoleScene);
-        //CONSOLE_STAGE.show();
     }
 }

@@ -1,30 +1,34 @@
 package com.waicool20.kaga.controllers;
 
 import com.waicool20.kaga.Kaga;
+import com.waicool20.kaga.util.ObjectBindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.util.converter.NumberStringConverter;
 
 public class QuestsTabController {
 
     @FXML private CheckBox enableButton;
-    @FXML private TextField checkScheduleTextField;
+    @FXML private Spinner<Integer> checkScheduleSpinner;
 
     @FXML public void initialize() {
+        setValues();
+        createBindings();
+    }
+
+    private void setValues() {
+        checkScheduleSpinner
+            .setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
+    }
+
+    private void createBindings() {
         enableButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getQuests().enabledProperty());
-        checkScheduleTextField.textProperty().bindBidirectional(Kaga.PROFILE.getQuests().checkScheduleProperty(), new NumberStringConverter());
+        ObjectBindings.bindBidirectionally(checkScheduleSpinner.getValueFactory().valueProperty(), Kaga.PROFILE.getQuests().checkScheduleProperty());
     }
 
     @FXML private void onConfigureQuestsButton() {
 
-    }
-
-    @FXML private void onCheckScheduleInc() {
-        Kaga.PROFILE.getQuests().setCheckSchedule(Kaga.PROFILE.getQuests().getCheckSchedule() + 1);
-    }
-
-    @FXML private void onCheckScheduleDec() {
-        Kaga.PROFILE.getQuests().setCheckSchedule(Kaga.PROFILE.getQuests().getCheckSchedule() + 1);
     }
 }

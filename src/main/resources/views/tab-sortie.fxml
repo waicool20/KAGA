@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -96,9 +97,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <TextField fx:id="nodesTextField" prefHeight="28.0" prefWidth="75.0" />
-                  <Button mnemonicParsing="false" onAction="#onNodesDec" prefHeight="28.0" prefWidth="28.0" text="-" />
-                  <Button mnemonicParsing="false" onAction="#onNodesInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+                  <Spinner fx:id="nodesSpinner" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="6">
@@ -138,9 +137,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <children>
-                  <TextField fx:id="retreatLimitTextField" prefHeight="28.0" prefWidth="75.0" />
-                  <Button mnemonicParsing="false" onAction="#onRetreatLimitDec" prefHeight="28.0" prefWidth="28.0" text="-" />
-                  <Button mnemonicParsing="false" onAction="#onRetreatLimitInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+                  <Spinner fx:id="retreatLimitSpinner" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="10">
@@ -150,9 +147,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <children>
-                  <TextField fx:id="repairLimitTextField" prefHeight="28.0" prefWidth="75.0" />
-                  <Button mnemonicParsing="false" onAction="#onRepairLimitDec" prefHeight="28.0" prefWidth="28.0" text="-" />
-                  <Button mnemonicParsing="false" onAction="#onRepairLimitInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+                  <Spinner fx:id="repairLimitSpinner" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="11">
@@ -162,9 +157,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="11">
                <children>
-                  <TextField fx:id="repairTimeLimitTextField" prefHeight="28.0" prefWidth="75.0" />
-                  <Button mnemonicParsing="false" onAction="#onRepairTimeLimitDec" prefHeight="28.0" prefWidth="28.0" text="-" />
-                  <Button mnemonicParsing="false" onAction="#onRepairTimeLimitInc" prefHeight="28.0" prefWidth="28.0" text="+" />
+                  <Spinner fx:id="repairTimeLimitSpinner" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="12">
