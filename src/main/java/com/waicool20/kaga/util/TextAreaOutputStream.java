@@ -19,6 +19,9 @@ public class TextAreaOutputStream extends OutputStream {
     }
 
     private void appendText(String valueOf) {
-        Platform.runLater(() -> console.appendText(valueOf));
+        Platform.runLater(() -> {
+            console.appendText(valueOf);
+            console.setScrollTop(Double.MAX_VALUE);
+        });
     }
 }
