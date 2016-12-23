@@ -1,18 +1,11 @@
 package com.waicool20.kaga.controllers;
 
 import com.waicool20.kaga.Kaga;
-import com.waicool20.kaga.util.ObjectBindings;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ListChangeListener;
 import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.GridPane;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 public class LbasTabController {
@@ -20,6 +13,8 @@ public class LbasTabController {
     @FXML private CheckBox group1CheckBox;
     @FXML private CheckBox group2CheckBox;
     @FXML private CheckBox group3CheckBox;
+
+    @FXML private GridPane content;
 
     @FXML public void initialize() {
         setValues();
@@ -32,8 +27,8 @@ public class LbasTabController {
 
     private void createBindings() {
         enableButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getLbas().enabledProperty());
-        Kaga.PROFILE.getLbas().getEnabledGroups().addListener(
-            (SetChangeListener<? super Integer>) change -> {
+        Kaga.PROFILE.getLbas().getEnabledGroups()
+            .addListener((SetChangeListener<? super Integer>) change -> {
                 Set<? extends Integer> set = change.getSet();
                 updateGroupCheckBoxes(set);
             });
@@ -58,6 +53,7 @@ public class LbasTabController {
                 Kaga.PROFILE.getLbas().getEnabledGroups().remove(3);
             }
         });
+        content.visibleProperty().bind(enableButton.selectedProperty());
     }
 
     private void updateGroupCheckBoxes(Set<? extends Integer> set) {

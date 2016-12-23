@@ -4,6 +4,7 @@ import com.waicool20.kaga.Kaga;
 import com.waicool20.kaga.util.ObjectBindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -25,6 +26,8 @@ public class SortieTabController {
     @FXML private CheckBox checkPortCheckBox;
     @FXML private CheckBox medalStopCheckBox;
     @FXML private CheckBox lastNodePushCheckBox;
+
+    @FXML private GridPane content;
 
     @FXML public void initialize() {
         setValues();
@@ -78,6 +81,7 @@ public class SortieTabController {
             .bindBidirectional(Kaga.PROFILE.getSortie().medalStopProperty());
         lastNodePushCheckBox.selectedProperty()
             .bindBidirectional(Kaga.PROFILE.getSortie().lastNodePushProperty());
+        content.visibleProperty().bind(enableButton.selectedProperty());
     }
 
     @FXML private void onConfigureFormationsButton() {

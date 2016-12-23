@@ -5,6 +5,7 @@ import com.waicool20.kaga.util.ObjectBindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.GridPane;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -12,6 +13,8 @@ import java.util.stream.IntStream;
 public class PvpTabController {
     @FXML private CheckBox enableButton;
     @FXML private ComboBox<Integer> fleetCompComboBox;
+
+    @FXML private GridPane content;
 
     @FXML public void initialize() {
         setValues();
@@ -27,5 +30,7 @@ public class PvpTabController {
         enableButton.selectedProperty().bindBidirectional(Kaga.PROFILE.getPvp().enabledProperty());
         ObjectBindings.bindBidirectionally(fleetCompComboBox.valueProperty(),
             Kaga.PROFILE.getPvp().fleetCompProperty());
+
+        content.visibleProperty().bind(enableButton.selectedProperty());
     }
 }

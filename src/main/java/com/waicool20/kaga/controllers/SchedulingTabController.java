@@ -5,6 +5,7 @@ import com.waicool20.kaga.config.KancolleAutoProfile;
 import com.waicool20.kaga.util.ObjectBindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.util.converter.NumberStringConverter;
 
 public class SchedulingTabController {
@@ -15,6 +16,9 @@ public class SchedulingTabController {
     @FXML private CheckBox enableAutoStopButton;
     @FXML private ChoiceBox<KancolleAutoProfile.ScheduledStopMode> modeChoiceBox;
     @FXML private Spinner<Integer> countSpinner;
+
+    @FXML private GridPane sleepContent;
+    @FXML private GridPane stopContent;
 
     @FXML public void initialize() {
         setValues();
@@ -45,5 +49,8 @@ public class SchedulingTabController {
             .bindBidirectional(Kaga.PROFILE.getScheduledStop().modeProperty());
         ObjectBindings.bindBidirectionally(countSpinner.getValueFactory().valueProperty(),
             Kaga.PROFILE.getScheduledStop().countProperty());
+
+        sleepContent.visibleProperty().bind(enableSleepButton.selectedProperty());
+        stopContent.visibleProperty().bind(enableAutoStopButton.selectedProperty());
     }
 }

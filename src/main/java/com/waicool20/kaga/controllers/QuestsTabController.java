@@ -6,11 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.layout.GridPane;
 
 public class QuestsTabController {
 
     @FXML private CheckBox enableButton;
     @FXML private Spinner<Integer> checkScheduleSpinner;
+    @FXML private GridPane content;
 
     @FXML public void initialize() {
         setValues();
@@ -27,6 +29,7 @@ public class QuestsTabController {
             .bindBidirectional(Kaga.PROFILE.getQuests().enabledProperty());
         ObjectBindings.bindBidirectionally(checkScheduleSpinner.getValueFactory().valueProperty(),
             Kaga.PROFILE.getQuests().checkScheduleProperty());
+        content.visibleProperty().bind(enableButton.selectedProperty());
     }
 
     @FXML private void onConfigureQuestsButton() {

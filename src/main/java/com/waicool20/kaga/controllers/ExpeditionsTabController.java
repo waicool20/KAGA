@@ -5,6 +5,7 @@ import com.waicool20.kaga.util.ObjectBindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.GridPane;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -14,6 +15,8 @@ public class ExpeditionsTabController {
     @FXML private ComboBox<Integer> fleet2ComboBox;
     @FXML private ComboBox<Integer> fleet3ComboBox;
     @FXML private ComboBox<Integer> fleet4ComboBox;
+
+    @FXML private GridPane content;
 
     @FXML public void initialize() {
         setValues();
@@ -38,5 +41,7 @@ public class ExpeditionsTabController {
             Kaga.PROFILE.getExpeditions().fleet3Property());
         ObjectBindings.bindBidirectionally(fleet4ComboBox.valueProperty(),
             Kaga.PROFILE.getExpeditions().fleet4Property());
+
+        content.visibleProperty().bind(enableButton.selectedProperty());
     }
 }

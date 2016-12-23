@@ -12,21 +12,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.controllers.SchedulingTabController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.controllers.SchedulingTabController">
    <children>
       <GridPane>
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="138.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="462.0" minWidth="10.0" prefWidth="462.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
          </columnConstraints>
          <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="-Infinity" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0">
@@ -40,22 +37,71 @@
                   <Insets left="20.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="1">
+            <GridPane fx:id="sleepContent" GridPane.rowIndex="1">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="138.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="462.0" minWidth="10.0" prefWidth="462.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <Label text="Start Time:" />
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label text="Start Time:" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="Sleep Length:" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                     <children>
+                        <TextField fx:id="startTimeTextField" prefWidth="100.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Spinner fx:id="sleepLengthSpinner" editable="true" />
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="2">
+            </GridPane>
+            <GridPane fx:id="stopContent" GridPane.rowIndex="4">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="138.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="462.0" minWidth="10.0" prefWidth="462.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <Label text="Sleep Length:" />
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label text="Mode:" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="Count:" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                     <children>
+                        <ChoiceBox fx:id="modeChoiceBox" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Spinner fx:id="countSpinner" editable="true" />
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <TextField fx:id="startTimeTextField" prefWidth="100.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" GridPane.rowIndex="4">
+            </GridPane>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" GridPane.rowIndex="3">
                <children>
                   <CheckBox fx:id="enableAutoStopButton" mnemonicParsing="false" text="Auto Stop" />
                </children>
@@ -65,31 +111,6 @@
                <padding>
                   <Insets left="20.0" />
                </padding>
-            </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="5">
-               <children>
-                  <Label text="Mode:" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="6">
-               <children>
-                  <Label text="Count:" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <children>
-                  <Spinner fx:id="sleepLengthSpinner" editable="true" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <children>
-                  <ChoiceBox fx:id="modeChoiceBox" prefWidth="150.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <children>
-                  <Spinner fx:id="countSpinner" editable="true" />
-               </children>
             </HBox>
          </children>
       </GridPane>
