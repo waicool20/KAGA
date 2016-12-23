@@ -2,6 +2,9 @@ package com.waicool20.kaga.config;
 
 import com.waicool20.kaga.Kaga;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import org.ini4j.Ini;
 import org.ini4j.Wini;
 
@@ -10,7 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -175,21 +179,18 @@ public class KancolleAutoProfile {
     }
 
     public enum CombatFormation {
-        LINE_AHEAD, DOUBLE_LINE, DIAMOND, ECHELON, LINE_ABREAST, COMBINEDFLEET_1, COMBINEDFLEET_2, COMBINEDFLEET_3, COMBINEDFLEET_4
+        LINE_AHEAD, DOUBLE_LINE, DIAMOND, ECHELON, LINE_ABREAST, COMBINEDFLEET_1, COMBINEDFLEET_2, COMBINEDFLEET_3, COMBINEDFLEET_4;
+
+        @Override public String toString() {
+            return this.name().toLowerCase();
+        }
     }
 
     public enum Submarines {
-        ALL("all"), I_8("i-8"), I_19("i-19"), I_26("i-26"), I_58("i-58"), I_168("i-168"), MARUYU(
-            "maruyu"), RO_500("ro-500"), U_511("u-511");
-
-        private String name;
-
-        Submarines(String name) {
-            this.name = name;
-        }
+        ALL, I_8, I_19, I_26, I_58, I_168, MARUYU, RO_500, U_511;
 
         @Override public String toString() {
-            return this.name;
+            return this.name().replaceAll("_", "-").toLowerCase();
         }
     }
 
@@ -503,7 +504,7 @@ public class KancolleAutoProfile {
         @IniConfig(key = "CombinedFleet") private BooleanProperty combinedFleet;
         @IniConfig(key = "Nodes") private IntegerProperty nodes;
         @IniConfig(key = "NodeSelects") private StringProperty nodeSelects;
-        @IniConfig(key = "Formations") private ObjectProperty<LinkedList<CombatFormation>>
+        @IniConfig(key = "Formations") private SimpleListProperty<CombatFormation>
             formations;
         @IniConfig(key = "NightBattles") private BooleanProperty nightBattles;
         @IniConfig(key = "RetreatLimit") private IntegerProperty retreatLimit;
@@ -515,7 +516,7 @@ public class KancolleAutoProfile {
         @IniConfig(key = "LastNodePush") private BooleanProperty lastNodePush;
 
         public Sortie(boolean enabled, int fleetComp, int area, int subArea, boolean combinedFleet,
-            int nodes, String nodeSelects, LinkedList<CombatFormation> formations,
+            int nodes, String nodeSelects, List<CombatFormation> formations,
             boolean nightBattles, int retreatLimit, int repairLimit, int repairTimeLimit,
             boolean checkFatigue, boolean portCheck, boolean medalStop, boolean lastNodePush) {
             this.enabled = new SimpleBooleanProperty(enabled);
@@ -525,7 +526,7 @@ public class KancolleAutoProfile {
             this.combinedFleet = new SimpleBooleanProperty(combinedFleet);
             this.nodes = new SimpleIntegerProperty(nodes);
             this.nodeSelects = new SimpleStringProperty(nodeSelects);
-            this.formations = new SimpleObjectProperty<>(formations);
+            this.formations = new SimpleListProperty<>(FXCollections.observableArrayList(formations));
             this.nightBattles = new SimpleBooleanProperty(nightBattles);
             this.retreatLimit = new SimpleIntegerProperty(retreatLimit);
             this.repairLimit = new SimpleIntegerProperty(repairLimit);
@@ -620,16 +621,16 @@ public class KancolleAutoProfile {
             return nodeSelects;
         }
 
-        public LinkedList<CombatFormation> getFormations() {
+        public ObservableList<CombatFormation> getFormations() {
             return formations.get();
         }
 
-        public void setFormations(LinkedList<CombatFormation> formations) {
-            this.formations.set(formations);
+        public SimpleListProperty<CombatFormation> formationsProperty() {
+            return formations;
         }
 
-        public ObjectProperty<LinkedList<CombatFormation>> formationsProperty() {
-            return formations;
+        public void setFormations(ObservableList<CombatFormation> formations) {
+            this.formations.set(formations);
         }
 
         public boolean isNightBattles() {
@@ -732,11 +733,11 @@ public class KancolleAutoProfile {
 
     public static class SubmarineSwitch {
         @IniConfig(key = "Enabled") private BooleanProperty enabled;
-        @IniConfig(key = "EnabledSubs") private ObjectProperty<LinkedList<Submarines>> enabledSubs;
+        @IniConfig(key = "EnabledSubs") private ListProperty<Submarines> enabledSubs;
 
-        public SubmarineSwitch(boolean enabled, LinkedList<Submarines> enabledSubs) {
+        public SubmarineSwitch(boolean enabled, List<Submarines> enabledSubs) {
             this.enabled = new SimpleBooleanProperty(enabled);
-            this.enabledSubs = new SimpleObjectProperty<>(enabledSubs);
+            this.enabledSubs = new SimpleListProperty<>(FXCollections.observableArrayList(enabledSubs));
         }
 
         public boolean isEnabled() {
@@ -751,107 +752,107 @@ public class KancolleAutoProfile {
             return enabled;
         }
 
-        public LinkedList<Submarines> getEnabledSubs() {
+        public ObservableList<Submarines> getEnabledSubs() {
             return enabledSubs.get();
         }
 
-        public void setEnabledSubs(LinkedList<Submarines> enabledSubs) {
-            this.enabledSubs.set(enabledSubs);
+        public ListProperty<Submarines> enabledSubsProperty() {
+            return enabledSubs;
         }
 
-        public ObjectProperty<LinkedList<Submarines>> enabledSubsProperty() {
-            return enabledSubs;
+        public void setEnabledSubs(ObservableList<Submarines> enabledSubs) {
+            this.enabledSubs.set(enabledSubs);
         }
     }
 
 
     public static class Lbas {
         @IniConfig(key = "Enabled") private BooleanProperty enabled;
-        @IniConfig(key = "EnabledGroups") private ObjectProperty<LinkedList<Integer>> enabledGroups;
-        @IniConfig(key = "Group1Nodes") private ObjectProperty<LinkedList<String>> group1Nodes;
-        @IniConfig(key = "Group2Nodes") private ObjectProperty<LinkedList<String>> group2Nodes;
-        @IniConfig(key = "Group3Nodes") private ObjectProperty<LinkedList<String>> group3Nodes;
+        @IniConfig(key = "EnabledGroups") private SetProperty<Integer> enabledGroups;
+        @IniConfig(key = "Group1Nodes") private ListProperty<String> group1Nodes;
+        @IniConfig(key = "Group2Nodes") private ListProperty<String> group2Nodes;
+        @IniConfig(key = "Group3Nodes") private ListProperty<String> group3Nodes;
 
-        public Lbas(boolean enabled, LinkedList<Integer> enabledGroups,
-            LinkedList<String> group1Nodes, LinkedList<String> group2Nodes,
-            LinkedList<String> group3Nodes) {
+        public Lbas(boolean enabled, Set<Integer> enabledGroups,
+            List<String> group1Nodes, List<String> group2Nodes,
+            List<String> group3Nodes) {
             this.enabled = new SimpleBooleanProperty(enabled);
-            this.enabledGroups = new SimpleObjectProperty<>(enabledGroups);
-            this.group1Nodes = new SimpleObjectProperty<>(group1Nodes);
-            this.group2Nodes = new SimpleObjectProperty<>(group2Nodes);
-            this.group3Nodes = new SimpleObjectProperty<>(group3Nodes);
+            this.enabledGroups = new SimpleSetProperty<>(FXCollections.observableSet(enabledGroups));
+            this.group1Nodes = new SimpleListProperty<>(FXCollections.observableArrayList(group1Nodes));
+            this.group2Nodes = new SimpleListProperty<>(FXCollections.observableArrayList(group2Nodes));
+            this.group3Nodes = new SimpleListProperty<>(FXCollections.observableArrayList(group3Nodes));
         }
 
         public boolean isEnabled() {
             return enabled.get();
         }
 
-        public void setEnabled(boolean enabled) {
-            this.enabled.set(enabled);
-        }
-
         public BooleanProperty enabledProperty() {
             return enabled;
         }
 
-        public LinkedList<Integer> getEnabledGroups() {
+        public void setEnabled(boolean enabled) {
+            this.enabled.set(enabled);
+        }
+
+        public ObservableSet<Integer> getEnabledGroups() {
             return enabledGroups.get();
         }
 
-        public void setEnabledGroups(LinkedList<Integer> enabledGroups) {
-            this.enabledGroups.set(enabledGroups);
-        }
-
-        public ObjectProperty<LinkedList<Integer>> enabledGroupsProperty() {
+        public SetProperty<Integer> enabledGroupsProperty() {
             return enabledGroups;
         }
 
-        public LinkedList<String> getGroup1Nodes() {
+        public void setEnabledGroups(ObservableSet<Integer> enabledGroups) {
+            this.enabledGroups.set(enabledGroups);
+        }
+
+        public ObservableList<String> getGroup1Nodes() {
             return group1Nodes.get();
         }
 
-        public void setGroup1Nodes(LinkedList<String> group1Nodes) {
-            this.group1Nodes.set(group1Nodes);
-        }
-
-        public ObjectProperty<LinkedList<String>> group1NodesProperty() {
+        public ListProperty<String> group1NodesProperty() {
             return group1Nodes;
         }
 
-        public LinkedList<String> getGroup2Nodes() {
+        public void setGroup1Nodes(ObservableList<String> group1Nodes) {
+            this.group1Nodes.set(group1Nodes);
+        }
+
+        public ObservableList<String> getGroup2Nodes() {
             return group2Nodes.get();
         }
 
-        public void setGroup2Nodes(LinkedList<String> group2Nodes) {
-            this.group2Nodes.set(group2Nodes);
-        }
-
-        public ObjectProperty<LinkedList<String>> group2NodesProperty() {
+        public ListProperty<String> group2NodesProperty() {
             return group2Nodes;
         }
 
-        public LinkedList<String> getGroup3Nodes() {
+        public void setGroup2Nodes(ObservableList<String> group2Nodes) {
+            this.group2Nodes.set(group2Nodes);
+        }
+
+        public ObservableList<String> getGroup3Nodes() {
             return group3Nodes.get();
         }
 
-        public void setGroup3Nodes(LinkedList<String> group3Nodes) {
-            this.group3Nodes.set(group3Nodes);
+        public ListProperty<String> group3NodesProperty() {
+            return group3Nodes;
         }
 
-        public ObjectProperty<LinkedList<String>> group3NodesProperty() {
-            return group3Nodes;
+        public void setGroup3Nodes(ObservableList<String> group3Nodes) {
+            this.group3Nodes.set(group3Nodes);
         }
     }
 
 
     public static class Quests {
         @IniConfig(key = "Enabled") private BooleanProperty enabled;
-        @IniConfig(key = "Quests") private ObjectProperty<LinkedList<String>> quests;
+        @IniConfig(key = "Quests") private ListProperty<String> quests;
         @IniConfig(key = "CheckSchedule") private IntegerProperty checkSchedule;
 
-        public Quests(boolean enabled, LinkedList<String> quests, int checkSchedule) {
+        public Quests(boolean enabled, List<String> quests, int checkSchedule) {
             this.enabled = new SimpleBooleanProperty(enabled);
-            this.quests = new SimpleObjectProperty<>(quests);
+            this.quests = new SimpleListProperty<>(FXCollections.observableArrayList(quests));
             this.checkSchedule = new SimpleIntegerProperty(checkSchedule);
         }
 
@@ -867,16 +868,16 @@ public class KancolleAutoProfile {
             return enabled;
         }
 
-        public LinkedList<String> getQuests() {
+        public ObservableList<String> getQuests() {
             return quests.get();
         }
 
-        public void setQuests(LinkedList<String> quests) {
-            this.quests.set(quests);
+        public ListProperty<String> questsProperty() {
+            return quests;
         }
 
-        public ObjectProperty<LinkedList<String>> questsProperty() {
-            return quests;
+        public void setQuests(ObservableList<String> quests) {
+            this.quests.set(quests);
         }
 
         public int getCheckSchedule() {

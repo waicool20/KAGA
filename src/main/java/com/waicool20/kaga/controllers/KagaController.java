@@ -113,6 +113,9 @@ public class KagaController {
                 args.add("-r");
                 args.add(Paths.get(Kaga.CONFIG.getKancolleAutoRootDirPath().toString(),
                     "kancolle_auto.sikuli").toString());
+                if (Kaga.CONSOLE_STAGE.isShowing()) {
+                    Kaga.CONSOLE_STAGE.toFront();
+                }
                 Thread processMonitor = new Thread(() -> {
                     try {
                         kancolleAutoProcess = new ProcessBuilder(args).start();

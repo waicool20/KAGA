@@ -11,7 +11,7 @@ public class ConsoleController {
     private PrintStream printStream;
 
     @FXML public void initialize() {
-        TextAreaOutputStream console = new TextAreaOutputStream(consoleTextArea);
+        TextAreaOutputStream console = new TextAreaOutputStream(consoleTextArea, 1000);
         printStream = new PrintStream(console);
         System.setOut(printStream);
         System.setErr(printStream);

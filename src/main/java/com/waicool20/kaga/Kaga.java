@@ -55,10 +55,10 @@ public class Kaga extends Application {
         if (PROFILE == null) {
             PROFILE = KancolleAutoProfile
                 .load(Paths.get(CONFIG.getKancolleAutoRootDirPath().toString(), "config.ini"));
-            if (PROFILE != null) {
-                Kaga.CONFIG.setCurrentProfile(Kaga.PROFILE.getName());
-                Kaga.CONFIG.save();
-            }
+        }
+        if (PROFILE != null) {
+            Kaga.CONFIG.setCurrentProfile(Kaga.PROFILE.getName());
+            Kaga.CONFIG.save();
         }
         Parent root = FXMLLoader.load(Kaga.class.getClassLoader().getResource("views/kaga.fxml"));
         Scene scene = new Scene(root);

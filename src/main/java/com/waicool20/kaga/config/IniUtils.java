@@ -5,8 +5,7 @@ import org.ini4j.Ini;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class IniUtils {
 
@@ -17,53 +16,51 @@ public class IniUtils {
 
     public static <T extends Object> T sectionToObject(Ini.Section section, Class<T> object) {
         try {
-            List<Object> args = new LinkedList<>();
-            List<Class> argClasses = new LinkedList<>();
+            List<Object> args = new ArrayList<>();
+            List<Class> argClasses = new ArrayList<>();
             for (Field field : object.getDeclaredFields()) {
                 if (field.isAnnotationPresent(IniConfig.class)) {
                     IniConfig config = field.getAnnotation(IniConfig.class);
                     if (!config.read()) {
                         continue;
                     }
-                    if (ReflectionUtil.hasGenericType(field)) {
-                        Class objClass = ReflectionUtil.getGenericClass(field, 0);
-                        if (objClass.isEnum()) {
-                            String enumName =
-                                section.get(config.key()).replaceAll("-", "_").toUpperCase();
-                            Object enumObject =
-                                Enum.valueOf((Class<? extends Enum>) objClass, enumName);
-                            argClasses.add(ReflectionUtil.getPrimitive(objClass));
-                            args.add(enumObject);
-                        } else if (List.class.isAssignableFrom(objClass)) {
-                            Class subObjClass = ReflectionUtil.getGenericClass(field, 1);
-                            LinkedList<Object> list = new LinkedList<>();
-                            if (subObjClass.isEnum()) {
-                                for (String value : section.get(config.key()).toUpperCase()
-                                    .replaceAll("-", "_").split("\\s?,\\s?")) {
-                                    list.add(
-                                        Enum.valueOf((Class<? extends Enum>) subObjClass, value));
-                                }
 
-                            } else {
-                                for (String value : section.get(config.key()).replaceAll("-", "_")
-                                    .split("\\s?,\\s?")) {
-                                    if (!value.isEmpty()) {
-                                        list.add(ReflectionUtil.stringToObject(value, subObjClass));
+                    Class fieldObject = ReflectionUtil
+                        .getPrimitive(field.getType().getMethod("getValue").getReturnType());
+                    if (ReflectionUtil.hasGenericType(field)) {
+                        Class genericClass = ReflectionUtil.getGenericClass(field, 0);
+                        boolean isList = List.class.isAssignableFrom(field.getType());
+                        if (isList || Set.class.isAssignableFrom(field.getType())) {
+                            Collection<Object> collection = isList ? new ArrayList<>() : new LinkedHashSet<>();
+                            for (String value : section.get(config.key()).replaceAll("-", "_")
+                                .split("\\s?,\\s?")) {
+                                if (!value.isEmpty()) {
+                                    if (genericClass.isEnum()) {
+                                        Object enumObject =
+                                            Enum.valueOf((Class<? extends Enum>) genericClass, value.toUpperCase());
+                                        collection.add(enumObject);
+                                    } else {
+                                        collection.add(ReflectionUtil.stringToObject(value, genericClass));
                                     }
                                 }
-
                             }
-                            argClasses.add(ReflectionUtil.getPrimitive(list.getClass()));
-                            args.add(list);
+                            argClasses.add(isList ? List.class : Set.class);
+                            args.add(collection);
+                        } else {
+                            if (genericClass.isEnum()) {
+                                String enumName =
+                                    section.get(config.key()).replaceAll("-", "_").toUpperCase();
+                                Object enumObject =
+                                    Enum.valueOf((Class<? extends Enum>) genericClass, enumName);
+                                argClasses.add(ReflectionUtil.getPrimitive(genericClass));
+                                args.add(enumObject);
+                            }
                         }
                     } else {
-                        Class objClass = ReflectionUtil
-                            .getPrimitive(field.getType().getMethod("getValue").getReturnType());
-                        Object value = section.get(config.key(), objClass);
-                        argClasses.add(objClass);
+                        Object value = section.get(config.key(), fieldObject);
+                        argClasses.add(fieldObject);
                         args.add(value);
                     }
-
                 }
             }
             return object.getConstructor(argClasses.toArray(new Class[argClasses.size()]))

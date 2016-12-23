@@ -8,9 +8,11 @@ import java.io.OutputStream;
 
 public class TextAreaOutputStream extends OutputStream {
     private TextArea console;
+    private int maxLines;
 
-    public TextAreaOutputStream(TextArea console) {
+    public TextAreaOutputStream(TextArea console, int maxLines) {
         this.console = console;
+        this.maxLines = maxLines;
     }
 
     @Override public void write(int b) throws IOException {
@@ -28,9 +30,13 @@ public class TextAreaOutputStream extends OutputStream {
 
     private void appendText(String string) {
         Platform.runLater(() -> {
-            console.appendText(string);
+            String current = console.getText();
+            if (current.split("\n").length > maxLines) {
+                current = current.replaceFirst(".+?\n", "");
+            }
+            current += string;
+            console.setText(current.replaceAll("<ESC>\\[.+?m", ""));
             console.setScrollTop(Double.MAX_VALUE);
-            console.setText(console.getText().replaceAll("<ESC>\\[.+?m", ""));
         });
     }
 }
