@@ -79,11 +79,10 @@ public class Kaga extends Application {
     private static void setupConsole() throws IOException {
         Parent consoleWindow =
             FXMLLoader.load(Kaga.class.getClassLoader().getResource("views/console.fxml"));
-        Scene consoleScene = new Scene(consoleWindow);
+        Scene consoleScene = new Scene(consoleWindow, 600, 800);
         CONSOLE_STAGE = new Stage();
         CONSOLE_STAGE.initModality(Modality.WINDOW_MODAL);
         CONSOLE_STAGE.setTitle("KAGA Debug");
-        CONSOLE_STAGE.setResizable(true);
         CONSOLE_STAGE.setMinHeight(300);
         CONSOLE_STAGE.setMinWidth(600);
         CONSOLE_STAGE.setScene(consoleScene);
