@@ -51,7 +51,7 @@ public class KancolleAutoProfile {
         if (Files.exists(path)) {
             Matcher matcher =
                 Pattern.compile("(.+?)-config\\.ini").matcher(path.getFileName().toString());
-            String name = matcher.matches() ? matcher.group(1) : "Current Profile";
+            String name = matcher.matches() ? matcher.group(1) : "<Current Profile>";
 
             Wini ini = new Wini(path.toFile());
             Ini.Section generalSection = ini.get("General");
