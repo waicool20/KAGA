@@ -63,9 +63,10 @@ public class Kaga extends Application {
         Parent root = FXMLLoader.load(Kaga.class.getClassLoader().getResource("views/kaga.fxml"));
         Scene scene = new Scene(root);
         ROOT_STAGE.setTitle("KAGA - Kancolle Auto GUI App");
-        ROOT_STAGE.setResizable(false);
         ROOT_STAGE.setScene(scene);
         ROOT_STAGE.show();
+        ROOT_STAGE.setMinWidth(ROOT_STAGE.getWidth() + 25);
+        ROOT_STAGE.setMinHeight(ROOT_STAGE.getHeight() + 25);
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new KeyboardIncrementHandler());
         MouseIncrementHandler handler = new MouseIncrementHandler(1000L, 40);
