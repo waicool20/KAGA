@@ -305,12 +305,12 @@ public class KancolleAutoProfile {
 
     public static class ScheduledSleep {
         @IniConfig(key = "Enabled") private BooleanProperty enabled;
-        @IniConfig(key = "StartTime") private IntegerProperty startTime;
+        @IniConfig(key = "StartTime") private StringProperty startTime;
         @IniConfig(key = "SleepLength") private DoubleProperty length;
 
-        public ScheduledSleep(boolean enabled, int startTime, double length) {
+        public ScheduledSleep(boolean enabled, String startTime, double length) {
             this.enabled = new SimpleBooleanProperty(enabled);
-            this.startTime = new SimpleIntegerProperty(startTime);
+            this.startTime = new SimpleStringProperty(startTime);
             this.length = new SimpleDoubleProperty(length);
         }
 
@@ -326,16 +326,16 @@ public class KancolleAutoProfile {
             return enabled;
         }
 
-        public int getStartTime() {
+        public String getStartTime() {
             return startTime.get();
         }
 
-        public void setStartTime(int startTime) {
-            this.startTime.set(startTime);
+        public StringProperty startTimeProperty() {
+            return startTime;
         }
 
-        public IntegerProperty startTimeProperty() {
-            return startTime;
+        public void setStartTime(String startTime) {
+            this.startTime.set(startTime);
         }
 
         public double getLength() {
