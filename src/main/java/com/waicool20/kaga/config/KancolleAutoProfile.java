@@ -174,9 +174,11 @@ public class KancolleAutoProfile {
         BROWSER, KC3, KCV, KCT, E0, NONE
     }
 
+
     public enum ScheduledStopMode {
         TIME, EXPEDITION, SORTIE, PVP
     }
+
 
     public enum CombatFormation {
         LINE_AHEAD, DOUBLE_LINE, DIAMOND, ECHELON, LINE_ABREAST, COMBINEDFLEET_1, COMBINEDFLEET_2, COMBINEDFLEET_3, COMBINEDFLEET_4;
@@ -185,6 +187,7 @@ public class KancolleAutoProfile {
             return this.name().toLowerCase();
         }
     }
+
 
     public enum Submarines {
         ALL, I_8, I_19, I_26, I_58, I_168, MARUYU, RO_500, U_511;
@@ -504,8 +507,7 @@ public class KancolleAutoProfile {
         @IniConfig(key = "CombinedFleet") private BooleanProperty combinedFleet;
         @IniConfig(key = "Nodes") private IntegerProperty nodes;
         @IniConfig(key = "NodeSelects") private StringProperty nodeSelects;
-        @IniConfig(key = "Formations") private SimpleListProperty<CombatFormation>
-            formations;
+        @IniConfig(key = "Formations") private SimpleListProperty<CombatFormation> formations;
         @IniConfig(key = "NightBattles") private BooleanProperty nightBattles;
         @IniConfig(key = "RetreatLimit") private IntegerProperty retreatLimit;
         @IniConfig(key = "RepairLimit") private IntegerProperty repairLimit;
@@ -516,9 +518,9 @@ public class KancolleAutoProfile {
         @IniConfig(key = "LastNodePush") private BooleanProperty lastNodePush;
 
         public Sortie(boolean enabled, int fleetComp, int area, int subArea, boolean combinedFleet,
-            int nodes, String nodeSelects, List<CombatFormation> formations,
-            boolean nightBattles, int retreatLimit, int repairLimit, int repairTimeLimit,
-            boolean checkFatigue, boolean portCheck, boolean medalStop, boolean lastNodePush) {
+            int nodes, String nodeSelects, List<CombatFormation> formations, boolean nightBattles,
+            int retreatLimit, int repairLimit, int repairTimeLimit, boolean checkFatigue,
+            boolean portCheck, boolean medalStop, boolean lastNodePush) {
             this.enabled = new SimpleBooleanProperty(enabled);
             this.fleetComp = new SimpleIntegerProperty(fleetComp);
             this.area = new SimpleIntegerProperty(area);
@@ -526,7 +528,8 @@ public class KancolleAutoProfile {
             this.combinedFleet = new SimpleBooleanProperty(combinedFleet);
             this.nodes = new SimpleIntegerProperty(nodes);
             this.nodeSelects = new SimpleStringProperty(nodeSelects);
-            this.formations = new SimpleListProperty<>(FXCollections.observableArrayList(formations));
+            this.formations =
+                new SimpleListProperty<>(FXCollections.observableArrayList(formations));
             this.nightBattles = new SimpleBooleanProperty(nightBattles);
             this.retreatLimit = new SimpleIntegerProperty(retreatLimit);
             this.repairLimit = new SimpleIntegerProperty(repairLimit);
@@ -625,12 +628,12 @@ public class KancolleAutoProfile {
             return formations.get();
         }
 
-        public SimpleListProperty<CombatFormation> formationsProperty() {
-            return formations;
-        }
-
         public void setFormations(ObservableList<CombatFormation> formations) {
             this.formations.set(formations);
+        }
+
+        public SimpleListProperty<CombatFormation> formationsProperty() {
+            return formations;
         }
 
         public boolean isNightBattles() {
@@ -737,7 +740,8 @@ public class KancolleAutoProfile {
 
         public SubmarineSwitch(boolean enabled, List<Submarines> enabledSubs) {
             this.enabled = new SimpleBooleanProperty(enabled);
-            this.enabledSubs = new SimpleListProperty<>(FXCollections.observableArrayList(enabledSubs));
+            this.enabledSubs =
+                new SimpleListProperty<>(FXCollections.observableArrayList(enabledSubs));
         }
 
         public boolean isEnabled() {
@@ -756,12 +760,12 @@ public class KancolleAutoProfile {
             return enabledSubs.get();
         }
 
-        public ListProperty<Submarines> enabledSubsProperty() {
-            return enabledSubs;
-        }
-
         public void setEnabledSubs(ObservableList<Submarines> enabledSubs) {
             this.enabledSubs.set(enabledSubs);
+        }
+
+        public ListProperty<Submarines> enabledSubsProperty() {
+            return enabledSubs;
         }
     }
 
@@ -773,74 +777,77 @@ public class KancolleAutoProfile {
         @IniConfig(key = "Group2Nodes") private ListProperty<String> group2Nodes;
         @IniConfig(key = "Group3Nodes") private ListProperty<String> group3Nodes;
 
-        public Lbas(boolean enabled, Set<Integer> enabledGroups,
-            List<String> group1Nodes, List<String> group2Nodes,
-            List<String> group3Nodes) {
+        public Lbas(boolean enabled, Set<Integer> enabledGroups, List<String> group1Nodes,
+            List<String> group2Nodes, List<String> group3Nodes) {
             this.enabled = new SimpleBooleanProperty(enabled);
-            this.enabledGroups = new SimpleSetProperty<>(FXCollections.observableSet(enabledGroups));
-            this.group1Nodes = new SimpleListProperty<>(FXCollections.observableArrayList(group1Nodes));
-            this.group2Nodes = new SimpleListProperty<>(FXCollections.observableArrayList(group2Nodes));
-            this.group3Nodes = new SimpleListProperty<>(FXCollections.observableArrayList(group3Nodes));
+            this.enabledGroups =
+                new SimpleSetProperty<>(FXCollections.observableSet(enabledGroups));
+            this.group1Nodes =
+                new SimpleListProperty<>(FXCollections.observableArrayList(group1Nodes));
+            this.group2Nodes =
+                new SimpleListProperty<>(FXCollections.observableArrayList(group2Nodes));
+            this.group3Nodes =
+                new SimpleListProperty<>(FXCollections.observableArrayList(group3Nodes));
         }
 
         public boolean isEnabled() {
             return enabled.get();
         }
 
-        public BooleanProperty enabledProperty() {
-            return enabled;
-        }
-
         public void setEnabled(boolean enabled) {
             this.enabled.set(enabled);
+        }
+
+        public BooleanProperty enabledProperty() {
+            return enabled;
         }
 
         public ObservableSet<Integer> getEnabledGroups() {
             return enabledGroups.get();
         }
 
-        public SetProperty<Integer> enabledGroupsProperty() {
-            return enabledGroups;
-        }
-
         public void setEnabledGroups(ObservableSet<Integer> enabledGroups) {
             this.enabledGroups.set(enabledGroups);
+        }
+
+        public SetProperty<Integer> enabledGroupsProperty() {
+            return enabledGroups;
         }
 
         public ObservableList<String> getGroup1Nodes() {
             return group1Nodes.get();
         }
 
-        public ListProperty<String> group1NodesProperty() {
-            return group1Nodes;
-        }
-
         public void setGroup1Nodes(ObservableList<String> group1Nodes) {
             this.group1Nodes.set(group1Nodes);
+        }
+
+        public ListProperty<String> group1NodesProperty() {
+            return group1Nodes;
         }
 
         public ObservableList<String> getGroup2Nodes() {
             return group2Nodes.get();
         }
 
-        public ListProperty<String> group2NodesProperty() {
-            return group2Nodes;
-        }
-
         public void setGroup2Nodes(ObservableList<String> group2Nodes) {
             this.group2Nodes.set(group2Nodes);
+        }
+
+        public ListProperty<String> group2NodesProperty() {
+            return group2Nodes;
         }
 
         public ObservableList<String> getGroup3Nodes() {
             return group3Nodes.get();
         }
 
-        public ListProperty<String> group3NodesProperty() {
-            return group3Nodes;
-        }
-
         public void setGroup3Nodes(ObservableList<String> group3Nodes) {
             this.group3Nodes.set(group3Nodes);
+        }
+
+        public ListProperty<String> group3NodesProperty() {
+            return group3Nodes;
         }
     }
 
@@ -872,12 +879,12 @@ public class KancolleAutoProfile {
             return quests.get();
         }
 
-        public ListProperty<String> questsProperty() {
-            return quests;
-        }
-
         public void setQuests(ObservableList<String> quests) {
             this.quests.set(quests);
+        }
+
+        public ListProperty<String> questsProperty() {
+            return quests;
         }
 
         public int getCheckSchedule() {

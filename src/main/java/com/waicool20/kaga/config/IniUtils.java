@@ -31,16 +31,19 @@ public class IniUtils {
                         Class genericClass = ReflectionUtil.getGenericClass(field, 0);
                         boolean isList = List.class.isAssignableFrom(field.getType());
                         if (isList || Set.class.isAssignableFrom(field.getType())) {
-                            Collection<Object> collection = isList ? new ArrayList<>() : new LinkedHashSet<>();
+                            Collection<Object> collection =
+                                isList ? new ArrayList<>() : new LinkedHashSet<>();
                             for (String value : section.get(config.key()).replaceAll("-", "_")
                                 .split("\\s?,\\s?")) {
                                 if (!value.isEmpty()) {
                                     if (genericClass.isEnum()) {
                                         Object enumObject =
-                                            Enum.valueOf((Class<? extends Enum>) genericClass, value.toUpperCase());
+                                            Enum.valueOf((Class<? extends Enum>) genericClass,
+                                                value.toUpperCase());
                                         collection.add(enumObject);
                                     } else {
-                                        collection.add(ReflectionUtil.stringToObject(value, genericClass));
+                                        collection.add(
+                                            ReflectionUtil.stringToObject(value, genericClass));
                                     }
                                 }
                             }
