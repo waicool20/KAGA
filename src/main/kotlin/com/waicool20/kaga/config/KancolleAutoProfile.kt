@@ -36,7 +36,6 @@ class KancolleAutoProfile(
         Files.write(path, ByteArray(0), StandardOpenOption.TRUNCATE_EXISTING)
         val ini = Wini()
         ini.add("General").fromObject(general)
-        ini.add("General").fromObject(general)
         ini.add("ScheduledSleep").fromObject(scheduledSleep)
         ini.add("ScheduledStop").fromObject(scheduledStop)
         ini.add("Expeditions").fromObject(expeditions)
