@@ -8,6 +8,7 @@ import javafx.scene.control.TextField
 import javafx.scene.layout.GridPane
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
+import javafx.stage.Stage
 import tornadofx.View
 
 
@@ -30,7 +31,7 @@ class PathChooserView : View() {
     }
 
     @FXML private fun openSikuliScriptJarChooser() {
-        with (FileChooser()) {
+        with(FileChooser()) {
             title = "Path to Sikuli Script Jar File..."
             extensionFilters.add(FileChooser.ExtensionFilter("JAR files (*.jar)", "*.jar"))
             val file = showOpenDialog(null)
@@ -57,6 +58,7 @@ class PathChooserView : View() {
     @FXML private fun onSaveButtonPressed() {
         if (Kaga.CONFIG.isValid()) {
             Kaga.CONFIG.save()
+            (saveButton.scene.window as Stage).close()
             Kaga.INSTANCE.startMainApplication()
         }
     }

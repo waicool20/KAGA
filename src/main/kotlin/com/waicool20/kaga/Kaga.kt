@@ -78,7 +78,7 @@ class Kaga : Application() {
     fun startPathChooser() {
         val stage = Stage()
         with(stage) {
-            title = "Configure KAGA paths..."
+            title = "KAGA - Configure KAGA paths..."
             isResizable = false
             scene = Scene(find(PathChooserView::class).root)
             show()
@@ -89,9 +89,9 @@ class Kaga : Application() {
         CONSOLE_STAGE = Stage()
         with(CONSOLE_STAGE) {
             initModality(Modality.WINDOW_MODAL)
-            title = "KAGA Debug"
+            title = "KAGA - Debug"
             minHeight = 300.0
-            maxHeight = 600.0
+            minWidth = 600.0
             scene = Scene(find(ConsoleView::class).root)
         }
     }

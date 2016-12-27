@@ -2,10 +2,12 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.bind
+import com.waicool20.kaga.views.FormationChooserView
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.layout.GridPane
 import tornadofx.bind
+import tornadofx.find
 
 
 class SortieTabView {
@@ -98,6 +100,6 @@ class SortieTabView {
     }
 
     @FXML private fun onConfigureFormationsButton() {
-        throw UnsupportedOperationException("Not Implemented") // TODO Implement this function
+        find(FormationChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
     }
 }

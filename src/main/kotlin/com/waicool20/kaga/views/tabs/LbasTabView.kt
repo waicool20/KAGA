@@ -1,7 +1,6 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
-import javafx.beans.value.ObservableValue
 import javafx.collections.SetChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
@@ -30,9 +29,9 @@ class LbasTabView {
             enableButton.bind(enabledProperty)
             enabledGroups.addListener(SetChangeListener { change -> updateGroupCheckBoxes(change.set) })
         }
-        group1CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 1)})
-        group2CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 2)})
-        group3CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 3)})
+        group1CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 1) })
+        group2CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 2) })
+        group3CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 3) })
         content.visibleProperty().bind(enableButton.selectedProperty())
     }
 
