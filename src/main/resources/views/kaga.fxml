@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" minHeight="-Infinity"
           minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.76-ea"
-          fx:controller="com.waicool20.kaga.controllers.KagaController">
+          fx:controller="com.waicool20.kaga.views.KagaView">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
     </columnConstraints>

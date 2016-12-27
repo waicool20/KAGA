@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.76-ea"
-            fx:controller="com.waicool20.kaga.controllers.GeneralTabController">
+            fx:controller="com.waicool20.kaga.views.tabs.GeneralTabView">
     <children>
         <GridPane>
             <columnConstraints>

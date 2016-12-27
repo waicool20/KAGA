@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="300.0" prefWidth="500.0"
           xmlns="http://javafx.com/javafx/8.0.76-ea"
-          fx:controller="com.waicool20.kaga.controllers.PathChooserController">
+          fx:controller="com.waicool20.kaga.views.PathChooserView">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="190.0"/>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="531.0" minWidth="10.0" prefWidth="410.0"/>

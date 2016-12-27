@@ -5,10 +5,16 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/kotlin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.ini4j:ini4j:0.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.0.5-3" level="project" />
+    <orderEntry type="library" name="Gradle: no.tornado:tornadofx:1.5.8" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-runtime:1.0.5-3" level="project" />
+    <orderEntry type="library" name="Gradle: org.glassfish:javax.json:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.0.5-2" level="project" />
   </component>
 </module>

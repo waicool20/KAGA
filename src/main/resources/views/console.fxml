@@ -5,9 +5,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0"
+<GridPane xmlns:fx="http://javafx.com/fxml/1" minHeight="-Infinity" minWidth="-Infinity"
+          prefHeight="300.0"
           prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea"
-          fx:controller="com.waicool20.kaga.controllers.ConsoleController">
+          fx:controller="com.waicool20.kaga.views.ConsoleView">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
     </columnConstraints>
