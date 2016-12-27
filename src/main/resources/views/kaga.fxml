@@ -86,37 +86,37 @@
             <tabs>
                 <Tab text="General">
                     <content>
-                        <fx:include fx:id="generalTab" source="tab-general.fxml"/>
+                        <fx:include fx:id="generalTab" source="tabs/tab-general.fxml"/>
                     </content>
                 </Tab>
                 <Tab text="Scheduling">
                     <content>
-                        <fx:include fx:id="schedulingTab" source="tab-scheduling.fxml"/>
+                        <fx:include fx:id="schedulingTab" source="tabs/tab-scheduling.fxml"/>
                     </content>
                 </Tab>
                 <Tab text="Expeditions">
                     <content>
-                        <fx:include fx:id="expeditionsTab" source="tab-expeditions.fxml"/>
+                        <fx:include fx:id="expeditionsTab" source="tabs/tab-expeditions.fxml"/>
                     </content>
                 </Tab>
                 <Tab text="PvP">
                     <content>
-                        <fx:include fx:id="pvpTab" source="tab-pvp.fxml"/>
+                        <fx:include fx:id="pvpTab" source="tabs/tab-pvp.fxml"/>
                     </content>
                 </Tab>
                 <Tab text="Sortie">
                     <content>
-                        <fx:include fx:id="sortieTab" source="tab-sortie.fxml"/>
+                        <fx:include fx:id="sortieTab" source="tabs/tab-sortie.fxml"/>
                     </content>
                 </Tab>
                 <Tab text="LBAS">
                     <content>
-                        <fx:include fx:id="lbasTab" source="tab-lbas.fxml"/>
+                        <fx:include fx:id="lbasTab" source="tabs/tab-lbas.fxml"/>
                     </content>
                 </Tab>
                 <Tab text="Quests">
                     <content>
-                        <fx:include fx:id="questsTab" source="tab-quests.fxml"/>
+                        <fx:include fx:id="questsTab" source="tabs/tab-quests.fxml"/>
                     </content>
                 </Tab>
             </tabs>

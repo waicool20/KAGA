@@ -39,9 +39,9 @@ class LbasTabView {
     private fun setGroups(newVal: Boolean, group: Int) {
         with(Kaga.PROFILE!!.lbas) {
             if (newVal) {
-                enabledGroups.add(3)
+                enabledGroups.add(group)
             } else {
-                enabledGroups.remove(3)
+                enabledGroups.remove(group)
             }
         }
     }
