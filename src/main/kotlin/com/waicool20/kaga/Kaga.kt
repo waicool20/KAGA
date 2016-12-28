@@ -6,6 +6,7 @@ import com.waicool20.kaga.handlers.KeyboardIncrementHandler
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
 import javafx.application.Application
+import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
@@ -42,6 +43,7 @@ class Kaga : Application() {
     override fun start(stage: Stage) {
         FX.registerApplication(application = this, primaryStage = stage)
         ROOT_STAGE = stage
+        stage.setOnHidden { Platform.exit() }
         if (CONFIG.isValid()) {
             startMainApplication()
         } else {
@@ -88,6 +90,7 @@ class Kaga : Application() {
     fun startConsole() {
         CONSOLE_STAGE = Stage()
         with(CONSOLE_STAGE) {
+            initOwner(ROOT_STAGE.owner)
             initModality(Modality.WINDOW_MODAL)
             title = "KAGA - Debug"
             minHeight = 300.0
