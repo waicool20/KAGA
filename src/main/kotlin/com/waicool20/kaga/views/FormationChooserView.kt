@@ -6,7 +6,7 @@ import com.waicool20.kaga.util.DeselectableCellFactory
 import tornadofx.selectedItem
 
 
-class FormationChooserView : ListChooser() {
+class FormationChooserView : ListChooserView() {
 
     init {
         title = "KAGA - Formations Chooser"

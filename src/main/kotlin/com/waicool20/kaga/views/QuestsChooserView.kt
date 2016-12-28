@@ -7,12 +7,11 @@ import tornadofx.selectedItem
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class QuestsChooserView : ListChooser() {
+class QuestsChooserView : ListChooserView() {
     val questsMap = run {
         val stream = Kaga::class.java.classLoader.getResourceAsStream("valid_quests.txt")
         BufferedReader(InputStreamReader(stream)).readLines().mapIndexed({ index, string -> string to index }).toMap()
     }
-
 
     init {
         title = "Kaga - Quests Chooser"

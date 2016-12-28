@@ -30,7 +30,6 @@ class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
                 }
             })
         }
-
         return cell
     }
 }

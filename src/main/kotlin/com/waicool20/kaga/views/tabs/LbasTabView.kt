@@ -1,11 +1,18 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.views.NodeChooserView
 import javafx.collections.SetChangeListener
 import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.scene.control.CheckBox
 import javafx.scene.layout.GridPane
+import javafx.stage.Modality
+import javafx.stage.Stage
 import tornadofx.bind
+import tornadofx.find
 
 class LbasTabView {
     @FXML private lateinit var enableButton: CheckBox
@@ -52,14 +59,29 @@ class LbasTabView {
     }
 
     @FXML private fun onConfigureGroup1NodesButton() {
-        throw UnsupportedOperationException("Not Implemented") // TODO Implement this function
+        configureNode(1)
     }
 
     @FXML private fun onConfigureGroup2NodesButton() {
-        throw UnsupportedOperationException("Not Implemented") // TODO Implement this function
+        configureNode(2)
     }
 
     @FXML private fun onConfigureGroup3NodesButton() {
-        throw UnsupportedOperationException("Not Implemented") // TODO Implement this function
+        configureNode(3)
+    }
+
+    private fun configureNode(group: Int) {
+        val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/node-chooser.fxml"))
+        loader.setController(NodeChooserView(group))
+        val scene = Scene(loader.load())
+        with(Stage()) {
+            this.scene = scene
+            title = "KAGA - Group Nodes Configuration"
+            initOwner(Kaga.ROOT_STAGE.owner)
+            initModality(Modality.WINDOW_MODAL)
+            show()
+            minHeight = height + 25
+            minWidth = width + 25
+        }
     }
 }
