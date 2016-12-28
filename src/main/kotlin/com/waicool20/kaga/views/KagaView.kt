@@ -19,6 +19,9 @@ class KagaView {
     private var kancolleAutoProcess: Process? = null
     private var streamGobbler: StreamGobbler? = null
 
+    private val runningText = "Kancolle Auto is running!"
+    private val notRunningText = "Kancolle Auto is not running!"
+
     @FXML private lateinit var kagaStatus: Label
     @FXML private lateinit var startStopButton: Button
     @FXML private lateinit var profileNameComboBox: ComboBox<String>
@@ -76,11 +79,13 @@ class KagaView {
         Kaga.CONFIG.currentProfile = Kaga.PROFILE!!.name
         Kaga.CONFIG.save()
         Kaga.PROFILE!!.save()
+        showStatus("Profile was saved!", 5)
     }
 
     @FXML private fun onDeleteButton() {
         Kaga.PROFILE!!.delete()
         profileNameComboBox.value = ""
+        showStatus("Profile was deleted", 5)
     }
 
     @FXML private fun onStartStopButton() {
@@ -98,14 +103,14 @@ class KagaView {
                 kancolleAutoProcess = ProcessBuilder(args).start()
                 streamGobbler = StreamGobbler(kancolleAutoProcess)
                 Platform.runLater {
-                    kagaStatus.text = "Kancolle Auto is running!"
+                    kagaStatus.text = runningText
                     startStopButton.text = "Stop"
                     startStopButton.style = "-fx-background-color: red"
                 }
                 streamGobbler?.run()
                 kancolleAutoProcess?.waitFor()
                 Platform.runLater {
-                    kagaStatus.text = "Kancolle Auto is not running!"
+                    kagaStatus.text = notRunningText
                     startStopButton.text = "Start"
                     startStopButton.style = "-fx-background-color: lightgreen"
                 }
@@ -119,4 +124,12 @@ class KagaView {
     @FXML private fun openConsole() = Kaga.CONSOLE_STAGE.show()
 
     @FXML private fun quit() = System.exit(0)
+
+    private fun showStatus(status: String, seconds: Long) {
+        Thread({
+            Platform.runLater { kagaStatus.text = status }
+            Thread.sleep(seconds * 1000)
+            Platform.runLater { kagaStatus.text = if (kancolleAutoProcess?.isAlive ?: false) runningText else notRunningText }
+        }).start()
+    }
 }
