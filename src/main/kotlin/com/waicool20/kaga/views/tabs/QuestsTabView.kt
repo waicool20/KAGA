@@ -2,12 +2,14 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.bind
+import com.waicool20.kaga.views.QuestsChooserView
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.layout.GridPane
 import tornadofx.bind
+import tornadofx.find
 
 
 class QuestsTabView {
@@ -33,6 +35,6 @@ class QuestsTabView {
     }
 
     @FXML private fun onConfigureQuestsButton() {
-        throw UnsupportedOperationException("Not Implemented") // TODO Implement this function
+        find(QuestsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
     }
 }
