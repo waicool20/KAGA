@@ -153,11 +153,11 @@ class KancolleAutoProfile(
         var count by countProperty
     }
 
-    class Expeditions(enabled: Boolean, fleet2: Int, fleet3: Int, fleet4: Int) {
+    class Expeditions(enabled: Boolean, fleet2: String, fleet3: String, fleet4: String) {
         @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "Fleet2") val fleet2Property = SimpleIntegerProperty(fleet2)
-        @IniConfig(key = "Fleet3") val fleet3Property = SimpleIntegerProperty(fleet3)
-        @IniConfig(key = "Fleet4") val fleet4Property = SimpleIntegerProperty(fleet4)
+        @IniConfig(key = "Fleet2") val fleet2Property = SimpleStringProperty(fleet2)
+        @IniConfig(key = "Fleet3") val fleet3Property = SimpleStringProperty(fleet3)
+        @IniConfig(key = "Fleet4") val fleet4Property = SimpleStringProperty(fleet4)
 
         var enabled by enabledProperty
         var fleet2 by fleet2Property

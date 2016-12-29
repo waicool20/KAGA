@@ -55,9 +55,7 @@ class NodeChooserView(val group: Int) {
         close()
     }
 
-    @FXML private fun onCancelButton() {
-        close()
-    }
+    @FXML private fun onCancelButton() = close()
 
     private fun close() = (listView.scene.window as Stage).close()
 }
