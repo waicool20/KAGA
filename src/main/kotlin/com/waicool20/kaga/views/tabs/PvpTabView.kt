@@ -2,6 +2,7 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.bind
+import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.ComboBox
@@ -28,6 +29,6 @@ class PvpTabView {
             enableButton.bind(enabledProperty)
             fleetCompComboBox.bind(fleetCompProperty)
         }
-        content.visibleProperty().bind(enableButton.selectedProperty())
+        content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 }

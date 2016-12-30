@@ -1,11 +1,10 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.bind
+import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.ComboBox
-import javafx.scene.control.ListCell
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
 import tornadofx.bind
@@ -31,16 +30,17 @@ class ExpeditionsTabView {
                 "9999" to "Boss Node Support"
         )
         val expeditionOptions = special.keys.toMutableList()
-        with (expeditionOptions) {
+        with(expeditionOptions) {
             addAll(1, (1..41).map(Int::toString))
             fleet2ComboBox.items.setAll(this)
             fleet3ComboBox.items.setAll(this)
             fleet4ComboBox.items.setAll(this)
         }
-        val converter = object: StringConverter<String>() {
+        val converter = object : StringConverter<String>() {
             override fun toString(string: String?): String {
-                return special.getOrElse(string ?: "", {string ?: ""})
+                return special.getOrElse(string ?: "", { string ?: "" })
             }
+
             override fun fromString(string: String?): String {
                 return ""
             }
@@ -57,6 +57,6 @@ class ExpeditionsTabView {
             fleet3ComboBox.bind(fleet3Property)
             fleet4ComboBox.bind(fleet4Property)
         }
-        content.visibleProperty().bind(enableButton.selectedProperty())
+    content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 }

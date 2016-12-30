@@ -3,6 +3,7 @@ package com.waicool20.kaga.views.tabs
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.bind
 import com.waicool20.kaga.views.FormationChooserView
+import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.layout.GridPane
@@ -96,7 +97,7 @@ class SortieTabView {
             medalStopCheckBox.bind(medalStopProperty)
             lastNodePushCheckBox.bind(lastNodePushProperty)
         }
-        content.visibleProperty().bind(enableButton.selectedProperty())
+        content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 
     @FXML private fun onConfigureFormationsButton() {

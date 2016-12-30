@@ -67,7 +67,7 @@ class SchedulingTabView {
             modeChoiceBox.bind(modeProperty)
             countSpinner.bind(countProperty)
         }
-        sleepContent.visibleProperty().bind(enableSleepButton.selectedProperty())
-        stopContent.visibleProperty().bind(enableAutoStopButton.selectedProperty())
+        sleepContent.disableProperty().bind(Bindings.not(enableSleepButton.selectedProperty()))
+        stopContent.disableProperty().bind(Bindings.not(enableAutoStopButton.selectedProperty()))
     }
 }

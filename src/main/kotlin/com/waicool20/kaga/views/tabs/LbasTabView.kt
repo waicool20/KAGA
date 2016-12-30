@@ -2,6 +2,7 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.views.NodeChooserView
+import javafx.beans.binding.Bindings
 import javafx.collections.SetChangeListener
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -39,7 +40,7 @@ class LbasTabView {
         group1CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 1) })
         group2CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 2) })
         group3CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 3) })
-        content.visibleProperty().bind(enableButton.selectedProperty())
+        content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 
     private fun setGroups(newVal: Boolean, group: Int) {
