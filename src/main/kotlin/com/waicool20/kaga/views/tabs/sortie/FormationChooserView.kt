@@ -1,12 +1,13 @@
-package com.waicool20.kaga.views
+package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.DeselectableCellFactory
+import com.waicool20.kaga.views.DualListView
 import tornadofx.selectedItem
 
 
-class FormationChooserView : ListChooserView() {
+class FormationChooserView : DualListView<String>() {
 
     init {
         title = "KAGA - Formations Chooser"

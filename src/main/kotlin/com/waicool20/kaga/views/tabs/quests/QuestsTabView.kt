@@ -1,8 +1,7 @@
-package com.waicool20.kaga.views.tabs
+package com.waicool20.kaga.views.tabs.quests
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.bind
-import com.waicool20.kaga.views.QuestsChooserView
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox

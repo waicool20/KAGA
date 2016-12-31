@@ -1,19 +1,16 @@
-package com.waicool20.kaga.views.tabs
+package com.waicool20.kaga.views.tabs.lbas
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.views.NodeChooserView
 import javafx.beans.binding.Bindings
 import javafx.collections.SetChangeListener
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.CheckBox
 import javafx.scene.layout.GridPane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import tornadofx.bind
-import tornadofx.find
 
 class LbasTabView {
     @FXML private lateinit var enableButton: CheckBox
@@ -72,7 +69,7 @@ class LbasTabView {
     }
 
     private fun configureNode(group: Int) {
-        val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/node-chooser.fxml"))
+        val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/single-list.fxml"))
         loader.setController(NodeChooserView(group))
         val scene = Scene(loader.load())
         with(Stage()) {

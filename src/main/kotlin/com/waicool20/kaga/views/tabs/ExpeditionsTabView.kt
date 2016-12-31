@@ -40,10 +40,7 @@ class ExpeditionsTabView {
             override fun toString(string: String?): String {
                 return special.getOrElse(string ?: "", { string ?: "" })
             }
-
-            override fun fromString(string: String?): String {
-                return ""
-            }
+            override fun fromString(string: String?): String = ""
         }
         fleet2ComboBox.converter = converter
         fleet3ComboBox.converter = converter

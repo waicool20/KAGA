@@ -176,7 +176,7 @@ class KancolleAutoProfile(
     class Sortie(
             enabled: Boolean, fleetComp: Int, area: Int, subarea: Int, combinedFleet: Boolean,
             nodes: Int, nodeSelects: String, formations: List<CombatFormation>,
-            nightBattles: Boolean, retreatLimit: Int, repairLimit: Int, repairTimeLimit: Int,
+            nightBattles: List<Boolean>, retreatLimit: Int, repairLimit: Int, repairTimeLimit: Int,
             checkFatigue: Boolean, portCheck: Boolean, medalStop: Boolean, lastNodePush: Boolean
     ) {
         @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
@@ -187,7 +187,7 @@ class KancolleAutoProfile(
         @IniConfig(key = "Nodes") val nodesProperty = SimpleIntegerProperty(nodes)
         @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleStringProperty(nodeSelects)
         @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableArrayList(formations))
-        @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleBooleanProperty(nightBattles)
+        @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
         @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
         @IniConfig(key = "RepairLimit") val repairLimitProperty = SimpleIntegerProperty(repairLimit)
         @IniConfig(key = "RepairTimeLimit") val repairTimeLimitProperty = SimpleIntegerProperty(repairTimeLimit)

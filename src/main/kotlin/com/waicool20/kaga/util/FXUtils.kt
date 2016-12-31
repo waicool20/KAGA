@@ -1,0 +1,85 @@
+package com.waicool20.kaga.util
+
+import com.sun.javafx.scene.control.skin.TableHeaderRow
+import javafx.beans.property.ReadOnlyObjectProperty
+import javafx.collections.ListChangeListener
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.scene.control.*
+import javafx.scene.input.MouseEvent
+import javafx.stage.Stage
+import javafx.stage.WindowEvent
+import javafx.util.Callback
+
+
+fun Parent.setInitialSceneSizeAsMin() = sceneProperty().setInitialSizeAsMin()
+
+fun ReadOnlyObjectProperty<Scene>.setInitialSizeAsMin() {
+    addListener { obs, oldVal, newVal ->
+        newVal?.windowProperty()?.addListener { obs, oldVal, newVal ->
+            newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, { event ->
+                with(event.target as Stage) {
+                    minHeight = height + 25
+                    minWidth = width + 25
+                }
+            })
+        }
+    }
+}
+
+fun TableView<*>.lockColumnWidths() {
+    columns.addListener(ListChangeListener<TableColumn<*, *>> { change ->
+        while (change.next()) {
+            change.addedSubList.forEach { column-> column.isResizable = false }
+        }
+    })
+    columns.forEach { column-> column.isResizable = false }
+}
+
+fun TableView<*>.disableHeaderMoving() {
+    widthProperty().addListener { obs, oldVal, newVal ->
+        val row = lookup("TableHeaderRow") as TableHeaderRow
+        row.reorderingProperty().addListener({ obs, oldVal, newVal -> row.isReordering = false })
+    }
+}
+
+class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
+    override fun call(viewList: ListView<T>): ListCell<T> {
+        val cell = object : ListCell<T>() {
+            override fun updateItem(item: T, empty: Boolean) {
+                super.updateItem(item, empty)
+                text = item?.toString()
+            }
+        }
+        with(cell) {
+            addEventFilter(MouseEvent.MOUSE_PRESSED, { event ->
+                viewList.requestFocus()
+                if (!cell.isEmpty) {
+                    val index = cell.index
+                    with(viewList.selectionModel) {
+                        if (selectedIndices.contains(index)) {
+                            clearSelection(index)
+                        } else {
+                            select(index)
+                        }
+                    }
+                    event.consume()
+                }
+            })
+        }
+        return cell
+    }
+}
+
+class IndexColumn<T>(text: String = "", start: Int = 0): TableColumn<T, String>(text) {
+    init {
+        isSortable = false
+        setCellFactory {
+            val cell = TableCell<T, String>()
+            cell.textProperty().bind(javafx.beans.binding.Bindings.`when`(cell.emptyProperty())
+                    .then("")
+                    .otherwise(cell.indexProperty().add(start).asString()))
+            cell
+        }
+    }
+}

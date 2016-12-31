@@ -5,13 +5,13 @@ import java.lang.reflect.ParameterizedType
 
 fun String.toObject(clazz: Class<*>): Any {
     when (clazz) {
-        Boolean::class.java -> return toBoolean()
-        Byte::class.java -> return toByte()
-        Short::class.java -> return toShort()
-        Int::class.java -> return toInt()
-        Long::class.java -> return toLong()
-        Float::class.java -> return toFloat()
-        Double::class.java -> return toDouble()
+        Boolean::class.javaObjectType -> return toBoolean()
+        Byte::class.javaObjectType -> return toByte()
+        Short::class.javaObjectType -> return toShort()
+        Int::class.javaObjectType -> return toInt()
+        Long::class.javaObjectType -> return toLong()
+        Float::class.javaObjectType -> return toFloat()
+        Double::class.javaObjectType -> return toDouble()
         else -> return this
     }
 }

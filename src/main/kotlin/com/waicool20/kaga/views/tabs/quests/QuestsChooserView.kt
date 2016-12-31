@@ -1,13 +1,14 @@
-package com.waicool20.kaga.views
+package com.waicool20.kaga.views.tabs.quests
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.containsIgnoreCase
 import com.waicool20.kaga.util.getIgnoreCase
+import com.waicool20.kaga.views.DualListView
 import tornadofx.selectedItem
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class QuestsChooserView : ListChooserView() {
+class QuestsChooserView : DualListView<String>() {
     val questsMap = run {
         val stream = Kaga::class.java.classLoader.getResourceAsStream("valid_quests.txt")
         BufferedReader(InputStreamReader(stream)).readLines().mapIndexed({ index, string -> string to index }).toMap()

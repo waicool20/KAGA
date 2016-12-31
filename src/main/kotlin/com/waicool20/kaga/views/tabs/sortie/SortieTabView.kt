@@ -1,8 +1,7 @@
-package com.waicool20.kaga.views.tabs
+package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.bind
-import com.waicool20.kaga.views.FormationChooserView
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.*
@@ -18,7 +17,6 @@ class SortieTabView {
     @FXML private lateinit var combinedFleetCheckBox: CheckBox
     @FXML private lateinit var nodesSpinner: Spinner<Int>
     @FXML private lateinit var nodeSelectsTextField: TextField
-    @FXML private lateinit var nightBattlesCheckBox: CheckBox
     @FXML private lateinit var retreatLimitSpinner: Spinner<Int>
     @FXML private lateinit var repairLimitSpinner: Spinner<Int>
     @FXML private lateinit var repairTimeLimitSpinner: Spinner<Int>
@@ -88,7 +86,6 @@ class SortieTabView {
             combinedFleetCheckBox.bind(combinedFleetProperty)
             nodesSpinner.bind(nodesProperty)
             nodeSelectsTextField.bind(nodeSelectsProperty)
-            nightBattlesCheckBox.bind(nightBattlesProperty)
             retreatLimitSpinner.bind(retreatLimitProperty)
             repairLimitSpinner.bind(repairLimitProperty)
             repairTimeLimitSpinner.bind(repairTimeLimitProperty)
@@ -102,5 +99,9 @@ class SortieTabView {
 
     @FXML private fun onConfigureFormationsButton() {
         find(FormationChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
+    }
+
+    @FXML private fun onConfigureNightBattlesButton() {
+        find(NightBattlesChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
     }
 }

@@ -3,7 +3,13 @@ package com.waicool20.kaga.views
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.StreamGobbler
-import com.waicool20.kaga.views.tabs.*
+import com.waicool20.kaga.views.tabs.ExpeditionsTabView
+import com.waicool20.kaga.views.tabs.GeneralTabView
+import com.waicool20.kaga.views.tabs.PvpTabView
+import com.waicool20.kaga.views.tabs.SchedulingTabView
+import com.waicool20.kaga.views.tabs.lbas.LbasTabView
+import com.waicool20.kaga.views.tabs.quests.QuestsTabView
+import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.scene.control.Button

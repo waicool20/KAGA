@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="0.0" minWidth="0.0"
             xmlns="http://javafx.com/javafx/8.0.76-ea"
-            fx:controller="com.waicool20.kaga.views.tabs.LbasTabView">
+            fx:controller="com.waicool20.kaga.views.tabs.lbas.LbasTabView">
     <children>
         <GridPane layoutY="-6.0">
             <columnConstraints>
