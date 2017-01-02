@@ -20,6 +20,10 @@ version '1.0'
 
 sourceCompatibility = 1.8
 
+defaultTasks 'build'
+build.finalizedBy(tasks.shadowJar)
+jar.enabled = false
+
 repositories {
     mavenCentral()
 }
