@@ -14,13 +14,23 @@ import javafx.util.Callback
 
 fun Parent.setInitialSceneSizeAsMin() = sceneProperty().setInitialSizeAsMin()
 
-fun ReadOnlyObjectProperty<Scene>.setInitialSizeAsMin() {
+fun ReadOnlyObjectProperty<Scene>.setInitialSizeAsMin() = setInitialSize(null, null, true)
+
+fun Parent.setInitialSceneSize(width: Double, height: Double, asMinimum: Boolean) = sceneProperty().setInitialSize(width, height, asMinimum)
+
+fun ReadOnlyObjectProperty<Scene>.setInitialSize(width: Double?, height: Double?, asMinimum: Boolean) {
     addListener { obs, oldVal, newVal ->
         newVal?.windowProperty()?.addListener { obs, oldVal, newVal ->
             newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, { event ->
                 with(event.target as Stage) {
-                    minHeight = height + 25
-                    minWidth = width + 25
+                    if (width != null && height != null) {
+                        this.width = width
+                        this.height = height
+                    }
+                    if (asMinimum) {
+                        minHeight = this.height + 25
+                        minWidth = this.width + 25
+                    }
                 }
             })
         }
@@ -30,10 +40,10 @@ fun ReadOnlyObjectProperty<Scene>.setInitialSizeAsMin() {
 fun TableView<*>.lockColumnWidths() {
     columns.addListener(ListChangeListener<TableColumn<*, *>> { change ->
         while (change.next()) {
-            change.addedSubList.forEach { column-> column.isResizable = false }
+            change.addedSubList.forEach { column -> column.isResizable = false }
         }
     })
-    columns.forEach { column-> column.isResizable = false }
+    columns.forEach { column -> column.isResizable = false }
 }
 
 fun TableView<*>.disableHeaderMoving() {
@@ -42,6 +52,10 @@ fun TableView<*>.disableHeaderMoving() {
         row.reorderingProperty().addListener({ obs, oldVal, newVal -> row.isReordering = false })
     }
 }
+
+fun TableColumn<*, *>.setWidthRatio(tableView: TableView<*>, ratio: Double) =
+        this.prefWidthProperty().bind(tableView.widthProperty().subtract(20).multiply(ratio))
+
 
 class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
     override fun call(viewList: ListView<T>): ListCell<T> {
@@ -71,7 +85,7 @@ class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
     }
 }
 
-class IndexColumn<T>(text: String = "", start: Int = 0): TableColumn<T, String>(text) {
+class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>(text) {
     init {
         isSortable = false
         setCellFactory {

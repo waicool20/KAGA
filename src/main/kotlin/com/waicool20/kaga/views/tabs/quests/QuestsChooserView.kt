@@ -1,54 +1,58 @@
 package com.waicool20.kaga.views.tabs.quests
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.containsIgnoreCase
-import com.waicool20.kaga.util.getIgnoreCase
-import com.waicool20.kaga.views.DualListView
-import tornadofx.selectedItem
-import java.io.BufferedReader
-import java.io.InputStreamReader
+import com.waicool20.kaga.util.*
+import com.waicool20.kaga.views.SingleListView
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleStringProperty
+import javafx.scene.control.TableColumn
+import javafx.scene.control.cell.CheckBoxTableCell
 
-class QuestsChooserView : DualListView<String>() {
-    val questsMap = run {
-        val stream = Kaga::class.java.classLoader.getResourceAsStream("valid_quests.txt")
-        BufferedReader(InputStreamReader(stream)).readLines().mapIndexed({ index, string -> string to index }).toMap()
+data class Quest(val id: String, val description: String, val requirements: List<String>) {
+    val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE!!.quests.quests.containsIgnoreCase(id))
+}
+
+class QuestsChooserView : SingleListView<Quest>() {
+    val questList: List<Quest> = run {
+        val stream = Kaga::class.java.classLoader.getResourceAsStream("valid_quests.json")
+        val mapper = jacksonObjectMapper()
+        mapper.readValue<List<Quest>>(stream, mapper.typeFactory.constructCollectionType(List::class.java, Quest::class.java))
     }
 
     init {
         title = "Kaga - Quests Chooser"
-        with(Kaga.PROFILE!!.quests) {
-            leftListView.items.setAll(questsMap.keys.filter { string -> !quests.containsIgnoreCase(string) })
-            rightListView.items.setAll(quests
-                    .map({ string -> questsMap.keys.getIgnoreCase(string) })
-                    .sortedBy({ string -> questsMap[string] })
-            )
-        }
-    }
+        root.setInitialSceneSize(600.0, 400.0, true)
 
-    override fun toRightButton() {
-        with(leftListView) {
-            rightListView.items.add(selectedItem)
-            rightListView.items.sortBy { string -> questsMap[string] }
-            items.removeAt(selectionModel.selectedIndex)
-        }
-    }
+        val indexColumn = TableColumn<Quest, String>("ID")
+        val descColumn = TableColumn<Quest, String>("Description")
+        val enableColumn = TableColumn<Quest, Boolean>("Enable")
 
-    override fun toLeftButton() {
-        with(rightListView) {
-            leftListView.items.add(selectedItem)
-            leftListView.items.sortBy { string -> questsMap[string] }
-            items.removeAt(selectionModel.selectedIndex)
-        }
+        indexColumn.setWidthRatio(tableView(), 0.1)
+        descColumn.setWidthRatio(tableView(), 0.75)
+        enableColumn.setWidthRatio(tableView(), 0.15)
+        tableView().lockColumnWidths()
+        tableView().disableHeaderMoving()
+        tableView().columns.addAll(indexColumn, descColumn, enableColumn)
 
+        indexColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.id) }
+        descColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.description) }
+        enableColumn.cellFactory = CheckBoxTableCell.forTableColumn(enableColumn)
+        enableColumn.setCellValueFactory { data -> data.value.enabledProperty }
+        enableColumn.isEditable = true
+        tableView().items.addAll(questList)
     }
 
     override fun onSaveButton() {
-        Kaga.PROFILE!!.quests.quests.setAll(rightListView.items)
-        closeModal()
+        Kaga.PROFILE!!.quests.quests.setAll(tableView().items
+                .filter { it.enabledProperty.get() }
+                .map { it.id }
+                .sorted()
+        )
+        close()
     }
 
     override fun onCancelButton() {
-        closeModal()
+        close()
     }
-
 }

@@ -4,6 +4,7 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.IndexColumn
 import com.waicool20.kaga.util.disableHeaderMoving
 import com.waicool20.kaga.util.lockColumnWidths
+import com.waicool20.kaga.util.setWidthRatio
 import com.waicool20.kaga.views.SingleListView
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
@@ -17,10 +18,10 @@ class NodeChooserView(val group: Int) : SingleListView<String>() {
 
     @FXML private fun initialize() {
         val nodeNumColumn = IndexColumn<String>("Node", 1)
-        nodeNumColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.25))
+        nodeNumColumn.setWidthRatio(tableView, 0.25)
 
         val imageNameColumn = TableColumn<String, String>("Image Name")
-        imageNameColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.75))
+        imageNameColumn.setWidthRatio(tableView, 0.75)
         imageNameColumn.setCellValueFactory { data -> SimpleStringProperty(data.value) }
         imageNameColumn.cellFactory = TextFieldTableCell.forTableColumn()
         imageNameColumn.isSortable = false

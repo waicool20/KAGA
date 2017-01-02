@@ -4,6 +4,7 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.IndexColumn
 import com.waicool20.kaga.util.disableHeaderMoving
 import com.waicool20.kaga.util.lockColumnWidths
+import com.waicool20.kaga.util.setWidthRatio
 import com.waicool20.kaga.views.SingleListView
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TableColumn
@@ -16,10 +17,10 @@ class NightBattlesChooserView : SingleListView<String>() {
     init {
         title = "KAGA - Night Battle Chooser"
         val nodeNumColumn = IndexColumn<String>("Node", 1)
-        nodeNumColumn.prefWidthProperty().bind(tableView().widthProperty().multiply(0.25))
+        nodeNumColumn.setWidthRatio(tableView(), 0.25)
 
         val nightBattleColumn = TableColumn<String, String>("Night Battle?")
-        nightBattleColumn.prefWidthProperty().bind(tableView().widthProperty().multiply(0.75))
+        nightBattleColumn.setWidthRatio(tableView(), 0.75)
 
         nightBattleColumn.isSortable = false
         tableView().lockColumnWidths()

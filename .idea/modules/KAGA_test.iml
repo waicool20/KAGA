@@ -95,6 +95,10 @@
     <orderEntry type="library" name="Gradle: org.ini4j:ini4j:0.5.4" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.0.5-3" level="project" />
     <orderEntry type="library" name="Gradle: no.tornado:tornadofx:1.5.8" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.8.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.8.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.module:jackson-module-kotlin:2.8.5" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.11" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-runtime:1.0.5-3" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish:javax.json:1.0.4" level="project" />

@@ -48,7 +48,7 @@ class KancolleAutoProfile(
     }
 
     fun delete() {
-        with (path()) {
+        with(path()) {
             if (Files.exists(this)) {
                 Files.delete(this)
             }
@@ -56,11 +56,7 @@ class KancolleAutoProfile(
     }
 
     companion object Loader {
-        @JvmStatic fun load(): KancolleAutoProfile? {
-            return load(Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini"))
-        }
-
-        @JvmStatic fun load(path: Path): KancolleAutoProfile? {
+        @JvmStatic fun load(path: Path = Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini")): KancolleAutoProfile? {
             if (Files.exists(path)) {
                 val matcher = Pattern.compile("(.+?)-config\\.ini").matcher(path.fileName.toString())
                 val name = if (matcher.matches()) matcher.group(1) else "<Current Profile>"
@@ -92,7 +88,7 @@ class KancolleAutoProfile(
 
     enum class RecoveryMethod {BROWSER, KC3, KCV, KCT, E0, NONE }
 
-    enum class ScheduledStopMode {TIME, EXPEDITION, SORTIE, PVP}
+    enum class ScheduledStopMode {TIME, EXPEDITION, SORTIE, PVP }
 
     enum class CombatFormation {
         LINE_AHEAD, DOUBLE_LINE, DIAMOND, ECHELON, LINE_ABREAST, COMBINEDFLEET_1, COMBINEDFLEET_2, COMBINEDFLEET_3, COMBINEDFLEET_4;
