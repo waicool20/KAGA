@@ -2,53 +2,39 @@ package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
-import com.waicool20.kaga.util.DeselectableCellFactory
-import com.waicool20.kaga.views.DualListView
-import tornadofx.selectedItem
+import com.waicool20.kaga.config.KancolleAutoProfile.CombatFormation
+import com.waicool20.kaga.util.*
+import com.waicool20.kaga.views.SingleListView
+import javafx.beans.property.SimpleStringProperty
 
 
-class FormationChooserView : DualListView<String>() {
+class FormationChooserView : SingleListView<String>() {
 
     init {
         title = "KAGA - Formations Chooser"
-        with(Kaga.PROFILE!!.sortie) {
-            val selections = KancolleAutoProfile.CombatFormation.values().map { formation -> formation.toString() }
-            leftListView.items.setAll(
-                    if (combinedFleet) {
-                        selections
-                    } else {
-                        selections.filter { formation -> !formation.contains("combined".toRegex(RegexOption.IGNORE_CASE)) }
-                    })
-            rightListView.items.setAll(formations.map { formation -> formation.toString() })
-            rightListView.cellFactory = DeselectableCellFactory<String>()
-        }
-    }
+        val nodeNumColumn = IndexColumn<String>("Node", 1)
+        nodeNumColumn.setWidthRatio(tableView(), 0.25)
 
-    override fun toRightButton() {
-        with(rightListView) {
-            if (leftListView.selectedItem != null) {
-                val index = selectionModel.selectedIndex
-                items.add(if (index > -1) index else items.size, leftListView.selectedItem)
-            }
-        }
-    }
+        val selections = KancolleAutoProfile.CombatFormation.values().map { it.toString() }
+        val formationColumn = OptionsColumn("Formation", selections, tableView())
+        formationColumn.setWidthRatio(tableView(), 0.75)
+        formationColumn.isSortable = false
+        formationColumn.setCellValueFactory { data -> SimpleStringProperty(data.value) }
 
-    override fun toLeftButton() {
-        with(rightListView) {
-            if (selectedItem != null) items.removeAt(selectionModel.selectedIndex)
-        }
+        tableView().lockColumnWidths()
+        tableView().disableHeaderMoving()
+        tableView().columns.addAll(nodeNumColumn, formationColumn)
+        tableView().items.addAll(Kaga.PROFILE!!.sortie.formations.map { it.toString() })
     }
 
     override fun onSaveButton() {
-        Kaga.PROFILE!!.sortie.formations.setAll(rightListView.items.map { value ->
-            KancolleAutoProfile.CombatFormation.values().find {
-                it.toString().equals(value, true)
-            }
-        })
-        closeModal()
+        with(tableView().items) {
+            Kaga.PROFILE!!.sortie.formations.setAll(subList(0, size - 1).map { CombatFormation.valueOf(it.toUpperCase())})
+        }
+        close()
     }
 
     override fun onCancelButton() {
-        closeModal()
+        close()
     }
 }

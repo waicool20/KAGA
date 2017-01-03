@@ -6,10 +6,12 @@ import javafx.collections.ListChangeListener
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.control.cell.ComboBoxTableCell
 import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
 import javafx.stage.WindowEvent
 import javafx.util.Callback
+import javafx.util.StringConverter
 
 
 fun Parent.setInitialSceneSizeAsMin() = sceneProperty().setInitialSizeAsMin()
@@ -56,7 +58,6 @@ fun TableView<*>.disableHeaderMoving() {
 fun TableColumn<*, *>.setWidthRatio(tableView: TableView<*>, ratio: Double) =
         this.prefWidthProperty().bind(tableView.widthProperty().subtract(20).multiply(ratio))
 
-
 class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
     override fun call(viewList: ListView<T>): ListCell<T> {
         val cell = object : ListCell<T>() {
@@ -95,5 +96,55 @@ class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>
                     .otherwise(cell.indexProperty().add(start).asString()))
             cell
         }
+    }
+}
+
+class OptionsColumn(text: String = "", options: List<String>, table: TableView<String>) : TableColumn<String, String>(text) {
+    init {
+        val addText = "<Add Item>"
+        setCellFactory {
+            with(ComboBoxTableCell<String, String>()) {
+                converter = object : StringConverter<String>() {
+                    override fun toString(string: String?): String {
+                        if (index != table.items.size - 1) {
+                            return if (string == addText) "" else string ?: ""
+                        } else {
+                            return string ?: ""
+                        }
+                    }
+
+                    override fun fromString(string: String?): String = ""
+                }
+                items.setAll(if (index != table.items.size - 1) addText else "")
+                items.addAll(options)
+                this
+            }
+        }
+        setOnEditCommit { event ->
+            run {
+                with(table.items) {
+                    val index = event.tablePosition.row
+                    if (index != size - 1) {
+                        removeAt(index)
+                        if (event.newValue != addText) add(index, event.newValue)
+                        table.selectionModel.select(index)
+                    } else {
+                        if (event.newValue != addText) {
+                            add(size - 1, event.newValue)
+                        }
+                    }
+                    table.refresh()
+                    event.consume()
+                }
+            }
+        }
+        table.items.addListener (ListChangeListener<String> {  change ->
+            if (change.next()) {
+                println(change.addedSubList)
+                if (table.items[table.items.size - 1] != addText) {
+                    table.items.add(addText)
+                }
+            }
+        })
     }
 }

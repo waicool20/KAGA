@@ -40,6 +40,7 @@ class ExpeditionsTabView {
             override fun toString(string: String?): String {
                 return special.getOrElse(string ?: "", { string ?: "" })
             }
+
             override fun fromString(string: String?): String = ""
         }
         fleet2ComboBox.converter = converter
@@ -54,6 +55,6 @@ class ExpeditionsTabView {
             fleet3ComboBox.bind(fleet3Property)
             fleet4ComboBox.bind(fleet4Property)
         }
-    content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
+        content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 }
