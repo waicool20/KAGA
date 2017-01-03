@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.layout.GridPane
+import javafx.util.StringConverter
 import tornadofx.bind
 import tornadofx.find
 
@@ -17,8 +18,8 @@ class SortieTabView {
     @FXML private lateinit var combinedFleetCheckBox: CheckBox
     @FXML private lateinit var nodesSpinner: Spinner<Int>
     @FXML private lateinit var nodeSelectsTextField: TextField
-    @FXML private lateinit var retreatLimitSpinner: Spinner<Int>
-    @FXML private lateinit var repairLimitSpinner: Spinner<Int>
+    @FXML private lateinit var retreatLimitComboBox: ComboBox<Int>
+    @FXML private lateinit var repairLimitComboBox: ComboBox<Int>
     @FXML private lateinit var repairTimeLimitSpinner: Spinner<Int>
     @FXML private lateinit var checkFatigueCheckBox: CheckBox
     @FXML private lateinit var checkPortCheckBox: CheckBox
@@ -68,8 +69,16 @@ class SortieTabView {
             areaComboBox.value = "$area-$subarea"
         }
         nodesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
-        retreatLimitSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
-        repairLimitSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
+        val damageLevels = listOf("Light damage", "Moderage damage", "Critical damage", "Null")
+        val damageConverter = object : StringConverter<Int>() {
+            override fun toString(int: Int?): String = damageLevels[int ?: 3]
+
+            override fun fromString(string: String?): Int = damageLevels.indexOf(string)
+        }
+        retreatLimitComboBox.items.setAll((0..2).toList())
+        repairLimitComboBox.items.setAll((0..2).toList())
+        retreatLimitComboBox.converter = damageConverter
+        repairLimitComboBox.converter = damageConverter
         repairTimeLimitSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
     }
 
@@ -78,16 +87,14 @@ class SortieTabView {
             enableButton.bind(enabledProperty)
             fleetCompComboBox.bind(fleetCompProperty)
             areaComboBox.valueProperty().addListener { observableValue, oldVal, newVal ->
-                run {
-                    area = newVal[0].toString().toInt()
-                    subarea = newVal[2].toString().toInt()
-                }
+                area = newVal[0].toString().toInt()
+                subarea = newVal[2].toString().toInt()
             }
             combinedFleetCheckBox.bind(combinedFleetProperty)
             nodesSpinner.bind(nodesProperty)
             nodeSelectsTextField.bind(nodeSelectsProperty)
-            retreatLimitSpinner.bind(retreatLimitProperty)
-            repairLimitSpinner.bind(repairLimitProperty)
+            retreatLimitComboBox.bind(retreatLimitProperty)
+            repairLimitComboBox.bind(repairLimitProperty)
             repairTimeLimitSpinner.bind(repairTimeLimitProperty)
             checkFatigueCheckBox.bind(checkFatigueProperty)
             checkPortCheckBox.bind(portCheckProperty)
