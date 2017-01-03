@@ -68,7 +68,7 @@ class SortieTabView {
         with(Kaga.PROFILE!!.sortie) {
             areaComboBox.value = "$area-$subarea"
         }
-        nodesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
+        nodesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE)
         val damageLevels = listOf("Light damage", "Moderate damage", "Critical damage", "Null")
         val damageConverter = object : StringConverter<Int>() {
             override fun toString(int: Int?): String = damageLevels[int ?: 3]
