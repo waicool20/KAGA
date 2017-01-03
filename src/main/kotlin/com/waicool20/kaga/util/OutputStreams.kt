@@ -3,6 +3,7 @@ package com.waicool20.kaga.util
 import javafx.application.Platform
 import javafx.scene.control.TextArea
 import java.io.OutputStream
+import java.io.PrintStream
 
 
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int) : OutputStream() {
@@ -25,5 +26,24 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
             console.text = current.replace("<ESC>\\[.+?m".toRegex(), "")
             console.scrollTop = Double.MAX_VALUE
         }
+    }
+}
+
+class TeeOutputStream(val main: OutputStream, val branch: OutputStream): OutputStream() {
+    override fun write(int: Int) {
+        main.write(int)
+        branch.write(int)
+    }
+
+    override fun flush() {
+        super.flush()
+        main.flush()
+        branch.flush()
+    }
+
+    override fun close() {
+        super.close()
+        main.close()
+        branch.close()
     }
 }
