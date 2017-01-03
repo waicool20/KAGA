@@ -3,7 +3,6 @@ package com.waicool20.kaga.util
 import javafx.application.Platform
 import javafx.scene.control.TextArea
 import java.io.OutputStream
-import java.io.PrintStream
 
 
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int) : OutputStream() {
@@ -29,7 +28,7 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
     }
 }
 
-class TeeOutputStream(val main: OutputStream, val branch: OutputStream): OutputStream() {
+class TeeOutputStream(val main: OutputStream, val branch: OutputStream) : OutputStream() {
     override fun write(int: Int) {
         main.write(int)
         branch.write(int)

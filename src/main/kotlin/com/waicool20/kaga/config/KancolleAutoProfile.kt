@@ -9,12 +9,10 @@ import javafx.collections.FXCollections
 import org.ini4j.Wini
 import tornadofx.getValue
 import tornadofx.setValue
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.nio.file.StandardOpenOption
+import java.nio.file.*
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.io.FileAlreadyExistsException
 
 
 class KancolleAutoProfile(
@@ -59,8 +57,19 @@ class KancolleAutoProfile(
         @JvmStatic fun load(path: Path = Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini")): KancolleAutoProfile? {
             if (Files.exists(path)) {
                 val matcher = Pattern.compile("(.+?)-config\\.ini").matcher(path.fileName.toString())
-                val name = if (matcher.matches()) matcher.group(1) else "<Current Profile>"
-
+                val name = run {
+                    if (matcher.matches()) {
+                        matcher.group(1)
+                    } else {
+                        var backupPath = Paths.get(path.parent.toString(), "config.ini.bak")
+                        var index = 0
+                        while (Files.exists(backupPath)) {
+                            backupPath = Paths.get(path.parent.toString(), "config.ini.bak${index++}")
+                        }
+                        Files.copy(path, backupPath)
+                        "<Current Profile>"
+                    }
+                }
                 val ini = Wini(path.toFile())
 
                 val general = ini["General"]?.toObject(General::class.java)
