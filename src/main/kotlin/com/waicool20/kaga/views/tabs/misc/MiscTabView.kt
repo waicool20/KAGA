@@ -1,4 +1,4 @@
-package com.waicool20.kaga.views.tabs.lbas
+package com.waicool20.kaga.views.tabs.misc
 
 import com.waicool20.kaga.Kaga
 import javafx.beans.binding.Bindings
@@ -12,9 +12,12 @@ import javafx.scene.layout.GridPane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import tornadofx.bind
+import tornadofx.find
 
-class LbasTabView {
-    @FXML private lateinit var enableButton: CheckBox
+class MiscTabView {
+    @FXML private lateinit var enableSubSwitchButton: CheckBox
+    @FXML private lateinit var configSubSwitchBtn: Button
+    @FXML private lateinit var enableLbasButton: CheckBox
     @FXML private lateinit var group1CheckBox: CheckBox
     @FXML private lateinit var group2CheckBox: CheckBox
     @FXML private lateinit var group3CheckBox: CheckBox
@@ -34,17 +37,21 @@ class LbasTabView {
     }
 
     private fun createBindings() {
-        with(Kaga.PROFILE!!.lbas) {
-            enableButton.bind(enabledProperty)
-            enabledGroups.addListener(SetChangeListener { change -> updateGroupCheckBoxes(change.set) })
+        with(Kaga.PROFILE!!) {
+            enableSubSwitchButton.bind(submarineSwitch.enabledProperty)
+            with (lbas) {
+                enableLbasButton.bind(enabledProperty)
+                enabledGroups.addListener(SetChangeListener { change -> updateGroupCheckBoxes(change.set) })
+            }
         }
         group1CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 1) })
         group2CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 2) })
         group3CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 3) })
-        content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
+        content.disableProperty().bind(Bindings.not(enableLbasButton.selectedProperty()))
         configGrp1NodesBtn.disableProperty().bind(Bindings.not(group1CheckBox.selectedProperty()))
         configGrp2NodesBtn.disableProperty().bind(Bindings.not(group2CheckBox.selectedProperty()))
         configGrp3NodesBtn.disableProperty().bind(Bindings.not(group3CheckBox.selectedProperty()))
+        configSubSwitchBtn.disableProperty().bind(Bindings.not(enableSubSwitchButton.selectedProperty()))
     }
 
     private fun setGroups(newVal: Boolean, group: Int) {
@@ -73,6 +80,10 @@ class LbasTabView {
 
     @FXML private fun onConfigureGroup3NodesButton() {
         configureNode(3)
+    }
+
+    @FXML private fun onConfigureSubSwitchButton() {
+        find(SubSwitchChooserView::class).openModal()
     }
 
     private fun configureNode(group: Int) {

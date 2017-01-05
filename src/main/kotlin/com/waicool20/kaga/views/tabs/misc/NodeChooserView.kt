@@ -1,4 +1,4 @@
-package com.waicool20.kaga.views.tabs.lbas
+package com.waicool20.kaga.views.tabs.misc
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.IndexColumn

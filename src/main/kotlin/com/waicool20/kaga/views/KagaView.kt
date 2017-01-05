@@ -7,7 +7,7 @@ import com.waicool20.kaga.views.tabs.ExpeditionsTabView
 import com.waicool20.kaga.views.tabs.GeneralTabView
 import com.waicool20.kaga.views.tabs.PvpTabView
 import com.waicool20.kaga.views.tabs.SchedulingTabView
-import com.waicool20.kaga.views.tabs.lbas.LbasTabView
+import com.waicool20.kaga.views.tabs.misc.MiscTabView
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.application.Platform
@@ -37,7 +37,7 @@ class KagaView {
     @FXML private lateinit var expeditionsTabController: ExpeditionsTabView
     @FXML private lateinit var pvpTabController: PvpTabView
     @FXML private lateinit var sortieTabController: SortieTabView
-    @FXML private lateinit var lbasTabController: LbasTabView
+    @FXML private lateinit var miscTabController: MiscTabView
     @FXML private lateinit var questsTabController: QuestsTabView
 
     @FXML fun initialize() {
@@ -75,7 +75,7 @@ class KagaView {
                 expeditionsTabController.initialize()
                 pvpTabController.initialize()
                 sortieTabController.initialize()
-                lbasTabController.initialize()
+                miscTabController.initialize()
                 questsTabController.initialize()
             }
         }
