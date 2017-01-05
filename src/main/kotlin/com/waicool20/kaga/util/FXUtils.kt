@@ -140,7 +140,6 @@ class OptionsColumn(text: String = "", options: List<String>, table: TableView<S
         }
         table.items.addListener (ListChangeListener<String> {  change ->
             if (change.next()) {
-                println(change.addedSubList)
                 if (table.items[table.items.size - 1] != addText) {
                     table.items.add(addText)
                 }

@@ -6,6 +6,7 @@ import javafx.collections.SetChangeListener
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
+import javafx.scene.control.Button
 import javafx.scene.control.CheckBox
 import javafx.scene.layout.GridPane
 import javafx.stage.Modality
@@ -17,6 +18,9 @@ class LbasTabView {
     @FXML private lateinit var group1CheckBox: CheckBox
     @FXML private lateinit var group2CheckBox: CheckBox
     @FXML private lateinit var group3CheckBox: CheckBox
+    @FXML private lateinit var configGrp1NodesBtn: Button
+    @FXML private lateinit var configGrp2NodesBtn: Button
+    @FXML private lateinit var configGrp3NodesBtn: Button
 
     @FXML private lateinit var content: GridPane
 
@@ -38,6 +42,9 @@ class LbasTabView {
         group2CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 2) })
         group3CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 3) })
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
+        configGrp1NodesBtn.disableProperty().bind(Bindings.not(group1CheckBox.selectedProperty()))
+        configGrp2NodesBtn.disableProperty().bind(Bindings.not(group2CheckBox.selectedProperty()))
+        configGrp3NodesBtn.disableProperty().bind(Bindings.not(group3CheckBox.selectedProperty()))
     }
 
     private fun setGroups(newVal: Boolean, group: Int) {
