@@ -3,6 +3,7 @@ package com.waicool20.kaga.util
 import com.sun.javafx.scene.control.skin.TableHeaderRow
 import javafx.beans.property.ReadOnlyObjectProperty
 import javafx.collections.ListChangeListener
+import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -57,6 +58,18 @@ fun TableView<*>.disableHeaderMoving() {
 
 fun TableColumn<*, *>.setWidthRatio(tableView: TableView<*>, ratio: Double) =
         this.prefWidthProperty().bind(tableView.widthProperty().subtract(20).multiply(ratio))
+
+fun Node.getParentTabPane(): TabPane? {
+    var parentNode = parent
+    while (parentNode != null) {
+        if (parentNode is TabPane) {
+            return parentNode
+        } else {
+            parentNode = parentNode.parent
+        }
+    }
+    return null
+}
 
 class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
     override fun call(viewList: ListView<T>): ListCell<T> {

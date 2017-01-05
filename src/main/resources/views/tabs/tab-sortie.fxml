@@ -44,7 +44,7 @@
                     <children>
                         <HBox alignment="CENTER">
                             <children>
-                                <Label text="Fleet Comp:" />
+                                <Label fx:id="fleetCompLabel" text="Fleet Comp:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1">
@@ -55,19 +55,19 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="1">
                             <children>
-                                <Label text="Area:" />
+                                <Label fx:id="areaLabel" text="Area:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
                                 <ComboBox fx:id="areaComboBox" prefHeight="28.0" prefWidth="75.0" />
-                                <Label text="Nodes:" />
+                                <Label fx:id="nodesLabel" text="Nodes:" />
                                 <Spinner fx:id="nodesSpinner" editable="true" prefWidth="75.0" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="2">
                             <children>
-                                <Label text="Node Selects:" />
+                                <Label fx:id="nodeSelectsLabel" text="Node Selects:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -77,7 +77,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="3">
                             <children>
-                                <Label text="Formations:" />
+                                <Label fx:id="formationsLabel" text="Formations:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -87,7 +87,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="4">
                             <children>
-                                <Label text="Night Battles:" />
+                                <Label fx:id="nightBattlesLabel" text="Night Battles:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -97,7 +97,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="5">
                             <children>
-                                <Label text="Retreat Limit:" />
+                                <Label fx:id="retreatLimitLabel" text="Retreat Limit:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
@@ -107,7 +107,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="6">
                             <children>
-                                <Label text="Repair Limit:" />
+                                <Label fx:id="repairLimitLabel" text="Repair Limit:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
@@ -117,7 +117,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="7">
                             <children>
-                                <Label text="Repair Time Limit:" />
+                                <Label fx:id="repairTimeLimitLabel" text="Repair Time Limit:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
@@ -127,7 +127,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="8">
                             <children>
-                                <Label text="Checks:" />
+                                <Label fx:id="checksLabel" text="Checks:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
@@ -139,7 +139,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="9">
                             <children>
-                                <Label text="Last Node Push:" />
+                                <Label fx:id="lastNodePushLabel" text="Last Node Push:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="9">

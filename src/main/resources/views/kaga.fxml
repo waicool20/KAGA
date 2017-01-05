@@ -44,6 +44,11 @@
                                 <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#openHowto" text="How do I use KAGA?">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#openRepo" text="Github Repository" />
                     </items>
                 </Menu>
             </menus>
@@ -59,7 +64,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="4.0" GridPane.valignment="TOP">
                     <children>
-                        <Label text="Profile:" />
+                        <Label fx:id="profileLabel" text="Profile:" />
                         <ComboBox fx:id="profileNameComboBox" editable="true" onAction="#onSelectProfile" onShowing="#showProfiles" prefHeight="28.0" prefWidth="200.0" />
                         <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
                         <Button mnemonicParsing="false" onAction="#onDeleteButton" text="Delete" />

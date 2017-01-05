@@ -12,14 +12,18 @@ import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.application.Platform
 import javafx.fxml.FXML
+import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
 import tornadofx.bind
+import java.awt.Desktop
+import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.regex.Pattern
 import java.util.stream.Collectors
+
 
 class KagaView {
     private var kancolleAutoProcess: Process? = null
@@ -124,6 +128,24 @@ class KagaView {
             processMonitor.start()
         } else {
             kancolleAutoProcess?.destroy()
+        }
+    }
+
+    @FXML private fun openHowto() {
+        with(Alert(Alert.AlertType.INFORMATION)) {
+            title = "KAGA - How do I use KAGA?"
+            headerText = null
+            contentText = "Try pressing the CTRL button while hovering over the label of an option to show a tooltip"
+            showAndWait()
+        }
+    }
+
+    @FXML private fun openRepo() {
+        if (Desktop.isDesktopSupported()) {
+            Thread({
+                Desktop.getDesktop().browse(URI("https://github.com/waicool20/KAGA"))
+            }).start()
+            Kaga.ROOT_STAGE.toBack()
         }
     }
 

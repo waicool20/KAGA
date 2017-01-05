@@ -4,55 +4,53 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="0.0" minWidth="0.0"
-            xmlns="http://javafx.com/javafx/8.0.76-ea"
-            fx:controller="com.waicool20.kaga.views.tabs.PvpTabView">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.PvpTabView">
     <children>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <GridPane fx:id="content" GridPane.rowIndex="1">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0"
-                                           prefWidth="138.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="462.0" minWidth="10.0"
-                                           prefWidth="462.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="138.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="462.0" minWidth="10.0" prefWidth="462.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
-                                        vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
                         <HBox alignment="CENTER">
                             <children>
-                                <Label text="Fleet Comp:"/>
+                                <Label fx:id="fleetCompLabel" text="Fleet Comp:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                             <children>
-                                <ComboBox fx:id="fleetCompComboBox" prefHeight="28.0"
-                                          prefWidth="75.0"/>
+                                <ComboBox fx:id="fleetCompComboBox" prefHeight="28.0" prefWidth="75.0" />
                             </children>
                         </HBox>
                     </children>
                 </GridPane>
-                <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
-                      prefHeight="45.0" prefWidth="300.0">
+                <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0">
                     <children>
-                        <CheckBox fx:id="enableButton" mnemonicParsing="false" text="Enable"/>
+                        <CheckBox fx:id="enableButton" mnemonicParsing="false" text="Enable" />
                     </children>
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <padding>
-                        <Insets left="20.0"/>
+                        <Insets left="20.0" />
                     </padding>
                 </HBox>
             </children>

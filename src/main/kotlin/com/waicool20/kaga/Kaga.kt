@@ -3,6 +3,8 @@ package com.waicool20.kaga
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.handlers.KeyboardIncrementHandler
+import com.waicool20.kaga.handlers.MouseIncrementHandler
+import com.waicool20.kaga.handlers.ToolTipHandler
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
 import javafx.application.Application
@@ -10,9 +12,10 @@ import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.input.KeyEvent
 import javafx.scene.input.KeyEvent.KEY_PRESSED
-import javafx.scene.input.MouseEvent.MOUSE_PRESSED
-import javafx.scene.input.MouseEvent.MOUSE_RELEASED
+import javafx.scene.input.KeyEvent.KEY_RELEASED
+import javafx.scene.input.MouseEvent.*
 import javafx.stage.Modality
 import javafx.stage.Stage
 import tornadofx.FX
@@ -66,10 +69,9 @@ class Kaga : Application() {
                 show()
                 minHeight = height + 25
                 minWidth = width + 25
-            }
-            with(scene) {
+                addEventFilter(KeyEvent.ANY, ToolTipHandler(this))
                 addEventFilter(KEY_PRESSED, KeyboardIncrementHandler())
-                val handler = com.waicool20.kaga.handlers.MouseIncrementHandler(1000L, 40)
+                val handler = MouseIncrementHandler(1000L, 40)
                 addEventFilter(MOUSE_PRESSED, handler)
                 addEventFilter(MOUSE_RELEASED, handler)
             }

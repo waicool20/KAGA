@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.ExpeditionsTabView">
     <children>
         <GridPane>
@@ -38,17 +45,17 @@
                     <children>
                         <HBox alignment="CENTER">
                             <children>
-                                <Label text="Fleet 2:" />
+                                <Label fx:id="fleet2Label" text="Fleet 2:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="1">
                             <children>
-                                <Label text="Fleet 3:" />
+                                <Label fx:id="fleet3Label" text="Fleet 3:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="2">
                             <children>
-                                <Label text="Fleet 4:" />
+                                <Label fx:id="fleet4Label" text="Fleet 4:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
