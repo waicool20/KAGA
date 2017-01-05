@@ -9,10 +9,12 @@ import javafx.collections.FXCollections
 import org.ini4j.Wini
 import tornadofx.getValue
 import tornadofx.setValue
-import java.nio.file.*
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.io.FileAlreadyExistsException
 
 
 class KancolleAutoProfile(
@@ -99,8 +101,14 @@ class KancolleAutoProfile(
 
     enum class ScheduledStopMode {TIME, EXPEDITION, SORTIE, PVP }
 
-    enum class CombatFormation {
-        LINE_AHEAD, DOUBLE_LINE, DIAMOND, ECHELON, LINE_ABREAST, COMBINEDFLEET_1, COMBINEDFLEET_2, COMBINEDFLEET_3, COMBINEDFLEET_4;
+    enum class CombatFormation(val prettyString: String) {
+        LINE_AHEAD("Line Ahead"), DOUBLE_LINE("Double Line"), DIAMOND("Diamond"),
+        ECHELON("Echelon"), LINE_ABREAST("Line Abreast"), COMBINEDFLEET_1("Combined Fleet 1"),
+        COMBINEDFLEET_2("Combined Fleet 2"), COMBINEDFLEET_3("Combined Fleet 3"), COMBINEDFLEET_4("Combined Fleet 4");
+
+        companion object {
+            fun fromPrettyString(string: String) = CombatFormation.values().first { it.prettyString.equals(string, true) }
+        }
 
         override fun toString(): String {
             return this.name.toLowerCase()
