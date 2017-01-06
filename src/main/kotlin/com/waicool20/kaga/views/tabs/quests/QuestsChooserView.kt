@@ -6,8 +6,11 @@ import com.waicool20.kaga.util.*
 import com.waicool20.kaga.views.SingleListView
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
+import javafx.scene.control.Tooltip
 import javafx.scene.control.cell.CheckBoxTableCell
+import tornadofx.rowItem
 
 data class Quest(val id: String, val description: String, val requirements: List<String>) {
     val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE!!.quests.quests.containsIgnoreCase(id))
@@ -25,7 +28,7 @@ class QuestsChooserView : SingleListView<Quest>() {
         root.setInitialSceneSize(600.0, 400.0, true)
 
         val indexColumn = TableColumn<Quest, String>("ID")
-        val descColumn = TableColumn<Quest, String>("Description")
+        val descColumn = TableColumn<Quest, String>("Description (Hover over quest for requirements)")
         val enableColumn = TableColumn<Quest, Boolean>("Enable")
 
         indexColumn.setWidthRatio(tableView(), 0.1)
@@ -37,6 +40,20 @@ class QuestsChooserView : SingleListView<Quest>() {
 
         indexColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.id) }
         descColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.description) }
+        descColumn.setCellFactory {
+            with(TableCell<Quest, String>()) {
+                this.itemProperty().addListener { obs, oldVal, newVal ->
+                    if (newVal != null) {
+                        val tooltip = Tooltip("- ${rowItem.requirements.joinToString("\n- ")}")
+                        tooltip.isWrapText = true
+                        tooltip.maxWidth = 500.0
+                        Tooltip.install(this, tooltip)
+                    }
+                }
+                textProperty().bind(itemProperty())
+                this
+            }
+        }
         enableColumn.cellFactory = CheckBoxTableCell.forTableColumn(enableColumn)
         enableColumn.setCellValueFactory { data -> data.value.enabledProperty }
         enableColumn.isEditable = true
