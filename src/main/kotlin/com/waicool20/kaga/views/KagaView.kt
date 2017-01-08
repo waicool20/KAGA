@@ -2,6 +2,7 @@ package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
+import com.waicool20.kaga.util.LockPreventer
 import com.waicool20.kaga.util.StreamGobbler
 import com.waicool20.kaga.views.tabs.ExpeditionsTabView
 import com.waicool20.kaga.views.tabs.GeneralTabView
@@ -110,6 +111,8 @@ class KagaView {
             )
             Kaga.CONSOLE_STAGE.toFront()
             val processMonitor = Thread {
+                val lockPreventer: LockPreventer? =
+                        if (Kaga.CONFIG.preventLock) LockPreventer() else null
                 kancolleAutoProcess = ProcessBuilder(args).start()
                 streamGobbler = StreamGobbler(kancolleAutoProcess)
                 Platform.runLater {
@@ -118,12 +121,14 @@ class KagaView {
                     startStopButton.style = "-fx-background-color: red"
                 }
                 streamGobbler?.run()
+                lockPreventer?.start()
                 kancolleAutoProcess?.waitFor()
                 Platform.runLater {
                     kagaStatus.text = notRunningText
                     startStopButton.text = "Start"
                     startStopButton.style = "-fx-background-color: lightgreen"
                 }
+                lockPreventer?.stop()
             }
             processMonitor.start()
         } else {

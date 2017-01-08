@@ -25,6 +25,7 @@
                 <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             </rowConstraints>
@@ -89,18 +90,24 @@
                         <CheckBox fx:id="basicRecoveryCheckBox" mnemonicParsing="false" />
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" GridPane.rowIndex="6">
+                <HBox alignment="CENTER" GridPane.rowIndex="7">
                     <children>
                         <Label fx:id="sikuliScriptJarLabel" text="Sikuli Script Jar:" />
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" GridPane.rowIndex="7">
+                <HBox alignment="CENTER" GridPane.rowIndex="8">
                     <children>
                         <Label fx:id="kancolleAutoRootLabel" text="Kancolle Auto Root:" />
                     </children>
                 </HBox>
-                <Label fx:id="sikuliScriptJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                <Label fx:id="kancolleAutoRootPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <Label fx:id="sikuliScriptJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <Label fx:id="kancolleAutoRootPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <HBox alignment="CENTER" GridPane.rowIndex="6">
+               <children>
+                  <Label fx:id="preventLockLabel" text="Prevent Lockscreen:" />
+               </children>
+            </HBox>
+            <CheckBox fx:id="preventLockCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             </children>
         </GridPane>
     </children>

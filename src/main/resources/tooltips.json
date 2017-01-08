@@ -32,6 +32,10 @@
     "description": "If you have a slow computer/network connection, you may encounter frequent FindFailed errors. Increase this value by whole numbers (seconds) to increase the length of all sleep/wait timers to avoid this."
   },
   {
+    "id": "General-preventLockLabel",
+    "description": "Prevent computer from activating lockscreen when kancolle auto is active, useful when you set kancolle auto to only expeditions and it idles longer than your lockscreen activation time, otherwise kancolle auto crashes when your computer locks itself."
+  },
+  {
     "id": "General-sikuliScriptJarLabel",
     "description": "Path to the sikuli script Jar"
   },

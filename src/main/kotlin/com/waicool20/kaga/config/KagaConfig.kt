@@ -7,7 +7,11 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.jar.JarFile
 
-class KagaConfig(var currentProfile: String, var sikuliScriptJarPath: Path, var kancolleAutoRootDirPath: Path) {
+class KagaConfig(var currentProfile: String = "",
+                 var sikuliScriptJarPath: Path = Paths.get(""),
+                 var kancolleAutoRootDirPath: Path = Paths.get(""),
+                 var preventLock: Boolean = false) {
+
 
     companion object Loader {
         @JvmStatic fun load(path: Path): KagaConfig {
@@ -15,10 +19,11 @@ class KagaConfig(var currentProfile: String, var sikuliScriptJarPath: Path, var 
                 Files.createDirectories(path.parent)
                 Files.createFile(path)
             }
-            val kaga = Wini(path.toFile())["Kaga"] ?: return KagaConfig("", Paths.get(""), Paths.get(""))
+            val kaga = Wini(path.toFile())["Kaga"] ?: return KagaConfig()
             return KagaConfig(kaga["currentProfile"] ?: "",
                     Paths.get(kaga["sikuliScriptJarPath"] ?: ""),
-                    Paths.get(kaga["kancolleAutoRootDirPath"] ?: ""))
+                    Paths.get(kaga["kancolleAutoRootDirPath"] ?: ""),
+                    kaga.get("preventLock", Boolean::class.java) ?: false)
         }
     }
 
@@ -41,6 +46,7 @@ class KagaConfig(var currentProfile: String, var sikuliScriptJarPath: Path, var 
         ini.put("Kaga", "currentProfile", currentProfile)
         ini.put("Kaga", "sikuliScriptJarPath", sikuliScriptJarPath)
         ini.put("Kaga", "kancolleAutoRootDirPath", kancolleAutoRootDirPath)
+        ini.put("Kaga", "preventLock", preventLock)
         ini.store()
     }
 }
