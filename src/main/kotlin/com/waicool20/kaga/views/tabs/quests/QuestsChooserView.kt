@@ -63,7 +63,7 @@ class QuestsChooserView : SingleListView<Quest>() {
     override fun onSaveButton() {
         Kaga.PROFILE!!.quests.quests.setAll(tableView().items
                 .filter { it.enabledProperty.get() }
-                .map { it.id }
+                .map { it.id.toLowerCase() }
                 .sorted()
         )
         close()
