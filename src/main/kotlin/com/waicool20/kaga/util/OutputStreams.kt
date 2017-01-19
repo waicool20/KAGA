@@ -17,10 +17,15 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
 
     private fun appendText(string: String) {
         Platform.runLater {
+            if (console.text.contains("<ESC>[2J<ESC>[H")){
+               console.clear()
+                return@runLater
+            }
             var current = console.text
             if (current.split("\n").size > maxLines) {
                 current = current.replaceFirst(".+?\n".toRegex(), "")
             }
+
             current += string
             console.text = current.replace("<ESC>\\[.+?m".toRegex(), "")
             console.scrollTop = Double.MAX_VALUE

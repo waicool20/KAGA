@@ -109,6 +109,7 @@ class KagaView {
                     "-r",
                     Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "kancolle_auto.sikuli").toString()
             )
+            println("\u001b[2J\u001b[H")
             Kaga.CONSOLE_STAGE.toFront()
             val processMonitor = Thread {
                 val lockPreventer: LockPreventer? =
