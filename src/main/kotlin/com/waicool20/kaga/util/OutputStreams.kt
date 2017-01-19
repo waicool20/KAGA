@@ -6,30 +6,32 @@ import java.io.OutputStream
 
 
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int) : OutputStream() {
+    var buffer = mutableListOf<Char>()
 
-    override fun write(b: Int) {
-        val c = b.toChar()
-        when (c) {
-            '\u001B' -> appendText("<ESC>")
-            else -> appendText(c.toString())
+    override fun write(byte: Int) {
+        val char = byte.toChar()
+        buffer.add(char)
+        if (char == '\n') {
+            flush()
         }
     }
 
-    private fun appendText(string: String) {
+    override fun flush() {
+        val newLine = buffer.joinToString(separator = "")
         Platform.runLater {
-            if (console.text.contains("<ESC>[2J<ESC>[H")){
-               console.clear()
+            if (newLine.contains("\u001b[2J\u001b[H")) {
+                console.clear()
                 return@runLater
             }
             var current = console.text
             if (current.split("\n").size > maxLines) {
                 current = current.replaceFirst(".+?\n".toRegex(), "")
             }
-
-            current += string
-            console.text = current.replace("<ESC>\\[.+?m".toRegex(), "")
+            current += newLine
+            console.text = current.replace("\\u001b\\[.+?m".toRegex(), "")
             console.scrollTop = Double.MAX_VALUE
         }
+        buffer.clear()
     }
 }
 
