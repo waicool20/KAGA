@@ -34,6 +34,11 @@ class KancolleAuto {
         logger.info("Kancolle Auto session has terminated!")
         logger.debug("Exit Value was $exitVal")
         lockPreventer?.stop()
+        if (!(exitVal == 0 || exitVal == 143)) {
+            // TODO add config option
+            logger.info("Kancolle Auto didn't terminate gracefully")
+            startAndWait()
+        }
     }
 
     fun stop() {
