@@ -1,5 +1,7 @@
 package com.waicool20.kaga.config
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.IniConfig
@@ -26,8 +28,8 @@ class KancolleAutoProfile(
         val lbas: Lbas, val quests: Quests
 ) {
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
-    var nameProperty = SimpleStringProperty(name)
-    var name by nameProperty
+    @JsonIgnore var nameProperty = SimpleStringProperty(name)
+    @get:JsonProperty var name by nameProperty
 
     fun path(): Path = Paths.get(Kaga.CONFIG_DIR.toString(), "$name-config.ini")
 
@@ -151,63 +153,63 @@ class KancolleAutoProfile(
             program: String, recoveryMethod: RecoveryMethod, basicRecovery: Boolean,
             sleepCycle: Int, paranoia: Int, sleepModifier: Int
     ) {
-        @IniConfig(key = "Program") val programProperty = SimpleStringProperty(program)
-        @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
-        @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = SimpleBooleanProperty(basicRecovery)
+        @JsonIgnore @IniConfig(key = "Program") val programProperty = SimpleStringProperty(program)
+        @JsonIgnore @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
+        @JsonIgnore @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = SimpleBooleanProperty(basicRecovery)
         val offset = (TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan")
                 .rawOffset) / 3600000
-        @IniConfig(key = "JSTOffset", read = false) val jstOffsetProperty: IntegerProperty = SimpleIntegerProperty(offset)
-        @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = SimpleIntegerProperty(sleepCycle)
-        @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = SimpleIntegerProperty(paranoia)
-        @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = SimpleIntegerProperty(sleepModifier)
+        @JsonIgnore @IniConfig(key = "JSTOffset", read = false) val jstOffsetProperty: IntegerProperty = SimpleIntegerProperty(offset)
+        @JsonIgnore @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = SimpleIntegerProperty(sleepCycle)
+        @JsonIgnore @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = SimpleIntegerProperty(paranoia)
+        @JsonIgnore @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = SimpleIntegerProperty(sleepModifier)
 
-        var program by programProperty
-        var recoveryMethod by recoveryMethodProperty
-        var basicRecovery by basicRecoveryProperty
-        var jstOffset by jstOffsetProperty
-        var sleepCycle by sleepCycleProperty
-        var paranoia by paranoiaProperty
-        var sleepModifier by sleepModifierProperty
+        @get:JsonProperty var program by programProperty
+        @get:JsonProperty var recoveryMethod by recoveryMethodProperty
+        @get:JsonProperty var basicRecovery by basicRecoveryProperty
+        @get:JsonProperty var jstOffset by jstOffsetProperty
+        @get:JsonProperty var sleepCycle by sleepCycleProperty
+        @get:JsonProperty var paranoia by paranoiaProperty
+        @get:JsonProperty var sleepModifier by sleepModifierProperty
     }
 
     class ScheduledSleep(enabled: Boolean, startTime: String, length: Double) {
-        @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "StartTime") val startTimeProperty = SimpleStringProperty(startTime)
-        @IniConfig(key = "SleepLength") val lengthProperty = SimpleDoubleProperty(length)
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore @IniConfig(key = "StartTime") val startTimeProperty = SimpleStringProperty(startTime)
+        @JsonIgnore @IniConfig(key = "SleepLength") val lengthProperty = SimpleDoubleProperty(length)
 
-        var enabled by enabledProperty
-        var startTime by startTimeProperty
-        var length by lengthProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var startTime by startTimeProperty
+        @get:JsonProperty var length by lengthProperty
     }
 
     class ScheduledStop(enabled: Boolean, mode: ScheduledStopMode, count: Int) {
-        @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "Mode") val modeProperty = SimpleObjectProperty(mode)
-        @IniConfig(key = "Count") val countProperty = SimpleIntegerProperty(count)
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore @IniConfig(key = "Mode") val modeProperty = SimpleObjectProperty(mode)
+        @JsonIgnore @IniConfig(key = "Count") val countProperty = SimpleIntegerProperty(count)
 
-        var enabled by enabledProperty
-        var mode by modeProperty
-        var count by countProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var mode by modeProperty
+        @get:JsonProperty var count by countProperty
     }
 
     class Expeditions(enabled: Boolean, fleet2: String, fleet3: String, fleet4: String) {
-        @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "Fleet2") val fleet2Property = SimpleStringProperty(fleet2)
-        @IniConfig(key = "Fleet3") val fleet3Property = SimpleStringProperty(fleet3)
-        @IniConfig(key = "Fleet4") val fleet4Property = SimpleStringProperty(fleet4)
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore @IniConfig(key = "Fleet2") val fleet2Property = SimpleStringProperty(fleet2)
+        @JsonIgnore @IniConfig(key = "Fleet3") val fleet3Property = SimpleStringProperty(fleet3)
+        @JsonIgnore @IniConfig(key = "Fleet4") val fleet4Property = SimpleStringProperty(fleet4)
 
-        var enabled by enabledProperty
-        var fleet2 by fleet2Property
-        var fleet3 by fleet3Property
-        var fleet4 by fleet4Property
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var fleet2 by fleet2Property
+        @get:JsonProperty var fleet3 by fleet3Property
+        @get:JsonProperty var fleet4 by fleet4Property
     }
 
     class Pvp(enabled: Boolean, fleetComp: Int) {
-        @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)
 
-        var enabled by enabledProperty
-        var fleetComp by fleetCompProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var fleetComp by fleetCompProperty
     }
 
     class Sortie(
@@ -216,73 +218,73 @@ class KancolleAutoProfile(
             nightBattles: List<Boolean>, retreatLimit: Int, repairLimit: Int, repairTimeLimit: Int,
             checkFatigue: Boolean, portCheck: Boolean, medalStop: Boolean, lastNodePush: Boolean
     ) {
-        @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)
-        @IniConfig(key = "Area") val areaProperty = SimpleIntegerProperty(area)
-        @IniConfig(key = "Subarea") val subareaProperty = SimpleIntegerProperty(subarea)
-        @IniConfig(key = "CombinedFleet") val combinedFleetProperty = SimpleBooleanProperty(combinedFleet)
-        @IniConfig(key = "Nodes") val nodesProperty = SimpleIntegerProperty(nodes)
-        @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleStringProperty(nodeSelects)
-        @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableArrayList(formations))
-        @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
-        @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
-        @IniConfig(key = "RepairLimit") val repairLimitProperty = SimpleIntegerProperty(repairLimit)
-        @IniConfig(key = "RepairTimeLimit") val repairTimeLimitProperty = SimpleIntegerProperty(repairTimeLimit)
-        @IniConfig(key = "CheckFatigue") val checkFatigueProperty = SimpleBooleanProperty(checkFatigue)
-        @IniConfig(key = "PortCheck") val portCheckProperty = SimpleBooleanProperty(portCheck)
-        @IniConfig(key = "MedalStop") val medalStopProperty = SimpleBooleanProperty(medalStop)
-        @IniConfig(key = "LastNodePush") val lastNodePushProperty = SimpleBooleanProperty(lastNodePush)
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)
+        @JsonIgnore @IniConfig(key = "Area") val areaProperty = SimpleIntegerProperty(area)
+        @JsonIgnore @IniConfig(key = "Subarea") val subareaProperty = SimpleIntegerProperty(subarea)
+        @JsonIgnore @IniConfig(key = "CombinedFleet") val combinedFleetProperty = SimpleBooleanProperty(combinedFleet)
+        @JsonIgnore @IniConfig(key = "Nodes") val nodesProperty = SimpleIntegerProperty(nodes)
+        @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleStringProperty(nodeSelects)
+        @JsonIgnore @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableArrayList(formations))
+        @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
+        @JsonIgnore @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
+        @JsonIgnore @IniConfig(key = "RepairLimit") val repairLimitProperty = SimpleIntegerProperty(repairLimit)
+        @JsonIgnore @IniConfig(key = "RepairTimeLimit") val repairTimeLimitProperty = SimpleIntegerProperty(repairTimeLimit)
+        @JsonIgnore @IniConfig(key = "CheckFatigue") val checkFatigueProperty = SimpleBooleanProperty(checkFatigue)
+        @JsonIgnore @IniConfig(key = "PortCheck") val portCheckProperty = SimpleBooleanProperty(portCheck)
+        @JsonIgnore @IniConfig(key = "MedalStop") val medalStopProperty = SimpleBooleanProperty(medalStop)
+        @JsonIgnore @IniConfig(key = "LastNodePush") val lastNodePushProperty = SimpleBooleanProperty(lastNodePush)
 
-        var enabled by enabledProperty
-        var fleetComp by fleetCompProperty
-        var area by areaProperty
-        var subarea by subareaProperty
-        var combinedFleet by combinedFleetProperty
-        var nodes by nodesProperty
-        var nodeSelects by nodeSelectsProperty
-        var formations by formationsProperty
-        var nightBattles by nightBattlesProperty
-        var retreatLimit by retreatLimitProperty
-        var repairLimit by repairLimitProperty
-        var repairTimeLimit by repairTimeLimitProperty
-        var checkFatigue by checkFatigueProperty
-        var portCheck by portCheckProperty
-        var medalStop by medalStopProperty
-        var lastNodePush by lastNodePushProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var fleetComp by fleetCompProperty
+        @get:JsonProperty var area by areaProperty
+        @get:JsonProperty var subarea by subareaProperty
+        @get:JsonProperty var combinedFleet by combinedFleetProperty
+        @get:JsonProperty var nodes by nodesProperty
+        @get:JsonProperty var nodeSelects by nodeSelectsProperty
+        @get:JsonProperty var formations by formationsProperty
+        @get:JsonProperty var nightBattles by nightBattlesProperty
+        @get:JsonProperty var retreatLimit by retreatLimitProperty
+        @get:JsonProperty var repairLimit by repairLimitProperty
+        @get:JsonProperty var repairTimeLimit by repairTimeLimitProperty
+        @get:JsonProperty var checkFatigue by checkFatigueProperty
+        @get:JsonProperty var portCheck by portCheckProperty
+        @get:JsonProperty var medalStop by medalStopProperty
+        @get:JsonProperty var lastNodePush by lastNodePushProperty
     }
 
     class SubmarineSwitch(enabled: Boolean, enabledSubs: List<Submarines>) {
-        @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "EnabledSubs") val enabledSubsProperty = SimpleListProperty(FXCollections.observableArrayList(enabledSubs))
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore @IniConfig(key = "EnabledSubs") val enabledSubsProperty = SimpleListProperty(FXCollections.observableArrayList(enabledSubs))
 
-        var enabled by enabledProperty
-        var enabledSubs by enabledSubsProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var enabledSubs by enabledSubsProperty
     }
 
     class Lbas(
             enabled: Boolean, enabledGroups: Set<Int>, group1Nodes: List<String>,
             group2Nodes: List<String>, group3Nodes: List<String>
     ) {
-        @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "EnabledGroups") val enabledGroupsProperty = SimpleSetProperty(FXCollections.observableSet(enabledGroups))
-        @IniConfig(key = "Group1Nodes") val group1NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group1Nodes))
-        @IniConfig(key = "Group2Nodes") val group2NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group2Nodes))
-        @IniConfig(key = "Group3Nodes") val group3NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group3Nodes))
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore @IniConfig(key = "EnabledGroups") val enabledGroupsProperty = SimpleSetProperty(FXCollections.observableSet(enabledGroups))
+        @JsonIgnore @IniConfig(key = "Group1Nodes") val group1NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group1Nodes))
+        @JsonIgnore @IniConfig(key = "Group2Nodes") val group2NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group2Nodes))
+        @JsonIgnore @IniConfig(key = "Group3Nodes") val group3NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group3Nodes))
 
-        var enabled by enabledProperty
-        var enabledGroups by enabledGroupsProperty
-        var group1Nodes by group1NodesProperty
-        var group2Nodes by group2NodesProperty
-        var group3Nodes by group3NodesProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var enabledGroups by enabledGroupsProperty
+        @get:JsonProperty var group1Nodes by group1NodesProperty
+        @get:JsonProperty var group2Nodes by group2NodesProperty
+        @get:JsonProperty var group3Nodes by group3NodesProperty
     }
 
     class Quests(enabled: Boolean, quests: List<String>, checkSchedule: Int) {
-        @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @IniConfig(key = "Quests") val questsProperty = SimpleListProperty(FXCollections.observableArrayList(quests))
-        @IniConfig(key = "CheckSchedule") val checkScheduleProperty = SimpleIntegerProperty(checkSchedule)
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore @IniConfig(key = "Quests") val questsProperty = SimpleListProperty(FXCollections.observableArrayList(quests))
+        @JsonIgnore @IniConfig(key = "CheckSchedule") val checkScheduleProperty = SimpleIntegerProperty(checkSchedule)
 
-        var enabled by enabledProperty
-        var quests by questsProperty
-        var checkSchedule by checkScheduleProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var quests by questsProperty
+        @get:JsonProperty var checkSchedule by checkScheduleProperty
     }
 }
