@@ -1,9 +1,8 @@
 package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.KancolleAuto
 import com.waicool20.kaga.config.KancolleAutoProfile
-import com.waicool20.kaga.util.LockPreventer
-import com.waicool20.kaga.util.StreamGobbler
 import com.waicool20.kaga.views.tabs.ExpeditionsTabView
 import com.waicool20.kaga.views.tabs.GeneralTabView
 import com.waicool20.kaga.views.tabs.PvpTabView
@@ -17,6 +16,7 @@ import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
+import org.slf4j.LoggerFactory
 import tornadofx.bind
 import java.awt.Desktop
 import java.net.URI
@@ -27,9 +27,7 @@ import java.util.stream.Collectors
 
 
 class KagaView {
-    private var kancolleAutoProcess: Process? = null
-    private var streamGobbler: StreamGobbler? = null
-
+    private val kancolleAuto = KancolleAuto()
     private val runningText = "Kancolle Auto is running!"
     private val notRunningText = "Kancolle Auto is not running!"
 
@@ -44,6 +42,8 @@ class KagaView {
     @FXML private lateinit var sortieTabController: SortieTabView
     @FXML private lateinit var miscTabController: MiscTabView
     @FXML private lateinit var questsTabController: QuestsTabView
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @FXML fun initialize() {
         profileNameComboBox.bind(Kaga.PROFILE!!.nameProperty)
@@ -87,53 +87,54 @@ class KagaView {
     }
 
     @FXML private fun onSaveButton() {
-        Kaga.CONFIG.currentProfile = Kaga.PROFILE!!.name
-        Kaga.CONFIG.save()
-        Kaga.PROFILE!!.save()
-        showStatus("Profile was saved!", 5)
+        with(Kaga.PROFILE!!) {
+            if (name == "<Current Profile>") {
+                val text = "Not a valid profile name, didn't save it..."
+                logger.warn(text)
+                showStatus(text)
+                return
+            }
+            Kaga.CONFIG.currentProfile = name
+            Kaga.CONFIG.save()
+            save()
+        }
     }
 
     @FXML private fun onDeleteButton() {
-        Kaga.PROFILE!!.delete()
-        profileNameComboBox.value = ""
-        showStatus("Profile was deleted", 5)
+        with(Kaga.PROFILE!!) {
+            val text = "Not a valid profile name, didn't delete it..."
+            if (name == "<Current Profile>") {
+                logger.warn(text)
+                showStatus(text)
+                return
+            }
+            if (delete()) {
+                profileNameComboBox.value = ""
+                showStatus("Profile was deleted")
+            } else {
+                showStatus(text)
+            }
+        }
     }
 
     @FXML private fun onStartStopButton() {
-        if (kancolleAutoProcess == null || !kancolleAutoProcess!!.isAlive) {
-            Kaga.PROFILE!!.save(Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini"))
-            val args = listOf(
-                    "java",
-                    "-jar",
-                    Kaga.CONFIG.sikuliScriptJarPath.toString(),
-                    "-r",
-                    Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "kancolle_auto.sikuli").toString()
-            )
-            println("\u001b[2J\u001b[H")
-            Kaga.CONSOLE_STAGE.toFront()
-            val processMonitor = Thread {
-                val lockPreventer: LockPreventer? =
-                        if (Kaga.CONFIG.preventLock) LockPreventer() else null
-                kancolleAutoProcess = ProcessBuilder(args).start()
-                streamGobbler = StreamGobbler(kancolleAutoProcess)
+        if (!kancolleAuto.isRunning()) {
+            Thread {
                 Platform.runLater {
                     kagaStatus.text = runningText
                     startStopButton.text = "Stop"
                     startStopButton.style = "-fx-background-color: red"
                 }
-                streamGobbler?.run()
-                lockPreventer?.start()
-                kancolleAutoProcess?.waitFor()
+                kancolleAuto.startAndWait()
                 Platform.runLater {
                     kagaStatus.text = notRunningText
                     startStopButton.text = "Start"
                     startStopButton.style = "-fx-background-color: lightgreen"
                 }
-                lockPreventer?.stop()
-            }
-            processMonitor.start()
+            }.start()
+            Kaga.CONSOLE_STAGE.toFront()
         } else {
-            kancolleAutoProcess?.destroy()
+            kancolleAuto.stop()
         }
     }
 
@@ -159,11 +160,11 @@ class KagaView {
 
     @FXML private fun quit() = System.exit(0)
 
-    private fun showStatus(status: String, seconds: Long) {
+    private fun showStatus(status: String, seconds: Long = 5) {
         Thread({
             Platform.runLater { kagaStatus.text = status }
             Thread.sleep(seconds * 1000)
-            Platform.runLater { kagaStatus.text = if (kancolleAutoProcess?.isAlive ?: false) runningText else notRunningText }
+            Platform.runLater { kagaStatus.text = if (kancolleAuto.isRunning()) runningText else notRunningText }
         }).start()
     }
 }

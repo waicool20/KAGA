@@ -1,10 +1,14 @@
 package com.waicool20.kaga
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.handlers.KeyboardIncrementHandler
 import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
+import com.waicool20.kaga.util.LineListenerOutputStream
+import com.waicool20.kaga.util.TeeOutputStream
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
 import javafx.application.Application
@@ -14,16 +18,20 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.KeyEvent.KEY_PRESSED
-import javafx.scene.input.KeyEvent.KEY_RELEASED
-import javafx.scene.input.MouseEvent.*
+import javafx.scene.input.MouseEvent.MOUSE_PRESSED
+import javafx.scene.input.MouseEvent.MOUSE_RELEASED
 import javafx.stage.Modality
 import javafx.stage.Stage
+import org.slf4j.LoggerFactory
 import tornadofx.FX
 import tornadofx.find
+import java.io.PrintStream
 import java.nio.file.Path
 import java.nio.file.Paths
 
 class Kaga : Application() {
+
+    val logger = LoggerFactory.getLogger(javaClass)
 
     private object Holder {
         val INSTANCE = Kaga()
@@ -34,22 +42,30 @@ class Kaga : Application() {
 
         @JvmStatic val JAR_DIR: Path = Paths.get(Kaga::class.java.protectionDomain.codeSource.location.toURI()).parent
         @JvmStatic val CONFIG_DIR: Path = Paths.get(JAR_DIR.toString(), "kaga")
-        @JvmStatic val CONFIG_FILE: Path = Paths.get(CONFIG_DIR.toString(), "kaga.ini")
+        @JvmStatic val CONFIG_FILE: Path = Paths.get(CONFIG_DIR.toString(), "kaga.json")
 
         @JvmStatic lateinit var ROOT_STAGE: Stage
         @JvmStatic lateinit var CONSOLE_STAGE: Stage
 
-        @JvmStatic val CONFIG: KagaConfig = KagaConfig.load(CONFIG_FILE)
+        @JvmStatic lateinit var CONFIG: KagaConfig
         @JvmStatic var PROFILE: KancolleAutoProfile? = null
     }
 
     override fun start(stage: Stage) {
+        val logLevel = parameters.named.getOrElse("log", { "INFO" })
+        if (logLevel.equals("DEBUG", true)) {
+            (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = Level.DEBUG
+        }
+        logger.info("Starting KAGA")
         FX.registerApplication(application = this, primaryStage = stage)
         ROOT_STAGE = stage
         stage.setOnHidden { Platform.exit() }
+        CONFIG = KagaConfig.load(CONFIG_FILE)
         if (CONFIG.isValid()) {
+            logger.info("KAGA config is valid, starting main application")
             startMainApplication()
         } else {
+            logger.info("KAGA config isn't valid, starting path chooser")
             startPathChooser()
         }
     }
@@ -76,6 +92,7 @@ class Kaga : Application() {
                 addEventFilter(MOUSE_RELEASED, handler)
             }
             startConsole()
+            startKCAutoListener()
         }
     }
 
@@ -99,5 +116,11 @@ class Kaga : Application() {
             minWidth = 600.0
             scene = Scene(find(ConsoleView::class).root)
         }
+    }
+
+    private fun startKCAutoListener() {
+        val lineListener = LineListenerOutputStream()
+        System.setOut(PrintStream(TeeOutputStream(System.out, lineListener)))
+        System.setErr(PrintStream(TeeOutputStream(System.err, lineListener)))
     }
 }

@@ -4,8 +4,7 @@ import javafx.application.Platform
 import javafx.scene.control.TextArea
 import java.io.OutputStream
 
-
-class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int) : OutputStream() {
+abstract class LineBufferedOutputStream : OutputStream() {
     var buffer = mutableListOf<Char>()
 
     override fun write(byte: Int) {
@@ -17,9 +16,17 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
     }
 
     override fun flush() {
-        val newLine = buffer.joinToString(separator = "")
+        writeLine(buffer.joinToString(separator = ""))
+        buffer.clear()
+    }
+
+    abstract fun writeLine(line: String)
+}
+
+class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int) : LineBufferedOutputStream() {
+    override fun writeLine(line: String) {
         Platform.runLater {
-            if (newLine.contains("\u001b[2J\u001b[H")) {
+            if (line.contains("\u001b[2J\u001b[H")) {
                 console.clear()
                 return@runLater
             }
@@ -27,11 +34,16 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
             if (current.split("\n").size > maxLines) {
                 current = current.replaceFirst(".+?\n".toRegex(), "")
             }
-            current += newLine
+            current += line
             console.text = current.replace("\\u001b\\[.+?m".toRegex(), "")
             console.scrollTop = Double.MAX_VALUE
         }
-        buffer.clear()
+    }
+}
+
+class LineListenerOutputStream : LineBufferedOutputStream() {
+    override fun writeLine(line: String) {
+        // TODO implement line listener
     }
 }
 

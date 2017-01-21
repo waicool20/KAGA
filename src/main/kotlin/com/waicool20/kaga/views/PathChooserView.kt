@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import javafx.stage.Stage
+import org.slf4j.LoggerFactory
 import tornadofx.View
 
 
@@ -19,6 +20,8 @@ class PathChooserView : View() {
     private val kancolleAutoDirTextField: TextField by fxid()
     private val saveButton: Button by fxid()
     private val pathErrorsText: Label by fxid()
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     init {
         pathChooserFlavorText.text =
@@ -57,6 +60,7 @@ class PathChooserView : View() {
 
     @FXML private fun onSaveButtonPressed() {
         if (Kaga.CONFIG.isValid()) {
+            logger.info("Configuration was found valid! Starting main application...")
             Kaga.CONFIG.save()
             (saveButton.scene.window as Stage).close()
             Kaga.INSTANCE.startMainApplication()

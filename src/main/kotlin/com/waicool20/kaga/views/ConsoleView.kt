@@ -23,7 +23,5 @@ class ConsoleView : View() {
         System.setErr(errStream)
     }
 
-    @FXML private fun onClear() {
-        consoleTextArea.text = ""
-    }
+    @FXML private fun onClear() = consoleTextArea.clear()
 }

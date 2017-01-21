@@ -1,5 +1,6 @@
 package com.waicool20.kaga.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.IniConfig
 import com.waicool20.kaga.util.fromObject
@@ -7,6 +8,7 @@ import com.waicool20.kaga.util.toObject
 import javafx.beans.property.*
 import javafx.collections.FXCollections
 import org.ini4j.Wini
+import org.slf4j.LoggerFactory
 import tornadofx.getValue
 import tornadofx.setValue
 import java.nio.file.Files
@@ -23,13 +25,17 @@ class KancolleAutoProfile(
         val pvp: Pvp, val sortie: Sortie, val submarineSwitch: SubmarineSwitch,
         val lbas: Lbas, val quests: Quests
 ) {
+    private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
     var nameProperty = SimpleStringProperty(name)
     var name by nameProperty
 
     fun path(): Path = Paths.get(Kaga.CONFIG_DIR.toString(), "$name-config.ini")
 
     fun save(path: Path = path()) {
+        logger.info("Saving KancolleAuto profile")
+        logger.debug("Saving to $path")
         if (Files.notExists(path)) {
+            logger.debug("Profile not found, creating file $path")
             Files.createDirectories(path.parent)
             Files.createFile(path)
         }
@@ -45,19 +51,31 @@ class KancolleAutoProfile(
         ini.add("LBAS").fromObject(lbas)
         ini.add("Quests").fromObject(quests)
         ini.store(path.toFile())
+        logger.info("Saving KancolleAuto profile was successful")
+        logger.debug("Saved ${ObjectMapper().writeValueAsString(this)} to $path")
     }
 
-    fun delete() {
+    fun delete(): Boolean {
         with(path()) {
             if (Files.exists(this)) {
                 Files.delete(this)
+                logger.info("Deleted profile")
+                logger.debug("Deleted ${ObjectMapper().writeValueAsString(this@KancolleAutoProfile)} from $this")
+                return true
+            } else {
+                logger.warn("File doesn't exist, can't delete!")
+                logger.debug("Couldn't delete $this")
+                return false
             }
         }
     }
 
     companion object Loader {
+        private val loaderLogger = LoggerFactory.getLogger(KancolleAutoProfile.Loader::class.java)
         @JvmStatic fun load(path: Path = Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini")): KancolleAutoProfile? {
             if (Files.exists(path)) {
+                loaderLogger.info("Attempting to load KancolleAuto Profile")
+                loaderLogger.debug("Loading KancolleAuto Profile from $path")
                 val matcher = Pattern.compile("(.+?)-config\\.ini").matcher(path.fileName.toString())
                 val name = run {
                     if (matcher.matches()) {
@@ -68,6 +86,7 @@ class KancolleAutoProfile(
                         while (Files.exists(backupPath)) {
                             backupPath = Paths.get(path.parent.toString(), "config.ini.bak${index++}")
                         }
+                        loaderLogger.info("Copied backup of existing configuration to $backupPath")
                         Files.copy(path, backupPath)
                         "<Current Profile>"
                     }
@@ -89,10 +108,15 @@ class KancolleAutoProfile(
                         submarineSwitch == null || lbas == null || quests == null) {
                     return null
                 }
-
-                return KancolleAutoProfile(name, general, scheduledSleep, scheduledStop,
-                        expeditions, pvp, sortie, submarineSwitch, lbas, quests)
+                with(KancolleAutoProfile(name, general, scheduledSleep, scheduledStop,
+                        expeditions, pvp, sortie, submarineSwitch, lbas, quests)) {
+                    loaderLogger.info("Loading KancolleAuto profile was successful")
+                    loaderLogger.debug("Loaded ${ObjectMapper().writeValueAsString(this)}")
+                    return this
+                }
             }
+            loaderLogger.warn("File does not exist!")
+            loaderLogger.debug("Could not load $path")
             return null
         }
     }
