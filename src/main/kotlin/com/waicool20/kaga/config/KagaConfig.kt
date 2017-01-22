@@ -1,6 +1,7 @@
 package com.waicool20.kaga.config
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waicool20.kaga.Kaga
 import org.slf4j.LoggerFactory
@@ -26,11 +27,17 @@ data class KagaConfig(var currentProfile: String = "",
                 Files.createDirectories(path.parent)
                 Files.createFile(path)
             }
-            with (ObjectMapper().readValue(Kaga.CONFIG_FILE.toFile(), KagaConfig::class.java)) {
-                loaderLogger.info("Loading KAGA configuration was successful")
-                loaderLogger.debug("Loaded $this")
-                return this
+            try {
+                with (ObjectMapper().readValue(Kaga.CONFIG_FILE.toFile(), KagaConfig::class.java)) {
+                    loaderLogger.info("Loading KAGA configuration was successful")
+                    loaderLogger.debug("Loaded $this")
+                    return this
+                }
+            } catch (e: JsonMappingException) {
+                loaderLogger.warn("No valid Json configuration was found, error: ${e.message}")
             }
+            loaderLogger.info("Using a default configuration")
+            return KagaConfig()
         }
     }
 
