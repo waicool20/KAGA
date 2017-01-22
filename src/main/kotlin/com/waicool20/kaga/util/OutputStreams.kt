@@ -24,6 +24,11 @@ abstract class LineBufferedOutputStream : OutputStream() {
 }
 
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int) : LineBufferedOutputStream() {
+    init {
+        console.textProperty().addListener { obs, oldVal, newVal -> run {
+            console.scrollTop = Double.MAX_VALUE
+        }}
+    }
     override fun writeLine(line: String) {
         Platform.runLater {
             if (line.contains("\u001b[2J\u001b[H")) {
@@ -36,7 +41,7 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
             }
             current += line
             console.text = current.replace("\\u001b\\[.+?m".toRegex(), "")
-            console.scrollTop = Double.MAX_VALUE
+            console.appendText("")
         }
     }
 }
