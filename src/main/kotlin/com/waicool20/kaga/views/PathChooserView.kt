@@ -16,7 +16,7 @@ import tornadofx.View
 class PathChooserView : View() {
     override val root: GridPane by fxml("/views/path-chooser.fxml", hasControllerAttribute = true)
     private val pathChooserFlavorText: Label by fxid()
-    private val sikuliScriptJarPathTextField: TextField by fxid()
+    private val sikulixJarPathTextField: TextField by fxid()
     private val kancolleAutoDirTextField: TextField by fxid()
     private val saveButton: Button by fxid()
     private val pathErrorsText: Label by fxid()
@@ -33,14 +33,14 @@ class PathChooserView : View() {
         checkErrors()
     }
 
-    @FXML private fun openSikuliScriptJarChooser() {
+    @FXML private fun openSikulixJarChooser() {
         with(FileChooser()) {
-            title = "Path to Sikuli Script Jar File..."
+            title = "Path to Sikulix Jar File..."
             extensionFilters.add(FileChooser.ExtensionFilter("JAR files (*.jar)", "*.jar"))
             val file = showOpenDialog(null)
             if (file != null) {
-                Kaga.CONFIG.sikuliScriptJarPath = file.toPath()
-                sikuliScriptJarPathTextField.text = file.path
+                Kaga.CONFIG.sikulixJarPath = file.toPath()
+                sikulixJarPathTextField.text = file.path
                 checkErrors()
             }
         }
@@ -68,14 +68,14 @@ class PathChooserView : View() {
     }
 
     private fun checkErrors() {
-        sikuliScriptJarPathTextField.style = "-fx-border-color:${if (!Kaga.CONFIG.sikuliScriptJarIsValid()) "red" else "inherit"}"
+        sikulixJarPathTextField.style = "-fx-border-color:${if (!Kaga.CONFIG.sikulixJarIsValid()) "red" else "inherit"}"
         kancolleAutoDirTextField.style = "-fx-border-color: ${if (!Kaga.CONFIG.kancolleAutoRootDirPathIsValid()) "red" else "inherit"}"
         setErrorText()
     }
 
     private fun setErrorText() {
         var errors = ""
-        if (sikuliScriptJarPathTextField.style.contains("red")) {
+        if (sikulixJarPathTextField.style.contains("red")) {
             errors += "Invalid Sikuli Jar File!\n"
         }
         if (kancolleAutoDirTextField.style.contains("red")) {

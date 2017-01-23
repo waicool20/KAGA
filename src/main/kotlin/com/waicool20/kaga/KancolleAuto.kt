@@ -17,13 +17,13 @@ class KancolleAuto {
         val args = listOf(
                 "java",
                 "-jar",
-                Kaga.CONFIG.sikuliScriptJarPath.toString(),
+                Kaga.CONFIG.sikulixJarPath.toString(),
                 "-r",
                 Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "kancolle_auto.sikuli").toString()
         )
         val lockPreventer: LockPreventer? =
                 if (Kaga.CONFIG.preventLock) LockPreventer() else null
-        println("\u001b[2J\u001b[H") // Clear console
+        //println("\u001b[2J\u001b[H") // Clear console
         logger.info("Starting new Kancolle Auto session")
         logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
         kancolleAutoProcess = ProcessBuilder(args).start()

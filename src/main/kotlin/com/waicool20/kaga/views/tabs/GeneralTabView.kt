@@ -11,7 +11,7 @@ class GeneralTabView {
     @FXML private lateinit var programTextField: TextField
     @FXML private lateinit var recoveryMethodChoiceBox: ChoiceBox<KancolleAutoProfile.RecoveryMethod>
     @FXML private lateinit var preventLockCheckBox: CheckBox
-    @FXML private lateinit var sikuliScriptJarPathLabel: Label
+    @FXML private lateinit var sikulixJarPathLabel: Label
     @FXML private lateinit var kancolleAutoRootPathLabel: Label
     @FXML private lateinit var basicRecoveryCheckBox: CheckBox
     @FXML private lateinit var paranoiaSpinner: Spinner<Int>
@@ -24,7 +24,7 @@ class GeneralTabView {
     }
 
     fun setValues() {
-        sikuliScriptJarPathLabel.text = Kaga.CONFIG.sikuliScriptJarPath.toString()
+        sikulixJarPathLabel.text = Kaga.CONFIG.sikulixJarPath.toString()
         kancolleAutoRootPathLabel.text = Kaga.CONFIG.kancolleAutoRootDirPath.toString()
         recoveryMethodChoiceBox.items.setAll(*KancolleAutoProfile.RecoveryMethod.values())
         paranoiaSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)

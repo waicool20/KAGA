@@ -12,9 +12,9 @@ import java.util.jar.JarFile
 
 @JsonIgnoreProperties("valid")
 data class KagaConfig(var currentProfile: String = "",
-                 var sikuliScriptJarPath: Path = Paths.get(""),
-                 var kancolleAutoRootDirPath: Path = Paths.get(""),
-                 var preventLock: Boolean = false) {
+                      var sikulixJarPath: Path = Paths.get(""),
+                      var kancolleAutoRootDirPath: Path = Paths.get(""),
+                      var preventLock: Boolean = false) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     companion object Loader {
@@ -41,10 +41,10 @@ data class KagaConfig(var currentProfile: String = "",
         }
     }
 
-    fun sikuliScriptJarIsValid(): Boolean {
-        if (Files.exists(sikuliScriptJarPath) && Files.isRegularFile(sikuliScriptJarPath)) {
-            val manifest = JarFile(sikuliScriptJarPath.toFile()).manifest
-            return manifest.mainAttributes.getValue("Main-Class") == "org.sikuli.basics.SikuliScript"
+    fun sikulixJarIsValid(): Boolean {
+        if (Files.exists(sikulixJarPath) && Files.isRegularFile(sikulixJarPath)) {
+            val manifest = JarFile(sikulixJarPath.toFile()).manifest
+            return manifest.mainAttributes.getValue("Main-Class") == "org.sikuli.ide.Sikulix"
         }
         return false
     }
@@ -53,7 +53,7 @@ data class KagaConfig(var currentProfile: String = "",
             Files.exists(Paths.get(kancolleAutoRootDirPath.toString(), "kancolle_auto.sikuli"))
 
     fun isValid(): Boolean =
-            sikuliScriptJarIsValid() && kancolleAutoRootDirPathIsValid()
+            sikulixJarIsValid() && kancolleAutoRootDirPathIsValid()
 
     fun save() {
         logger.info("Saving KAGA configuration file")

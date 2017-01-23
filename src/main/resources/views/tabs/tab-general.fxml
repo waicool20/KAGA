@@ -100,7 +100,7 @@
                         <Label fx:id="kancolleAutoRootLabel" text="Kancolle Auto Root:" />
                     </children>
                 </HBox>
-                <Label fx:id="sikuliScriptJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <Label fx:id="sikulixJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                 <Label fx:id="kancolleAutoRootPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <HBox alignment="CENTER" GridPane.rowIndex="6">
                <children>
