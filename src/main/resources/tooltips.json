@@ -32,18 +32,6 @@
     "description": "If you have a slow computer/network connection, you may encounter frequent FindFailed errors. Increase this value by whole numbers (seconds) to increase the length of all sleep/wait timers to avoid this."
   },
   {
-    "id": "General-preventLockLabel",
-    "description": "Prevent computer from activating lockscreen when kancolle auto is active, useful when you set kancolle auto to only expeditions and it idles longer than your lockscreen activation time, otherwise kancolle auto crashes when your computer locks itself."
-  },
-  {
-    "id": "General-sikuliScriptJarLabel",
-    "description": "Path to the sikuli script Jar"
-  },
-  {
-    "id": "General-kancolleAutoRootLabel",
-    "description": "Path to kancolle auto root directory"
-  },
-  {
     "id": "Scheduling-enableSleepButton",
     "description": "Check this box if you want kancolle-auto to automatically sleep/pause at set times. Highly recommended that you check this box if you run kancolle-auto for a long period of time."
   },
@@ -186,5 +174,29 @@
   {
     "id": "Misc-group3CheckBox",
     "description": "Check this box to enable group 3 LBAS Support, then configure the node image names for each of the above enabled air support groups. Groups with node targets should have two nodes assigned to them. You'll have to generate these images yourself (or wait for the program to be updated on Github). Active groups with no node images are assumed to be air defense groups, and will be resupplied each sortie, but not assigned nodes on the map"
+  },
+  {
+    "id": "Preferences-preventLockLabel",
+    "description": "Prevent computer from activating lockscreen when kancolle auto is active, useful when you set kancolle auto to only expeditions and it idles longer than your lockscreen activation time, otherwise kancolle auto crashes when your computer locks itself."
+  },
+  {
+    "id": "Preferences-clearConsoleLabel",
+    "description": "Clears console before a new session is started if enabled."
+  },
+  {
+    "id": "Preferences-restartSessionLabel",
+    "description": "If enabled and Kancolle Auto crashes for some reason, KAGA will automatically spawn a new session."
+  },
+  {
+    "id": "Preferences-enableDebugModeLabel",
+    "description": "Prints out useful information about the internal state of KAGA, letting you get a clearer picture of what's happening if enabled"
+  },
+  {
+    "id": "Preferences-sikuliScriptJarLabel",
+    "description": "Path to the sikuli script Jar"
+  },
+  {
+    "id": "Preferences-kancolleAutoRootLabel",
+    "description": "Path to kancolle auto root directory"
   }
 ]

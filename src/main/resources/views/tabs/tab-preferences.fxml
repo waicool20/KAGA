@@ -49,7 +49,7 @@
             <CheckBox fx:id="preventLockCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOTE: The options listed here are stored independently from your Kancolle Auto profiles!" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOTE: The options listed here are stored independently from your Kancolle Auto profiles!&#10;Any changes to the options are applied immediately but are only persisted if saved." textAlignment="CENTER" wrappingWidth="581.6103515625" />
                </children>
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
@@ -63,19 +63,19 @@
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="2">
                <children>
-                  <Label fx:id="preventLockLabel1" text="Clear console on session start:" />
+                  <Label fx:id="clearConsoleLabel" text="Clear console on session start:" />
                </children>
             </HBox>
             <CheckBox fx:id="clearConsoleCheckbox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox alignment="CENTER" GridPane.rowIndex="3">
                <children>
-                  <Label fx:id="preventLockLabel11" text="Restart session on crash:" />
+                  <Label fx:id="restartSessionLabel" text="Restart session on crash:" />
                </children>
             </HBox>
             <CheckBox fx:id="restartSessionCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <HBox alignment="CENTER" GridPane.rowIndex="4">
                <children>
-                  <Label fx:id="preventLockLabel111" text="Enable debug mode:" />
+                  <Label fx:id="enableDebugModeLabel" text="Enable debug mode:" />
                </children>
             </HBox>
             <CheckBox fx:id="debugModeEnableCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
