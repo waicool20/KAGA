@@ -51,6 +51,7 @@ class KancolleAutoProfile(
         ini.add("Combat").fromObject(sortie)
         ini.add("SubmarineSwitch").fromObject(submarineSwitch)
         ini.add("LBAS").fromObject(lbas)
+        quests.quests.setAll(quests.quests.map(String::toLowerCase))
         ini.add("Quests").fromObject(quests)
         ini.store(path.toFile())
         logger.info("Saving KancolleAuto profile was successful")

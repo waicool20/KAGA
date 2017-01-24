@@ -23,7 +23,8 @@ class KancolleAuto {
         )
         val lockPreventer: LockPreventer? =
                 if (Kaga.CONFIG.preventLock) LockPreventer() else null
-        //println("\u001b[2J\u001b[H") // Clear console
+        //TODO Add config option
+        print("\u001b[2J\u001b[H") // Clear console
         logger.info("Starting new Kancolle Auto session")
         logger.debug("Launching with command: ${args.joinToString(" ")}")
         logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
