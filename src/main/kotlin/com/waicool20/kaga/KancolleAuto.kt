@@ -23,8 +23,7 @@ class KancolleAuto {
         )
         val lockPreventer: LockPreventer? =
                 if (Kaga.CONFIG.preventLock) LockPreventer() else null
-        //TODO Add config option
-        print("\u001b[2J\u001b[H") // Clear console
+        if (Kaga.CONFIG.clearConsoleOnStart) print("\u001b[2J\u001b[H") // Clear console
         logger.info("Starting new Kancolle Auto session")
         logger.debug("Launching with command: ${args.joinToString(" ")}")
         logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
@@ -37,9 +36,11 @@ class KancolleAuto {
         logger.debug("Exit Value was $exitVal")
         lockPreventer?.stop()
         if (!(exitVal == 0 || exitVal == 143)) {
-            // TODO add config option
             logger.info("Kancolle Auto didn't terminate gracefully")
-            startAndWait()
+            if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
+                logger.info("Auto Restart enabled...attempting restart")
+                startAndWait()
+            }
         }
     }
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.PreferencesTabView">
+    <children>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="-Infinity" prefWidth="160.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="531.0" minWidth="10.0" prefWidth="440.0" />
+            </columnConstraints>
+            <rowConstraints>
+            <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <HBox alignment="CENTER" GridPane.rowIndex="2">
+                    <children>
+                        <Label fx:id="sikuliScriptJarLabel" text="Sikuli Script Jar:" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" GridPane.rowIndex="3">
+                    <children>
+                        <Label fx:id="kancolleAutoRootLabel" text="Kancolle Auto Root:" />
+                    </children>
+                </HBox>
+                <Label fx:id="sikulixJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label fx:id="kancolleAutoRootPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <HBox alignment="CENTER" GridPane.rowIndex="1">
+               <children>
+                  <Label fx:id="preventLockLabel" text="Prevent Lockscreen:" />
+               </children>
+            </HBox>
+            <CheckBox fx:id="preventLockCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOTE: The options listed here are stored independently from your Kancolle Auto profiles!" />
+               </children>
+            </HBox>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

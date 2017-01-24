@@ -14,7 +14,9 @@ import java.util.jar.JarFile
 data class KagaConfig(var currentProfile: String = "",
                       var sikulixJarPath: Path = Paths.get(""),
                       var kancolleAutoRootDirPath: Path = Paths.get(""),
-                      var preventLock: Boolean = false) {
+                      var preventLock: Boolean = false,
+                      var clearConsoleOnStart: Boolean = true,
+                      var autoRestartOnKCAutoCrash: Boolean = true) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     companion object Loader {
