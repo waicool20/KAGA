@@ -1,36 +1,58 @@
 package com.waicool20.kaga.config
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waicool20.kaga.Kaga
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import org.slf4j.LoggerFactory
+import tornadofx.getValue
+import tornadofx.setValue
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.jar.JarFile
 
 @JsonIgnoreProperties("valid")
-data class KagaConfig(var currentProfile: String = "",
-                      var sikulixJarPath: Path = Paths.get(""),
-                      var kancolleAutoRootDirPath: Path = Paths.get(""),
-                      var preventLock: Boolean = false,
-                      var clearConsoleOnStart: Boolean = true,
-                      var autoRestartOnKCAutoCrash: Boolean = true) {
+class KagaConfig(currentProfile: String = "",
+                 sikulixJarPath: Path = Paths.get(""),
+                 kancolleAutoRootDirPath: Path = Paths.get(""),
+                 preventLock: Boolean = false,
+                 clearConsoleOnStart: Boolean = true,
+                 autoRestartOnKCAutoCrash: Boolean = true) {
+    @JsonIgnore val currentProfileProperty = SimpleStringProperty(currentProfile)
+    @JsonIgnore val sikulixJarPathProperty = SimpleObjectProperty<Path>(sikulixJarPath)
+    @JsonIgnore val kancolleAutoRootDirPathProperty = SimpleObjectProperty<Path>(kancolleAutoRootDirPath)
+    @JsonIgnore val preventLockProperty = SimpleBooleanProperty(preventLock)
+    @JsonIgnore val clearConsoleOnStartProperty = SimpleBooleanProperty(clearConsoleOnStart)
+    @JsonIgnore val autoRestartOnKCAutoCrashProperty = SimpleBooleanProperty(autoRestartOnKCAutoCrash)
+
+    @get:JsonProperty var currentProfile by currentProfileProperty
+    @get:JsonProperty var sikulixJarPath by sikulixJarPathProperty
+    @get:JsonProperty var kancolleAutoRootDirPath by kancolleAutoRootDirPathProperty
+    @get:JsonProperty var preventLock by preventLockProperty
+    @get:JsonProperty var clearConsoleOnStart by clearConsoleOnStartProperty
+    @get:JsonProperty var autoRestartOnKCAutoCrash by autoRestartOnKCAutoCrashProperty
+
     private val logger = LoggerFactory.getLogger(javaClass)
 
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KagaConfig.Loader::class.java)
-        @JvmStatic fun load(path: Path): KagaConfig {
+        val CONFIG_FILE: Path = Paths.get(Kaga.CONFIG_DIR.toString(), "kaga.json")
+        @JvmStatic fun load(): KagaConfig {
             loaderLogger.info("Attempting to load KAGA configuration")
-            loaderLogger.debug("Loading KAGA configuration from $path")
-            if (Files.notExists(path)) {
-                loaderLogger.debug("Configuration not found, creating file \"${Kaga.CONFIG_FILE}\"")
-                Files.createDirectories(path.parent)
-                Files.createFile(path)
+            loaderLogger.debug("Loading KAGA configuration from $CONFIG_FILE")
+            if (Files.notExists(CONFIG_FILE)) {
+                loaderLogger.debug("Configuration not found, creating file \"$CONFIG_FILE\"")
+                Files.createDirectories(CONFIG_FILE.parent)
+                Files.createFile(CONFIG_FILE)
             }
             try {
-                with (ObjectMapper().readValue(Kaga.CONFIG_FILE.toFile(), KagaConfig::class.java)) {
+                with(ObjectMapper().readValue(CONFIG_FILE.toFile(), KagaConfig::class.java)) {
                     loaderLogger.info("Loading KAGA configuration was successful")
                     loaderLogger.debug("Loaded $this")
                     return this
@@ -59,10 +81,12 @@ data class KagaConfig(var currentProfile: String = "",
 
     fun save() {
         logger.info("Saving KAGA configuration file")
-        logger.debug("Saved $this to ${Kaga.CONFIG_FILE}")
-        ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(Kaga.CONFIG_FILE.toFile(), this)
+        logger.debug("Saved $this to ${Loader.CONFIG_FILE}")
+        ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(Loader.CONFIG_FILE.toFile(), this)
         logger.info("Saving KAGA configuration was successful")
     }
+
+    override fun toString(): String = ObjectMapper().writeValueAsString(this)
 }
 
 

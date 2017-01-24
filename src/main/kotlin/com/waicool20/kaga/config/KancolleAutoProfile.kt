@@ -55,7 +55,7 @@ class KancolleAutoProfile(
         ini.add("Quests").fromObject(quests)
         ini.store(path.toFile())
         logger.info("Saving KancolleAuto profile was successful")
-        logger.debug("Saved ${ObjectMapper().writeValueAsString(this)} to $path")
+        logger.debug("Saved $this to $path")
     }
 
     fun delete(): Boolean {
@@ -63,7 +63,7 @@ class KancolleAutoProfile(
             if (Files.exists(this)) {
                 Files.delete(this)
                 logger.info("Deleted profile")
-                logger.debug("Deleted ${ObjectMapper().writeValueAsString(this@KancolleAutoProfile)} from $this")
+                logger.debug("Deleted ${this@KancolleAutoProfile} from $this")
                 return true
             } else {
                 logger.warn("File doesn't exist, can't delete!")
@@ -114,7 +114,7 @@ class KancolleAutoProfile(
                 with(KancolleAutoProfile(name, general, scheduledSleep, scheduledStop,
                         expeditions, pvp, sortie, submarineSwitch, lbas, quests)) {
                     loaderLogger.info("Loading KancolleAuto profile was successful")
-                    loaderLogger.debug("Loaded ${ObjectMapper().writeValueAsString(this)}")
+                    loaderLogger.debug("Loaded $this")
                     return this
                 }
             }
@@ -288,4 +288,6 @@ class KancolleAutoProfile(
         @get:JsonProperty var quests by questsProperty
         @get:JsonProperty var checkSchedule by checkScheduleProperty
     }
+
+    override fun toString(): String = ObjectMapper().writeValueAsString(this)
 }

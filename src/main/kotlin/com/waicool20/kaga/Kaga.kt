@@ -42,7 +42,6 @@ class Kaga : Application() {
 
         @JvmStatic val JAR_DIR: Path = Paths.get(Kaga::class.java.protectionDomain.codeSource.location.toURI()).parent
         @JvmStatic val CONFIG_DIR: Path = Paths.get(JAR_DIR.toString(), "kaga")
-        @JvmStatic val CONFIG_FILE: Path = Paths.get(CONFIG_DIR.toString(), "kaga.json")
 
         @JvmStatic lateinit var ROOT_STAGE: Stage
         @JvmStatic lateinit var CONSOLE_STAGE: Stage
@@ -60,7 +59,7 @@ class Kaga : Application() {
         FX.registerApplication(application = this, primaryStage = stage)
         ROOT_STAGE = stage
         stage.setOnHidden { Platform.exit() }
-        CONFIG = KagaConfig.load(CONFIG_FILE)
+        CONFIG = KagaConfig.load()
         if (CONFIG.isValid()) {
             logger.info("KAGA config is valid, starting main application")
             startMainApplication()
