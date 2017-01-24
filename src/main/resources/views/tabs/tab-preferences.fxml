@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -39,8 +40,6 @@
                         <Label fx:id="kancolleAutoRootLabel" text="Kancolle Auto Root:" />
                     </children>
                 </HBox>
-                <Label fx:id="sikulixJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <Label fx:id="kancolleAutoRootPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <HBox alignment="CENTER" GridPane.rowIndex="1">
                <children>
                   <Label fx:id="preventLockLabel" text="Prevent Lockscreen:" />
@@ -79,6 +78,8 @@
                </children>
             </HBox>
             <CheckBox fx:id="debugModeEnableCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Hyperlink fx:id="sikulixJarPathLink" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Hyperlink fx:id="kancolleAutoRootPathLink" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             </children>
         </GridPane>
     </children>
