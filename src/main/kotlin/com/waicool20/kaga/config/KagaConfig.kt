@@ -1,5 +1,6 @@
 package com.waicool20.kaga.config
 
+import ch.qos.logback.classic.Level
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -17,19 +18,21 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.jar.JarFile
 
-@JsonIgnoreProperties("valid")
+@JsonIgnoreProperties(ignoreUnknown = true)
 class KagaConfig(currentProfile: String = "",
                  sikulixJarPath: Path = Paths.get(""),
                  kancolleAutoRootDirPath: Path = Paths.get(""),
                  preventLock: Boolean = false,
                  clearConsoleOnStart: Boolean = true,
-                 autoRestartOnKCAutoCrash: Boolean = true) {
+                 autoRestartOnKCAutoCrash: Boolean = true,
+                 debugModeEnabled: Boolean = true) {
     @JsonIgnore val currentProfileProperty = SimpleStringProperty(currentProfile)
     @JsonIgnore val sikulixJarPathProperty = SimpleObjectProperty<Path>(sikulixJarPath)
     @JsonIgnore val kancolleAutoRootDirPathProperty = SimpleObjectProperty<Path>(kancolleAutoRootDirPath)
     @JsonIgnore val preventLockProperty = SimpleBooleanProperty(preventLock)
     @JsonIgnore val clearConsoleOnStartProperty = SimpleBooleanProperty(clearConsoleOnStart)
     @JsonIgnore val autoRestartOnKCAutoCrashProperty = SimpleBooleanProperty(autoRestartOnKCAutoCrash)
+    @JsonIgnore val debugModeEnabledProperty = SimpleBooleanProperty(debugModeEnabled)
 
     @get:JsonProperty var currentProfile by currentProfileProperty
     @get:JsonProperty var sikulixJarPath by sikulixJarPathProperty
@@ -37,8 +40,15 @@ class KagaConfig(currentProfile: String = "",
     @get:JsonProperty var preventLock by preventLockProperty
     @get:JsonProperty var clearConsoleOnStart by clearConsoleOnStartProperty
     @get:JsonProperty var autoRestartOnKCAutoCrash by autoRestartOnKCAutoCrashProperty
+    @get:JsonProperty var debugModeEnabled by debugModeEnabledProperty
 
     private val logger = LoggerFactory.getLogger(javaClass)
+
+    init {
+        debugModeEnabledProperty.addListener { obs, oldVal, newVal ->
+            Kaga.setLogLevel(Level.toLevel(logLevel()))
+        }
+    }
 
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KagaConfig.Loader::class.java)
@@ -76,8 +86,10 @@ class KagaConfig(currentProfile: String = "",
     fun kancolleAutoRootDirPathIsValid(): Boolean =
             Files.exists(Paths.get(kancolleAutoRootDirPath.toString(), "kancolle_auto.sikuli"))
 
-    fun isValid(): Boolean =
+    @JsonIgnore fun isValid(): Boolean =
             sikulixJarIsValid() && kancolleAutoRootDirPathIsValid()
+
+    fun logLevel() = if (debugModeEnabled) "DEBUG" else "INFO"
 
     fun save() {
         logger.info("Saving KAGA configuration file")

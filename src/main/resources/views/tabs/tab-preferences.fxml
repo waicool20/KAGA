@@ -23,23 +23,24 @@
             <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER" GridPane.rowIndex="4">
+                <HBox alignment="CENTER" GridPane.rowIndex="5">
                     <children>
                         <Label fx:id="sikuliScriptJarLabel" text="Sikuli Script Jar:" />
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" GridPane.rowIndex="5">
+                <HBox alignment="CENTER" GridPane.rowIndex="6">
                     <children>
                         <Label fx:id="kancolleAutoRootLabel" text="Kancolle Auto Root:" />
                     </children>
                 </HBox>
-                <Label fx:id="sikulixJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Label fx:id="kancolleAutoRootPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label fx:id="sikulixJarPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label fx:id="kancolleAutoRootPathLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <HBox alignment="CENTER" GridPane.rowIndex="1">
                <children>
                   <Label fx:id="preventLockLabel" text="Prevent Lockscreen:" />
@@ -51,7 +52,7 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOTE: The options listed here are stored independently from your Kancolle Auto profiles!" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <children>
                   <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
                   <Button mnemonicParsing="false" onAction="#onResetButton" text="Reset" />
@@ -62,7 +63,7 @@
             </HBox>
             <HBox alignment="CENTER" GridPane.rowIndex="2">
                <children>
-                  <Label fx:id="preventLockLabel1" text="Clear Console on session start:" />
+                  <Label fx:id="preventLockLabel1" text="Clear console on session start:" />
                </children>
             </HBox>
             <CheckBox fx:id="clearConsoleCheckbox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -72,6 +73,12 @@
                </children>
             </HBox>
             <CheckBox fx:id="restartSessionCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <HBox alignment="CENTER" GridPane.rowIndex="4">
+               <children>
+                  <Label fx:id="preventLockLabel111" text="Enable debug mode:" />
+               </children>
+            </HBox>
+            <CheckBox fx:id="debugModeEnableCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             </children>
         </GridPane>
     </children>

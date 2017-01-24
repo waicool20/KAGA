@@ -48,12 +48,18 @@ class Kaga : Application() {
 
         @JvmStatic lateinit var CONFIG: KagaConfig
         @JvmStatic var PROFILE: KancolleAutoProfile? = null
+
+        fun setLogLevel(level: Level) {
+            (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = level
+        }
     }
 
     override fun start(stage: Stage) {
-        val logLevel = parameters.named.getOrElse("log", { "INFO" })
-        if (logLevel.equals("DEBUG", true)) {
-            (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = Level.DEBUG
+        val logLevel = parameters.named.getOrElse("log", { "" })
+        if (logLevel != "") {
+            val level = Level.toLevel(logLevel)
+            logger.info("Logging level was passed as argument, setting logging level to ${level.levelStr}")
+            setLogLevel(level)
         }
         logger.info("Starting KAGA")
         FX.registerApplication(application = this, primaryStage = stage)
@@ -61,6 +67,10 @@ class Kaga : Application() {
         stage.setOnHidden { Platform.exit() }
         CONFIG = KagaConfig.load()
         if (CONFIG.isValid()) {
+            if (logLevel == "") {
+                logger.info("No logging level was found in the arguments...using the config level of ${CONFIG.logLevel()}")
+                setLogLevel(Level.toLevel(CONFIG.logLevel()))
+            }
             logger.info("KAGA config is valid, starting main application")
             startMainApplication()
         } else {

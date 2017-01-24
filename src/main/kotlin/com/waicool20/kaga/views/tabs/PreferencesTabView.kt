@@ -2,16 +2,15 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
-import com.waicool20.kaga.config.KancolleAutoProfile
-import com.waicool20.kaga.util.bind
 import javafx.fxml.FXML
-import javafx.scene.control.*
-import tornadofx.bind
+import javafx.scene.control.CheckBox
+import javafx.scene.control.Label
 
 class PreferencesTabView {
     @FXML private lateinit var preventLockCheckBox: CheckBox
     @FXML private lateinit var clearConsoleCheckbox: CheckBox
     @FXML private lateinit var restartSessionCheckBox: CheckBox
+    @FXML private lateinit var debugModeEnableCheckBox: CheckBox
     @FXML private lateinit var sikulixJarPathLabel: Label
     @FXML private lateinit var kancolleAutoRootPathLabel: Label
 
@@ -24,7 +23,6 @@ class PreferencesTabView {
         with(Kaga.CONFIG) {
             sikulixJarPathLabel.text = sikulixJarPath.toString()
             kancolleAutoRootPathLabel.text = kancolleAutoRootDirPath.toString()
-            preventLockCheckBox.selectedProperty().set(preventLock)
         }
     }
 
@@ -33,6 +31,7 @@ class PreferencesTabView {
             preventLockCheckBox.selectedProperty().bindBidirectional(preventLockProperty)
             clearConsoleCheckbox.selectedProperty().bindBidirectional(clearConsoleOnStartProperty)
             restartSessionCheckBox.selectedProperty().bindBidirectional(autoRestartOnKCAutoCrashProperty)
+            debugModeEnableCheckBox.selectedProperty().bindBidirectional(debugModeEnabledProperty)
         }
     }
 
