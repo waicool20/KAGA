@@ -62,7 +62,7 @@
                 <RowConstraints minHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="4.0" GridPane.valignment="TOP">
+                <HBox fx:id="profileSelectionHBox" alignment="CENTER_LEFT" spacing="4.0" GridPane.valignment="TOP">
                     <children>
                         <Label fx:id="profileLabel" text="Profile:" />
                         <ComboBox fx:id="profileNameComboBox" editable="true" onAction="#onSelectProfile" onShowing="#showProfiles" prefHeight="28.0" prefWidth="200.0" />

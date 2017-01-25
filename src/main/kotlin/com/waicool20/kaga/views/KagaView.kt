@@ -16,6 +16,7 @@ import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
+import javafx.scene.layout.HBox
 import org.slf4j.LoggerFactory
 import tornadofx.bind
 import java.awt.Desktop
@@ -34,6 +35,7 @@ class KagaView {
     @FXML private lateinit var kagaStatus: Label
     @FXML private lateinit var startStopButton: Button
     @FXML private lateinit var profileNameComboBox: ComboBox<String>
+    @FXML private lateinit var profileSelectionHBox: HBox
 
     @FXML private lateinit var generalTabController: GeneralTabView
     @FXML private lateinit var schedulingTabController: SchedulingTabView
@@ -124,12 +126,14 @@ class KagaView {
                     kagaStatus.text = runningText
                     startStopButton.text = "Stop"
                     startStopButton.style = "-fx-background-color: red"
+                    profileSelectionHBox.isDisable = true
                 }
                 kancolleAuto.startAndWait()
                 Platform.runLater {
                     kagaStatus.text = notRunningText
                     startStopButton.text = "Start"
                     startStopButton.style = "-fx-background-color: lightgreen"
+                    profileSelectionHBox.isDisable = false
                 }
             }.start()
             Kaga.CONSOLE_STAGE.toFront()
