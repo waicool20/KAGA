@@ -136,7 +136,7 @@ class KancolleAutoProfile(
         }
     }
 
-    enum class RecoveryMethod {BROWSER, KC3, KCV, KCT, E0, NONE }
+    enum class RecoveryMethod {BROWSER, KC3, KCV, KCT, EO, NONE }
 
     enum class ScheduledStopMode {TIME, EXPEDITION, SORTIE, PVP }
 
