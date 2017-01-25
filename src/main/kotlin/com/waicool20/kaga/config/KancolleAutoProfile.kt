@@ -156,8 +156,8 @@ class KancolleAutoProfile(
 
     enum class Submarines(val prettyString: String) {
         ALL("All"), I_8("I-8"), I_19("I-19"), I_26("I-26"),
-        I_58("I-58"), I_168("I-168"), MARUYU("Maruyu"),
-        RO_500("Ro-500"), U_511("U-511");
+        I_58("I-58"), I_168("I-168"), I_401("I-401"),
+        MARUYU("Maruyu"), RO_500("Ro-500"), U_511("U-511");
 
         override fun toString() = prettyString.toLowerCase()
     }
