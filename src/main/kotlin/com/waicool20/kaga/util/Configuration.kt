@@ -20,15 +20,16 @@ fun <T : Any> Profile.Section.toObject(obj: Class<T>): T? {
                     val isList = List::class.java.isAssignableFrom(field.type)
                     if (isList || Set::class.java.isAssignableFrom(field.type)) {
                         val collection: MutableCollection<Any> = if (isList) ArrayList() else LinkedHashSet()
-                        this[config.key]?.replace("-", "_")?.split("\\s?,\\s?".toRegex())?.forEach { value ->
-                            run {
-                                if (value.isNotEmpty()) {
-                                    if (genericClass.isEnum) {
-                                        val enumObj = genericClass.enumConstants.find { it.toString().equals(value, true) }
-                                        if (enumObj != null) collection.add(enumObj)
-                                    } else {
-                                        collection.add(value.toObject(genericClass))
+                        this[config.key]?.split("\\s?,\\s?".toRegex())?.forEach { value ->
+                            if (value.isNotEmpty()) {
+                                if (genericClass.isEnum) {
+                                    val enumObj = genericClass.enumConstants.find {
+                                        it.toString().equals(value, true) ||
+                                                it.toString().equals(value.replace("_", "-"), true)
                                     }
+                                    if (enumObj != null) collection.add(enumObj)
+                                } else {
+                                    collection.add(value.toObject(genericClass))
                                 }
                             }
                         }
