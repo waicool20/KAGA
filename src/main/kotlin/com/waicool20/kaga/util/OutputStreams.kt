@@ -26,10 +26,13 @@ abstract class LineBufferedOutputStream : OutputStream() {
 
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int = 1000) : LineBufferedOutputStream() {
     init {
-        console.textProperty().addListener { obs, oldVal, newVal -> run {
-            console.scrollTop = Double.MAX_VALUE
-        }}
+        console.textProperty().addListener { obs, oldVal, newVal ->
+            run {
+                console.scrollTop = Double.MAX_VALUE
+            }
+        }
     }
+
     override fun writeLine(line: String) {
         Platform.runLater {
             if (line.contains("\u001b[2J\u001b[H")) {
@@ -46,8 +49,7 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
 
 class LineListenerOutputStream : LineBufferedOutputStream() {
     override fun writeLine(line: String) {
-        if (line.contains("\u001b[2J\u001b[H")) return
-        Kaga.LOG = appendLineWithLimit(Kaga.LOG, line)
+        Kaga.LOG = if (line.contains("\u001b[2J\u001b[H")) "" else appendLineWithLimit(Kaga.LOG, line)
     }
 }
 
@@ -70,7 +72,7 @@ class TeeOutputStream(val main: OutputStream, val branch: OutputStream) : Output
     }
 }
 
-private fun appendLineWithLimit(target:String, line: String, maxLines: Int = 1000): String {
+private fun appendLineWithLimit(target: String, line: String, maxLines: Int = 1000): String {
     var string = target
     if (string.split("\n").size >= maxLines) {
         string = string.replaceFirst(".+?\n".toRegex(), "")
