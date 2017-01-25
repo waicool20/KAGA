@@ -16,7 +16,7 @@ class ConsoleView : View() {
     private var errStream: PrintStream? = null
 
     init {
-        val textArea = TextAreaOutputStream(consoleTextArea, 1000)
+        val textArea = TextAreaOutputStream(consoleTextArea)
         outStream = PrintStream(TeeOutputStream(System.out, textArea))
         errStream = PrintStream(TeeOutputStream(System.err, textArea))
         System.setOut(outStream)

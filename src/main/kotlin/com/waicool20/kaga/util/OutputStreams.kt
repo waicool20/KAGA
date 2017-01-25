@@ -1,5 +1,6 @@
 package com.waicool20.kaga.util
 
+import com.waicool20.kaga.Kaga
 import javafx.application.Platform
 import javafx.scene.control.TextArea
 import java.io.OutputStream
@@ -23,7 +24,7 @@ abstract class LineBufferedOutputStream : OutputStream() {
     abstract fun writeLine(line: String)
 }
 
-class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int) : LineBufferedOutputStream() {
+class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int = 1000) : LineBufferedOutputStream() {
     init {
         console.textProperty().addListener { obs, oldVal, newVal -> run {
             console.scrollTop = Double.MAX_VALUE
@@ -36,10 +37,7 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
                 return@runLater
             }
             var current = console.text
-            if (current.split("\n").size > maxLines) {
-                current = current.replaceFirst(".+?\n".toRegex(), "")
-            }
-            current += line
+            current = appendLineWithLimit(current, line)
             console.text = current.replace("\\u001b\\[.+?m".toRegex(), "")
             console.appendText("")
         }
@@ -48,7 +46,8 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
 
 class LineListenerOutputStream : LineBufferedOutputStream() {
     override fun writeLine(line: String) {
-        // TODO implement line listener
+        if (line.contains("\u001b[2J\u001b[H")) return
+        Kaga.LOG = appendLineWithLimit(Kaga.LOG, line)
     }
 }
 
@@ -69,4 +68,12 @@ class TeeOutputStream(val main: OutputStream, val branch: OutputStream) : Output
         main.close()
         branch.close()
     }
+}
+
+private fun appendLineWithLimit(target:String, line: String, maxLines: Int = 1000): String {
+    var string = target
+    if (string.split("\n").size >= maxLines) {
+        string = string.replaceFirst(".+?\n".toRegex(), "")
+    }
+    return string.plus(line)
 }

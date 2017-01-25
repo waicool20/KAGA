@@ -13,6 +13,7 @@ import org.ini4j.Wini
 import org.slf4j.LoggerFactory
 import tornadofx.getValue
 import tornadofx.setValue
+import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -42,20 +43,31 @@ class KancolleAutoProfile(
             Files.createFile(path)
         }
         Files.write(path, ByteArray(0), StandardOpenOption.TRUNCATE_EXISTING)
-        val ini = Wini()
-        ini.add("General").fromObject(general)
-        ini.add("ScheduledSleep").fromObject(scheduledSleep)
-        ini.add("ScheduledStop").fromObject(scheduledStop)
-        ini.add("Expeditions").fromObject(expeditions)
-        ini.add("PvP").fromObject(pvp)
-        ini.add("Combat").fromObject(sortie)
-        ini.add("SubmarineSwitch").fromObject(submarineSwitch)
-        ini.add("LBAS").fromObject(lbas)
-        quests.quests.setAll(quests.quests.map(String::toLowerCase))
-        ini.add("Quests").fromObject(quests)
-        ini.store(path.toFile())
+        getIni().store(path.toFile())
         logger.info("Saving KancolleAuto profile was successful")
         logger.debug("Saved $this to $path")
+    }
+
+    fun asIniString(): String {
+        val writer = StringWriter()
+        getIni().store(writer)
+        return writer.toString()
+    }
+
+    private fun getIni(): Wini {
+        with (Wini()) {
+            add("General").fromObject(general)
+            add("ScheduledSleep").fromObject(scheduledSleep)
+            add("ScheduledStop").fromObject(scheduledStop)
+            add("Expeditions").fromObject(expeditions)
+            add("PvP").fromObject(pvp)
+            add("Combat").fromObject(sortie)
+            add("SubmarineSwitch").fromObject(submarineSwitch)
+            add("LBAS").fromObject(lbas)
+            quests.quests.setAll(quests.quests.map(String::toLowerCase))
+            add("Quests").fromObject(quests)
+            return this
+        }
     }
 
     fun delete(): Boolean {

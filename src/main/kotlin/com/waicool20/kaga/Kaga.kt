@@ -49,6 +49,8 @@ class Kaga : Application() {
         @JvmStatic lateinit var CONFIG: KagaConfig
         @JvmStatic var PROFILE: KancolleAutoProfile? = null
 
+        @JvmStatic var LOG = ""
+
         fun setLogLevel(level: Level) {
             (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = level
         }
