@@ -62,7 +62,7 @@ class KancolleAuto {
     }
 
     private fun saveCrashLog() {
-        val crashTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        val crashTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss"))
         val logFile = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("crashes/$crashTime.log")
         if (Files.notExists(logFile)) {
             Files.createDirectories(logFile.parent)
