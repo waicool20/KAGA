@@ -142,6 +142,20 @@ class KagaView {
         }
     }
 
+    @FXML private fun clearCrashLogs() {
+        Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("crashes"))
+                .filter { path -> Files.isRegularFile(path) }
+                .filter { path -> path.fileName.toString().endsWith(".log") }
+                .forEach { path -> Files.delete(path) }
+        logger.info("All crash logs have been deleted!")
+        with(Alert(Alert.AlertType.INFORMATION)) {
+            title = "KAGA - Alert"
+            headerText = null
+            contentText = "All crash logs have been deleted!"
+            showAndWait()
+        }
+    }
+
     @FXML private fun openHowto() {
         with(Alert(Alert.AlertType.INFORMATION)) {
             title = "KAGA - How do I use KAGA?"

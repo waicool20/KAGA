@@ -30,6 +30,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
+                  <MenuItem mnemonicParsing="false" onAction="#clearCrashLogs" text="Clear all crash logs" />
                         <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit">
                             <accelerator>
                                 <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
