@@ -71,6 +71,17 @@ fun Node.getParentTabPane(): TabPane? {
     return null
 }
 
+object AlertFactory {
+    fun info(title: String = "KAGA - Info", header: String? = null, content: String): Alert {
+        with(Alert(Alert.AlertType.INFORMATION)) {
+            this.title = title
+            this.headerText = header
+            this.contentText = content
+            return this
+        }
+    }
+}
+
 class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
     override fun call(viewList: ListView<T>): ListCell<T> {
         val cell = object : ListCell<T>() {

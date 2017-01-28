@@ -3,6 +3,7 @@ package com.waicool20.kaga.views
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.KancolleAuto
 import com.waicool20.kaga.config.KancolleAutoProfile
+import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.views.tabs.ExpeditionsTabView
 import com.waicool20.kaga.views.tabs.GeneralTabView
 import com.waicool20.kaga.views.tabs.PvpTabView
@@ -12,7 +13,6 @@ import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.application.Platform
 import javafx.fxml.FXML
-import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
@@ -84,6 +84,9 @@ class KagaView {
                 sortieTabController.initialize()
                 miscTabController.initialize()
                 questsTabController.initialize()
+                AlertFactory.info(
+                        content = "Profile ${profile.name} has been loaded!"
+                ).showAndWait()
             }
         }
     }
@@ -148,21 +151,16 @@ class KagaView {
                 .filter { path -> path.fileName.toString().endsWith(".log") }
                 .forEach { path -> Files.delete(path) }
         logger.info("All crash logs have been deleted!")
-        with(Alert(Alert.AlertType.INFORMATION)) {
-            title = "KAGA - Alert"
-            headerText = null
-            contentText = "All crash logs have been deleted!"
-            showAndWait()
-        }
+        AlertFactory.info(
+                content = "All crash logs have been deleted!"
+        ).showAndWait()
     }
 
     @FXML private fun openHowto() {
-        with(Alert(Alert.AlertType.INFORMATION)) {
-            title = "KAGA - How do I use KAGA?"
-            headerText = null
-            contentText = "Try pressing the CTRL button while hovering over the label of an option to show a tooltip"
-            showAndWait()
-        }
+        AlertFactory.info(
+                title = "KAGA - How do I use KAGA?",
+                content = "Try pressing the CTRL button while hovering over the label of an option to show a tooltip"
+        ).showAndWait()
     }
 
     @FXML private fun openRepo() {
