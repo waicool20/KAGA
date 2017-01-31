@@ -61,7 +61,7 @@ class KagaView {
                     if (matcher.matches()) matcher.group(1) else ""
                 }).filter(String::isNotEmpty)
                 .filter({ name -> name != currentProfile })
-                .collect(Collectors.toList<String>())
+                .collect(Collectors.toList<String>()).sorted()
         if (profiles.isNotEmpty()) {
             profileNameComboBox.items.setAll(profiles)
         }
@@ -96,12 +96,13 @@ class KagaView {
             if (name == "<Current Profile>") {
                 val text = "Not a valid profile name, didn't save it..."
                 logger.warn(text)
-                showStatus(text)
+                AlertFactory.info(content = text).showAndWait()
                 return
             }
             Kaga.CONFIG.currentProfile = name
             Kaga.CONFIG.save()
             save()
+            AlertFactory.info(content = "Profile $name was saved!").showAndWait()
         }
     }
 
@@ -110,14 +111,14 @@ class KagaView {
             val text = "Not a valid profile name, didn't delete it..."
             if (name == "<Current Profile>") {
                 logger.warn(text)
-                showStatus(text)
+                AlertFactory.warn(content = text).showAndWait()
                 return
             }
             if (delete()) {
                 profileNameComboBox.value = ""
-                showStatus("Profile was deleted")
+                AlertFactory.info(content = "Profile $name was deleted").showAndWait()
             } else {
-                showStatus(text)
+                AlertFactory.warn(content = text).showAndWait()
             }
         }
     }
@@ -175,12 +176,4 @@ class KagaView {
     @FXML private fun openConsole() = Kaga.CONSOLE_STAGE.show()
 
     @FXML private fun quit() = System.exit(0)
-
-    private fun showStatus(status: String, seconds: Long = 5) {
-        Thread({
-            Platform.runLater { kagaStatus.text = status }
-            Thread.sleep(seconds * 1000)
-            Platform.runLater { kagaStatus.text = if (kancolleAuto.isRunning()) runningText else notRunningText }
-        }).start()
-    }
 }

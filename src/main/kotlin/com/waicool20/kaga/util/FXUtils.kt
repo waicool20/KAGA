@@ -1,6 +1,7 @@
 package com.waicool20.kaga.util
 
 import com.sun.javafx.scene.control.skin.TableHeaderRow
+import com.waicool20.kaga.Kaga
 import javafx.beans.property.ReadOnlyObjectProperty
 import javafx.collections.ListChangeListener
 import javafx.scene.Node
@@ -72,13 +73,26 @@ fun Node.getParentTabPane(): TabPane? {
 }
 
 object AlertFactory {
-    fun info(title: String = "KAGA - Info", header: String? = null, content: String): Alert {
-        with(Alert(Alert.AlertType.INFORMATION)) {
+    private fun alert(type: Alert.AlertType, stage: Stage? = Kaga.ROOT_STAGE,
+                      title: String = "KAGA - Info", header: String? = null,
+                      content: String): Alert {
+        with(Alert(type)) {
             this.title = title
             this.headerText = header
             this.contentText = content
+            setOnHidden { stage?.toFront() }
             return this
         }
+    }
+
+    fun info(stage: Stage? = Kaga.ROOT_STAGE, title: String = "KAGA - Info",
+             header: String? = null, content: String): Alert {
+        return alert(Alert.AlertType.INFORMATION, stage, title, header, content)
+    }
+
+    fun warn(stage: Stage? = Kaga.ROOT_STAGE, title: String = "KAGA - Warning",
+             header: String? = null, content: String): Alert {
+        return alert(Alert.AlertType.WARNING, stage, title, header, content)
     }
 }
 
