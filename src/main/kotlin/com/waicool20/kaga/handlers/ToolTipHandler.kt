@@ -24,7 +24,7 @@ class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
     private var mouseX = 0.0
     private var mouseY = 0.0
 
-    private var isCtrlPressed = false
+    private var isKeyPressed = false
 
     init {
         stage.addEventFilter(MouseEvent.MOUSE_MOVED, { event ->
@@ -34,7 +34,7 @@ class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
             if (node is Node) {
                 if (nodeUnderMouse == node) return@addEventFilter
                 nodeUnderMouse = node
-                if (isCtrlPressed) {
+                if (isKeyPressed) {
                     showingTooltip.hide()
                     updateTooltip()
                 }
@@ -45,8 +45,8 @@ class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
     }
 
     override fun handle(event: KeyEvent?) {
-        if (event == null || event.code != KeyCode.CONTROL) return
-        isCtrlPressed = event.isControlDown
+        if (event == null || event.code != KeyCode.SHIFT) return
+        isKeyPressed = event.isShiftDown
         showingTooltip.hide()
         if (event.eventType == KeyEvent.KEY_PRESSED) {
             updateTooltip()

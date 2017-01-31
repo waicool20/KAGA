@@ -160,7 +160,7 @@ class KagaView {
     @FXML private fun openHowto() {
         AlertFactory.info(
                 title = "KAGA - How do I use KAGA?",
-                content = "Try pressing the CTRL button while hovering over the label of an option to show a tooltip"
+                content = "Try pressing the Shift button while hovering over the label of an option to show a tooltip"
         ).showAndWait()
     }
 
