@@ -25,17 +25,18 @@
             <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER" GridPane.rowIndex="5">
+                <HBox alignment="CENTER" GridPane.rowIndex="6">
                     <children>
                         <Label fx:id="sikuliScriptJarLabel" text="Sikuli Script Jar:" />
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" GridPane.rowIndex="6">
+                <HBox alignment="CENTER" GridPane.rowIndex="7">
                     <children>
                         <Label fx:id="kancolleAutoRootLabel" text="Kancolle Auto Root:" />
                     </children>
@@ -51,7 +52,7 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOTE: The options listed here are stored independently from your Kancolle Auto profiles!&#10;Any changes to the options are applied immediately but are only persisted if saved." textAlignment="CENTER" wrappingWidth="581.6103515625" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <children>
                   <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
                   <Button mnemonicParsing="false" onAction="#onResetButton" text="Reset" />
@@ -65,7 +66,7 @@
                   <Label fx:id="clearConsoleLabel" text="Clear console on session start:" />
                </children>
             </HBox>
-            <CheckBox fx:id="clearConsoleCheckbox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <CheckBox fx:id="clearConsoleCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox alignment="CENTER" GridPane.rowIndex="3">
                <children>
                   <Label fx:id="restartSessionLabel" text="Restart session on crash:" />
@@ -78,8 +79,14 @@
                </children>
             </HBox>
             <CheckBox fx:id="debugModeEnableCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Hyperlink fx:id="sikulixJarPathLink" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Hyperlink fx:id="kancolleAutoRootPathLink" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Hyperlink fx:id="sikulixJarPathLink" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Hyperlink fx:id="kancolleAutoRootPathLink" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <HBox alignment="CENTER" GridPane.rowIndex="5">
+               <children>
+                  <Label fx:id="showDebugLabel" text="Show debug window on start:" />
+               </children>
+            </HBox>
+            <CheckBox fx:id="showDebugCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             </children>
         </GridPane>
     </children>

@@ -13,9 +13,10 @@ import java.nio.file.Path
 
 class PreferencesTabView {
     @FXML private lateinit var preventLockCheckBox: CheckBox
-    @FXML private lateinit var clearConsoleCheckbox: CheckBox
+    @FXML private lateinit var clearConsoleCheckBox: CheckBox
     @FXML private lateinit var restartSessionCheckBox: CheckBox
     @FXML private lateinit var debugModeEnableCheckBox: CheckBox
+    @FXML private lateinit var showDebugCheckBox:CheckBox
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
     @FXML private lateinit var kancolleAutoRootPathLink: Hyperlink
 
@@ -45,15 +46,14 @@ class PreferencesTabView {
     fun createBindings() {
         with(Kaga.CONFIG) {
             preventLockCheckBox.selectedProperty().bindBidirectional(preventLockProperty)
-            clearConsoleCheckbox.selectedProperty().bindBidirectional(clearConsoleOnStartProperty)
+            clearConsoleCheckBox.selectedProperty().bindBidirectional(clearConsoleOnStartProperty)
             restartSessionCheckBox.selectedProperty().bindBidirectional(autoRestartOnKCAutoCrashProperty)
             debugModeEnableCheckBox.selectedProperty().bindBidirectional(debugModeEnabledProperty)
+            showDebugCheckBox.selectedProperty().bindBidirectional(showDebugOnStartProperty)
         }
     }
 
-    @FXML private fun onSaveButton() {
-        Kaga.CONFIG.save()
-    }
+    @FXML private fun onSaveButton() = Kaga.CONFIG.save()
 
     @FXML private fun onResetButton() {
         Kaga.CONFIG = KagaConfig.load()

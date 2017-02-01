@@ -25,7 +25,8 @@ class KagaConfig(currentProfile: String = "",
                  preventLock: Boolean = false,
                  clearConsoleOnStart: Boolean = true,
                  autoRestartOnKCAutoCrash: Boolean = true,
-                 debugModeEnabled: Boolean = true) {
+                 debugModeEnabled: Boolean = true,
+                 showDebugOnStart: Boolean = true) {
     @JsonIgnore val currentProfileProperty = SimpleStringProperty(currentProfile)
     @JsonIgnore val sikulixJarPathProperty = SimpleObjectProperty<Path>(sikulixJarPath)
     @JsonIgnore val kancolleAutoRootDirPathProperty = SimpleObjectProperty<Path>(kancolleAutoRootDirPath)
@@ -33,6 +34,7 @@ class KagaConfig(currentProfile: String = "",
     @JsonIgnore val clearConsoleOnStartProperty = SimpleBooleanProperty(clearConsoleOnStart)
     @JsonIgnore val autoRestartOnKCAutoCrashProperty = SimpleBooleanProperty(autoRestartOnKCAutoCrash)
     @JsonIgnore val debugModeEnabledProperty = SimpleBooleanProperty(debugModeEnabled)
+    @JsonIgnore val showDebugOnStartProperty = SimpleBooleanProperty(showDebugOnStart)
 
     @get:JsonProperty var currentProfile by currentProfileProperty
     @get:JsonProperty var sikulixJarPath by sikulixJarPathProperty
@@ -41,6 +43,7 @@ class KagaConfig(currentProfile: String = "",
     @get:JsonProperty var clearConsoleOnStart by clearConsoleOnStartProperty
     @get:JsonProperty var autoRestartOnKCAutoCrash by autoRestartOnKCAutoCrashProperty
     @get:JsonProperty var debugModeEnabled by debugModeEnabledProperty
+    @get:JsonProperty var showDebugOnStart by showDebugOnStartProperty
 
     private val logger = LoggerFactory.getLogger(javaClass)
 

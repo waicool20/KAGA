@@ -126,6 +126,7 @@ class Kaga : Application() {
             minHeight = 300.0
             minWidth = 600.0
             scene = Scene(find(ConsoleView::class).root)
+            if (CONFIG.showDebugOnStart) show()
         }
     }
 
