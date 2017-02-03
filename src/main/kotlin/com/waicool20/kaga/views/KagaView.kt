@@ -17,6 +17,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
 import javafx.scene.layout.HBox
+import javafx.stage.WindowEvent
 import org.slf4j.LoggerFactory
 import tornadofx.bind
 import java.awt.Desktop
@@ -48,6 +49,7 @@ class KagaView {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     @FXML fun initialize() {
+        Kaga.ROOT_STAGE.addEventHandler(WindowEvent.WINDOW_HIDDEN, { kancolleAuto.stop() })
         profileNameComboBox.bind(Kaga.PROFILE!!.nameProperty)
     }
 
