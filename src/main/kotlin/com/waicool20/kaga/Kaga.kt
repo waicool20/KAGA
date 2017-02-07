@@ -40,16 +40,16 @@ class Kaga : Application() {
     companion object {
         val INSTANCE: Kaga by lazy { Holder.INSTANCE }
 
-        @JvmStatic val JAR_DIR: Path = Paths.get(Kaga::class.java.protectionDomain.codeSource.location.toURI()).parent
-        @JvmStatic val CONFIG_DIR: Path = Paths.get(JAR_DIR.toString(), "kaga")
+        val JAR_DIR: Path = Paths.get(Kaga::class.java.protectionDomain.codeSource.location.toURI()).parent
+        val CONFIG_DIR: Path = Paths.get(JAR_DIR.toString(), "kaga")
 
-        @JvmStatic lateinit var ROOT_STAGE: Stage
-        @JvmStatic lateinit var CONSOLE_STAGE: Stage
+        lateinit var ROOT_STAGE: Stage
+        lateinit var CONSOLE_STAGE: Stage
 
-        @JvmStatic lateinit var CONFIG: KagaConfig
-        @JvmStatic var PROFILE: KancolleAutoProfile? = null
+        lateinit var CONFIG: KagaConfig
+        var PROFILE: KancolleAutoProfile? = null
 
-        @JvmStatic var LOG = ""
+        var LOG = ""
 
         fun setLogLevel(level: Level) {
             (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = level

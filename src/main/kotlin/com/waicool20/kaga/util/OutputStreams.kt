@@ -27,7 +27,7 @@ abstract class LineBufferedOutputStream : OutputStream() {
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int = 1000) : LineBufferedOutputStream() {
     init {
         console.textProperty().addListener { obs, oldVal, newVal ->
-            run {
+            Platform.runLater {
                 console.scrollTop = Double.MAX_VALUE
             }
         }
@@ -39,9 +39,8 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
                 console.clear()
                 return@runLater
             }
-            var current = console.text
-            current = appendLineWithLimit(current, line)
-            console.text = current.replace("\\u001b\\[.+?m".toRegex(), "")
+            console.text = appendLineWithLimit(console.text, line, maxLines)
+                    .replace("\\u001b\\[.+?m".toRegex(), "")
             console.appendText("")
         }
     }
@@ -75,7 +74,7 @@ class TeeOutputStream(val main: OutputStream, val branch: OutputStream) : Output
 
 private fun appendLineWithLimit(target: String, line: String, maxLines: Int = 1000): String {
     var string = target
-    if (string.split("\n").size >= maxLines) {
+    if (string.count { it == '\n' } >= maxLines) {
         string = string.replaceFirst(".+?\n".toRegex(), "")
     }
     return string.plus(line)
