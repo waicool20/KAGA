@@ -4,12 +4,15 @@ import com.sun.javafx.scene.control.skin.TableHeaderRow
 import com.waicool20.kaga.Kaga
 import javafx.beans.property.ReadOnlyObjectProperty
 import javafx.collections.ListChangeListener
+import javafx.geometry.Side
+import javafx.scene.Group
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.ComboBoxTableCell
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 import javafx.stage.WindowEvent
 import javafx.util.Callback
@@ -70,6 +73,23 @@ fun Node.getParentTabPane(): TabPane? {
         }
     }
     return null
+}
+
+fun TabPane.setSideWithHorizontalText(side: Side, width: Double = 100.0) {
+    this.side = side
+    if (side == Side.TOP || side == Side.BOTTOM) return
+    tabMinHeight = width
+    tabMaxHeight = width
+    tabs.forEach { tab ->
+        val rotation = if (side == Side.LEFT) 90.0 else -90.0
+        val label = Label(tab.text)
+        label.rotate = rotation
+        val pane = StackPane(Group(label))
+        pane.rotate = rotation
+        tab.graphic = pane
+        tab.text = ""
+    }
+    isRotateGraphic = true
 }
 
 object AlertFactory {

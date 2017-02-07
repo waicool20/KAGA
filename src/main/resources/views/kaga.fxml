@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="root" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.KagaView">
+<GridPane fx:id="root" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.KagaView">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
     </columnConstraints>
@@ -26,7 +26,7 @@
         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" valignment="BOTTOM" />
     </rowConstraints>
     <children>
-        <MenuBar prefHeight="30.0" prefWidth="600.0" GridPane.valignment="TOP">
+        <MenuBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" GridPane.valignment="TOP">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
@@ -54,16 +54,9 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <GridPane minHeight="-Infinity" minWidth="-Infinity" GridPane.rowIndex="1">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" percentWidth="20.0" prefWidth="117.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <children>
-                <HBox fx:id="profileSelectionHBox" alignment="CENTER_LEFT" spacing="4.0" GridPane.valignment="TOP">
+      <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <children>
+                <HBox fx:id="profileSelectionHBox" alignment="CENTER_LEFT" spacing="4.0">
                     <children>
                         <Label fx:id="profileLabel" text="Profile:" />
                         <ComboBox fx:id="profileNameComboBox" editable="true" onAction="#onSelectProfile" onShowing="#showProfiles" prefHeight="28.0" prefWidth="200.0" />
@@ -74,17 +67,10 @@
                         <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="221.0" GridPane.columnIndex="1">
-                    <children>
-                        <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#onStartStopButton" prefHeight="28.0" prefWidth="85.0" style="-fx-background-color: lightgreen;" text="Start" />
-                    </children>
-                    <padding>
-                        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
-                    </padding>
-                </HBox>
-            </children>
-        </GridPane>
-        <TabPane tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
+                  <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#onStartStopButton" prefHeight="28.0" prefWidth="85.0" style="-fx-background-color: lightgreen;" text="Start" />
+         </children>
+      </HBox>
+        <TabPane fx:id="tabpane" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
             <tabs>
                 <Tab text="General">
                     <content>

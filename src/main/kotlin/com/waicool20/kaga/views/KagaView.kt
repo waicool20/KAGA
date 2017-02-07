@@ -4,6 +4,7 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.KancolleAuto
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.AlertFactory
+import com.waicool20.kaga.util.setSideWithHorizontalText
 import com.waicool20.kaga.views.tabs.ExpeditionsTabView
 import com.waicool20.kaga.views.tabs.GeneralTabView
 import com.waicool20.kaga.views.tabs.PvpTabView
@@ -13,9 +14,11 @@ import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.application.Platform
 import javafx.fxml.FXML
+import javafx.geometry.Side
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
+import javafx.scene.control.TabPane
 import javafx.scene.layout.HBox
 import javafx.stage.WindowEvent
 import org.slf4j.LoggerFactory
@@ -37,6 +40,7 @@ class KagaView {
     @FXML private lateinit var startStopButton: Button
     @FXML private lateinit var profileNameComboBox: ComboBox<String>
     @FXML private lateinit var profileSelectionHBox: HBox
+    @FXML private lateinit var tabpane: TabPane
 
     @FXML private lateinit var generalTabController: GeneralTabView
     @FXML private lateinit var schedulingTabController: SchedulingTabView
@@ -51,6 +55,7 @@ class KagaView {
     @FXML fun initialize() {
         Kaga.ROOT_STAGE.addEventHandler(WindowEvent.WINDOW_HIDDEN, { kancolleAuto.stop() })
         profileNameComboBox.bind(Kaga.PROFILE!!.nameProperty)
+        tabpane.setSideWithHorizontalText(Side.LEFT)
     }
 
     @FXML private fun showProfiles() {
