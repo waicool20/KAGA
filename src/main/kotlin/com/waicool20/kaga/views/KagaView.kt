@@ -54,8 +54,12 @@ class KagaView {
 
     @FXML fun initialize() {
         Kaga.ROOT_STAGE.addEventHandler(WindowEvent.WINDOW_HIDDEN, { kancolleAuto.stop() })
-        profileNameComboBox.bind(Kaga.PROFILE!!.nameProperty)
         tabpane.setSideWithHorizontalText(Side.LEFT)
+        createBindings()
+    }
+
+    private fun createBindings() {
+        profileNameComboBox.bind(Kaga.PROFILE!!.nameProperty)
     }
 
     @FXML private fun showProfiles() {
@@ -83,7 +87,7 @@ class KagaView {
                 Kaga.PROFILE = profile
                 Kaga.CONFIG.currentProfile = profile.name
                 Kaga.CONFIG.save()
-                this.initialize()
+                createBindings()
                 generalTabController.initialize()
                 schedulingTabController.initialize()
                 expeditionsTabController.initialize()
