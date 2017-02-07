@@ -94,8 +94,7 @@ class Kaga : Application() {
                 this.scene = scene
                 title = "KAGA - Kancolle Auto GUI App"
                 show()
-                minHeight = height + 25
-                minWidth = width + 25
+                isResizable = false
                 addEventFilter(KeyEvent.ANY, ToolTipHandler(this))
                 addEventFilter(KEY_PRESSED, KeyboardIncrementHandler())
                 val handler = MouseIncrementHandler(1000L, 40)
