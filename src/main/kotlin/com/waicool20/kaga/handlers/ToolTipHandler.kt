@@ -60,7 +60,7 @@ class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
             val labeltip = if (tab == null) {
                 tooltips.find { it.id == nodeUnderMouse?.parent?.id }
             } else {
-                tooltips.find { it.id == "${tab.text}-${nodeUnderMouse?.parent?.id}" }
+                tooltips.find { it.id == "${if (tab.text != "") tab.text else tab.properties["text"]}-${nodeUnderMouse?.parent?.id}" }
             }
             if (labeltip != null) {
                 showingTooltip = Tooltip(labeltip.description)

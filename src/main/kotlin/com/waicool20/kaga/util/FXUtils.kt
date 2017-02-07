@@ -81,10 +81,16 @@ fun TabPane.setSideWithHorizontalText(side: Side, width: Double = 100.0) {
     tabMinHeight = width
     tabMaxHeight = width
     tabs.forEach { tab ->
+        var text = tab.text
+        if (text == "" && tab.properties.containsKey("text")) {
+            text = tab.properties["text"].toString()
+        } else {
+            tab.properties.put("text", tab.text)
+        }
         val rotation = if (side == Side.LEFT) 90.0 else -90.0
-        val label = Label(tab.text)
-        label.rotate = rotation
+        val label = Label(text)
         val pane = StackPane(Group(label))
+        label.rotate = rotation
         pane.rotate = rotation
         tab.graphic = pane
         tab.text = ""
