@@ -70,7 +70,7 @@
                   <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#onStartStopButton" prefHeight="28.0" prefWidth="85.0" style="-fx-background-color: lightgreen;" text="Start" />
          </children>
       </HBox>
-        <TabPane fx:id="tabpane" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
+        <TabPane fx:id="tabpane" style="-fx-border-width: 1 0 0 0; -fx-border-color: lightgrey;" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
             <tabs>
                 <Tab text="General">
                     <content>
