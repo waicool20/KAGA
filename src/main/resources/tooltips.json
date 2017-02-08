@@ -192,6 +192,10 @@
     "description": "Prints out useful information about the internal state of KAGA, letting you get a clearer picture of what's happening if enabled"
   },
   {
+    "id": "Preferences-showDebugLabel",
+    "description": "Automatically opens the debug console on the start of KAGA if enabled"
+  },
+  {
     "id": "Preferences-sikuliScriptJarLabel",
     "description": "Path to the sikuli script Jar"
   },
