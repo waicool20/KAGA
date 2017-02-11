@@ -7,6 +7,21 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 
 ---
 
+# Features
+
+- No more hassling with the command line, just click away admiral!
+- More human friendly values instead of pure numbers used to configure Kancolle Auto
+- Profile saving, for easy switching between different routines from orel cruising to your 3-2 grind
+- Automatic restart of Kancolle Auto, KAGA makes sure those subs return to 2-3 even after an internet hiccup!
+- Saves crash logs automatically to <Kancolle Auto Directory>/crashes with details filled in ready for bug reporting
+- Prevents lockscreen(configurable) in case you're too lazy to turn off your screensaver
+- Tooltips to help you configure Kancolle Auto, press Shift Key while hovering over an option to see what it does
+
+Planned:
+- Event configuration
+- Session statistics, eg. buckets used, sortie/expeditions per hour, submarines switched etc.
+- Bundling SikuliX and adding more stats related things like resource expenses by OCR
+
 # Installation and Usage
 
 * A working copy of KAGA, either download from [release page](https://github.com/waicool20/KAGA/releases) or build a copy from the latest commit (Instructions below)
@@ -33,5 +48,20 @@ Alternatively if you have gradle installed into PATH then you may run:
 > gradle build
 
 A compiled Jar file which you can execute directly will be generated in the build/libs directory
+
+# Screenshots
+
+Looks may vary on different OS but should run the same regardless, I'm currently running Arch Linux with Arc Dark theme ;) 
+It may also vary between current release and latest commit, so if you want the eye candy learn how to build it from source, it's easy!
+
+
+Main window and debug window showing the console output of both KAGA and Kancolle Auto:
+![Main and Debug window](./screenshots/Main and Debug window.png?raw=true)
+
+Configuring the formations for each node is easy with a dropdown list 
+![Choosing formations](./screenshots/Choosing formations.png?raw=true)
+
+Same goes for quests, easy configuration with checkboxes
+![Choosing quests](./screenshots/Choosing quests.png?raw=true)
 
 
