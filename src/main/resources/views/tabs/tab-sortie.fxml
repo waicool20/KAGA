@@ -149,9 +149,10 @@
                         </HBox>
                     </children>
                 </GridPane>
-                <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0">
+                <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" spacing="10.0">
                     <children>
                         <CheckBox fx:id="enableButton" mnemonicParsing="false" text="Enable" />
+                  <CheckBox fx:id="eventCheckbox" mnemonicParsing="false" text="Event Mode" />
                     </children>
                     <opaqueInsets>
                         <Insets />

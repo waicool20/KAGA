@@ -150,6 +150,25 @@ class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
     }
 }
 
+class NoneSelectableCellFactory(val regex:Regex): Callback<ListView<String>, ListCell<String>> {
+    override fun call(p0: ListView<String>?): ListCell<String> {
+        return object: ListCell<String>() {
+            override fun updateItem(item: String?, empty: Boolean) {
+                super.updateItem(item, empty)
+                if (item != null) {
+                    if (empty) {
+                        text = null
+                        isDisable = false
+                    } else {
+                        text = item
+                        isDisable = item.matches(regex)
+                    }
+                }
+            }
+        }
+    }
+}
+
 class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>(text) {
     init {
         isSortable = false

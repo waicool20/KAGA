@@ -226,15 +226,15 @@ class KancolleAutoProfile(
     }
 
     class Sortie(
-            enabled: Boolean, fleetComp: Int, area: Int, subarea: Int, combinedFleet: Boolean,
+            enabled: Boolean, fleetComp: Int, area: String, subarea: String, combinedFleet: Boolean,
             nodes: Int, nodeSelects: String, formations: List<CombatFormation>,
             nightBattles: List<Boolean>, retreatLimit: Int, repairLimit: Int, repairTimeLimit: Int,
             checkFatigue: Boolean, portCheck: Boolean, medalStop: Boolean, lastNodePush: Boolean
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)
-        @JsonIgnore @IniConfig(key = "Area") val areaProperty = SimpleIntegerProperty(area)
-        @JsonIgnore @IniConfig(key = "Subarea") val subareaProperty = SimpleIntegerProperty(subarea)
+        @JsonIgnore @IniConfig(key = "Area") val areaProperty = SimpleStringProperty(area)
+        @JsonIgnore @IniConfig(key = "Subarea") val subareaProperty = SimpleStringProperty(subarea)
         @JsonIgnore @IniConfig(key = "CombinedFleet") val combinedFleetProperty = SimpleBooleanProperty(combinedFleet)
         @JsonIgnore @IniConfig(key = "Nodes") val nodesProperty = SimpleIntegerProperty(nodes)
         @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleStringProperty(nodeSelects)
