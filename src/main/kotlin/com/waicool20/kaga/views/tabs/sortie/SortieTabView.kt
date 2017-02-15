@@ -10,6 +10,8 @@ import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
 import tornadofx.bind
 import tornadofx.find
+import java.nio.file.Files
+import java.util.stream.Collectors
 
 
 class SortieTabView {
@@ -70,16 +72,15 @@ class SortieTabView {
 
     private fun setValues() {
         fleetCompComboBox.items.setAll((1..5).toList())
-        areaComboBox.items.setAll(maps)
         areaComboBox.cellFactory = NoneSelectableCellFactory("--.+?--".toRegex())
         with(Kaga.PROFILE!!.sortie) {
             if (area == "E") {
+                setAreaItems(true)
                 eventCheckBox.isSelected = true
-                areaComboBox.items.setAll(eventMaps)
                 areaComboBox.value = subarea
             } else {
+                setAreaItems(false)
                 eventCheckBox.isSelected = false
-                areaComboBox.items.setAll(maps)
                 areaComboBox.value = "$area-$subarea"
             }
         }
@@ -105,7 +106,7 @@ class SortieTabView {
                 setProfileArea(newVal)
             }
             eventCheckBox.selectedProperty().addListener { obs, oldVal, newVal ->
-                areaComboBox.items.setAll(if (newVal) eventMaps else maps)
+                setAreaItems(newVal)
                 areaComboBox.value = areaComboBox.items.find { !it.matches("--.+?--".toRegex()) }
                 setProfileArea(areaComboBox.selectionModel.selectedItem)
             }
@@ -141,6 +142,20 @@ class SortieTabView {
                 area = map[0].toString()
                 subarea = map[2].toString()
             }
+        }
+    }
+
+    private fun setAreaItems(isEvent: Boolean) {
+        if (isEvent) {
+            val lastEventMap = Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli/combat.sikuli"), 1)
+                    .map { it.fileName.toString() }
+                    .filter { it.startsWith("_event_panel_") }
+                    .map { it.replace("_event_panel_", "").replace(".png", "") }
+                    .sorted().collect(Collectors.toList<String>()).last()
+            val index = eventMaps.indexOfFirst { it == lastEventMap } + 1
+            areaComboBox.items.setAll(eventMaps.take(index))
+        } else {
+            areaComboBox.items.setAll(maps)
         }
     }
 }
