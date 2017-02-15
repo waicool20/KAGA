@@ -60,6 +60,10 @@
     "description": "Check this box if you want to enable sorties."
   },
   {
+    "id": "Sortie-eventCheckBox",
+    "description": "Check this box to enable event mode"
+  },
+  {
     "id": "Sortie-fleetCompLabel",
     "description": "Specify which saved fleet composition should be used for sorties, with the first saved fleet being 1.\n\nNOTE: this value is only relevant if both PvP and Combat modules are enabled with different fleets assigned to them!"
   },

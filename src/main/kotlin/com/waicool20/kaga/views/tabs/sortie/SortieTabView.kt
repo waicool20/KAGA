@@ -14,7 +14,7 @@ import tornadofx.find
 
 class SortieTabView {
     @FXML private lateinit var enableButton: CheckBox
-    @FXML private lateinit var eventCheckbox: CheckBox
+    @FXML private lateinit var eventCheckBox: CheckBox
     @FXML private lateinit var fleetCompComboBox: ComboBox<Int>
     @FXML private lateinit var areaComboBox: ComboBox<String>
     @FXML private lateinit var combinedFleetCheckBox: CheckBox
@@ -74,11 +74,11 @@ class SortieTabView {
         areaComboBox.cellFactory = NoneSelectableCellFactory("--.+?--".toRegex())
         with(Kaga.PROFILE!!.sortie) {
             if (area == "E") {
-                eventCheckbox.isSelected = true
+                eventCheckBox.isSelected = true
                 areaComboBox.items.setAll(eventMaps)
                 areaComboBox.value = subarea
             } else {
-                eventCheckbox.isSelected = false
+                eventCheckBox.isSelected = false
                 areaComboBox.items.setAll(maps)
                 areaComboBox.value = "$area-$subarea"
             }
@@ -104,7 +104,7 @@ class SortieTabView {
             areaComboBox.valueProperty().addListener { observableValue, oldVal, newVal ->
                 setProfileArea(newVal)
             }
-            eventCheckbox.selectedProperty().addListener { obs, oldVal, newVal ->
+            eventCheckBox.selectedProperty().addListener { obs, oldVal, newVal ->
                 areaComboBox.items.setAll(if (newVal) eventMaps else maps)
                 areaComboBox.value = areaComboBox.items.find { !it.matches("--.+?--".toRegex()) }
                 setProfileArea(areaComboBox.selectionModel.selectedItem)
@@ -120,9 +120,9 @@ class SortieTabView {
             medalStopCheckBox.bind(medalStopProperty)
             lastNodePushCheckBox.bind(lastNodePushProperty)
         }
-        combinedFleetCheckBox.visibleProperty().bind(eventCheckbox.selectedProperty())
+        combinedFleetCheckBox.visibleProperty().bind(eventCheckBox.selectedProperty())
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
-        eventCheckbox.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
+        eventCheckBox.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 
     @FXML private fun onConfigureFormationsButton() =
@@ -134,7 +134,7 @@ class SortieTabView {
     private fun setProfileArea(map: String?) {
         if (map == null) return
         with(Kaga.PROFILE!!.sortie) {
-            if (eventCheckbox.isSelected) {
+            if (eventCheckBox.isSelected) {
                 area = "E"
                 subarea = map
             } else {
