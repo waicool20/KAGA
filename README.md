@@ -18,7 +18,6 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 - Tooltips to help you configure Kancolle Auto, press Shift Key while hovering over an option to see what it does
 
 Planned:
-- Event configuration
 - Session statistics, eg. buckets used, sortie/expeditions per hour, submarines switched etc.
 - Bundling SikuliX and adding more stats related things like resource expenses by OCR
 

@@ -152,8 +152,7 @@ class SortieTabView {
                     .filter { it.startsWith("_event_panel_") }
                     .map { it.replace("_event_panel_", "").replace(".png", "") }
                     .sorted().collect(Collectors.toList<String>()).last()
-            val index = eventMaps.indexOfFirst { it == lastEventMap } + 1
-            areaComboBox.items.setAll(eventMaps.take(index))
+            areaComboBox.items.setAll(eventMaps.take(eventMaps.indexOfFirst { it == lastEventMap } + 1))
         } else {
             areaComboBox.items.setAll(maps)
         }
