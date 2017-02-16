@@ -213,9 +213,9 @@ class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>
     }
 }
 
-class OptionsColumn(text: String = "", options: List<String>, table: TableView<String>,
-                    filter: (cell: TableCell<String, String>, string: String) -> Boolean = { cell, string -> true },
-                    maxRows: Int = Integer.MAX_VALUE) : TableColumn<String, String>(text) {
+class OptionsColumn(text: String = "", var options: List<String>, table: TableView<String>,
+                    var filter: (cell: TableCell<String, String>, string: String) -> Boolean = { cell, string -> true },
+                    var maxRows: Int = Integer.MAX_VALUE) : TableColumn<String, String>(text) {
     init {
         val addText = "<Add Item>"
         setCellFactory {
@@ -247,7 +247,7 @@ class OptionsColumn(text: String = "", options: List<String>, table: TableView<S
                         if (event.newValue != addText) add(index, event.newValue)
                         table.selectionModel.select(index)
                     } else {
-                        if (event.newValue != addText && index < maxRows) {
+                        if (event.newValue != addText && index < maxRows && event.newValue != "") {
                             add(size - 1, event.newValue)
                         }
                     }
@@ -263,5 +263,12 @@ class OptionsColumn(text: String = "", options: List<String>, table: TableView<S
                 }
             }
         })
+        table.sceneProperty().addListener { obs, oldVal, newVal ->
+            newVal?.windowProperty()?.addListener { obs, oldVal, newVal ->
+                newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, { event ->
+                    if (table.items.size == 0) table.items.add(addText)
+                })
+            }
+        }
     }
 }

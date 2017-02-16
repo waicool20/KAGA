@@ -7,8 +7,15 @@ import com.waicool20.kaga.util.bind
 import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
-import javafx.scene.control.*
+import javafx.fxml.FXMLLoader
+import javafx.scene.Scene
+import javafx.scene.control.CheckBox
+import javafx.scene.control.ComboBox
+import javafx.scene.control.Spinner
+import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.layout.GridPane
+import javafx.stage.Modality
+import javafx.stage.Stage
 import javafx.util.StringConverter
 import tornadofx.bind
 import tornadofx.find
@@ -24,7 +31,6 @@ class SortieTabView {
     @FXML private lateinit var areaComboBox: ComboBox<String>
     @FXML private lateinit var combinedFleetCheckBox: CheckBox
     @FXML private lateinit var nodesSpinner: Spinner<Int>
-    @FXML private lateinit var nodeSelectsTextField: TextField
     @FXML private lateinit var retreatLimitComboBox: ComboBox<Int>
     @FXML private lateinit var repairLimitComboBox: ComboBox<Int>
     @FXML private lateinit var repairTimeHourSpinner: Spinner<Int>
@@ -123,7 +129,6 @@ class SortieTabView {
             }
             combinedFleetCheckBox.bind(combinedFleetProperty)
             nodesSpinner.bind(nodesProperty)
-            nodeSelectsTextField.bind(nodeSelectsProperty)
             retreatLimitComboBox.bind(retreatLimitProperty)
             repairLimitComboBox.bind(repairLimitProperty)
             val binding = Bindings.concat(repairTimeHourSpinner.valueProperty().asString("%02d"),
@@ -137,6 +142,21 @@ class SortieTabView {
         combinedFleetCheckBox.visibleProperty().bind(eventCheckBox.selectedProperty())
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
         eventCheckBox.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
+    }
+
+    @FXML private fun onConfigureNodeSelectsButton() {
+        val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/single-list.fxml"))
+        loader.setController(NodeSelectsChooserView())
+        val scene = Scene(loader.load())
+        with(Stage()) {
+            this.scene = scene
+            title = "KAGA - Node Selects Configuration"
+            initOwner(Kaga.ROOT_STAGE.owner)
+            initModality(Modality.WINDOW_MODAL)
+            show()
+            minHeight = height + 25
+            minWidth = width + 25
+        }
     }
 
     @FXML private fun onConfigureFormationsButton() =

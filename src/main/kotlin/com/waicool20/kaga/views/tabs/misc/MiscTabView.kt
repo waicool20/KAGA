@@ -70,17 +70,11 @@ class MiscTabView {
         group3CheckBox.selectedProperty().value = set.contains(3)
     }
 
-    @FXML private fun onConfigureGroup1NodesButton() {
-        configureNode(1)
-    }
+    @FXML private fun onConfigureGroup1NodesButton() = configureNode(1)
 
-    @FXML private fun onConfigureGroup2NodesButton() {
-        configureNode(2)
-    }
+    @FXML private fun onConfigureGroup2NodesButton() = configureNode(2)
 
-    @FXML private fun onConfigureGroup3NodesButton() {
-        configureNode(3)
-    }
+    @FXML private fun onConfigureGroup3NodesButton() = configureNode(3)
 
     @FXML private fun onConfigureSubSwitchButton() {
         find(SubSwitchChooserView::class).openModal()
@@ -88,7 +82,7 @@ class MiscTabView {
 
     private fun configureNode(group: Int) {
         val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/single-list.fxml"))
-        loader.setController(NodeChooserView(group))
+        loader.setController(LbasNodeChooserView(group))
         val scene = Scene(loader.load())
         with(Stage()) {
             this.scene = scene

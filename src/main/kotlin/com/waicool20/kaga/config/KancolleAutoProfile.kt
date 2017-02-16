@@ -227,7 +227,7 @@ class KancolleAutoProfile(
 
     class Sortie(
             enabled: Boolean, fleetComp: Int, area: String, subarea: String, combinedFleet: Boolean,
-            nodes: Int, nodeSelects: String, formations: List<CombatFormation>,
+            nodes: Int, nodeSelects: List<String>, formations: List<CombatFormation>,
             nightBattles: List<Boolean>, retreatLimit: Int, repairLimit: Int, repairTimeLimit: String,
             checkFatigue: Boolean, portCheck: Boolean, medalStop: Boolean, lastNodePush: Boolean
     ) {
@@ -237,7 +237,7 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "Subarea") val subareaProperty = SimpleStringProperty(subarea)
         @JsonIgnore @IniConfig(key = "CombinedFleet") val combinedFleetProperty = SimpleBooleanProperty(combinedFleet)
         @JsonIgnore @IniConfig(key = "Nodes") val nodesProperty = SimpleIntegerProperty(nodes)
-        @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleStringProperty(nodeSelects)
+        @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleListProperty(FXCollections.observableArrayList(nodeSelects))
         @JsonIgnore @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableArrayList(formations))
         @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
         @JsonIgnore @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
