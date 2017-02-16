@@ -213,7 +213,9 @@ class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>
     }
 }
 
-class OptionsColumn(text: String = "", options: List<String>, table: TableView<String>) : TableColumn<String, String>(text) {
+class OptionsColumn(text: String = "", options: List<String>, table: TableView<String>,
+                    filter: (cell: TableCell<String, String>, string: String) -> Boolean = { cell, string -> true },
+                    maxRows: Int = Integer.MAX_VALUE) : TableColumn<String, String>(text) {
     init {
         val addText = "<Add Item>"
         setCellFactory {
@@ -229,8 +231,10 @@ class OptionsColumn(text: String = "", options: List<String>, table: TableView<S
 
                     override fun fromString(string: String?): String = ""
                 }
-                items.setAll(if (index != table.items.size - 1) addText else "")
-                items.addAll(options)
+                indexProperty().addListener { obs, oldVal, newVal ->
+                    items.setAll(if (index != table.items.size - 1) addText else "")
+                    items.addAll(options.filter { filter.invoke(this, it) })
+                }
                 this
             }
         }
@@ -243,7 +247,7 @@ class OptionsColumn(text: String = "", options: List<String>, table: TableView<S
                         if (event.newValue != addText) add(index, event.newValue)
                         table.selectionModel.select(index)
                     } else {
-                        if (event.newValue != addText) {
+                        if (event.newValue != addText && index < maxRows) {
                             add(size - 1, event.newValue)
                         }
                     }

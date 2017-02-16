@@ -92,7 +92,7 @@ class MiscTabView {
         val scene = Scene(loader.load())
         with(Stage()) {
             this.scene = scene
-            title = "KAGA - Group Nodes Configuration"
+            title = "KAGA - LBAS Nodes Configuration"
             initOwner(Kaga.ROOT_STAGE.owner)
             initModality(Modality.WINDOW_MODAL)
             show()
