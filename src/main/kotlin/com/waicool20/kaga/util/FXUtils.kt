@@ -4,6 +4,7 @@ import com.sun.javafx.scene.control.skin.TableHeaderRow
 import com.waicool20.kaga.Kaga
 import javafx.beans.property.ReadOnlyObjectProperty
 import javafx.collections.ListChangeListener
+import javafx.geometry.Pos
 import javafx.geometry.Side
 import javafx.scene.Group
 import javafx.scene.Node
@@ -17,6 +18,7 @@ import javafx.stage.Stage
 import javafx.stage.WindowEvent
 import javafx.util.Callback
 import javafx.util.StringConverter
+import java.util.concurrent.TimeUnit
 
 
 fun Parent.setInitialSceneSizeAsMin() = sceneProperty().setInitialSizeAsMin()
@@ -98,6 +100,35 @@ fun TabPane.setSideWithHorizontalText(side: Side, width: Double = 100.0) {
     isRotateGraphic = true
 }
 
+fun <T> Spinner<T>.updateOtherSpinnerOnWrap(spinner: Spinner<T>, min: T, max: T) {
+    this.valueProperty().addListener { obs, oldVal, newVal ->
+        if (oldVal == max && newVal == min) {
+            spinner.increment()
+        } else if (oldVal == min && newVal == max) {
+            spinner.decrement()
+        }
+    }
+}
+
+fun Spinner<Int>.asTimeSpinner(unit: TimeUnit) {
+    val formatter = object : StringConverter<Int>() {
+        override fun toString(integer: Int?): String =
+                if (integer == null) "00" else String.format("%02d", integer)
+
+        override fun fromString(s: String): Int = s.toInt()
+    }
+    editor.textFormatter = TextFormatter(formatter)
+    editor.alignment = Pos.CENTER
+    valueFactory = when (unit) {
+        TimeUnit.DAYS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 31)
+        TimeUnit.HOURS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23)
+        TimeUnit.MINUTES -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
+        TimeUnit.SECONDS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
+        else -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 0)
+    }
+    valueFactory.isWrapAround = true
+}
+
 object AlertFactory {
     private fun alert(type: Alert.AlertType, stage: Stage? = Kaga.ROOT_STAGE,
                       title: String = "KAGA - Info", header: String? = null,
@@ -150,9 +181,9 @@ class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
     }
 }
 
-class NoneSelectableCellFactory(val regex:Regex): Callback<ListView<String>, ListCell<String>> {
+class NoneSelectableCellFactory(val regex: Regex) : Callback<ListView<String>, ListCell<String>> {
     override fun call(p0: ListView<String>?): ListCell<String> {
-        return object: ListCell<String>() {
+        return object : ListCell<String>() {
             override fun updateItem(item: String?, empty: Boolean) {
                 super.updateItem(item, empty)
                 if (item != null) {
@@ -221,7 +252,7 @@ class OptionsColumn(text: String = "", options: List<String>, table: TableView<S
                 }
             }
         }
-        table.items.addListener (ListChangeListener<String> {  change ->
+        table.items.addListener(ListChangeListener<String> { change ->
             if (change.next()) {
                 if (table.items[table.items.size - 1] != addText) {
                     table.items.add(addText)

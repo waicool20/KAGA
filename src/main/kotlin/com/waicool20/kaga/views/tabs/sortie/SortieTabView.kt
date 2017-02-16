@@ -2,7 +2,9 @@ package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.NoneSelectableCellFactory
+import com.waicool20.kaga.util.asTimeSpinner
 import com.waicool20.kaga.util.bind
+import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.geometry.Pos
@@ -12,6 +14,7 @@ import javafx.util.StringConverter
 import tornadofx.bind
 import tornadofx.find
 import java.nio.file.Files
+import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 
 
@@ -97,20 +100,10 @@ class SortieTabView {
         repairLimitComboBox.items.setAll((0..2).toList())
         retreatLimitComboBox.converter = damageConverter
         repairLimitComboBox.converter = damageConverter
-        val formatter = object : StringConverter<Int>() {
-            override fun toString(integer: Int?): String =
-                    if (integer == null) "00" else String.format("%02d", integer)
 
-            override fun fromString(s: String): Int = s.toInt()
-        }
-        repairTimeHourSpinner.editor.textFormatter = TextFormatter(formatter)
-        repairTimeMinSpinner.editor.textFormatter = TextFormatter(formatter)
-        repairTimeHourSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99)
-        repairTimeMinSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
-        repairTimeHourSpinner.valueFactory.isWrapAround = true
-        repairTimeMinSpinner.valueFactory.isWrapAround = true
-        repairTimeHourSpinner.editor.alignment = Pos.CENTER
-        repairTimeMinSpinner.editor.alignment = Pos.CENTER
+        repairTimeHourSpinner.asTimeSpinner(TimeUnit.HOURS)
+        repairTimeMinSpinner.asTimeSpinner(TimeUnit.MINUTES)
+        repairTimeMinSpinner.updateOtherSpinnerOnWrap(repairTimeHourSpinner, 0, 59)
         with (String.format("%04d", Kaga.PROFILE!!.sortie.repairTimeLimit.toInt())) {
             repairTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
             repairTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()

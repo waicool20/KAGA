@@ -2,7 +2,9 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
+import com.waicool20.kaga.util.asTimeSpinner
 import com.waicool20.kaga.util.bind
+import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.geometry.Pos
@@ -10,6 +12,7 @@ import javafx.scene.control.*
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
 import tornadofx.bind
+import java.util.concurrent.TimeUnit
 
 
 class SchedulingTabView {
@@ -32,24 +35,13 @@ class SchedulingTabView {
 
 
     private fun setValues() {
-        startTimeHourSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23)
-        startTimeMinSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
-        startTimeHourSpinner.valueFactory.isWrapAround = true
-        startTimeMinSpinner.valueFactory.isWrapAround = true
-        startTimeHourSpinner.editor.alignment = Pos.CENTER
-        startTimeMinSpinner.editor.alignment = Pos.CENTER
-        val formatter = object : StringConverter<Int>() {
-            override fun toString(integer: Int?): String =
-                    if (integer == null) "00" else String.format("%02d", integer)
-
-            override fun fromString(s: String): Int = s.toInt()
-        }
-        startTimeHourSpinner.editor.textFormatter = TextFormatter(formatter)
-        startTimeMinSpinner.editor.textFormatter = TextFormatter(formatter)
+        startTimeHourSpinner.asTimeSpinner(TimeUnit.HOURS)
+        startTimeMinSpinner.asTimeSpinner(TimeUnit.MINUTES)
         with (String.format("%04d", Kaga.PROFILE!!.scheduledSleep.startTime.toInt())) {
             startTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
             startTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
         }
+        startTimeMinSpinner.updateOtherSpinnerOnWrap(startTimeHourSpinner, 0, 59)
         sleepLengthSpinner.valueFactory = SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, java.lang.Double.MAX_VALUE, 0.0, 0.1)
         modeChoiceBox.items.setAll(*KancolleAutoProfile.ScheduledStopMode.values())
         countSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
