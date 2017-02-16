@@ -2,6 +2,7 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
+import com.waicool20.kaga.util.AlertFactory
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Hyperlink
@@ -50,10 +51,14 @@ class PreferencesTabView {
         }
     }
 
-    @FXML private fun onSaveButton() = Kaga.CONFIG.save()
+    @FXML private fun onSaveButton() {
+        Kaga.CONFIG.save()
+        AlertFactory.info(content = "Preferences were saved!").showAndWait()
+    }
 
     @FXML private fun onResetButton() {
         Kaga.CONFIG = KagaConfig.load()
         initialize()
+        AlertFactory.info(content = "Preferences were reset!").showAndWait()
     }
 }
