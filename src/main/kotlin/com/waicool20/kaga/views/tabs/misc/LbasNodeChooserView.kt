@@ -5,13 +5,14 @@ import com.waicool20.kaga.views.NodeChooserView
 import javafx.fxml.FXML
 
 private val regexMap = mapOf("_node_lbas_E-(\\d)-(\\w)_(1|2)".toRegex() to "E(\\d): Node (\\w) Selection (1|2)".toRegex(),
+        "_node_lbas_E-(\\d)-(\\w)_(1|2)_(cleared)".toRegex() to "E(\\d): Node (\\w) Selection (1|2) \\[(\\w+?)\\]".toRegex(),
         "node_lbas_(\\d)-(\\d)-(\\w)_(1|2)".toRegex() to "(\\d)-(\\d): Node (\\w) Selection (1|2)".toRegex())
 
 class LbasNodeChooserView(val group: Int) : NodeChooserView("LBAS Node", regexMap) {
     @FXML override fun initialize() {
         super.initialize()
         nodeColumn?.filter = { cell, string ->
-            val check = string.endsWith("1") && !tableView.items.contains(string)
+            val check = (string.endsWith("1") || string.endsWith("1 [cleared]")) && !tableView.items.contains(string)
             when (cell.index) {
                 0 -> check
                 1 -> {

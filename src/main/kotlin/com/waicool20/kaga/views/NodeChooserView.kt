@@ -16,8 +16,8 @@ class NodeImgStringConverter(val regexMap: Map<Regex, Regex>) {
             if (imageName.matches(it.key)) {
                 val groups = it.key.matchEntire(imageName)?.groupValues
                 if (groups != null) {
-                    var string = it.value.toString()
-                    groups.subList(1, groups.size).forEachIndexed { index, s ->
+                    var string = it.value.toString().replace("\\\\(.)".toRegex(), {it.groupValues[1]})
+                    groups.subList(1, groups.size).forEach { s ->
                         string = string.replaceFirst("\\(.+?\\)".toRegex(), s)
                     }
                     return string
@@ -33,9 +33,9 @@ class NodeImgStringConverter(val regexMap: Map<Regex, Regex>) {
             if (prettyString.matches(it.value)) {
                 val groups = it.value.matchEntire(prettyString)?.groupValues
                 if (groups != null) {
-                    var string = it.key.toString()
-                    groups.subList(1, groups.size).forEachIndexed { index, s ->
-                        string = string.replaceFirst("(.+?)".toRegex(), s)
+                    var string = it.key.toString().replace("\\\\(.)".toRegex(), {it.groupValues[1]})
+                    groups.subList(1, groups.size).forEach { s ->
+                        string = string.replaceFirst("\\(.+?\\)".toRegex(), s)
                     }
                     return string
                 }
