@@ -228,7 +228,7 @@ class KancolleAutoProfile(
     class Sortie(
             enabled: Boolean, fleetComp: Int, area: String, subarea: String, combinedFleet: Boolean,
             nodes: Int, nodeSelects: String, formations: List<CombatFormation>,
-            nightBattles: List<Boolean>, retreatLimit: Int, repairLimit: Int, repairTimeLimit: Int,
+            nightBattles: List<Boolean>, retreatLimit: Int, repairLimit: Int, repairTimeLimit: String,
             checkFatigue: Boolean, portCheck: Boolean, medalStop: Boolean, lastNodePush: Boolean
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
@@ -242,7 +242,7 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
         @JsonIgnore @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
         @JsonIgnore @IniConfig(key = "RepairLimit") val repairLimitProperty = SimpleIntegerProperty(repairLimit)
-        @JsonIgnore @IniConfig(key = "RepairTimeLimit") val repairTimeLimitProperty = SimpleIntegerProperty(repairTimeLimit)
+        @JsonIgnore @IniConfig(key = "RepairTimeLimit") val repairTimeLimitProperty = SimpleStringProperty(repairTimeLimit)
         @JsonIgnore @IniConfig(key = "CheckFatigue") val checkFatigueProperty = SimpleBooleanProperty(checkFatigue)
         @JsonIgnore @IniConfig(key = "PortCheck") val portCheckProperty = SimpleBooleanProperty(portCheck)
         @JsonIgnore @IniConfig(key = "MedalStop") val medalStopProperty = SimpleBooleanProperty(medalStop)

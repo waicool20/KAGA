@@ -37,7 +37,7 @@
                         <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                     </rowConstraints>
@@ -121,9 +121,15 @@
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                            <children>
-                                <Spinner fx:id="repairTimeLimitSpinner" editable="true" />
-                            </children>
+                     <children>
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <Spinner fx:id="repairTimeHourSpinner" editable="true" prefHeight="56.0" prefWidth="50.0" styleClass="split-arrows-vertical" />
+                              <Label text=":" />
+                              <Spinner fx:id="repairTimeMinSpinner" editable="true" prefHeight="56.0" prefWidth="50.0" styleClass="split-arrows-vertical" />
+                           </children>
+                        </HBox>
+                     </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="8">
                             <children>

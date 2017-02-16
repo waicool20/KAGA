@@ -5,6 +5,7 @@ import com.waicool20.kaga.util.NoneSelectableCellFactory
 import com.waicool20.kaga.util.bind
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
+import javafx.geometry.Pos
 import javafx.scene.control.*
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
@@ -24,7 +25,8 @@ class SortieTabView {
     @FXML private lateinit var nodeSelectsTextField: TextField
     @FXML private lateinit var retreatLimitComboBox: ComboBox<Int>
     @FXML private lateinit var repairLimitComboBox: ComboBox<Int>
-    @FXML private lateinit var repairTimeLimitSpinner: Spinner<Int>
+    @FXML private lateinit var repairTimeHourSpinner: Spinner<Int>
+    @FXML private lateinit var repairTimeMinSpinner: Spinner<Int>
     @FXML private lateinit var checkFatigueCheckBox: CheckBox
     @FXML private lateinit var checkPortCheckBox: CheckBox
     @FXML private lateinit var medalStopCheckBox: CheckBox
@@ -95,7 +97,24 @@ class SortieTabView {
         repairLimitComboBox.items.setAll((0..2).toList())
         retreatLimitComboBox.converter = damageConverter
         repairLimitComboBox.converter = damageConverter
-        repairTimeLimitSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
+        val formatter = object : StringConverter<Int>() {
+            override fun toString(integer: Int?): String =
+                    if (integer == null) "00" else String.format("%02d", integer)
+
+            override fun fromString(s: String): Int = s.toInt()
+        }
+        repairTimeHourSpinner.editor.textFormatter = TextFormatter(formatter)
+        repairTimeMinSpinner.editor.textFormatter = TextFormatter(formatter)
+        repairTimeHourSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99)
+        repairTimeMinSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
+        repairTimeHourSpinner.valueFactory.isWrapAround = true
+        repairTimeMinSpinner.valueFactory.isWrapAround = true
+        repairTimeHourSpinner.editor.alignment = Pos.CENTER
+        repairTimeMinSpinner.editor.alignment = Pos.CENTER
+        with (String.format("%04d", Kaga.PROFILE!!.sortie.repairTimeLimit.toInt())) {
+            repairTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
+            repairTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
+        }
     }
 
     private fun createBindings() {
@@ -115,7 +134,9 @@ class SortieTabView {
             nodeSelectsTextField.bind(nodeSelectsProperty)
             retreatLimitComboBox.bind(retreatLimitProperty)
             repairLimitComboBox.bind(repairLimitProperty)
-            repairTimeLimitSpinner.bind(repairTimeLimitProperty)
+            val binding = Bindings.concat(repairTimeHourSpinner.valueProperty().asString("%02d"),
+                    repairTimeMinSpinner.valueProperty().asString("%02d"))
+            repairTimeLimitProperty.bind(binding)
             checkFatigueCheckBox.bind(checkFatigueProperty)
             checkPortCheckBox.bind(portCheckProperty)
             medalStopCheckBox.bind(medalStopProperty)

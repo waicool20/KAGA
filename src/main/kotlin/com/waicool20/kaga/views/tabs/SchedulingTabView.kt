@@ -46,9 +46,10 @@ class SchedulingTabView {
         }
         startTimeHourSpinner.editor.textFormatter = TextFormatter(formatter)
         startTimeMinSpinner.editor.textFormatter = TextFormatter(formatter)
-        val startTime = Kaga.PROFILE!!.scheduledSleep.startTime
-        startTimeHourSpinner.valueFactory.value = startTime.substring(0, 2).toInt()
-        startTimeMinSpinner.valueFactory.value = startTime.substring(2, 4).toInt()
+        with (String.format("%04d", Kaga.PROFILE!!.scheduledSleep.startTime.toInt())) {
+            startTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
+            startTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
+        }
         sleepLengthSpinner.valueFactory = SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, java.lang.Double.MAX_VALUE, 0.0, 0.1)
         modeChoiceBox.items.setAll(*KancolleAutoProfile.ScheduledStopMode.values())
         countSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
@@ -57,8 +58,8 @@ class SchedulingTabView {
     private fun createBindings() {
         with(Kaga.PROFILE!!.scheduledSleep) {
             enableSleepButton.bind(enabledProperty)
-            val binding = Bindings.concat(startTimeHourSpinner.valueFactory.valueProperty().asString("%02d"),
-                    startTimeMinSpinner.valueFactory.valueProperty().asString("%02d"))
+            val binding = Bindings.concat(startTimeHourSpinner.valueProperty().asString("%02d"),
+                    startTimeMinSpinner.valueProperty().asString("%02d"))
             startTimeProperty.bind(binding)
             sleepLengthSpinner.bind(lengthProperty)
         }
