@@ -4,47 +4,51 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.76-ea">
-  <columnConstraints>
-    <ColumnConstraints hgrow="ALWAYS" minWidth="-Infinity" prefWidth="200.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" />
-    <ColumnConstraints hgrow="ALWAYS" minWidth="-Infinity" prefWidth="200.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="-Infinity" prefHeight="300.0" vgrow="ALWAYS" />
-    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <HBox GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-         <children>
-            <ListView fx:id="leftListView" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         </children>
-         <padding>
-            <Insets bottom="30.0" left="30.0" top="30.0" />
-         </padding>
-      </HBox>
-      <HBox alignment="TOP_CENTER" GridPane.rowIndex="1">
-         <children>
-            <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
-         </children>
-      </HBox>
-      <HBox alignment="TOP_CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
-         <children>
-            <Button mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" />
-         </children>
-      </HBox>
-      <HBox GridPane.columnIndex="2">
-         <children>
-            <ListView fx:id="rightListView" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         </children>
-         <padding>
-            <Insets bottom="30.0" right="30.0" top="30.0" />
-         </padding>
-      </HBox>
-      <VBox alignment="CENTER" spacing="20.0" GridPane.columnIndex="1">
-         <children>
-            <Button mnemonicParsing="false" onAction="#toRightButton" text="&gt;" />
-            <Button mnemonicParsing="false" onAction="#toLeftButton" text="&lt;" />
-         </children>
-      </VBox>
-   </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="-Infinity" prefWidth="200.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity"
+                           prefWidth="45.0"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="-Infinity" prefWidth="200.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="-Infinity" prefHeight="300.0" vgrow="ALWAYS"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0"
+                        vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <HBox GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <children>
+                <ListView fx:id="leftListView" prefHeight="200.0" prefWidth="200.0"
+                          HBox.hgrow="ALWAYS"/>
+            </children>
+            <padding>
+                <Insets bottom="30.0" left="30.0" top="30.0"/>
+            </padding>
+        </HBox>
+        <HBox alignment="TOP_CENTER" GridPane.rowIndex="1">
+            <children>
+                <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save"/>
+            </children>
+        </HBox>
+        <HBox alignment="TOP_CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <children>
+                <Button mnemonicParsing="false" onAction="#onCancelButton" text="Cancel"/>
+            </children>
+        </HBox>
+        <HBox GridPane.columnIndex="2">
+            <children>
+                <ListView fx:id="rightListView" prefHeight="200.0" prefWidth="200.0"
+                          HBox.hgrow="ALWAYS"/>
+            </children>
+            <padding>
+                <Insets bottom="30.0" right="30.0" top="30.0"/>
+            </padding>
+        </HBox>
+        <VBox alignment="CENTER" spacing="20.0" GridPane.columnIndex="1">
+            <children>
+                <Button mnemonicParsing="false" onAction="#toRightButton" text="&gt;"/>
+                <Button mnemonicParsing="false" onAction="#toLeftButton" text="&lt;"/>
+            </children>
+        </VBox>
+    </children>
 </GridPane>

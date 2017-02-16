@@ -1,90 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.GeneralTabView">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121"
+            fx:controller="com.waicool20.kaga.views.tabs.GeneralTabView">
     <children>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="138.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0"
+                                   prefWidth="138.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
+                                vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
+                                vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
+                                vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
+                                vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
+                                vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
                 <HBox alignment="CENTER">
                     <children>
-                        <Label fx:id="programLabel" text="Program:" />
+                        <Label fx:id="programLabel" text="Program:"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" GridPane.rowIndex="1">
                     <children>
-                        <Label fx:id="recoveryMethodLabel" text="Recovery Method:" />
+                        <Label fx:id="recoveryMethodLabel" text="Recovery Method:"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                     <children>
-                        <TextField fx:id="programTextField" />
+                        <TextField fx:id="programTextField"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <children>
-                        <ChoiceBox fx:id="recoveryMethodChoiceBox" prefWidth="150.0" />
+                        <ChoiceBox fx:id="recoveryMethodChoiceBox" prefWidth="150.0"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" GridPane.rowIndex="4">
                     <children>
-                        <Label fx:id="sleepCycleLabel" text="Sleep Cycle:" />
+                        <Label fx:id="sleepCycleLabel" text="Sleep Cycle:"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" GridPane.rowIndex="3">
                     <children>
-                        <Label fx:id="paranoiaLabel" text="Paranoia:" />
+                        <Label fx:id="paranoiaLabel" text="Paranoia:"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
                     <children>
-                        <Spinner fx:id="sleepCycleSpinner" editable="true" />
+                        <Spinner fx:id="sleepCycleSpinner" editable="true"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
                     <children>
-                        <Spinner fx:id="paranoiaSpinner" editable="true" />
+                        <Spinner fx:id="paranoiaSpinner" editable="true"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" GridPane.rowIndex="5">
                     <children>
-                        <Label fx:id="sleepModifierLabel" text="Sleep Modifier:" />
+                        <Label fx:id="sleepModifierLabel" text="Sleep Modifier:"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
                     <children>
-                        <Spinner fx:id="sleepModifierSpinner" editable="true" />
+                        <Spinner fx:id="sleepModifierSpinner" editable="true"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" GridPane.rowIndex="2">
                     <children>
-                        <Label fx:id="basicRecoveryLabel" text="Basic Recovery:" />
+                        <Label fx:id="basicRecoveryLabel" text="Basic Recovery:"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <children>
-                        <CheckBox fx:id="basicRecoveryCheckBox" mnemonicParsing="false" />
+                        <CheckBox fx:id="basicRecoveryCheckBox" mnemonicParsing="false"/>
                     </children>
                 </HBox>
             </children>

@@ -5,10 +5,7 @@ import com.waicool20.kaga.config.KagaConfig
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Hyperlink
-import javafx.scene.control.Label
 import java.awt.Desktop
-import java.io.File
-import java.net.URI
 import java.nio.file.Path
 
 class PreferencesTabView {
@@ -16,7 +13,7 @@ class PreferencesTabView {
     @FXML private lateinit var clearConsoleCheckBox: CheckBox
     @FXML private lateinit var restartSessionCheckBox: CheckBox
     @FXML private lateinit var debugModeEnableCheckBox: CheckBox
-    @FXML private lateinit var showDebugCheckBox:CheckBox
+    @FXML private lateinit var showDebugCheckBox: CheckBox
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
     @FXML private lateinit var kancolleAutoRootPathLink: Hyperlink
 
@@ -27,7 +24,7 @@ class PreferencesTabView {
 
     fun setValues() {
         with(Kaga.CONFIG) {
-            sikulixJarPathLink.setOnAction { openFile(sikulixJarPath.parent)}
+            sikulixJarPathLink.setOnAction { openFile(sikulixJarPath.parent) }
             kancolleAutoRootPathLink.setOnAction { openFile(kancolleAutoRootDirPath) }
             sikulixJarPathLink.text = sikulixJarPath.toString()
             kancolleAutoRootPathLink.text = kancolleAutoRootDirPath.toString()

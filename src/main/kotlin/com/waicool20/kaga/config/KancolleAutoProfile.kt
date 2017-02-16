@@ -55,7 +55,7 @@ class KancolleAutoProfile(
     }
 
     private fun getIni(): Wini {
-        with (Wini()) {
+        with(Wini()) {
             add("General").fromObject(general)
             add("ScheduledSleep").fromObject(scheduledSleep)
             add("ScheduledStop").fromObject(scheduledStop)

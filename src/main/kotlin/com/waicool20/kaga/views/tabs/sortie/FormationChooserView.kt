@@ -1,7 +1,6 @@
 package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.config.KancolleAutoProfile.CombatFormation
 import com.waicool20.kaga.util.*
 import com.waicool20.kaga.views.SingleListView
@@ -33,7 +32,7 @@ class FormationChooserView : SingleListView<String>() {
 
     override fun onSaveButton() {
         with(tableView().items) {
-            Kaga.PROFILE!!.sortie.formations.setAll(subList(0, size - 1).map { CombatFormation.fromPrettyString(it)})
+            Kaga.PROFILE!!.sortie.formations.setAll(subList(0, size - 1).map { CombatFormation.fromPrettyString(it) })
         }
         close()
     }

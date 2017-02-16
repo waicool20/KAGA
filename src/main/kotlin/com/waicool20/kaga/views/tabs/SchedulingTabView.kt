@@ -7,10 +7,11 @@ import com.waicool20.kaga.util.bind
 import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
-import javafx.geometry.Pos
-import javafx.scene.control.*
+import javafx.scene.control.CheckBox
+import javafx.scene.control.ChoiceBox
+import javafx.scene.control.Spinner
+import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.layout.GridPane
-import javafx.util.StringConverter
 import tornadofx.bind
 import java.util.concurrent.TimeUnit
 
@@ -37,7 +38,7 @@ class SchedulingTabView {
     private fun setValues() {
         startTimeHourSpinner.asTimeSpinner(TimeUnit.HOURS)
         startTimeMinSpinner.asTimeSpinner(TimeUnit.MINUTES)
-        with (String.format("%04d", Kaga.PROFILE!!.scheduledSleep.startTime.toInt())) {
+        with(String.format("%04d", Kaga.PROFILE!!.scheduledSleep.startTime.toInt())) {
             startTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
             startTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
         }

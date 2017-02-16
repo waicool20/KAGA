@@ -7,7 +7,6 @@ import com.waicool20.kaga.util.bind
 import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
-import javafx.geometry.Pos
 import javafx.scene.control.*
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
@@ -104,7 +103,7 @@ class SortieTabView {
         repairTimeHourSpinner.asTimeSpinner(TimeUnit.HOURS)
         repairTimeMinSpinner.asTimeSpinner(TimeUnit.MINUTES)
         repairTimeMinSpinner.updateOtherSpinnerOnWrap(repairTimeHourSpinner, 0, 59)
-        with (String.format("%04d", Kaga.PROFILE!!.sortie.repairTimeLimit.toInt())) {
+        with(String.format("%04d", Kaga.PROFILE!!.sortie.repairTimeLimit.toInt())) {
             repairTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
             repairTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
         }

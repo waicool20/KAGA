@@ -39,7 +39,7 @@ class MiscTabView {
     private fun createBindings() {
         with(Kaga.PROFILE!!) {
             enableSubSwitchButton.bind(submarineSwitch.enabledProperty)
-            with (lbas) {
+            with(lbas) {
                 enableLbasButton.bind(enabledProperty)
                 enabledGroups.addListener(SetChangeListener { change -> updateGroupCheckBoxes(change.set) })
             }
