@@ -17,8 +17,10 @@ class LbasNodeChooserView(val group: Int) : NodeChooserView("LBAS Node", regexMa
                 0 -> check
                 1 -> {
                     val node1 = tableView.items[0]
+                    val selectionCheck = string == node1.replace("Selection 1", "Selection 2")
                     string.startsWith(node1.takeWhile { it != ':' }) &&
-                            (check || string == node1.replace("Selection 1", "Selection 2"))
+                            (check || selectionCheck) &&
+                            string != node1.replace(" [cleared]", "")
                 }
                 else -> false
             }
