@@ -68,8 +68,10 @@ class KancolleAuto {
             Files.createDirectories(logFile.parent)
         }
         val versionLine = Files.readAllLines(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("CHANGELOG.md"))[0]
-        val kancolleAutoVersion = versionLine.substring(versionLine.indexOf("[") + 1, versionLine.indexOf("]"))
-
+        var kancolleAutoVersion = versionLine.replace("#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex(), { it.groupValues[1] })
+        if (versionLine.contains("\\[.+?\\]".toRegex())) {
+            kancolleAutoVersion += versionLine.replace(".*?(\\[.+?\\]).*?".toRegex(), { it.groupValues[1] })
+        }
         val log = template.replace("<DateTime>", crashTime)
                 .replace("<Version>", kancolleAutoVersion)
                 .replace("<Viewer>", Kaga.PROFILE!!.general.program)
