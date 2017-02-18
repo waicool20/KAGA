@@ -6,6 +6,8 @@ import com.waicool20.kaga.util.asTimeSpinner
 import com.waicool20.kaga.util.bind
 import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
 import javafx.beans.binding.Bindings
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -80,7 +82,14 @@ class SortieTabView {
         createBindings()
     }
 
+    private val eventCheckBoxListener = ChangeListener<Boolean> { obs, oldVal, newVal ->
+        setAreaItems(newVal)
+        areaComboBox.value = areaComboBox.items.find { !it.matches("--.+?--".toRegex()) }
+        setProfileArea(areaComboBox.selectionModel.selectedItem)
+    }
+
     private fun setValues() {
+        eventCheckBox.selectedProperty().removeListener(eventCheckBoxListener)
         fleetCompComboBox.items.setAll((1..5).toList())
         areaComboBox.cellFactory = NoneSelectableCellFactory("--.+?--".toRegex())
         with(Kaga.PROFILE!!.sortie) {
@@ -122,11 +131,7 @@ class SortieTabView {
             areaComboBox.valueProperty().addListener { observableValue, oldVal, newVal ->
                 setProfileArea(newVal)
             }
-            eventCheckBox.selectedProperty().addListener { obs, oldVal, newVal ->
-                setAreaItems(newVal)
-                areaComboBox.value = areaComboBox.items.find { !it.matches("--.+?--".toRegex()) }
-                setProfileArea(areaComboBox.selectionModel.selectedItem)
-            }
+            eventCheckBox.selectedProperty().addListener(eventCheckBoxListener)
             combinedFleetCheckBox.bind(combinedFleetProperty)
             nodesSpinner.bind(nodesProperty)
             retreatLimitComboBox.bind(retreatLimitProperty)
