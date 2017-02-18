@@ -2,6 +2,7 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import javafx.beans.binding.Bindings
+import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.ComboBox
@@ -46,14 +47,19 @@ class ExpeditionsTabView {
         fleet2ComboBox.converter = converter
         fleet3ComboBox.converter = converter
         fleet4ComboBox.converter = converter
+        with(Kaga.PROFILE!!.expeditions) {
+            fleet2ComboBox.value = fleet2
+            fleet3ComboBox.value = fleet3
+            fleet4ComboBox.value = fleet4
+        }
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE!!.expeditions) {
             enableButton.bind(enabledProperty)
-            fleet2ComboBox.bind(fleet2Property)
-            fleet3ComboBox.bind(fleet3Property)
-            fleet4ComboBox.bind(fleet4Property)
+            fleet2ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet2 == newVal }
+            fleet3ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet3 == newVal }
+            fleet4ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet4 == newVal }
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
