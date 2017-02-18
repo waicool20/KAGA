@@ -57,9 +57,9 @@ class ExpeditionsTabView {
     private fun createBindings() {
         with(Kaga.PROFILE!!.expeditions) {
             enableButton.bind(enabledProperty)
-            fleet2ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet2 == newVal }
-            fleet3ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet3 == newVal }
-            fleet4ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet4 == newVal }
+            fleet2ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet2 = newVal }
+            fleet3ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet3 = newVal }
+            fleet4ComboBox.valueProperty().addListener { obs, oldVal, newVal -> if (newVal != null) fleet4 = newVal }
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
