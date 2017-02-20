@@ -68,8 +68,4 @@ class QuestsChooserView : SingleListView<Quest>() {
         )
         close()
     }
-
-    override fun onCancelButton() {
-        close()
-    }
 }

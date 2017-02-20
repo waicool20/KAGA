@@ -2,6 +2,7 @@ package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.setInitialSceneSizeAsMin
+import javafx.fxml.FXML
 import javafx.scene.Parent
 import javafx.scene.control.TableView
 import javafx.stage.Stage
@@ -17,7 +18,7 @@ abstract class SingleListView<T> : Fragment() {
     }
 
     abstract fun onSaveButton()
-    abstract fun onCancelButton()
+    @FXML protected open fun onCancelButton() = close()
 
     protected open fun tableView(): TableView<T> = tableView
     protected fun close() {

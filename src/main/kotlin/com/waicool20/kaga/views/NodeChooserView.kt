@@ -87,8 +87,5 @@ abstract class NodeChooserView(private val nodeColumnTitle: String, regexMap: Ma
 
     override fun tableView() = tableView
 
-    @FXML override fun onCancelButton() = close()
-
     abstract fun save(items: List<String>)
-
 }

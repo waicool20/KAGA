@@ -36,8 +36,4 @@ class FormationChooserView : SingleListView<String>() {
         }
         close()
     }
-
-    override fun onCancelButton() {
-        close()
-    }
 }

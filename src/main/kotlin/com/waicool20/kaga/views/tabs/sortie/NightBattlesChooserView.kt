@@ -30,6 +30,4 @@ class NightBattlesChooserView : SingleListView<String>() {
         }
         close()
     }
-
-    override fun onCancelButton() = close()
 }
