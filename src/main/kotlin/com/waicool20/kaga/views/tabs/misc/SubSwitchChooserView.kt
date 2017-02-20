@@ -32,13 +32,12 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
                 else -> SimpleStringProperty(data.value.prettyString)
             }
         }
-        enableColumn.cellFactory = CheckBoxTableCell.forTableColumn(enableColumn)
-        enableColumn.setCellValueFactory { data ->
-            val enabled = SimpleBooleanProperty(Kaga.PROFILE!!.submarineSwitch.enabledSubs.contains(data.value))
-            enabledSubs.put(data.value, enabled)
-            enabled
+        Submarines.values().forEach {
+            enabledSubs.put(it, SimpleBooleanProperty(Kaga.PROFILE!!.submarineSwitch.enabledSubs.contains(it)))
         }
-        tableView().items.addAll(Submarines.values())
+        enableColumn.cellFactory = CheckBoxTableCell.forTableColumn(enableColumn)
+        enableColumn.setCellValueFactory { data -> enabledSubs[data.value] }
+        tableView().items.addAll(enabledSubs.keys)
     }
 
     override fun onSaveButton() {
