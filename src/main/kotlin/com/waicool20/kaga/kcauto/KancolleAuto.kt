@@ -1,12 +1,15 @@
-package com.waicool20.kaga
+package com.waicool20.kaga.kcauto
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.kcauto.KancolleAutoStats
 import com.waicool20.kaga.util.LockPreventer
 import com.waicool20.kaga.util.StreamGobbler
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -16,6 +19,8 @@ class KancolleAuto {
     private val logger = LoggerFactory.getLogger(javaClass)
     private var kancolleAutoProcess: Process? = null
     private var streamGobbler: StreamGobbler? = null
+
+    var stats = KancolleAutoStats()
 
     fun startAndWait() {
         Kaga.PROFILE!!.save(Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini"))
@@ -33,6 +38,7 @@ class KancolleAuto {
         logger.debug("Launching with command: ${args.joinToString(" ")}")
         logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
         kancolleAutoProcess = ProcessBuilder(args).start()
+        stats.startNewSession()
         streamGobbler = StreamGobbler(kancolleAutoProcess)
         streamGobbler?.run()
         lockPreventer?.start()
@@ -48,11 +54,18 @@ class KancolleAuto {
     fun stop() {
         logger.info("Terminating current Kancolle Auto session")
         kancolleAutoProcess?.destroy()
+        println("----- Session Statistics -----")
+        println("Starting Time: ${stats.startingTime}")
+        println("Sorties Conducted: ${stats.sortiesConducted}")
+        val sortiesPerHour = stats.sortiesConducted / (Duration.between(stats.startingTime, LocalDateTime.now()).seconds / 3600.0)
+        println("Sorties per hour: ${String.format("%.2f", sortiesPerHour)}")
+        println("----- Session Statistics End -----")
     }
 
     fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess!!.isAlive
 
     private fun handleCrash() {
+        stats.crashes++
         logger.info("Kancolle Auto didn't terminate gracefully")
         saveCrashLog()
         if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {

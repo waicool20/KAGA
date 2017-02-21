@@ -1,6 +1,7 @@
 package com.waicool20.kaga.util
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.util.LoggingEventBus
 import javafx.application.Platform
 import javafx.scene.control.TextArea
 import java.io.OutputStream
@@ -50,6 +51,7 @@ class LineListenerOutputStream : LineBufferedOutputStream() {
     override fun writeLine(line: String) {
         Kaga.LOG = if (line.contains("\u001b[2J\u001b[H")) "" else appendLineWithLimit(Kaga.LOG, line)
                 .replace("\\u001b\\[.+?m".toRegex(), "")
+        LoggingEventBus.publish(line.replaceFirst("\n", ""))
     }
 }
 

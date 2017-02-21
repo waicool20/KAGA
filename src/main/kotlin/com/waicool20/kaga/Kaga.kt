@@ -7,6 +7,7 @@ import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.handlers.KeyboardIncrementHandler
 import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
+import com.waicool20.kaga.kcauto.KancolleAuto
 import com.waicool20.kaga.util.LineListenerOutputStream
 import com.waicool20.kaga.util.TeeOutputStream
 import com.waicool20.kaga.views.ConsoleView
@@ -50,6 +51,7 @@ class Kaga : Application() {
         var PROFILE: KancolleAutoProfile? = null
 
         var LOG = ""
+        val KANCOLLE_AUTO = KancolleAuto()
 
         fun setLogLevel(level: Level) {
             (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = level
