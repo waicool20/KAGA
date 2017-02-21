@@ -6,9 +6,16 @@ import java.io.InputStreamReader
 
 class StreamGobbler(val process: Process?) {
     fun run() {
-        val readOut = Thread { BufferedReader(InputStreamReader(process?.inputStream)).forEachLine(::println) }
-        val readErr = Thread { BufferedReader(InputStreamReader(process?.errorStream)).forEachLine(::println) }
-        readOut.start()
-        readErr.start()
+        val handler = Thread.UncaughtExceptionHandler { thread, throwable ->
+            if (throwable.message != "Stream closed") throw throwable // Ignore stream closed errors
+        }
+        with(Thread { BufferedReader(InputStreamReader(process?.inputStream)).forEachLine(::println) }) {
+            uncaughtExceptionHandler = handler
+            start()
+        }
+        with(Thread { BufferedReader(InputStreamReader(process?.errorStream)).forEachLine(::println) }) {
+            uncaughtExceptionHandler = handler
+            start()
+        }
     }
 }
