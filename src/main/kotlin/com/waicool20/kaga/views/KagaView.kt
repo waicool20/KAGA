@@ -1,7 +1,7 @@
 package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.KancolleAuto
+import com.waicool20.kaga.kcauto.KancolleAuto
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.setSideWithHorizontalText
@@ -32,7 +32,6 @@ import java.util.stream.Collectors
 
 
 class KagaView {
-    private val kancolleAuto = KancolleAuto()
     private val runningText = "Kancolle Auto is running!"
     private val notRunningText = "Kancolle Auto is not running!"
 
@@ -53,7 +52,7 @@ class KagaView {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     @FXML fun initialize() {
-        Kaga.ROOT_STAGE.addEventHandler(WindowEvent.WINDOW_HIDDEN, { kancolleAuto.stop() })
+        Kaga.ROOT_STAGE.addEventHandler(WindowEvent.WINDOW_HIDDEN, { Kaga.KANCOLLE_AUTO.stop() })
         tabpane.setSideWithHorizontalText(Side.LEFT)
         createBindings()
     }
@@ -135,7 +134,7 @@ class KagaView {
     }
 
     @FXML private fun onStartStopButton() {
-        if (!kancolleAuto.isRunning()) {
+        if (!Kaga.KANCOLLE_AUTO.isRunning()) {
             Thread {
                 Platform.runLater {
                     kagaStatus.text = runningText
@@ -143,7 +142,7 @@ class KagaView {
                     startStopButton.style = "-fx-background-color: red"
                     profileSelectionHBox.isDisable = true
                 }
-                kancolleAuto.startAndWait()
+                Kaga.KANCOLLE_AUTO.startAndWait()
                 Platform.runLater {
                     kagaStatus.text = notRunningText
                     startStopButton.text = "Start"
@@ -153,7 +152,7 @@ class KagaView {
             }.start()
             Kaga.CONSOLE_STAGE.toFront()
         } else {
-            kancolleAuto.stop()
+            Kaga.KANCOLLE_AUTO.stop()
         }
     }
 
