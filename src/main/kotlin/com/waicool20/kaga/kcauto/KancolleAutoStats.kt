@@ -9,7 +9,7 @@ class KancolleAutoStats {
     var crashes = 0
 
     init {
-        LoggingEventBus.subscribe(".*(\\d+?) sorties conducted.*".toRegex(), { match ->
+        LoggingEventBus.subscribe(".*~(\\d+) sorties conducted.*".toRegex(), { match ->
             sortiesConducted = match.groupValues[1].toInt()
         })
     }

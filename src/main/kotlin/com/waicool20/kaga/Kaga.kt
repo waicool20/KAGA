@@ -12,6 +12,7 @@ import com.waicool20.kaga.util.LineListenerOutputStream
 import com.waicool20.kaga.util.TeeOutputStream
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
+import com.waicool20.kaga.views.StatsView
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.fxml.FXMLLoader
@@ -46,6 +47,7 @@ class Kaga : Application() {
 
         lateinit var ROOT_STAGE: Stage
         lateinit var CONSOLE_STAGE: Stage
+        lateinit var STATS_STAGE: Stage
 
         lateinit var CONFIG: KagaConfig
         var PROFILE: KancolleAutoProfile? = null
@@ -105,6 +107,7 @@ class Kaga : Application() {
             }
             startConsole()
             startKCAutoListener()
+            startStats()
         }
     }
 
@@ -128,6 +131,17 @@ class Kaga : Application() {
             minWidth = 600.0
             scene = Scene(find(ConsoleView::class).root)
             if (CONFIG.showDebugOnStart) show()
+        }
+    }
+
+    fun startStats() {
+        STATS_STAGE = Stage()
+        with(STATS_STAGE) {
+            initOwner(ROOT_STAGE.owner)
+            initModality(Modality.WINDOW_MODAL)
+            title = "KAGA - Session Stats"
+            scene = Scene(find(StatsView::class).root)
+            isResizable = false
         }
     }
 
