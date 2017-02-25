@@ -28,7 +28,7 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
 
         subNameColumn.setCellValueFactory { data ->
             when (data.value.prettyString) {
-                "All" -> SimpleStringProperty("All (Checking this ignores others)")
+                "All" -> SimpleStringProperty("All (Ignores other options, SSs only)")
                 else -> SimpleStringProperty(data.value.prettyString)
             }
         }
