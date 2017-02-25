@@ -54,18 +54,12 @@ class KancolleAuto {
     fun stop() {
         logger.info("Terminating current Kancolle Auto session")
         kancolleAutoProcess?.destroy()
-        println("----- Session Statistics -----")
-        println("Starting Time: ${stats.startingTime}")
-        println("Sorties Conducted: ${stats.sortiesConducted}")
-        val sortiesPerHour = stats.sortiesConducted / (Duration.between(stats.startingTime, LocalDateTime.now()).seconds / 3600.0)
-        println("Sorties per hour: ${String.format("%.2f", sortiesPerHour)}")
-        println("----- Session Statistics End -----")
     }
 
     fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess!!.isAlive
 
     private fun handleCrash() {
-        stats.crashes++
+        //stats.crashes++ //TODO handle crash statistics
         logger.info("Kancolle Auto didn't terminate gracefully")
         saveCrashLog()
         if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {

@@ -151,6 +151,7 @@ class KagaView {
                 }
             }.start()
             Kaga.CONSOLE_STAGE.toFront()
+            Kaga.STATS_STAGE.toFront()
         } else {
             Kaga.KANCOLLE_AUTO.stop()
         }
