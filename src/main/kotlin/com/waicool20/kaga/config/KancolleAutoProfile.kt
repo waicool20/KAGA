@@ -42,8 +42,8 @@ class KancolleAutoProfile(
             Files.createDirectories(path.parent)
             Files.createFile(path)
         }
-        Files.write(path, ByteArray(0), StandardOpenOption.TRUNCATE_EXISTING)
-        getIni().store(path.toFile())
+        val string = asIniString().replace("true", "True").replace("false", "False")
+        Files.write(path, string.toByteArray(), StandardOpenOption.TRUNCATE_EXISTING)
         logger.info("Saving KancolleAuto profile was successful")
         logger.debug("Saved $this to $path")
     }
