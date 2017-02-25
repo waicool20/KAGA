@@ -267,12 +267,14 @@ class KancolleAutoProfile(
         @get:JsonProperty var lastNodePush by lastNodePushProperty
     }
 
-    class SubmarineSwitch(enabled: Boolean, enabledSubs: List<Submarines>) {
+    class SubmarineSwitch(enabled: Boolean, enabledSubs: List<Submarines>, replaceLimit: Int) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "EnabledSubs") val enabledSubsProperty = SimpleListProperty(FXCollections.observableArrayList(enabledSubs))
+        @JsonIgnore @IniConfig(key = "ReplaceLimit") val replaceLimitProperty = SimpleIntegerProperty(replaceLimit)
 
         @get:JsonProperty var enabled by enabledProperty
         @get:JsonProperty var enabledSubs by enabledSubsProperty
+        @get:JsonProperty var replaceLimit by replaceLimitProperty
     }
 
     class Lbas(
