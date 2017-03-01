@@ -20,6 +20,7 @@ class MiscTabView {
     @FXML private lateinit var enableSubSwitchButton: CheckBox
     @FXML private lateinit var configSubSwitchBtn: Button
     @FXML private lateinit var replaceLimitComboBox: ComboBox<Int>
+    @FXML private lateinit var fatigueSwitchCheckBox: CheckBox
     @FXML private lateinit var enableLbasButton: CheckBox
     @FXML private lateinit var group1CheckBox: CheckBox
     @FXML private lateinit var group2CheckBox: CheckBox
@@ -50,8 +51,11 @@ class MiscTabView {
 
     private fun createBindings() {
         with(Kaga.PROFILE!!) {
-            enableSubSwitchButton.bind(submarineSwitch.enabledProperty)
-            replaceLimitComboBox.bind(submarineSwitch.replaceLimitProperty)
+            with (submarineSwitch) {
+                enableSubSwitchButton.bind(enabledProperty)
+                replaceLimitComboBox.bind(replaceLimitProperty)
+                fatigueSwitchCheckBox.bind(fatigueSwitchProperty)
+            }
             with(lbas) {
                 enableLbasButton.bind(enabledProperty)
                 enabledGroups.addListener(SetChangeListener { change -> updateGroupCheckBoxes(change.set) })

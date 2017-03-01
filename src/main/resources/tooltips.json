@@ -168,6 +168,10 @@
     "description": "Damage state in which a submarine should be replaced."
   },
   {
+    "id": "Misc-fatigueSwitchLabel",
+    "description": "Medium and High Fatigued submarines will be switched out as well if checked."
+  },
+  {
     "id": "Misc-enableLbasButton",
     "description": "Check this box if you want to enable LBAS"
   },
