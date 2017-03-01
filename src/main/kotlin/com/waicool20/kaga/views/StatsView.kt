@@ -43,8 +43,9 @@ class StatsView : View() {
             sortiesConducted.addListener { obs, oldVal, newVal ->
                 Platform.runLater {
                     sortiesConductedLabel.text = newVal.toString()
-                    sortiesPerHourLabel.text = DecimalFormat("0.00")
-                            .format(newVal.toFloat() / (Duration.between(startingTime.value, LocalDateTime.now()).seconds / 3600.0))
+                    val hours = (Duration.between(startingTime.value, LocalDateTime.now()).seconds / 3600.0)
+                    sortiesPerHourLabel.text = if (hours != 0.0) DecimalFormat("0.00")
+                            .format(newVal.toFloat() / hours ) else "0"
                 }
             }
             crashes.addListener { obs, oldVal, newVal ->
