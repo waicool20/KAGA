@@ -46,7 +46,15 @@ fun <T : Any> Profile.Section.toObject(obj: Class<T>): T? {
                         }
                     }
                 } else {
-                    val value = this.get(config.key, fieldObject)
+                    var value: Any
+                    try {
+                        value = this.get(config.key, fieldObject)
+                    } catch (e: Exception) {
+                        when (e.cause) {
+                            is NumberFormatException -> value = 0
+                            else -> throw e
+                        }
+                    }
                     argClasses.add(fieldObject)
                     args.add(value)
                 }
