@@ -142,7 +142,7 @@ class Kaga : Application() {
             title = "KAGA - Session Stats"
             scene = Scene(find(StatsView::class).root)
             isResizable = false
-            show()
+            if (CONFIG.showStatsOnStart) show()
         }
     }
 

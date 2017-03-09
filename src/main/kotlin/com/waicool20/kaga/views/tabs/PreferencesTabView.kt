@@ -15,6 +15,7 @@ class PreferencesTabView {
     @FXML private lateinit var restartSessionCheckBox: CheckBox
     @FXML private lateinit var debugModeEnableCheckBox: CheckBox
     @FXML private lateinit var showDebugCheckBox: CheckBox
+    @FXML private lateinit var showStatsCheckBox: CheckBox
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
     @FXML private lateinit var kancolleAutoRootPathLink: Hyperlink
 
@@ -48,6 +49,7 @@ class PreferencesTabView {
             restartSessionCheckBox.selectedProperty().bindBidirectional(autoRestartOnKCAutoCrashProperty)
             debugModeEnableCheckBox.selectedProperty().bindBidirectional(debugModeEnabledProperty)
             showDebugCheckBox.selectedProperty().bindBidirectional(showDebugOnStartProperty)
+            showStatsCheckBox.selectedProperty().bindBidirectional(showStatsOnStartProperty)
         }
     }
 
