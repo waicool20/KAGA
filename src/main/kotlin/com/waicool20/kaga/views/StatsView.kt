@@ -22,6 +22,7 @@ class StatsView : View() {
     private val expeditionsPerHourLabel: Label by fxid()
     private val pvpsConductedLabel: Label by fxid()
     private val pvpsPerHourLabel: Label by fxid()
+    private val bucketsUsedLabel: Label by fxid()
     private val submarinesSwitchedLabel: Label by fxid()
     private val crashesLabel: Label by fxid()
     private val timer = Timer()
@@ -46,6 +47,7 @@ class StatsView : View() {
             expeditionsPerHourLabel.text = formatDecimal(expeditionsConductedTotal() / hoursSince(startingTime))
             pvpsConductedLabel.text = pvpsConductedTotal().toString()
             pvpsPerHourLabel.text = formatDecimal(pvpsConductedTotal() / hoursSince(startingTime))
+            bucketsUsedLabel.text = bucketsUsedTotal().toString()
             submarinesSwitchedLabel.text = submarinesSwitchedTotal().toString()
             crashesLabel.text = crashes.toString()
         }
