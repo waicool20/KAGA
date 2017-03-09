@@ -202,7 +202,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
+      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
          <children>
             <Label fx:id="pvpsConductedLabel" text="0" />
          </children>
@@ -213,7 +213,7 @@
             <Insets bottom="5.0" right="5.0" top="5.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
          <children>
             <Label fx:id="pvpsPerHourLabel" text="0" />
          </children>
