@@ -20,6 +20,8 @@ class StatsView : View() {
     private val sortiesPerHourLabel: Label by fxid()
     private val expeditionsConductedLabel: Label by fxid()
     private val expeditionsPerHourLabel: Label by fxid()
+    private val pvpsConductedLabel: Label by fxid()
+    private val pvpsPerHourLabel: Label by fxid()
     private val crashesLabel: Label by fxid()
     private val timer = Timer()
 
@@ -41,6 +43,8 @@ class StatsView : View() {
             sortiesPerHourLabel.text = formatDecimal(sortiesConductedTotal() / hoursSince(startingTime))
             expeditionsConductedLabel.text = expeditionsConductedTotal().toString()
             expeditionsPerHourLabel.text = formatDecimal(expeditionsConductedTotal() / hoursSince(startingTime))
+            pvpsConductedLabel.text = pvpsConductedTotal().toString()
+            pvpsPerHourLabel.text = formatDecimal(pvpsConductedTotal() / hoursSince(startingTime))
             crashesLabel.text = crashes.toString()
         }
     }

@@ -19,6 +19,11 @@ class KancolleAutoStatsTracker {
             currentStats().expeditionsConducted = it.groupValues[1].toInt()
         })
 
+        // Track expeditions conducted
+        LoggingEventBus.subscribe(".*~(\\d+) PvPs conducted.*".toRegex(), {
+            currentStats().pvpsConducted = it.groupValues[1].toInt()
+        })
+
         // Track crashes occurred
         LoggingEventBus.subscribe(".*Kancolle Auto didn't terminate gracefully.*".toRegex(), {
             crashes++
@@ -38,9 +43,12 @@ class KancolleAutoStatsTracker {
 
     fun expeditionsConductedTotal() = history.map { it.expeditionsConducted }.sum()
 
+    fun pvpsConductedTotal() = history.map { it.pvpsConducted }.sum()
+
     private fun currentStats() = history.last()
 }
 
 data class KancolleAutoStats(
         var sortiesConducted: Int = 0,
-        var expeditionsConducted: Int = 0)
+        var expeditionsConducted: Int = 0,
+        var pvpsConducted: Int = 0)
