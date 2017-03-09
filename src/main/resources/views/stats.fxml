@@ -27,7 +27,7 @@
    <children>
       <HBox alignment="CENTER_LEFT">
          <children>
-            <Label text="Starting Time:" />
+            <Label text="Starting time:" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -71,7 +71,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
          <children>
-            <Label text="Time Elapsed:" />
+            <Label text="Time elapsed:" />
          </children>
          <opaqueInsets>
             <Insets />
