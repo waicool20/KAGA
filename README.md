@@ -57,10 +57,13 @@ It may also vary between current release and latest commit, so if you want the e
 Main window and debug window showing the console output of both KAGA and Kancolle Auto:
 ![Main and Debug window](./screenshots/Main and Debug window.png?raw=true)
 
-Configuring the formations for each node is easy with a dropdown list 
+Configuring the formations for each node is easy with a dropdown list:
 ![Choosing formations](./screenshots/Choosing formations.png?raw=true)
 
-Same goes for quests, easy configuration with checkboxes
+Same goes for quests, easy configuration with checkboxes:
 ![Choosing quests](./screenshots/Choosing quests.png?raw=true)
+
+Statistics window for some of you nerds:
+![Statistics window](./screenshots/Main and Stats window.png?raw=true)
 
 
