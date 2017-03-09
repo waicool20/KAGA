@@ -1,23 +1,46 @@
 package com.waicool20.kaga.kcauto
 
 import com.waicool20.kaga.util.LoggingEventBus
-import com.waicool20.kaga.util.inc
-import javafx.beans.property.SimpleIntegerProperty
-import javafx.beans.property.SimpleObjectProperty
 import java.time.LocalDateTime
 
-class KancolleAutoStats {
-    var startingTime = SimpleObjectProperty<LocalDateTime>(null)
-    var sortiesConducted = SimpleIntegerProperty(0)
-    var crashes = SimpleIntegerProperty(0)
+class KancolleAutoStatsTracker {
+    var startingTime: LocalDateTime? = null
+    var crashes = 0
+    val history = mutableListOf<KancolleAutoStats>()
 
     init {
-        LoggingEventBus.subscribe(".*~(\\d+) sorties conducted.*".toRegex(), { sortiesConducted.inc() })
+        // Track sorties conducted
+        LoggingEventBus.subscribe(".*~(\\d+) sorties conducted.*".toRegex(), {
+            currentStats().sortiesConducted = it.groupValues[1].toInt()
+        })
+
+        // Track expeditions conducted
+        LoggingEventBus.subscribe(".*~(\\d+) expeditions conducted.*".toRegex(), {
+            currentStats().expeditionsConducted = it.groupValues[1].toInt()
+        })
+
+        // Track crashes occurred
+        LoggingEventBus.subscribe(".*Kancolle Auto didn't terminate gracefully.*".toRegex(), {
+            crashes++
+        })
     }
 
     fun startNewSession() {
-        startingTime.set(LocalDateTime.now())
-        sortiesConducted.set(0)
-        crashes.set(0)
+        history.clear()
+        startingTime = LocalDateTime.now()
+        crashes = 0
+        trackNewChild()
     }
+
+    fun trackNewChild() = history.add(KancolleAutoStats())
+
+    fun sortiesConductedTotal() = history.map { it.sortiesConducted }.sum()
+
+    fun expeditionsConductedTotal() = history.map { it.expeditionsConducted }.sum()
+
+    private fun currentStats() = history.last()
 }
+
+data class KancolleAutoStats(
+        var sortiesConducted: Int = 0,
+        var expeditionsConducted: Int = 0)

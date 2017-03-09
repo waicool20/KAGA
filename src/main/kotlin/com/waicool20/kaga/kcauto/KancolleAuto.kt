@@ -20,9 +20,9 @@ class KancolleAuto {
     private var kancolleAutoProcess: Process? = null
     private var streamGobbler: StreamGobbler? = null
 
-    var stats = KancolleAutoStats()
+    var statsTracker = KancolleAutoStatsTracker()
 
-    fun startAndWait() {
+    fun startAndWait(newSession: Boolean = true) {
         Kaga.PROFILE!!.save(Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini"))
         val args = listOf(
                 "java",
@@ -38,7 +38,7 @@ class KancolleAuto {
         logger.debug("Launching with command: ${args.joinToString(" ")}")
         logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
         kancolleAutoProcess = ProcessBuilder(args).start()
-        stats.startNewSession()
+        if (newSession) statsTracker.startNewSession() else statsTracker.trackNewChild()
         streamGobbler = StreamGobbler(kancolleAutoProcess)
         streamGobbler?.run()
         lockPreventer?.start()
@@ -59,12 +59,11 @@ class KancolleAuto {
     fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess!!.isAlive
 
     private fun handleCrash() {
-        //stats.crashes++ //TODO handle crash statistics
         logger.info("Kancolle Auto didn't terminate gracefully")
         saveCrashLog()
         if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
             logger.info("Auto Restart enabled...attempting restart")
-            startAndWait()
+            startAndWait(newSession = false)
         }
     }
 

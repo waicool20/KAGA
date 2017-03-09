@@ -18,41 +18,42 @@ class StatsView : View() {
     private val timeElapsedLabel: Label by fxid()
     private val sortiesConductedLabel: Label by fxid()
     private val sortiesPerHourLabel: Label by fxid()
+    private val expeditionsConductedLabel: Label by fxid()
+    private val expeditionsPerHourLabel: Label by fxid()
     private val crashesLabel: Label by fxid()
     private val timer = Timer()
 
     init {
-        with(Kaga.KANCOLLE_AUTO.stats) {
-            startingTime.addListener { obs, oldVal, newVal ->
-                Platform.runLater {
-                    startingTimeLabel.text = newVal?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
+        timer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                if (Kaga.KANCOLLE_AUTO.isRunning()) {
+                    Platform.runLater { updateStats() }
                 }
             }
-            timer.scheduleAtFixedRate(object : TimerTask() {
-                override fun run() {
-                    Platform.runLater {
-                        if (Kaga.KANCOLLE_AUTO.isRunning()) {
-                            timeElapsedLabel.text = if (startingTime.value != null) {
-                                val secondsElapsed = Duration.between(startingTime.value, LocalDateTime.now()).seconds
-                                String.format("%d:%02d:%02d", secondsElapsed / 3600, (secondsElapsed % 3600) / 60, secondsElapsed % 60)
-                            } else "0:00:00"
-                        }
-                    }
-                }
-            }, 0L, 1000L)
-            sortiesConducted.addListener { obs, oldVal, newVal ->
-                Platform.runLater {
-                    sortiesConductedLabel.text = newVal.toString()
-                    val hours = (Duration.between(startingTime.value, LocalDateTime.now()).seconds / 3600.0)
-                    sortiesPerHourLabel.text = if (hours != 0.0) DecimalFormat("0.00")
-                            .format(newVal.toFloat() / hours ) else "0"
-                }
-            }
-            crashes.addListener { obs, oldVal, newVal ->
-                Platform.runLater {
-                    crashesLabel.text = newVal.toString()
-                }
-            }
+        }, 0L, 1000L)
+    }
+
+    private fun updateStats() {
+        with(Kaga.KANCOLLE_AUTO.statsTracker) {
+            timeElapsedLabel.text = elapsedTimeSince(startingTime)
+            startingTimeLabel.text = startingTime?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
+            sortiesConductedLabel.text = sortiesConductedTotal().toString()
+            sortiesPerHourLabel.text = formatDecimal(sortiesConductedTotal() / hoursSince(startingTime))
+            expeditionsConductedLabel.text = expeditionsConductedTotal().toString()
+            expeditionsPerHourLabel.text = formatDecimal(expeditionsConductedTotal() / hoursSince(startingTime))
+            crashesLabel.text = crashes.toString()
         }
     }
+
+    private fun elapsedTimeSince(time: LocalDateTime?): String {
+        if (time == null) return "0:00:00"
+        with(Duration.between(time, LocalDateTime.now()).seconds) {
+            return String.format("%d:%02d:%02d", this / 3600, (this % 3600) / 60, this % 60)
+        }
+    }
+
+    private fun hoursSince(time: LocalDateTime?): Double =
+            (Duration.between(time, LocalDateTime.now()).seconds / 3600.0)
+
+    private fun formatDecimal(d: Double) = DecimalFormat("0.00").format(d).replace("\uFFFD", "0.00")
 }
