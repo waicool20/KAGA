@@ -1,12 +1,15 @@
-package com.waicool20.kaga
+package com.waicool20.kaga.kcauto
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.kcauto.KancolleAutoStats
 import com.waicool20.kaga.util.LockPreventer
 import com.waicool20.kaga.util.StreamGobbler
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -17,7 +20,9 @@ class KancolleAuto {
     private var kancolleAutoProcess: Process? = null
     private var streamGobbler: StreamGobbler? = null
 
-    fun startAndWait() {
+    var statsTracker = KancolleAutoStatsTracker()
+
+    fun startAndWait(newSession: Boolean = true) {
         Kaga.PROFILE!!.save(Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini"))
         val args = listOf(
                 "java",
@@ -33,6 +38,7 @@ class KancolleAuto {
         logger.debug("Launching with command: ${args.joinToString(" ")}")
         logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
         kancolleAutoProcess = ProcessBuilder(args).start()
+        if (newSession) statsTracker.startNewSession() else statsTracker.trackNewChild()
         streamGobbler = StreamGobbler(kancolleAutoProcess)
         streamGobbler?.run()
         lockPreventer?.start()
@@ -57,7 +63,7 @@ class KancolleAuto {
         saveCrashLog()
         if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
             logger.info("Auto Restart enabled...attempting restart")
-            startAndWait()
+            startAndWait(newSession = false)
         }
     }
 

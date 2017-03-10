@@ -18,7 +18,6 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 - Tooltips to help you configure Kancolle Auto, press Shift Key while hovering over an option to see what it does
 
 Planned:
-- Session statistics, eg. buckets used, sortie/expeditions per hour, submarines switched etc.
 - Bundling SikuliX and adding more stats related things like resource expenses by OCR
 
 # Installation and Usage
@@ -57,10 +56,13 @@ It may also vary between current release and latest commit, so if you want the e
 Main window and debug window showing the console output of both KAGA and Kancolle Auto:
 ![Main and Debug window](./screenshots/Main and Debug window.png?raw=true)
 
-Configuring the formations for each node is easy with a dropdown list 
+Configuring the formations for each node is easy with a dropdown list:
 ![Choosing formations](./screenshots/Choosing formations.png?raw=true)
 
-Same goes for quests, easy configuration with checkboxes
+Same goes for quests, easy configuration with checkboxes:
 ![Choosing quests](./screenshots/Choosing quests.png?raw=true)
+
+Statistics window for some of you nerds:
+![Statistics window](./screenshots/Main and Stats window.png?raw=true)
 
 

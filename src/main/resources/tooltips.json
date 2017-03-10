@@ -208,6 +208,10 @@
     "description": "Automatically opens the debug console on the start of KAGA if enabled"
   },
   {
+    "id": "Preferences-showStatsLabel",
+    "description": "Automatically opens the stats window on the start of KAGA if enabled"
+  },
+  {
     "id": "Preferences-sikuliScriptJarLabel",
     "description": "Path to the sikuli script Jar"
   },
