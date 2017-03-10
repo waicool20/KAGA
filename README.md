@@ -16,6 +16,7 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 - Saves crash logs automatically to <Kancolle Auto Directory>/crashes with details filled in ready for bug reporting
 - Prevents lockscreen(configurable) in case you're too lazy to turn off your screensaver
 - Tooltips to help you configure Kancolle Auto, press Shift Key while hovering over an option to see what it does
+- Statistics to help you know what the script is doing! eg. Buckets used, sorties per hour etc. (See screenshots)
 
 Planned:
 - Bundling SikuliX and adding more stats related things like resource expenses by OCR
