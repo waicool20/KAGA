@@ -1,7 +1,6 @@
 package com.waicool20.kaga.util
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.LoggingEventBus
 import javafx.application.Platform
 import javafx.scene.control.TextArea
 import java.io.OutputStream

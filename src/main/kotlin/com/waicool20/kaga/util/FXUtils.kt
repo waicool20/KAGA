@@ -142,15 +142,17 @@ object AlertFactory {
         }
     }
 
-    fun info(stage: Stage? = Kaga.ROOT_STAGE, title: String = "KAGA - Info",
-             header: String? = null, content: String): Alert {
-        return alert(Alert.AlertType.INFORMATION, stage, title, header, content)
-    }
+    fun info(stage: Stage? = Kaga.ROOT_STAGE,
+             title: String = "KAGA - Info",
+             header: String? = null,
+             content: String): Alert =
+            alert(Alert.AlertType.INFORMATION, stage, title, header, content)
 
-    fun warn(stage: Stage? = Kaga.ROOT_STAGE, title: String = "KAGA - Warning",
-             header: String? = null, content: String): Alert {
-        return alert(Alert.AlertType.WARNING, stage, title, header, content)
-    }
+    fun warn(stage: Stage? = Kaga.ROOT_STAGE,
+             title: String = "KAGA - Warning",
+             header: String? = null,
+             content: String): Alert =
+            alert(Alert.AlertType.WARNING, stage, title, header, content)
 }
 
 class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {

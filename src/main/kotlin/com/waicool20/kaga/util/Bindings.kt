@@ -6,10 +6,9 @@ import javafx.beans.property.IntegerProperty
 import javafx.beans.property.ObjectProperty
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Spinner
-import java.util.*
 
 private object Bindings {
-    var objectBindings: MutableMap<ObjectProperty<*>, MutableList<ObjectProperty<*>>> = HashMap()
+    var objectBindings = mutableMapOf<ObjectProperty<*>, MutableList<ObjectProperty<*>>>()
 }
 
 fun Spinner<Int>.bind(integerProperty: IntegerProperty, readOnly: Boolean = false) =

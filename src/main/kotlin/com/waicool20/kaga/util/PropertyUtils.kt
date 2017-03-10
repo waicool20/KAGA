@@ -5,7 +5,6 @@ import javafx.beans.property.FloatProperty
 import javafx.beans.property.IntegerProperty
 import javafx.beans.property.LongProperty
 
-
 fun IntegerProperty.inc() = set(value + 1)
 
 fun IntegerProperty.dec() = set(value - 1)
@@ -21,6 +20,3 @@ fun DoubleProperty.dec() = set(value - 1)
 fun LongProperty.inc() = set(value + 1)
 
 fun LongProperty.dec() = set(value - 1)
-
-
-

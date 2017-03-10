@@ -12,7 +12,7 @@ import javafx.scene.control.ChoiceBox
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.layout.GridPane
-import tornadofx.bind
+import tornadofx.*
 import java.util.concurrent.TimeUnit
 
 

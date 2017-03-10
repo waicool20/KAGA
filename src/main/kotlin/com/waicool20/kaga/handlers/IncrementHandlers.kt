@@ -18,7 +18,8 @@ class KeyboardIncrementHandler : EventHandler<KeyEvent> {
             when (keyEvent.code) {
                 KeyCode.UP -> target.increment()
                 KeyCode.DOWN -> target.decrement()
-                else -> null
+                else -> {
+                }
             }
         }
     }

@@ -25,8 +25,7 @@ import javafx.scene.input.MouseEvent.MOUSE_RELEASED
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.slf4j.LoggerFactory
-import tornadofx.FX
-import tornadofx.find
+import tornadofx.*
 import java.io.PrintStream
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -43,7 +42,7 @@ class Kaga : Application() {
         val INSTANCE: Kaga by lazy { Holder.INSTANCE }
 
         val JAR_DIR: Path = Paths.get(Kaga::class.java.protectionDomain.codeSource.location.toURI()).parent
-        val CONFIG_DIR: Path = Paths.get(JAR_DIR.toString(), "kaga")
+        val CONFIG_DIR: Path = JAR_DIR.resolve("kaga")
 
         lateinit var ROOT_STAGE: Stage
         lateinit var CONSOLE_STAGE: Stage

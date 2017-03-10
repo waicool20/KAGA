@@ -1,7 +1,6 @@
 package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.kcauto.KancolleAuto
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.setSideWithHorizontalText
@@ -22,11 +21,10 @@ import javafx.scene.control.TabPane
 import javafx.scene.layout.HBox
 import javafx.stage.WindowEvent
 import org.slf4j.LoggerFactory
-import tornadofx.bind
+import tornadofx.*
 import java.awt.Desktop
 import java.net.URI
 import java.nio.file.Files
-import java.nio.file.Paths
 import java.util.regex.Pattern
 import java.util.stream.Collectors
 
@@ -79,7 +77,7 @@ class KagaView {
 
     @FXML private fun onSelectProfile() {
         val newProfile = profileNameComboBox.value
-        val path = Paths.get(Kaga.CONFIG_DIR.toString(), "$newProfile-config.ini")
+        val path = Kaga.CONFIG_DIR.resolve("$newProfile-config.ini")
         if (Files.exists(path)) {
             val profile = KancolleAutoProfile.load(path)
             if (profile != null) {
@@ -124,9 +122,10 @@ class KagaView {
                 AlertFactory.warn(content = text).showAndWait()
                 return
             }
+            val toDelete = name
             if (delete()) {
                 profileNameComboBox.value = ""
-                AlertFactory.info(content = "Profile $name was deleted").showAndWait()
+                AlertFactory.info(content = "Profile $toDelete was deleted").showAndWait()
             } else {
                 AlertFactory.warn(content = text).showAndWait()
             }

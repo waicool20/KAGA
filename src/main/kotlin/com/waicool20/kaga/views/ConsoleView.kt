@@ -13,8 +13,7 @@ import javafx.scene.control.Tooltip
 import javafx.scene.input.Clipboard
 import javafx.scene.layout.GridPane
 import javafx.util.Duration
-import tornadofx.View
-import tornadofx.putString
+import tornadofx.*
 import java.io.PrintStream
 import java.util.*
 
@@ -23,8 +22,8 @@ class ConsoleView : View() {
     override val root: GridPane by fxml("/views/console.fxml", hasControllerAttribute = true)
     private val consoleTextArea: TextArea by fxid()
     private val copyButton: Button by fxid()
-    private var outStream: PrintStream? = null
-    private var errStream: PrintStream? = null
+    private var outStream: PrintStream
+    private var errStream: PrintStream
 
     init {
         val textArea = TextAreaOutputStream(consoleTextArea)

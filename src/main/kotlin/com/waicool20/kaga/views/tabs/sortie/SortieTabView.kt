@@ -7,7 +7,6 @@ import com.waicool20.kaga.util.bind
 import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
 import javafx.beans.binding.Bindings
 import javafx.beans.value.ChangeListener
-import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -19,8 +18,7 @@ import javafx.scene.layout.GridPane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.StringConverter
-import tornadofx.bind
-import tornadofx.find
+import tornadofx.*
 import java.nio.file.Files
 import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors

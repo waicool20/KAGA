@@ -2,14 +2,11 @@ package com.waicool20.kaga.kcauto
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.kcauto.KancolleAutoStats
 import com.waicool20.kaga.util.LockPreventer
 import com.waicool20.kaga.util.StreamGobbler
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
-import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
-import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -23,13 +20,13 @@ class KancolleAuto {
     var statsTracker = KancolleAutoStatsTracker()
 
     fun startAndWait(newSession: Boolean = true) {
-        Kaga.PROFILE!!.save(Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini"))
+        Kaga.PROFILE!!.save(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini"))
         val args = listOf(
                 "java",
                 "-jar",
                 Kaga.CONFIG.sikulixJarPath.toString(),
                 "-r",
-                Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "kancolle_auto.sikuli").toString()
+                "${Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli")}"
         )
         val lockPreventer: LockPreventer? =
                 if (Kaga.CONFIG.preventLock) LockPreventer() else null
@@ -56,7 +53,7 @@ class KancolleAuto {
         kancolleAutoProcess?.destroy()
     }
 
-    fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess!!.isAlive
+    fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess?.isAlive ?: false
 
     private fun handleCrash() {
         logger.info("Kancolle Auto didn't terminate gracefully")

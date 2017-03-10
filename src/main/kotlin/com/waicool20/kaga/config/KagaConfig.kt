@@ -11,8 +11,7 @@ import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import org.slf4j.LoggerFactory
-import tornadofx.getValue
-import tornadofx.setValue
+import tornadofx.*
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -58,7 +57,7 @@ class KagaConfig(currentProfile: String = "",
 
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KagaConfig.Loader::class.java)
-        val CONFIG_FILE: Path = Paths.get(Kaga.CONFIG_DIR.toString(), "kaga.json")
+        val CONFIG_FILE: Path = Kaga.CONFIG_DIR.resolve("kaga.json")
         @JvmStatic fun load(): KagaConfig {
             loaderLogger.info("Attempting to load KAGA configuration")
             loaderLogger.debug("Loading KAGA configuration from $CONFIG_FILE")
@@ -90,7 +89,7 @@ class KagaConfig(currentProfile: String = "",
     }
 
     fun kancolleAutoRootDirPathIsValid(): Boolean =
-            Files.exists(Paths.get(kancolleAutoRootDirPath.toString(), "kancolle_auto.sikuli"))
+            Files.exists(kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli"))
 
     @JsonIgnore fun isValid(): Boolean =
             sikulixJarIsValid() && kancolleAutoRootDirPathIsValid()

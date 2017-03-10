@@ -11,12 +11,10 @@ import javafx.beans.property.*
 import javafx.collections.FXCollections
 import org.ini4j.Wini
 import org.slf4j.LoggerFactory
-import tornadofx.getValue
-import tornadofx.setValue
+import tornadofx.*
 import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 import java.util.*
 import java.util.regex.Pattern
@@ -32,7 +30,7 @@ class KancolleAutoProfile(
     @JsonIgnore var nameProperty = SimpleStringProperty(name)
     @get:JsonProperty var name by nameProperty
 
-    fun path(): Path = Paths.get(Kaga.CONFIG_DIR.toString(), "$name-config.ini")
+    fun path(): Path = Kaga.CONFIG_DIR.resolve("$name-config.ini")
 
     fun save(path: Path = path()) {
         logger.info("Saving KancolleAuto profile")
@@ -87,7 +85,7 @@ class KancolleAutoProfile(
 
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KancolleAutoProfile.Loader::class.java)
-        @JvmStatic fun load(path: Path = Paths.get(Kaga.CONFIG.kancolleAutoRootDirPath.toString(), "config.ini")): KancolleAutoProfile? {
+        @JvmStatic fun load(path: Path = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini")): KancolleAutoProfile? {
             if (Files.exists(path)) {
                 loaderLogger.info("Attempting to load KancolleAuto Profile")
                 loaderLogger.debug("Loading KancolleAuto Profile from $path")
@@ -96,10 +94,10 @@ class KancolleAutoProfile(
                     if (matcher.matches()) {
                         matcher.group(1)
                     } else {
-                        var backupPath = Paths.get(path.parent.toString(), "config.ini.bak")
+                        var backupPath = path.resolveSibling("config.ini.bak")
                         var index = 0
                         while (Files.exists(backupPath)) {
-                            backupPath = Paths.get(path.parent.toString(), "config.ini.bak${index++}")
+                            backupPath = path.resolveSibling("config.ini.bak${index++}")
                         }
                         loaderLogger.info("Copied backup of existing configuration to $backupPath")
                         Files.copy(path, backupPath)

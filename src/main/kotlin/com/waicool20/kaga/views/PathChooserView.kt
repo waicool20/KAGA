@@ -10,7 +10,7 @@ import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import javafx.stage.Stage
 import org.slf4j.LoggerFactory
-import tornadofx.View
+import tornadofx.*
 
 
 class PathChooserView : View() {

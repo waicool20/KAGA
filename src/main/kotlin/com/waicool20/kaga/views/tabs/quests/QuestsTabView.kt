@@ -8,8 +8,7 @@ import javafx.scene.control.CheckBox
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.layout.GridPane
-import tornadofx.bind
-import tornadofx.find
+import tornadofx.*
 
 
 class QuestsTabView {

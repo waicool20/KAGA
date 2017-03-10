@@ -2,13 +2,12 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import javafx.beans.binding.Bindings
-import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.ComboBox
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
-import tornadofx.bind
+import tornadofx.*
 
 
 class ExpeditionsTabView {
@@ -30,8 +29,7 @@ class ExpeditionsTabView {
                 "9998" to "Pre-Boss Node Support",
                 "9999" to "Boss Node Support"
         )
-        val expeditionOptions = special.keys.toMutableList()
-        with(expeditionOptions) {
+        with(special.keys.toMutableList()) {
             addAll(1, (1..41).map(Int::toString))
             fleet2ComboBox.items.setAll(this)
             fleet3ComboBox.items.setAll(this)

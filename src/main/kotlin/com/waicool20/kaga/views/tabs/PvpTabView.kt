@@ -7,7 +7,7 @@ import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.ComboBox
 import javafx.scene.layout.GridPane
-import tornadofx.bind
+import tornadofx.*
 
 class PvpTabView {
     @FXML private lateinit var enableButton: CheckBox

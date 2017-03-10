@@ -10,7 +10,7 @@ import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
 import javafx.scene.control.Tooltip
 import javafx.scene.control.cell.CheckBoxTableCell
-import tornadofx.rowItem
+import tornadofx.*
 
 data class Quest(val id: String, val description: String, val requirements: List<String>) {
     val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE!!.quests.quests.containsIgnoreCase(id))

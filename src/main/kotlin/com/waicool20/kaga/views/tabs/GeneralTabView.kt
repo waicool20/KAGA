@@ -5,7 +5,7 @@ import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.bind
 import javafx.fxml.FXML
 import javafx.scene.control.*
-import tornadofx.bind
+import tornadofx.*
 
 class GeneralTabView {
     @FXML private lateinit var programTextField: TextField

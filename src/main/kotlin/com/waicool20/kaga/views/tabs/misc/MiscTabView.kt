@@ -51,7 +51,7 @@ class MiscTabView {
 
     private fun createBindings() {
         with(Kaga.PROFILE!!) {
-            with (submarineSwitch) {
+            with(submarineSwitch) {
                 enableSubSwitchButton.bind(enabledProperty)
                 replaceLimitComboBox.bind(replaceLimitProperty)
                 fatigueSwitchCheckBox.bind(fatigueSwitchProperty)

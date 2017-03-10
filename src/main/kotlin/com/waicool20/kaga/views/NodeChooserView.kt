@@ -16,7 +16,7 @@ class NodeImgStringConverter(val regexMap: Map<Regex, Regex>) {
             if (imageName.matches(it.key)) {
                 val groups = it.key.matchEntire(imageName)?.groupValues
                 if (groups != null) {
-                    var string = it.value.toString().replace("\\\\(.)".toRegex(), {it.groupValues[1]})
+                    var string = it.value.toString().replace("\\\\(.)".toRegex(), { it.groupValues[1] })
                     groups.subList(1, groups.size).forEach { s ->
                         string = string.replaceFirst("\\(.+?\\)".toRegex(), s)
                     }
@@ -33,7 +33,7 @@ class NodeImgStringConverter(val regexMap: Map<Regex, Regex>) {
             if (prettyString.matches(it.value)) {
                 val groups = it.value.matchEntire(prettyString)?.groupValues
                 if (groups != null) {
-                    var string = it.key.toString().replace("\\\\(.)".toRegex(), {it.groupValues[1]})
+                    var string = it.key.toString().replace("\\\\(.)".toRegex(), { it.groupValues[1] })
                     groups.subList(1, groups.size).forEach { s ->
                         string = string.replaceFirst("\\(.+?\\)".toRegex(), s)
                     }
@@ -44,14 +44,8 @@ class NodeImgStringConverter(val regexMap: Map<Regex, Regex>) {
         return ""
     }
 
-    fun matches(string: String): Boolean {
-        regexMap.keys.forEach {
-            if (string.matches(it)) {
-                return true
-            }
-        }
-        return false
-    }
+    fun matches(string: String): Boolean =
+            regexMap.keys.map { string.matches(it) }.contains(true)
 }
 
 abstract class NodeChooserView(private val nodeColumnTitle: String, regexMap: Map<Regex, Regex>) : SingleListView<String>() {

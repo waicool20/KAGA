@@ -6,7 +6,7 @@ import javafx.fxml.FXML
 import javafx.scene.Parent
 import javafx.scene.control.TableView
 import javafx.stage.Stage
-import tornadofx.Fragment
+import tornadofx.*
 
 
 abstract class SingleListView<T> : Fragment() {
