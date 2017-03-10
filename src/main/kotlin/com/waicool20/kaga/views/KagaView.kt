@@ -188,5 +188,5 @@ class KagaView {
 
     @FXML private fun openStats() = Kaga.STATS_STAGE.show()
 
-    @FXML private fun quit() = System.exit(0)
+    @FXML private fun quit() = Kaga.exit()
 }

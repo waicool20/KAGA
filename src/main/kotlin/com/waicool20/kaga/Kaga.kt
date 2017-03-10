@@ -58,6 +58,12 @@ class Kaga : Application() {
         fun setLogLevel(level: Level) {
             (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = level
         }
+
+        fun exit() {
+            KANCOLLE_AUTO.stop()
+            Platform.exit()
+            System.exit(0)
+        }
     }
 
     override fun start(stage: Stage) {
@@ -70,7 +76,7 @@ class Kaga : Application() {
         logger.info("Starting KAGA")
         FX.registerApplication(application = this, primaryStage = stage)
         ROOT_STAGE = stage
-        stage.setOnHidden { Platform.exit() }
+        stage.setOnHidden { exit() }
         CONFIG = KagaConfig.load()
         if (CONFIG.isValid()) {
             if (logLevel == "") {
