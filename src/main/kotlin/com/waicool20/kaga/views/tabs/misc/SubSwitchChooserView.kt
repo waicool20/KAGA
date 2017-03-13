@@ -38,15 +38,24 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
     init {
         title = "Submarine Switching Chooser"
         val subNameColumn = TableColumn<Submarines, String>("Submarine")
+        val subClassColumn = TableColumn<Submarines, String>("Class")
         val enableColumn = TableColumn<Submarines, Boolean>("Enable")
 
-        subNameColumn.setWidthRatio(tableView(), 0.75)
+        subNameColumn.setWidthRatio(tableView(), 0.5)
+        subClassColumn.setWidthRatio(tableView(), 0.25)
         enableColumn.setWidthRatio(tableView(), 0.25)
         tableView().lockColumnWidths()
         tableView().disableHeaderMoving()
-        tableView().columns.addAll(subNameColumn, enableColumn)
+        tableView().columns.addAll(subNameColumn, subClassColumn, enableColumn)
 
         subNameColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.prettyString) }
+        subClassColumn.setCellValueFactory { data ->
+            when (data.value.isSSV) {
+                true -> SimpleStringProperty("SSV")
+                false -> SimpleStringProperty("SS")
+                else -> SimpleStringProperty("")
+            }
+        }
         Submarines.values().forEach {
             enabledSubs.put(it, SimpleBooleanProperty(Kaga.PROFILE!!.submarineSwitch.enabledSubs.contains(it)))
         }

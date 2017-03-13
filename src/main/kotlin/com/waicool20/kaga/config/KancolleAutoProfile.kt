@@ -172,11 +172,13 @@ class KancolleAutoProfile(
         }
     }
 
-    enum class Submarines(val prettyString: String) {
-        ALL("All"), SS("SS"), SSV("SSV"), I_8("I-8"), I_8_KAI("I-8 Kai"), I_13("I-13"), I_14("I-14"),
-        I_19("I-19"), I_19_KAI("I-19 Kai"), I_26("I-26"), I_26_KAI("I-26 Kai"),
-        I_58("I-58"), I_58_KAI("I-58 Kai"), I_168("I-168"),
-        I_401("I-401"), MARUYU("Maruyu"), RO_500("Ro-500"), U_511("U-511");
+    enum class Submarines(val prettyString: String, val isSSV: Boolean?) {
+        ALL("All", null), SS("SS", null), SSV("SSV", null), I_8("I-8", false),
+        I_8_KAI("I-8 Kai", true), I_13("I-13", true), I_14("I-14", true),
+        I_19("I-19", false), I_19_KAI("I-19 Kai", true), I_26("I-26", false),
+        I_26_KAI("I-26 Kai", true), I_58("I-58", false), I_58_KAI("I-58 Kai", true),
+        I_168("I-168", false), I_401("I-401", true), MARUYU("Maruyu", false),
+        RO_500("Ro-500", false), U_511("U-511", false);
 
         override fun toString() = prettyString.toLowerCase().replace(" ", "-")
     }
