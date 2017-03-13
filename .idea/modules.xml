@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KAGA.iml" filepath="$PROJECT_DIR$/.idea/modules/KAGA.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KAGA_main.iml" filepath="$PROJECT_DIR$/.idea/modules/KAGA_main.iml" group="KAGA" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KAGA_test.iml" filepath="$PROJECT_DIR$/.idea/modules/KAGA_test.iml" group="KAGA" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-858112391/KAGA.iml" filepath="$PROJECT_DIR$/.idea/modules/-858112391/KAGA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-858112391/KAGA_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-858112391/KAGA_main.iml" group="KAGA" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-858112391/KAGA_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-858112391/KAGA_test.iml" group="KAGA" />
     </modules>
   </component>
 </project>
