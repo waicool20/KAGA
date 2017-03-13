@@ -65,7 +65,7 @@ class SchedulingTabView {
         startTimeMinSpinner.updateOtherSpinnerOnWrap(startTimeHourSpinner, 0, 59)
         sleepLengthSpinner.valueFactory = SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, java.lang.Double.MAX_VALUE, 0.0, 0.1)
         modeChoiceBox.items.setAll(*KancolleAutoProfile.ScheduledStopMode.values())
-        countSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
+        countSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE)
     }
 
     private fun createBindings() {
