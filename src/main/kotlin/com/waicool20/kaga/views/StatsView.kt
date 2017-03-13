@@ -76,8 +76,10 @@ class StatsView : View() {
         }
     }
 
-    private fun hoursSince(time: LocalDateTime?): Double =
-            (Duration.between(time, LocalDateTime.now()).seconds / 3600.0)
+    private fun hoursSince(time: LocalDateTime?): Double {
+        if (time == null) return 0.0
+        return (Duration.between(time, LocalDateTime.now()).seconds / 3600.0)
+    }
 
     private fun formatDecimal(d: Double) = DecimalFormat("0.00").format(d).replace("\uFFFD", "0.00")
 }
