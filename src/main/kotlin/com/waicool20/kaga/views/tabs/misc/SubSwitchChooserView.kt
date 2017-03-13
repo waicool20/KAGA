@@ -46,12 +46,7 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
         tableView().disableHeaderMoving()
         tableView().columns.addAll(subNameColumn, enableColumn)
 
-        subNameColumn.setCellValueFactory { data ->
-            when (data.value.prettyString) {
-                "All" -> SimpleStringProperty("All (Ignores other options, SSs only)")
-                else -> SimpleStringProperty(data.value.prettyString)
-            }
-        }
+        subNameColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.prettyString) }
         Submarines.values().forEach {
             enabledSubs.put(it, SimpleBooleanProperty(Kaga.PROFILE!!.submarineSwitch.enabledSubs.contains(it)))
         }
