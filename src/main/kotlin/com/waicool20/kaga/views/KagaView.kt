@@ -177,13 +177,15 @@ class KagaView {
     }
 
     @FXML private fun clearCrashLogs() {
+        var count = 0
         Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("crashes"))
                 .filter { path -> Files.isRegularFile(path) }
                 .filter { path -> path.fileName.toString().endsWith(".log") }
+                .peek { count++ }
                 .forEach { path -> Files.delete(path) }
-        logger.info("All crash logs have been deleted!")
+        logger.info("$count crash logs have been deleted!")
         AlertFactory.info(
-                content = "All crash logs have been deleted!"
+                content = "$count crash logs have been deleted!"
         ).showAndWait()
     }
 
