@@ -38,12 +38,10 @@ class KeyboardIncrementHandler : EventHandler<KeyEvent> {
             when (keyEvent.code) {
                 KeyCode.UP -> target.increment()
                 KeyCode.DOWN -> target.decrement()
-                else -> {
-                }
+                else -> Unit
             }
         }
     }
-
 }
 
 class MouseIncrementHandler(delayMillis: Long, incrementInterval: Long) : EventHandler<MouseEvent> {
@@ -81,7 +79,7 @@ class MouseIncrementHandler(delayMillis: Long, incrementInterval: Long) : EventH
                     }
 
                     if (increment != null) {
-                        event.consume()
+                        //event.consume()
                         this.spinner = spinner
                         this.isIncrementing = increment
                         startTimestamp = System.nanoTime()

@@ -146,7 +146,7 @@ class SortieTabView {
         with(Kaga.PROFILE!!.sortie) {
             enableButton.bind(enabledProperty)
             fleetCompComboBox.bind(fleetCompProperty)
-            areaComboBox.valueProperty().addListener { observableValue, oldVal, newVal ->
+            areaComboBox.valueProperty().addListener { obsVal, oldVal, newVal ->
                 setProfileArea(newVal)
             }
             eventCheckBox.selectedProperty().addListener(eventCheckBoxListener)

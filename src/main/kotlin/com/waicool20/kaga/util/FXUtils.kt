@@ -32,6 +32,9 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.ComboBoxTableCell
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
+import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
@@ -120,12 +123,30 @@ fun TabPane.setSideWithHorizontalText(side: Side, width: Double = 100.0) {
     isRotateGraphic = true
 }
 
+private val spinnerWraps = mutableMapOf<Spinner<*>, Boolean>()
 fun <T> Spinner<T>.updateOtherSpinnerOnWrap(spinner: Spinner<T>, min: T, max: T) {
+    spinnerWraps.putIfAbsent(this, false)
+    this.addEventHandler(MouseEvent.ANY, { event ->
+        if (event.eventType == MouseEvent.MOUSE_PRESSED ||
+                event.eventType == MouseEvent.MOUSE_RELEASED) {
+            if (event.button == MouseButton.PRIMARY) {
+                val node = event.target as Node
+                if (node is StackPane && node.getParent() is Spinner<*>) {
+                    if (node.styleClass.contains("increment-arrow-button") ||
+                            node.styleClass.contains("decrement-arrow-button")) {
+                        spinnerWraps.put(this, event.eventType == MouseEvent.MOUSE_PRESSED)
+                    }
+                }
+            }
+        }
+    })
     this.valueProperty().addListener { obs, oldVal, newVal ->
-        if (oldVal == max && newVal == min) {
-            spinner.increment()
-        } else if (oldVal == min && newVal == max) {
-            spinner.decrement()
+        if (spinnerWraps[this] ?: false) {
+            if (oldVal == max && newVal == min) {
+                spinner.increment()
+            } else if (oldVal == min && newVal == max) {
+                spinner.decrement()
+            }
         }
     }
 }
