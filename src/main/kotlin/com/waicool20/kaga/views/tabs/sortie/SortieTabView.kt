@@ -21,10 +21,7 @@
 package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.NoneSelectableCellFactory
-import com.waicool20.kaga.util.asTimeSpinner
-import com.waicool20.kaga.util.bind
-import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
+import com.waicool20.kaga.util.*
 import javafx.beans.binding.Bindings
 import javafx.beans.value.ChangeListener
 import javafx.fxml.FXML
@@ -38,6 +35,7 @@ import javafx.scene.layout.GridPane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.StringConverter
+import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.nio.file.Files
 import java.util.concurrent.TimeUnit
@@ -61,6 +59,8 @@ class SortieTabView {
     @FXML private lateinit var lastNodePushCheckBox: CheckBox
 
     @FXML private lateinit var content: GridPane
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     private val maps = setOf(
             "-- World 1 --",
@@ -203,12 +203,20 @@ class SortieTabView {
 
     private fun setAreaItems(isEvent: Boolean) {
         if (isEvent) {
-            val lastEventMap = Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli/combat.sikuli"), 1)
-                    .map { it.fileName.toString() }
-                    .filter { it.startsWith("_event_panel_") }
-                    .map { it.replace("_event_panel_", "").replace(".png", "") }
-                    .sorted().collect(Collectors.toList<String>()).last()
-            areaComboBox.items.setAll(eventMaps.take(eventMaps.indexOfFirst { it == lastEventMap } + 1))
+            try {
+                val lastEventMap = Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli/combat.sikuli"), 1)
+                        .map { it.fileName.toString() }
+                        .filter { it.startsWith("_event_panel_") }
+                        .map { it.replace("_event_panel_", "").replace(".png", "") }
+                        .sorted().collect(Collectors.toList<String>()).last()
+                areaComboBox.items.setAll(eventMaps.take(eventMaps.indexOfFirst { it == lastEventMap } + 1))
+            } catch (e: NoSuchElementException) {
+                areaComboBox.items.setAll()
+                logger.warn("No event maps were found during scan. Please check/update your Kancolle Auto installation.")
+                AlertFactory.warn(
+                        content = "No event maps were found. Is an Kancolle Auto up to date? Is an event really going on?"
+                ).showAndWait()
+            }
         } else {
             areaComboBox.items.setAll(maps)
         }
