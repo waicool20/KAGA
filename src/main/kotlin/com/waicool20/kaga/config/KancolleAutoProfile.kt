@@ -167,9 +167,7 @@ class KancolleAutoProfile(
             fun fromPrettyString(string: String) = CombatFormation.values().first { it.prettyString.equals(string, true) }
         }
 
-        override fun toString(): String {
-            return this.name.toLowerCase()
-        }
+        override fun toString(): String = name.toLowerCase()
     }
 
     enum class Submarines(val prettyString: String, val isSSV: Boolean?) {

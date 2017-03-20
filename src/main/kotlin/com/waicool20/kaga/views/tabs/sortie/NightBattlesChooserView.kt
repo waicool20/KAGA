@@ -36,7 +36,7 @@ class NightBattlesChooserView : SingleListView<String>() {
         val nightBattleColumn = OptionsColumn("Night Battle?", listOf("Yes", "No"), tableView())
         nightBattleColumn.setWidthRatio(tableView(), 0.75)
         nightBattleColumn.isSortable = false
-        nightBattleColumn.setCellValueFactory { data -> SimpleStringProperty(data.value) }
+        nightBattleColumn.setCellValueFactory { SimpleStringProperty(it.value) }
 
         tableView().lockColumnWidths()
         tableView().disableHeaderMoving()

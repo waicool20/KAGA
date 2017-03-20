@@ -82,13 +82,13 @@ class KagaView {
     @FXML private fun showProfiles() {
         val currentProfile = profileNameComboBox.value
         val profiles = Files.walk(Kaga.CONFIG_DIR)
-                .filter({ path -> Files.isRegularFile(path) })
-                .map({ path -> path.fileName.toString() })
-                .map({ name ->
-                    val matcher = Pattern.compile("(.+?)-config\\.ini").matcher(name)
+                .filter { Files.isRegularFile(it) }
+                .map { it.fileName.toString() }
+                .map {
+                    val matcher = Pattern.compile("(.+?)-config\\.ini").matcher(it)
                     if (matcher.matches()) matcher.group(1) else ""
-                }).filter(String::isNotEmpty)
-                .filter({ name -> name != currentProfile })
+                }.filter(String::isNotEmpty)
+                .filter { it != currentProfile }
                 .collect(Collectors.toList<String>()).sorted()
         if (profiles.isNotEmpty()) {
             profileNameComboBox.items.setAll(profiles)
@@ -179,10 +179,10 @@ class KagaView {
     @FXML private fun clearCrashLogs() {
         var count = 0
         Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("crashes"))
-                .filter { path -> Files.isRegularFile(path) }
-                .filter { path -> path.fileName.toString().endsWith(".log") }
+                .filter { Files.isRegularFile(it) }
+                .filter { it.toString().endsWith(".log") }
                 .peek { count++ }
-                .forEach { path -> Files.delete(path) }
+                .forEach { Files.delete(it) }
         logger.info("$count crash logs have been deleted!")
         AlertFactory.info(
                 content = "$count crash logs have been deleted!"

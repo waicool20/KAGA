@@ -48,9 +48,9 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
         tableView().disableHeaderMoving()
         tableView().columns.addAll(subNameColumn, subClassColumn, enableColumn)
 
-        subNameColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.prettyString) }
-        subClassColumn.setCellValueFactory { data ->
-            when (data.value.isSSV) {
+        subNameColumn.setCellValueFactory { SimpleStringProperty(it.value.prettyString) }
+        subClassColumn.setCellValueFactory {
+            when (it.value.isSSV) {
                 true -> SimpleStringProperty("SSV")
                 false -> SimpleStringProperty("SS")
                 else -> SimpleStringProperty("")
@@ -60,7 +60,7 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
             enabledSubs.put(it, SimpleBooleanProperty(Kaga.PROFILE!!.submarineSwitch.enabledSubs.contains(it)))
         }
         enableColumn.cellFactory = CheckBoxTableCell.forTableColumn(enableColumn)
-        enableColumn.setCellValueFactory { data -> enabledSubs[data.value] }
+        enableColumn.setCellValueFactory { enabledSubs[it.value] }
         tableView().items.addAll(enabledSubs.keys)
     }
 

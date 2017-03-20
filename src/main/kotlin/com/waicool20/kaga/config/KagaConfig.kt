@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.util.listen
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
@@ -70,7 +71,7 @@ class KagaConfig(currentProfile: String = "",
     private val logger = LoggerFactory.getLogger(javaClass)
 
     init {
-        debugModeEnabledProperty.addListener { _ ->
+        debugModeEnabledProperty.listen {
             Kaga.setLogLevel(Level.toLevel(logLevel()))
         }
     }

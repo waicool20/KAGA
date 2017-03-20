@@ -42,7 +42,7 @@ class FormationChooserView : SingleListView<String>() {
         val formationColumn = OptionsColumn("Formation", selections, tableView())
         formationColumn.setWidthRatio(tableView(), 0.75)
         formationColumn.isSortable = false
-        formationColumn.setCellValueFactory { data -> SimpleStringProperty(data.value) }
+        formationColumn.setCellValueFactory { SimpleStringProperty(it.value) }
 
         tableView().lockColumnWidths()
         tableView().disableHeaderMoving()

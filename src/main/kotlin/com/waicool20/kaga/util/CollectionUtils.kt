@@ -21,15 +21,15 @@
 package com.waicool20.kaga.util
 
 fun Collection<String>.getIgnoreCase(string: String): String? {
-    forEach { item ->
-        if (item.equals(string, true)) return item
+    forEach {
+        if (it.equals(string, true)) return it
     }
     return null
 }
 
 fun Collection<String>.containsIgnoreCase(string: String): Boolean {
-    forEach { item ->
-        if (item.equals(string, true)) return true
+    forEach {
+        if (it.equals(string, true)) return true
     }
     return false
 }

@@ -58,8 +58,8 @@ class QuestsChooserView : SingleListView<Quest>() {
         tableView().disableHeaderMoving()
         tableView().columns.addAll(indexColumn, descColumn, enableColumn)
 
-        indexColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.id) }
-        descColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.description) }
+        indexColumn.setCellValueFactory { SimpleStringProperty(it.value.id) }
+        descColumn.setCellValueFactory { SimpleStringProperty(it.value.description) }
         descColumn.setCellFactory {
             with(TableCell<Quest, String>()) {
                 this.itemProperty().addListener { _, _, newVal ->
@@ -75,7 +75,7 @@ class QuestsChooserView : SingleListView<Quest>() {
             }
         }
         enableColumn.cellFactory = CheckBoxTableCell.forTableColumn(enableColumn)
-        enableColumn.setCellValueFactory { data -> data.value.enabledProperty }
+        enableColumn.setCellValueFactory { it.value.enabledProperty }
         enableColumn.isEditable = true
         tableView().items.addAll(questList)
     }

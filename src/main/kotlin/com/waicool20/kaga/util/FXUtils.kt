@@ -23,6 +23,7 @@ package com.waicool20.kaga.util
 import com.sun.javafx.scene.control.skin.TableHeaderRow
 import com.waicool20.kaga.Kaga
 import javafx.beans.property.ReadOnlyObjectProperty
+import javafx.beans.value.ObservableValue
 import javafx.collections.ListChangeListener
 import javafx.geometry.Pos
 import javafx.geometry.Side
@@ -43,16 +44,16 @@ import java.util.concurrent.TimeUnit
 
 
 fun Parent.setInitialSceneSizeAsMin() = sceneProperty().setInitialSizeAsMin()
-
 fun ReadOnlyObjectProperty<Scene>.setInitialSizeAsMin() = setInitialSize(null, null, true)
-
 fun Parent.setInitialSceneSize(width: Double, height: Double, asMinimum: Boolean) = sceneProperty().setInitialSize(width, height, asMinimum)
+
+fun ObservableValue<*>.listen(unit: () -> Unit) = addListener { _ -> unit.invoke() }
 
 fun ReadOnlyObjectProperty<Scene>.setInitialSize(width: Double?, height: Double?, asMinimum: Boolean) {
     addListener { _, _, newVal ->
         newVal?.windowProperty()?.addListener { _, _, newVal ->
-            newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, { event ->
-                with(event.target as Stage) {
+            newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, {
+                with(it.target as Stage) {
                     if (width != null && height != null) {
                         this.width = width
                         this.height = height
@@ -68,23 +69,23 @@ fun ReadOnlyObjectProperty<Scene>.setInitialSize(width: Double?, height: Double?
 }
 
 fun TableView<*>.lockColumnWidths() {
-    columns.addListener(ListChangeListener<TableColumn<*, *>> { change ->
-        while (change.next()) {
-            change.addedSubList.forEach { column -> column.isResizable = false }
+    columns.addListener(ListChangeListener<TableColumn<*, *>> {
+        while (it.next()) {
+            it.addedSubList.forEach { column -> column.isResizable = false }
         }
     })
     columns.forEach { column -> column.isResizable = false }
 }
 
 fun TableView<*>.disableHeaderMoving() {
-    widthProperty().addListener { _ ->
+    widthProperty().listen {
         val row = lookup("TableHeaderRow") as TableHeaderRow
-        row.reorderingProperty().addListener({ _ -> row.isReordering = false })
+        row.reorderingProperty().listen { -> row.isReordering = false }
     }
 }
 
 fun TableColumn<*, *>.setWidthRatio(tableView: TableView<*>, ratio: Double) =
-        this.prefWidthProperty().bind(tableView.widthProperty().subtract(20).multiply(ratio))
+        prefWidthProperty().bind(tableView.widthProperty().subtract(20).multiply(ratio))
 
 fun Node.getParentTabPane(): TabPane? {
     var parentNode = parent
@@ -124,7 +125,7 @@ fun TabPane.setSideWithHorizontalText(side: Side, width: Double = 100.0) {
 private val spinnerWraps = mutableMapOf<Spinner<*>, Boolean>()
 fun <T> Spinner<T>.updateOtherSpinnerOnWrap(spinner: Spinner<T>, min: T, max: T) {
     spinnerWraps.putIfAbsent(this, false)
-    this.addEventHandler(MouseEvent.ANY, { event ->
+    addEventHandler(MouseEvent.ANY, { event ->
         if (event.eventType == MouseEvent.MOUSE_PRESSED ||
                 event.eventType == MouseEvent.MOUSE_RELEASED) {
             if (event.button == MouseButton.PRIMARY) {
@@ -138,7 +139,7 @@ fun <T> Spinner<T>.updateOtherSpinnerOnWrap(spinner: Spinner<T>, min: T, max: T)
             }
         }
     })
-    this.valueProperty().addListener { _, oldVal, newVal ->
+    valueProperty().addListener { _, oldVal, newVal ->
         if (spinnerWraps[this] ?: false) {
             if (oldVal == max && newVal == min) {
                 spinner.increment()
@@ -272,7 +273,7 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
 
                     override fun fromString(string: String?): String = ""
                 }
-                indexProperty().addListener { _ ->
+                indexProperty().listen {
                     items.setAll(if (index != table.items.size - 1) addText else "")
                     items.addAll(options.filter { filter.invoke(this, it) })
                 }
@@ -297,8 +298,8 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
                 }
             }
         }
-        table.items.addListener(ListChangeListener<String> { change ->
-            if (change.next()) {
+        table.items.addListener(ListChangeListener<String> {
+            if (it.next()) {
                 if (table.items[table.items.size - 1] != addText) {
                     table.items.add(addText)
                 }

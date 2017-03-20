@@ -53,7 +53,6 @@ class QuestsTabView {
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 
-    @FXML private fun onConfigureQuestsButton() {
-        find(QuestsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
-    }
+    @FXML private fun onConfigureQuestsButton() =
+            find(QuestsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
 }
