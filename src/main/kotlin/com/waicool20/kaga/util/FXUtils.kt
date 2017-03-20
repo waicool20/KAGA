@@ -32,8 +32,6 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.ComboBoxTableCell
-import javafx.scene.input.KeyCode
-import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.StackPane
@@ -51,8 +49,8 @@ fun ReadOnlyObjectProperty<Scene>.setInitialSizeAsMin() = setInitialSize(null, n
 fun Parent.setInitialSceneSize(width: Double, height: Double, asMinimum: Boolean) = sceneProperty().setInitialSize(width, height, asMinimum)
 
 fun ReadOnlyObjectProperty<Scene>.setInitialSize(width: Double?, height: Double?, asMinimum: Boolean) {
-    addListener { obs, oldVal, newVal ->
-        newVal?.windowProperty()?.addListener { obs, oldVal, newVal ->
+    addListener { _, _, newVal ->
+        newVal?.windowProperty()?.addListener { _, _, newVal ->
             newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, { event ->
                 with(event.target as Stage) {
                     if (width != null && height != null) {
@@ -79,9 +77,9 @@ fun TableView<*>.lockColumnWidths() {
 }
 
 fun TableView<*>.disableHeaderMoving() {
-    widthProperty().addListener { obs, oldVal, newVal ->
+    widthProperty().addListener { _ ->
         val row = lookup("TableHeaderRow") as TableHeaderRow
-        row.reorderingProperty().addListener({ obs, oldVal, newVal -> row.isReordering = false })
+        row.reorderingProperty().addListener({ _ -> row.isReordering = false })
     }
 }
 
@@ -140,7 +138,7 @@ fun <T> Spinner<T>.updateOtherSpinnerOnWrap(spinner: Spinner<T>, min: T, max: T)
             }
         }
     })
-    this.valueProperty().addListener { obs, oldVal, newVal ->
+    this.valueProperty().addListener { _, oldVal, newVal ->
         if (spinnerWraps[this] ?: false) {
             if (oldVal == max && newVal == min) {
                 spinner.increment()
@@ -257,7 +255,7 @@ class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>
 }
 
 class OptionsColumn(text: String = "", var options: List<String>, table: TableView<String>,
-                    var filter: (cell: TableCell<String, String>, string: String) -> Boolean = { cell, string -> true },
+                    var filter: (cell: TableCell<String, String>, string: String) -> Boolean = { _, _ -> true },
                     var maxRows: Int = Integer.MAX_VALUE) : TableColumn<String, String>(text) {
     init {
         val addText = "<Add Item>"
@@ -274,7 +272,7 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
 
                     override fun fromString(string: String?): String = ""
                 }
-                indexProperty().addListener { obs, oldVal, newVal ->
+                indexProperty().addListener { _ ->
                     items.setAll(if (index != table.items.size - 1) addText else "")
                     items.addAll(options.filter { filter.invoke(this, it) })
                 }
@@ -306,9 +304,9 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
                 }
             }
         })
-        table.sceneProperty().addListener { obs, oldVal, newVal ->
-            newVal?.windowProperty()?.addListener { obs, oldVal, newVal ->
-                newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, { event ->
+        table.sceneProperty().addListener { _, _, newVal ->
+            newVal?.windowProperty()?.addListener { _, _, newVal ->
+                newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, {
                     if (table.items.size == 0) table.items.add(addText)
                 })
             }

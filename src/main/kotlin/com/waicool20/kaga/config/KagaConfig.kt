@@ -70,7 +70,7 @@ class KagaConfig(currentProfile: String = "",
     private val logger = LoggerFactory.getLogger(javaClass)
 
     init {
-        debugModeEnabledProperty.addListener { obs, oldVal, newVal ->
+        debugModeEnabledProperty.addListener { _ ->
             Kaga.setLogLevel(Level.toLevel(logLevel()))
         }
     }

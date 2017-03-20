@@ -46,7 +46,7 @@ abstract class LineBufferedOutputStream : OutputStream() {
 
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int = 1000) : LineBufferedOutputStream() {
     init {
-        console.textProperty().addListener { obs, oldVal, newVal ->
+        console.textProperty().addListener { _ ->
             Platform.runLater {
                 console.scrollTop = Double.MAX_VALUE
             }

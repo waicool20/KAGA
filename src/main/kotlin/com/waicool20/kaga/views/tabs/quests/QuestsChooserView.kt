@@ -62,7 +62,7 @@ class QuestsChooserView : SingleListView<Quest>() {
         descColumn.setCellValueFactory { data -> SimpleStringProperty(data.value.description) }
         descColumn.setCellFactory {
             with(TableCell<Quest, String>()) {
-                this.itemProperty().addListener { obs, oldVal, newVal ->
+                this.itemProperty().addListener { _, _, newVal ->
                     if (newVal != null) {
                         val tooltip = Tooltip("- ${rowItem.requirements.joinToString("\n- ")}")
                         tooltip.isWrapText = true

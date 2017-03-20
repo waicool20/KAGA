@@ -82,9 +82,9 @@ class MiscTabView {
             }
         }
         subSwitchContent.disableProperty().bind(Bindings.not(enableSubSwitchButton.selectedProperty()))
-        group1CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 1) })
-        group2CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 2) })
-        group3CheckBox.selectedProperty().addListener({ obs, oldVal, newVal -> setGroups(newVal, 3) })
+        group1CheckBox.selectedProperty().addListener({ _, _, newVal -> setGroups(newVal, 1) })
+        group2CheckBox.selectedProperty().addListener({ _, _, newVal -> setGroups(newVal, 2) })
+        group3CheckBox.selectedProperty().addListener({ _, _, newVal -> setGroups(newVal, 3) })
         lbasContent.disableProperty().bind(Bindings.not(enableLbasButton.selectedProperty()))
         configGrp1NodesBtn.disableProperty().bind(Bindings.not(group1CheckBox.selectedProperty()))
         configGrp2NodesBtn.disableProperty().bind(Bindings.not(group2CheckBox.selectedProperty()))

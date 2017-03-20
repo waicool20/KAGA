@@ -100,7 +100,7 @@ class SortieTabView {
         createBindings()
     }
 
-    private val eventCheckBoxListener = ChangeListener<Boolean> { obs, oldVal, newVal ->
+    private val eventCheckBoxListener = ChangeListener<Boolean> { _, _, newVal ->
         setAreaItems(newVal)
         areaComboBox.value = areaComboBox.items.find { !it.matches("--.+?--".toRegex()) }
         setProfileArea(areaComboBox.selectionModel.selectedItem)
@@ -146,7 +146,7 @@ class SortieTabView {
         with(Kaga.PROFILE!!.sortie) {
             enableButton.bind(enabledProperty)
             fleetCompComboBox.bind(fleetCompProperty)
-            areaComboBox.valueProperty().addListener { obsVal, oldVal, newVal ->
+            areaComboBox.valueProperty().addListener { _, _, newVal ->
                 setProfileArea(newVal)
             }
             eventCheckBox.selectedProperty().addListener(eventCheckBoxListener)

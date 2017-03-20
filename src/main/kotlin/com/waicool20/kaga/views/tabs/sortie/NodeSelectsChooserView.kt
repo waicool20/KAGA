@@ -30,7 +30,7 @@ private val regexMap = mapOf("_node_E-(\\d)-(\\w)".toRegex() to "E(\\d): Node (\
 class NodeSelectsChooserView : NodeChooserView("Selection", regexMap) {
     @FXML override fun initialize() {
         super.initialize()
-        nodeColumn?.filter = { cell, string ->
+        nodeColumn?.filter = { _, string ->
             !tableView.items.contains(string)
         }
         tableView.items.addAll(Kaga.PROFILE!!.sortie.nodeSelects.map { converter?.toPrettyString(it) })
