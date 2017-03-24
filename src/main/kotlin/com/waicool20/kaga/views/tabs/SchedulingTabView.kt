@@ -24,7 +24,6 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.asTimeSpinner
 import com.waicool20.kaga.util.bind
-import com.waicool20.kaga.util.updateOtherSpinnerOnWrap
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
@@ -62,7 +61,6 @@ class SchedulingTabView {
             startTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
             startTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
         }
-        startTimeMinSpinner.updateOtherSpinnerOnWrap(startTimeHourSpinner, 0, 59)
         sleepLengthSpinner.valueFactory = SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, java.lang.Double.MAX_VALUE, 0.0, 0.1)
         modeChoiceBox.items.setAll(*KancolleAutoProfile.ScheduledStopMode.values())
         countSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE)

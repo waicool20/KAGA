@@ -135,7 +135,6 @@ class SortieTabView {
 
         repairTimeHourSpinner.asTimeSpinner(TimeUnit.HOURS)
         repairTimeMinSpinner.asTimeSpinner(TimeUnit.MINUTES)
-        repairTimeMinSpinner.updateOtherSpinnerOnWrap(repairTimeHourSpinner, 0, 59)
         with(String.format("%04d", Kaga.PROFILE!!.sortie.repairTimeLimit.toInt())) {
             repairTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
             repairTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()

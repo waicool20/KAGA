@@ -79,7 +79,7 @@ class MouseIncrementHandler(delayMillis: Long, incrementInterval: Long) : EventH
                     }
 
                     if (increment != null) {
-                        //event.consume()
+                        event.consume()
                         this.spinner = spinner
                         this.isIncrementing = increment
                         startTimestamp = System.nanoTime()
