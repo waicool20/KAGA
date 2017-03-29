@@ -50,21 +50,30 @@ class KancolleAuto {
         )
         val lockPreventer: LockPreventer? =
                 if (Kaga.CONFIG.preventLock) LockPreventer() else null
-        if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
-        logger.info("Starting new Kancolle Auto session")
-        logger.debug("Launching with command: ${args.joinToString(" ")}")
-        logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
-        kancolleAutoProcess = ProcessBuilder(args).start()
-        if (newSession) statsTracker.startNewSession() else statsTracker.trackNewChild()
-        streamGobbler = StreamGobbler(kancolleAutoProcess)
-        streamGobbler?.run()
-        lockPreventer?.start()
-        val exitVal = kancolleAutoProcess?.waitFor()
-        logger.info("Kancolle Auto session has terminated!")
-        logger.debug("Exit Value was $exitVal")
-        lockPreventer?.stop()
-        if (!(exitVal == 0 || exitVal == 143)) {
-            handleCrash()
+        statsTracker.startNewSession()
+        while (true) {
+            if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
+            logger.info("Starting new Kancolle Auto session")
+            logger.debug("Launching with command: ${args.joinToString(" ")}")
+            logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
+            kancolleAutoProcess = ProcessBuilder(args).start()
+            streamGobbler = StreamGobbler(kancolleAutoProcess)
+            streamGobbler?.run()
+            lockPreventer?.start()
+            val exitVal = kancolleAutoProcess?.waitFor()
+            logger.info("Kancolle Auto session has terminated!")
+            logger.debug("Exit Value was $exitVal")
+            lockPreventer?.stop()
+            if (!(exitVal == 0 || exitVal == 143)) {
+                logger.info("Kancolle Auto didn't terminate gracefully")
+                saveCrashLog()
+                if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
+                    logger.info("Auto Restart enabled...attempting restart")
+                    statsTracker.trackNewChild()
+                }
+            } else {
+                break
+            }
         }
     }
 
@@ -74,15 +83,6 @@ class KancolleAuto {
     }
 
     fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess?.isAlive ?: false
-
-    private fun handleCrash() {
-        logger.info("Kancolle Auto didn't terminate gracefully")
-        saveCrashLog()
-        if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
-            logger.info("Auto Restart enabled...attempting restart")
-            startAndWait(newSession = false)
-        }
-    }
 
     private fun saveCrashLog() {
         val crashTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss"))
