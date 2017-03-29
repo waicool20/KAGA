@@ -5,6 +5,7 @@
     <content url="file:///media/Storage/Programming/java/kaga">
       <excludeFolder url="file:///media/Storage/Programming/java/kaga/.gradle" />
       <excludeFolder url="file:///media/Storage/Programming/java/kaga/build" />
+      <excludeFolder url="file:///media/Storage/Programming/java/kaga/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

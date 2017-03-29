@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.input.KeyCodeCombination?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
 <!--
   ~ GPLv3 License
   ~
@@ -24,57 +35,48 @@
   ~
   -->
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" minHeight="-Infinity"
-          minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121"
-          fx:controller="com.waicool20.kaga.views.KagaView">
+<GridPane fx:id="root" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.KagaView">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="46.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0"
-                        valignment="BOTTOM"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="46.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" valignment="BOTTOM" />
     </rowConstraints>
     <children>
-        <MenuBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0"
-                 GridPane.valignment="TOP">
+        <MenuBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" GridPane.valignment="TOP">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#clearCrashLogs"
-                                  text="Clear all crash logs"/>
+                        <MenuItem mnemonicParsing="false" onAction="#clearCrashLogs" text="Clear all crash logs" />
                         <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit">
                             <accelerator>
-                                <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP"
-                                                    shift="UP" shortcut="UP"/>
+                                <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                            </accelerator>
+                        </MenuItem>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Debug">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#startWithoutWritingConfig" text="Start w/o writing config" />
+                        <MenuItem mnemonicParsing="false" onAction="#openStats" text="Session Stats" />
+                        <MenuItem mnemonicParsing="false" onAction="#openConsole" text="Debug Console">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#openStats"
-                                  text="Session Stats"/>
-                        <MenuItem mnemonicParsing="false" onAction="#openConsole"
-                                  text="Debug Console">
+                        <MenuItem mnemonicParsing="false" onAction="#openHowto" text="How do I use KAGA?">
                             <accelerator>
-                                <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP"
-                                                    shift="UP" shortcut="UP"/>
+                                <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#openHowto"
-                                  text="How do I use KAGA?">
-                            <accelerator>
-                                <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP"
-                                                    shift="UP" shortcut="UP"/>
-                            </accelerator>
-                        </MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#openRepo"
-                                  text="Github Repository"/>
+                        <MenuItem mnemonicParsing="false" onAction="#openRepo" text="Github Repository" />
                     </items>
                 </Menu>
             </menus>
@@ -83,79 +85,71 @@
             <children>
                 <HBox fx:id="profileSelectionHBox" alignment="CENTER_LEFT" spacing="4.0">
                     <children>
-                        <Label fx:id="profileLabel" text="Profile:"/>
-                        <ComboBox fx:id="profileNameComboBox" editable="true"
-                                  onAction="#onSelectProfile" onShowing="#showProfiles"
-                                  prefHeight="28.0" prefWidth="200.0"/>
-                        <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save"/>
-                        <Button mnemonicParsing="false" onAction="#onDeleteButton" text="Delete"/>
+                        <Label fx:id="profileLabel" text="Profile:" />
+                        <ComboBox fx:id="profileNameComboBox" editable="true" onAction="#onSelectProfile" onShowing="#showProfiles" prefHeight="28.0" prefWidth="200.0" />
+                        <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
+                        <Button mnemonicParsing="false" onAction="#onDeleteButton" text="Delete" />
                     </children>
                     <padding>
-                        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0"/>
+                        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                     </padding>
                 </HBox>
-                <Button fx:id="startStopButton" mnemonicParsing="false"
-                        onAction="#onStartStopButton" prefHeight="28.0" prefWidth="85.0"
-                        style="-fx-background-color: lightgreen;" text="Start"/>
+                <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#onStartStopButton" prefHeight="28.0" prefWidth="85.0" style="-fx-background-color: lightgreen;" text="Start" />
             </children>
         </HBox>
-        <TabPane fx:id="tabpane" rotateGraphic="true" side="LEFT"
-                 style="-fx-border-width: 1 0 0 0; -fx-border-color: lightgrey;"
-                 tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
+        <TabPane fx:id="tabpane" rotateGraphic="true" side="LEFT" style="-fx-border-width: 1 0 0 0; -fx-border-color: lightgrey;" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
             <tabs>
                 <Tab text="General">
                     <content>
-                        <fx:include fx:id="generalTab" source="tabs/tab-general.fxml"/>
+                        <fx:include fx:id="generalTab" source="tabs/tab-general.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Scheduling">
                     <content>
-                        <fx:include fx:id="schedulingTab" source="tabs/tab-scheduling.fxml"/>
+                        <fx:include fx:id="schedulingTab" source="tabs/tab-scheduling.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Sortie">
                     <content>
-                        <fx:include fx:id="sortieTab" source="tabs/tab-sortie.fxml"/>
+                        <fx:include fx:id="sortieTab" source="tabs/tab-sortie.fxml" />
                     </content>
                 </Tab>
                 <Tab text="PvP">
                     <content>
-                        <fx:include fx:id="pvpTab" source="tabs/tab-pvp.fxml"/>
+                        <fx:include fx:id="pvpTab" source="tabs/tab-pvp.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Expeditions">
                     <content>
-                        <fx:include fx:id="expeditionsTab" source="tabs/tab-expeditions.fxml"/>
+                        <fx:include fx:id="expeditionsTab" source="tabs/tab-expeditions.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Quests">
                     <content>
-                        <fx:include fx:id="questsTab" source="tabs/tab-quests.fxml"/>
+                        <fx:include fx:id="questsTab" source="tabs/tab-quests.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Misc">
                     <content>
-                        <fx:include fx:id="miscTab" source="tabs/tab-misc.fxml"/>
+                        <fx:include fx:id="miscTab" source="tabs/tab-misc.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Preferences">
                     <content>
-                        <fx:include fx:id="preferencesTab" source="tabs/tab-preferences.fxml"/>
+                        <fx:include fx:id="preferencesTab" source="tabs/tab-preferences.fxml" />
                     </content>
                 </Tab>
             </tabs>
         </TabPane>
-        <HBox alignment="CENTER_LEFT" fillHeight="false"
-              style="-fx-border-width: 1 0 0 0; -fx-border-color: black;" GridPane.rowIndex="3"
-              GridPane.valignment="BOTTOM">
+        <HBox alignment="CENTER_LEFT" fillHeight="false" style="-fx-border-width: 1 0 0 0; -fx-border-color: black;" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
             <children>
-                <Label fx:id="kagaStatus" text="Status: Kancolle Auto is not running"/>
+                <Label fx:id="kagaStatus" text="Status: Kancolle Auto is not running" />
             </children>
             <GridPane.margin>
-                <Insets/>
+                <Insets />
             </GridPane.margin>
             <padding>
-                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0"/>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
             </padding>
         </HBox>
     </children>

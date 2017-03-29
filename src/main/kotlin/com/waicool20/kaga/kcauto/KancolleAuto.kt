@@ -39,8 +39,8 @@ class KancolleAuto {
 
     var statsTracker = KancolleAutoStatsTracker()
 
-    fun startAndWait(newSession: Boolean = true) {
-        Kaga.PROFILE!!.save(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini"))
+    fun startAndWait(newSession: Boolean = true, saveConfig: Boolean = true) {
+        if (saveConfig) Kaga.PROFILE!!.save(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini"))
         val args = listOf(
                 "java",
                 "-jar",

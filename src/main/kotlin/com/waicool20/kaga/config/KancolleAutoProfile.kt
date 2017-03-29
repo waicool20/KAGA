@@ -110,19 +110,17 @@ class KancolleAutoProfile(
                 loaderLogger.info("Attempting to load KancolleAuto Profile")
                 loaderLogger.debug("Loading KancolleAuto Profile from $path")
                 val matcher = Pattern.compile("(.+?)-config\\.ini").matcher(path.fileName.toString())
-                val name = run {
-                    if (matcher.matches()) {
-                        matcher.group(1)
-                    } else {
-                        var backupPath = path.resolveSibling("config.ini.bak")
-                        var index = 0
-                        while (Files.exists(backupPath)) {
-                            backupPath = path.resolveSibling("config.ini.bak${index++}")
-                        }
-                        loaderLogger.info("Copied backup of existing configuration to $backupPath")
-                        Files.copy(path, backupPath)
-                        "<Current Profile>"
+                val name = if (matcher.matches()) {
+                    matcher.group(1)
+                } else {
+                    var backupPath = path.resolveSibling("config.ini.bak")
+                    var index = 0
+                    while (Files.exists(backupPath)) {
+                        backupPath = path.resolveSibling("config.ini.bak${index++}")
                     }
+                    loaderLogger.info("Copied backup of existing configuration to $backupPath")
+                    Files.copy(path, backupPath)
+                    "<Current Profile>"
                 }
                 val ini = Wini(path.toFile())
 
