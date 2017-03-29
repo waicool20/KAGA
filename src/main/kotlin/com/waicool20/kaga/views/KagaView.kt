@@ -45,6 +45,7 @@ import tornadofx.*
 import java.awt.Desktop
 import java.net.URI
 import java.nio.file.Files
+import java.nio.file.Path
 import java.util.regex.Pattern
 import java.util.stream.Collectors
 
@@ -195,6 +196,21 @@ class KagaView {
         AlertFactory.info(
                 content = "$count crash logs have been deleted!"
         ).showAndWait()
+    }
+
+    @FXML private fun openLatestCrashLog() {
+        val log = Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("crashes"), 1)
+                .filter { Files.isRegularFile(it) }
+                .filter { it.fileName.toString().endsWith(".log") }
+                .map(Path::toFile)
+                .collect(Collectors.toList())
+                .sortedDescending().firstOrNull()
+        if (log != null && Desktop.isDesktopSupported()) {
+            Thread({
+                Desktop.getDesktop().open(log)
+            }).start()
+            Kaga.ROOT_STAGE.toBack()
+        }
     }
 
     @FXML private fun openHowto() {
