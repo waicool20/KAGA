@@ -45,7 +45,6 @@ import java.util.stream.Collectors
 class SortieTabView {
     @FXML private lateinit var enableButton: CheckBox
     @FXML private lateinit var eventCheckBox: CheckBox
-    @FXML private lateinit var fleetCompComboBox: ComboBox<Int>
     @FXML private lateinit var areaComboBox: ComboBox<String>
     @FXML private lateinit var combinedFleetCheckBox: CheckBox
     @FXML private lateinit var nodesSpinner: Spinner<Int>
@@ -108,7 +107,6 @@ class SortieTabView {
 
     private fun setValues() {
         eventCheckBox.selectedProperty().removeListener(eventCheckBoxListener)
-        fleetCompComboBox.items.setAll((1..5).toList())
         areaComboBox.cellFactory = NoneSelectableCellFactory("--.+?--".toRegex())
         with(Kaga.PROFILE!!.sortie) {
             if (area == "E") {
@@ -144,7 +142,6 @@ class SortieTabView {
     private fun createBindings() {
         with(Kaga.PROFILE!!.sortie) {
             enableButton.bind(enabledProperty)
-            fleetCompComboBox.bind(fleetCompProperty)
             areaComboBox.valueProperty().addListener { _, _, newVal ->
                 setProfileArea(newVal)
             }
@@ -165,6 +162,9 @@ class SortieTabView {
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
         eventCheckBox.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
+
+    @FXML private fun onConfigureFleetCompsButton() =
+        find(FleetCompsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
 
     @FXML private fun onConfigureNodeSelectsButton() {
         val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/single-list.fxml"))
