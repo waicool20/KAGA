@@ -203,13 +203,19 @@ class KagaView {
                 .filter { Files.isRegularFile(it) }
                 .filter { it.fileName.toString().endsWith(".log") }
                 .map(Path::toFile)
-                .collect(Collectors.toList())
-                .sortedDescending().firstOrNull()
-        if (log != null && Desktop.isDesktopSupported()) {
-            Thread({
-                Desktop.getDesktop().open(log)
-            }).start()
-            Kaga.ROOT_STAGE.toBack()
+                .sorted().collect(Collectors.toList())
+                .lastOrNull()
+        if (log == null) {
+            AlertFactory.warn(
+                    content = "No crash logs were found!"
+            ).showAndWait()
+        } else {
+            if (Desktop.isDesktopSupported()) {
+                Thread({
+                    Desktop.getDesktop().open(log)
+                }).start()
+                Kaga.ROOT_STAGE.toBack()
+            }
         }
     }
 
