@@ -35,7 +35,7 @@ class FormationChooserView : SingleListView<String>() {
         nodeNumColumn.setWidthRatio(tableView(), 0.25)
 
         val selections = if (Kaga.PROFILE!!.sortie.combinedFleet) {
-            CombatFormation.values().map { it.prettyString }
+            CombatFormation.values().map { it.prettyString }.filter { it.contains("combined", true)}
         } else {
             CombatFormation.values().map({ it.prettyString }).filterNot { it.contains("combined", true) }
         }
