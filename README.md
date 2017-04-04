@@ -66,4 +66,8 @@ Same goes for quests, easy configuration with checkboxes:
 Statistics window for some of you nerds:
 ![Statistics window](screenshots/Main_and_Stats_window.png?raw=true)
 
+# Want to chat?
+
+Want to chat? Or just ask a quick question instead of submitting a full blown issue? Or maybe you just want to share your waifu...
+well then you're welcome to [join me on Discord!](https://discord.gg/2tt5Der)
 
