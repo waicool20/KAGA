@@ -68,7 +68,7 @@ Statistics window for some of you nerds:
 
 # Troubleshooting
 
-Check out the [Troubleshooting](https://github.com/waicool20/KAGA/wiki)
+Check out the [Troubleshooting wiki page](https://github.com/waicool20/KAGA/wiki)
 
 # Want to chat?
 
