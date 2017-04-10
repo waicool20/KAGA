@@ -105,6 +105,8 @@ class KancolleAutoProfile(
 
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KancolleAutoProfile.Loader::class.java)
+        val DEFAULT_NAME = "[Current Profile]"
+
         @JvmStatic fun load(path: Path = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini")): KancolleAutoProfile? {
             if (Files.exists(path)) {
                 loaderLogger.info("Attempting to load KancolleAuto Profile")
@@ -120,7 +122,7 @@ class KancolleAutoProfile(
                     }
                     loaderLogger.info("Copied backup of existing configuration to $backupPath")
                     Files.copy(path, backupPath)
-                    "<Current Profile>"
+                    DEFAULT_NAME
                 }
                 val ini = Wini(path.toFile())
 
@@ -158,8 +160,8 @@ class KancolleAutoProfile(
 
     enum class CombatFormation(val prettyString: String) {
         LINE_AHEAD("Line Ahead"), DOUBLE_LINE("Double Line"), DIAMOND("Diamond"),
-        ECHELON("Echelon"), LINE_ABREAST("Line Abreast"), COMBINEDFLEET_1("Combined Fleet 1"),
-        COMBINEDFLEET_2("Combined Fleet 2"), COMBINEDFLEET_3("Combined Fleet 3"), COMBINEDFLEET_4("Combined Fleet 4");
+        ECHELON("Echelon"), LINE_ABREAST("Line Abreast"), COMBINEDFLEET_1("Cruising Formation 1 (Anti-Sub)"),
+        COMBINEDFLEET_2("Cruising Formation 2 (Forward)"), COMBINEDFLEET_3("Cruising Formation 3 (Ring)"), COMBINEDFLEET_4("Cruising Formation 4 (Battle)");
 
         companion object {
             fun fromPrettyString(string: String) = CombatFormation.values().first { it.prettyString.equals(string, true) }

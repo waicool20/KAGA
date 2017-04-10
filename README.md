@@ -32,19 +32,19 @@ After that the main application will start and you may begin configuring and sav
 
 # Build Instructions
 
+Prerequisites: 
+
+* [Java JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) is needed to build KAGA as opposed to Java JRE 8
+
 To build the jar file after cloning/pulling the latest commits, go into the repo directory and run the right command
 
 Windows:
 
-> gradlew.bat build
+> gradlew.bat
 
 Linux/MacOS:
 
-> gradlew build
-
-Alternatively if you have gradle installed into PATH then you may run:
-
-> gradle build
+> ./gradlew
 
 A compiled Jar file which you can execute directly will be generated in the build/libs directory
 
@@ -65,5 +65,15 @@ Same goes for quests, easy configuration with checkboxes:
 
 Statistics window for some of you nerds:
 ![Statistics window](screenshots/Main_and_Stats_window.png?raw=true)
+
+# Troubleshooting
+
+Check out the [Troubleshooting wiki page](https://github.com/waicool20/KAGA/wiki)
+
+# Want to chat?
+
+Want to chat? Or just ask a quick question instead of submitting a full blown issue? Or maybe you just want to share your waifu...
+well then you're welcome to [join me on Discord!](https://discord.gg/2tt5Der)
+
 
 
