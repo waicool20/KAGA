@@ -105,6 +105,8 @@ class KancolleAutoProfile(
 
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KancolleAutoProfile.Loader::class.java)
+        val DEFAULT_NAME = "[Current Profile]"
+
         @JvmStatic fun load(path: Path = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini")): KancolleAutoProfile? {
             if (Files.exists(path)) {
                 loaderLogger.info("Attempting to load KancolleAuto Profile")
@@ -120,7 +122,7 @@ class KancolleAutoProfile(
                     }
                     loaderLogger.info("Copied backup of existing configuration to $backupPath")
                     Files.copy(path, backupPath)
-                    "<Current Profile>"
+                    DEFAULT_NAME
                 }
                 val ini = Wini(path.toFile())
 

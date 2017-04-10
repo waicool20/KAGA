@@ -122,7 +122,7 @@ class KagaView {
 
     @FXML private fun onSaveButton() {
         with(Kaga.PROFILE!!) {
-            if (name == "<Current Profile>") {
+            if (name == KancolleAutoProfile.DEFAULT_NAME) {
                 val text = "Not a valid profile name, didn't save it..."
                 logger.warn(text)
                 AlertFactory.info(content = text).showAndWait()
@@ -138,7 +138,7 @@ class KagaView {
     @FXML private fun onDeleteButton() {
         with(Kaga.PROFILE!!) {
             val text = "Not a valid profile name, didn't delete it..."
-            if (name == "<Current Profile>") {
+            if (name == KancolleAutoProfile.DEFAULT_NAME) {
                 logger.warn(text)
                 AlertFactory.warn(content = text).showAndWait()
                 return
