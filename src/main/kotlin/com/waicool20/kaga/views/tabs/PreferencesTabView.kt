@@ -23,9 +23,12 @@ package com.waicool20.kaga.views.tabs
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.util.AlertFactory
+import com.waicool20.kaga.util.bind
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Hyperlink
+import javafx.scene.control.Spinner
+import javafx.scene.control.SpinnerValueFactory
 import java.awt.Desktop
 import java.nio.file.Path
 
@@ -33,6 +36,7 @@ class PreferencesTabView {
     @FXML private lateinit var preventLockCheckBox: CheckBox
     @FXML private lateinit var clearConsoleCheckBox: CheckBox
     @FXML private lateinit var restartSessionCheckBox: CheckBox
+    @FXML private lateinit var maxRetriesSpinner: Spinner<Int>
     @FXML private lateinit var debugModeEnableCheckBox: CheckBox
     @FXML private lateinit var showDebugCheckBox: CheckBox
     @FXML private lateinit var showStatsCheckBox: CheckBox
@@ -50,6 +54,7 @@ class PreferencesTabView {
             kancolleAutoRootPathLink.setOnAction { openFile(kancolleAutoRootDirPath) }
             sikulixJarPathLink.text = sikulixJarPath.toString()
             kancolleAutoRootPathLink.text = kancolleAutoRootDirPath.toString()
+            maxRetriesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Int.MAX_VALUE)
         }
     }
 
@@ -67,6 +72,7 @@ class PreferencesTabView {
             preventLockCheckBox.selectedProperty().bindBidirectional(preventLockProperty)
             clearConsoleCheckBox.selectedProperty().bindBidirectional(clearConsoleOnStartProperty)
             restartSessionCheckBox.selectedProperty().bindBidirectional(autoRestartOnKCAutoCrashProperty)
+            maxRetriesSpinner.bind(autoRestartMaxRetriesProperty)
             debugModeEnableCheckBox.selectedProperty().bindBidirectional(debugModeEnabledProperty)
             showDebugCheckBox.selectedProperty().bindBidirectional(showDebugOnStartProperty)
             showStatsCheckBox.selectedProperty().bindBidirectional(showStatsOnStartProperty)

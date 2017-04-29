@@ -173,7 +173,7 @@ class KagaView {
                 startStopButton.style = "-fx-background-color: red"
                 profileSelectionHBox.isDisable = true
             }
-            Kaga.KANCOLLE_AUTO.startAndWait(saveConfig = saveConfig)
+            Kaga.KANCOLLE_AUTO.startAndWait(saveConfig)
             Platform.runLater {
                 kagaStatus.text = notRunningText
                 startStopButton.text = "Start"
