@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.listen
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import org.slf4j.LoggerFactory
@@ -45,6 +46,7 @@ class KagaConfig(currentProfile: String = "",
                  preventLock: Boolean = false,
                  clearConsoleOnStart: Boolean = true,
                  autoRestartOnKCAutoCrash: Boolean = true,
+                 autoRestartMaxRetries: Int = 10,
                  debugModeEnabled: Boolean = true,
                  showDebugOnStart: Boolean = true,
                  showStatsOnStart: Boolean = true) {
@@ -54,6 +56,7 @@ class KagaConfig(currentProfile: String = "",
     @JsonIgnore val preventLockProperty = SimpleBooleanProperty(preventLock)
     @JsonIgnore val clearConsoleOnStartProperty = SimpleBooleanProperty(clearConsoleOnStart)
     @JsonIgnore val autoRestartOnKCAutoCrashProperty = SimpleBooleanProperty(autoRestartOnKCAutoCrash)
+    @JsonIgnore val autoRestartMaxRetriesProperty = SimpleIntegerProperty(autoRestartMaxRetries)
     @JsonIgnore val debugModeEnabledProperty = SimpleBooleanProperty(debugModeEnabled)
     @JsonIgnore val showDebugOnStartProperty = SimpleBooleanProperty(showDebugOnStart)
     @JsonIgnore val showStatsOnStartProperty = SimpleBooleanProperty(showStatsOnStart)
@@ -64,6 +67,7 @@ class KagaConfig(currentProfile: String = "",
     @get:JsonProperty var preventLock by preventLockProperty
     @get:JsonProperty var clearConsoleOnStart by clearConsoleOnStartProperty
     @get:JsonProperty var autoRestartOnKCAutoCrash by autoRestartOnKCAutoCrashProperty
+    @get:JsonProperty var autoRestartMaxRetries by autoRestartMaxRetriesProperty
     @get:JsonProperty var debugModeEnabled by debugModeEnabledProperty
     @get:JsonProperty var showDebugOnStart by showDebugOnStartProperty
     @get:JsonProperty var showStatsOnStart by showStatsOnStartProperty

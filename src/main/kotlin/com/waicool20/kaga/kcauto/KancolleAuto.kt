@@ -39,7 +39,7 @@ class KancolleAuto {
 
     var statsTracker = KancolleAutoStatsTracker()
 
-    fun startAndWait(newSession: Boolean = true, saveConfig: Boolean = true) {
+    fun startAndWait(saveConfig: Boolean = true) {
         if (saveConfig) Kaga.PROFILE!!.save(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini"))
         val args = listOf(
                 "java",
@@ -68,8 +68,12 @@ class KancolleAuto {
                 logger.info("Kancolle Auto didn't terminate gracefully")
                 saveCrashLog()
                 if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
-                    logger.info("Auto Restart enabled...attempting restart")
-                    statsTracker.trackNewChild()
+                    if (statsTracker.crashes < Kaga.CONFIG.autoRestartMaxRetries) {
+                        logger.info("Auto Restart enabled...attempting restart")
+                        statsTracker.trackNewChild()
+                    } else {
+                        logger.info("Auto restart retry limit reached, terminating current session.")
+                    }
                 }
             } else {
                 break
