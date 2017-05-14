@@ -21,7 +21,10 @@
 package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.*
+import com.waicool20.kaga.util.AlertFactory
+import com.waicool20.kaga.util.NoneSelectableCellFactory
+import com.waicool20.kaga.util.asTimeSpinner
+import com.waicool20.kaga.util.bind
 import javafx.beans.binding.Bindings
 import javafx.beans.value.ChangeListener
 import javafx.fxml.FXML
@@ -39,7 +42,7 @@ import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.nio.file.Files
 import java.util.concurrent.TimeUnit
-import java.util.stream.Collectors
+import kotlin.streams.toList
 
 
 class SortieTabView {
@@ -76,24 +79,6 @@ class SortieTabView {
             "-- World 6 --",
             "6-1", "6-2", "6-3", "6-4", "6-5"
     )
-
-    private val eventMaps = setOf(
-            "-- Page 1 --",
-            "1-1", "1-2",
-            "-- Page 2 --",
-            "2-1", "2-2",
-            "-- Page 3 --",
-            "3-1", "3-2",
-            "-- Page 4 --",
-            "4-1", "4-2",
-            "-- Page 5 --",
-            "5-1", "5-2",
-            "-- Page 6 --",
-            "6-1", "6-2",
-            "-- Page 7 --",
-            "7-1", "7-2",
-            "-- Page 8 --",
-            "8-1", "8-2")
 
     @FXML fun initialize() {
         setValues()
@@ -202,18 +187,23 @@ class SortieTabView {
 
     private fun setAreaItems(isEvent: Boolean) {
         if (isEvent) {
-            try {
-                val lastEventMap = Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli/combat.sikuli"), 1)
-                        .map { it.fileName.toString() }
-                        .filter { it.startsWith("_event_panel_") }
-                        .map { it.replace("_event_panel_", "").replace(".png", "") }
-                        .sorted().collect(Collectors.toList<String>()).last()
-                areaComboBox.items.setAll(eventMaps.take(eventMaps.indexOfFirst { it == lastEventMap } + 1))
-            } catch (e: NoSuchElementException) {
-                areaComboBox.items.setAll()
+            val eventMaps = mutableListOf<String>()
+            Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli/combat.sikuli"), 1)
+                    .map { it.fileName.toString() }
+                    .filter { it.startsWith("_event_panel_") }
+                    .map { it.replace("_event_panel_", "").replace(".png", "") }
+                    .sorted().toList().groupBy { "-- Page ${it[0]} --" }
+                    .forEach {
+                        with(eventMaps) {
+                            if (!contains(it.key)) add(it.key)
+                            addAll(it.value)
+                        }
+                    }
+            areaComboBox.items.setAll(eventMaps)
+            if (eventMaps.isEmpty()) {
                 logger.warn("No event maps were found during scan. Please check/update your Kancolle Auto installation.")
                 AlertFactory.warn(
-                        content = "No event maps were found. Is an Kancolle Auto up to date? Is an event really going on?"
+                        content = "No event maps were found. Is Kancolle Auto up to date? Is an event really going on?"
                 ).showAndWait()
             }
         } else {
