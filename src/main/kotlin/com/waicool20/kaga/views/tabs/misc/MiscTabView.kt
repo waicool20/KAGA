@@ -41,6 +41,7 @@ class MiscTabView {
     @FXML private lateinit var configSubSwitchBtn: Button
     @FXML private lateinit var replaceLimitComboBox: ComboBox<Int>
     @FXML private lateinit var fatigueSwitchCheckBox: CheckBox
+    @FXML private lateinit var useBucketsCheckBox: CheckBox
     @FXML private lateinit var enableLbasButton: CheckBox
     @FXML private lateinit var group1CheckBox: CheckBox
     @FXML private lateinit var group2CheckBox: CheckBox
@@ -75,6 +76,7 @@ class MiscTabView {
                 enableSubSwitchButton.bind(enabledProperty)
                 replaceLimitComboBox.bind(replaceLimitProperty)
                 fatigueSwitchCheckBox.bind(fatigueSwitchProperty)
+                useBucketsCheckBox.bind(useBucketsProperty)
             }
             with(lbas) {
                 enableLbasButton.bind(enabledProperty)

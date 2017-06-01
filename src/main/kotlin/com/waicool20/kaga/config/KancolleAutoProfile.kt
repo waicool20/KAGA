@@ -317,17 +317,20 @@ class KancolleAutoProfile(
             enabled: Boolean = true,
             enabledSubs: List<Submarines> = listOf(Submarines.SS),
             replaceLimit: Int = 0,
-            fatigueSwitch: Boolean = false
+            fatigueSwitch: Boolean = false,
+            useBuckets: Boolean = false
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "EnabledSubs") val enabledSubsProperty = SimpleListProperty(FXCollections.observableArrayList(enabledSubs))
         @JsonIgnore @IniConfig(key = "ReplaceLimit") val replaceLimitProperty = SimpleIntegerProperty(replaceLimit)
         @JsonIgnore @IniConfig(key = "FatigueSwitch") val fatigueSwitchProperty = SimpleBooleanProperty(fatigueSwitch)
+        @JsonIgnore @IniConfig(key = "UseBuckets") val useBucketsProperty = SimpleBooleanProperty(useBuckets)
 
         @get:JsonProperty var enabled by enabledProperty
         @get:JsonProperty var enabledSubs by enabledSubsProperty
         @get:JsonProperty var replaceLimit by replaceLimitProperty
         @get:JsonProperty var fatigueSwitch by fatigueSwitchProperty
+        @get:JsonProperty var useBuckets by useBucketsProperty
     }
 
     class Lbas(
