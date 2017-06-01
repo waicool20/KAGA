@@ -172,6 +172,10 @@
     "description": "Medium and High Fatigued submarines will be switched out as well if checked."
   },
   {
+    "id": "Misc-useBucketsLabel",
+    "description": "Submarines will be allowed to use buckets under normal repair conditions if checked"
+  },
+  {
     "id": "Misc-enableLbasButton",
     "description": "Check this box if you want to enable LBAS"
   },
