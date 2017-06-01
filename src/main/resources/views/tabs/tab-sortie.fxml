@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <!--
   ~ GPLv3 License
   ~
@@ -23,7 +20,10 @@
   ~
   -->
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121"
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.waicool20.kaga.views.tabs.sortie.SortieTabView">
     <children>
         <GridPane>
@@ -66,13 +66,13 @@
                     <children>
                         <HBox alignment="CENTER">
                             <children>
-                                <Label fx:id="fleetCompLabel" text="Fleet Comp:"/>
+                                <Label fx:id="fleetCompLabel" text="Fleet Comps:"/>
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1">
                             <children>
-                                <ComboBox fx:id="fleetCompComboBox" prefHeight="28.0"
-                                          prefWidth="75.0"/>
+                                <Button mnemonicParsing="false"
+                                        onAction="#onConfigureFleetCompsButton" text="Configure"/>
                                 <CheckBox fx:id="combinedFleetCheckBox" mnemonicParsing="false"
                                           text="Combined Fleet?"/>
                             </children>

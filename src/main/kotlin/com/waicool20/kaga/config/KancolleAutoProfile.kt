@@ -245,13 +245,13 @@ class KancolleAutoProfile(
     }
 
     class Sortie(
-            enabled: Boolean, fleetComp: Int, area: String, subarea: String, combinedFleet: Boolean,
+            enabled: Boolean, fleetComps: List<Int>, area: String, subarea: String, combinedFleet: Boolean,
             nodes: Int, nodeSelects: List<String>, formations: List<CombatFormation>,
             nightBattles: List<Boolean>, retreatLimit: Int, repairLimit: Int, repairTimeLimit: String,
             checkFatigue: Boolean, portCheck: Boolean, medalStop: Boolean, lastNodePush: Boolean
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)
+        @JsonIgnore @IniConfig(key = "FleetComps") val fleetCompsProperty = SimpleListProperty(FXCollections.observableArrayList(fleetComps))
         @JsonIgnore @IniConfig(key = "Area") val areaProperty = SimpleStringProperty(area)
         @JsonIgnore @IniConfig(key = "Subarea") val subareaProperty = SimpleStringProperty(subarea)
         @JsonIgnore @IniConfig(key = "CombinedFleet") val combinedFleetProperty = SimpleBooleanProperty(combinedFleet)
@@ -268,7 +268,7 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "LastNodePush") val lastNodePushProperty = SimpleBooleanProperty(lastNodePush)
 
         @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var fleetComp by fleetCompProperty
+        @get:JsonProperty var fleetComps by fleetCompsProperty
         @get:JsonProperty var area by areaProperty
         @get:JsonProperty var subarea by subareaProperty
         @get:JsonProperty var combinedFleet by combinedFleetProperty
