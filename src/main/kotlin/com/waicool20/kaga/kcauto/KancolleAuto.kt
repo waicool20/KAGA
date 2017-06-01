@@ -32,7 +32,7 @@ import java.time.format.DateTimeFormatter
 
 
 class KancolleAuto {
-    val template = Kaga::class.java.classLoader.getResourceAsStream("crashlog_template.md").bufferedReader().readText()
+    private val template by lazy { Kaga::class.java.classLoader.getResourceAsStream("crashlog_template.md").bufferedReader().readText() }
     private val logger = LoggerFactory.getLogger(javaClass)
     private var kancolleAutoProcess: Process? = null
     private var streamGobbler: StreamGobbler? = null
@@ -40,7 +40,7 @@ class KancolleAuto {
     var statsTracker = KancolleAutoStatsTracker()
 
     fun startAndWait(saveConfig: Boolean = true) {
-        if (saveConfig) Kaga.PROFILE!!.save(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini"))
+        if (saveConfig) Kaga.PROFILE.save(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini"))
         val args = listOf(
                 "java",
                 "-jar",
@@ -48,8 +48,7 @@ class KancolleAuto {
                 "-r",
                 "${Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli")}"
         )
-        val lockPreventer: LockPreventer? =
-                if (Kaga.CONFIG.preventLock) LockPreventer() else null
+        val lockPreventer = if (Kaga.CONFIG.preventLock) LockPreventer() else null
         statsTracker.startNewSession()
         while (true) {
             if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
@@ -73,6 +72,7 @@ class KancolleAuto {
                         statsTracker.trackNewChild()
                     } else {
                         logger.info("Auto restart retry limit reached, terminating current session.")
+                        break
                     }
                 }
             } else {
@@ -91,19 +91,17 @@ class KancolleAuto {
     private fun saveCrashLog() {
         val crashTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss"))
         val logFile = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("crashes/$crashTime.log")
-        if (Files.notExists(logFile)) {
-            Files.createDirectories(logFile.parent)
-        }
+        if (Files.notExists(logFile)) Files.createDirectories(logFile.parent)
         val versionLine = Files.readAllLines(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("CHANGELOG.md"))[0]
         var kancolleAutoVersion = versionLine.replace("#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex(), { it.groupValues[1] })
-        if (versionLine.contains("\\[.+?\\]".toRegex())) {
-            kancolleAutoVersion += versionLine.replace(".*?(\\[.+?\\]).*?".toRegex(), { it.groupValues[1] })
+        if (versionLine.contains("\\[.+?]".toRegex())) {
+            kancolleAutoVersion += versionLine.replace(".*?(\\[.+?]).*?".toRegex(), { it.groupValues[1] })
         }
         val log = template.replace("<DateTime>", crashTime)
                 .replace("<Version>", kancolleAutoVersion)
-                .replace("<Viewer>", Kaga.PROFILE!!.general.program)
+                .replace("<Viewer>", Kaga.PROFILE.general.program)
                 .replace("<OS>", "${System.getProperty("os.name")} ${System.getProperty("os.version")} ${System.getProperty("os.arch")}")
-                .replace("<Config>", Kaga.PROFILE!!.asIniString())
+                .replace("<Config>", Kaga.PROFILE.asIniString())
                 .replace("<Log>", Kaga.LOG)
         Files.write(logFile, log.toByteArray(), StandardOpenOption.CREATE)
     }

@@ -26,22 +26,19 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.TableView
 import java.nio.file.Files
-import java.util.stream.Collectors
+import kotlin.streams.toList
 
 class NodeImgStringConverter(val regexMap: Map<Regex, Regex>) {
 
     fun toPrettyString(imageName: String?): String {
         if (imageName == null) return ""
-        regexMap.entries.forEach {
-            if (imageName.matches(it.key)) {
-                val groups = it.key.matchEntire(imageName)?.groupValues
-                if (groups != null) {
-                    var string = it.value.toString().replace("\\\\(.)".toRegex(), { it.groupValues[1] })
-                    groups.subList(1, groups.size).forEach { s ->
-                        string = string.replaceFirst("\\(.+?\\)".toRegex(), s)
-                    }
-                    return string
+        regexMap.entries.filter { imageName.matches(it.key) }.forEach {
+            it.key.matchEntire(imageName)?.groupValues?.let { groups ->
+                var string = it.value.toString().replace("\\\\(.)".toRegex(), { it.groupValues[1] })
+                groups.drop(1).forEach { s ->
+                    string = string.replaceFirst("\\(.+?\\)".toRegex(), s)
                 }
+                return string
             }
         }
         return ""
@@ -49,16 +46,13 @@ class NodeImgStringConverter(val regexMap: Map<Regex, Regex>) {
 
     fun toImageName(prettyString: String?): String {
         if (prettyString == null) return ""
-        regexMap.entries.forEach {
-            if (prettyString.matches(it.value)) {
-                val groups = it.value.matchEntire(prettyString)?.groupValues
-                if (groups != null) {
-                    var string = it.key.toString().replace("\\\\(.)".toRegex(), { it.groupValues[1] })
-                    groups.subList(1, groups.size).forEach { s ->
-                        string = string.replaceFirst("\\(.+?\\)".toRegex(), s)
-                    }
-                    return string
+        regexMap.entries.filter { prettyString.matches(it.value) }.forEach {
+            it.value.matchEntire(prettyString)?.groupValues?.let { groups ->
+                var string = it.key.toString().replace("\\\\(.)".toRegex(), { it.groupValues[1] })
+                groups.drop(1).forEach { s ->
+                    string = string.replaceFirst("\\(.+?\\)".toRegex(), s)
                 }
+                return string
             }
         }
         return ""
@@ -81,8 +75,7 @@ abstract class NodeChooserView(private val nodeColumnTitle: String, regexMap: Ma
                 .map { it.fileName.toString().replace(".png", "") }
                 .sorted()
                 .filter { converter.matches(it) }
-                .map { converter.toPrettyString(it) }
-                .collect(Collectors.toList<String>())
+                .map { converter.toPrettyString(it) }.toList()
         nodeColumn = OptionsColumn(nodeColumnTitle, selections, tableView)
         nodeColumn?.setWidthRatio(tableView, 0.75)
         nodeColumn?.setCellValueFactory { data -> SimpleStringProperty(data.value) }
@@ -94,9 +87,8 @@ abstract class NodeChooserView(private val nodeColumnTitle: String, regexMap: Ma
     }
 
     @FXML override fun onSaveButton() {
-        with(tableView.items.map { converter?.toImageName(it) ?: "" }) {
-            save(this.subList(0, size - 1))
-        }
+        save(tableView.items.map { converter?.toImageName(it) ?: "" }.dropLast(1))
+        close()
     }
 
     override fun tableView() = tableView

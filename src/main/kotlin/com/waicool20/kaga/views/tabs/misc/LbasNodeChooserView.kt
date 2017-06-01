@@ -36,18 +36,18 @@ class LbasNodeChooserView(val group: Int) : NodeChooserView("LBAS Node", regexMa
             when (cell.index) {
                 0 -> check
                 1 -> {
-                    val node1 = tableView.items[0]
-                    val selectionCheck = string == node1.replace("Selection 1", "Selection 2")
-                    string.startsWith(node1.takeWhile { it != ':' }) &&
+                    val node = tableView.items[0]
+                    val selectionCheck = string == node.replace("Selection 1", "Selection 2")
+                    string.startsWith(node.takeWhile { it != ':' }) &&
                             (check || selectionCheck) &&
-                            string != node1.replace(" [cleared]", "")
+                            string != node.replace(" [cleared]", "")
                 }
                 else -> false
             }
         }
         nodeColumn?.maxRows = 2
 
-        with(Kaga.PROFILE!!.lbas) {
+        with(Kaga.PROFILE.lbas) {
             when (group) {
                 1 -> tableView.items.addAll(group1Nodes.map { converter?.toPrettyString(it) })
                 2 -> tableView.items.addAll(group2Nodes.map { converter?.toPrettyString(it) })
@@ -58,12 +58,12 @@ class LbasNodeChooserView(val group: Int) : NodeChooserView("LBAS Node", regexMa
     }
 
     override fun save(items: List<String>) {
-        with(Kaga.PROFILE!!.lbas) {
+        with(Kaga.PROFILE.lbas) {
             when (group) {
                 1 -> group1Nodes.setAll(items)
                 2 -> group2Nodes.setAll(items)
                 3 -> group3Nodes.setAll(items)
-                else -> null
+                else -> Unit
             }
         }
         close()

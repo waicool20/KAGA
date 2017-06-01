@@ -172,27 +172,30 @@ fun Spinner<Int>.asTimeSpinner(unit: TimeUnit) {
 object AlertFactory {
     private fun alert(type: Alert.AlertType, stage: Stage? = Kaga.ROOT_STAGE,
                       title: String = "KAGA - Info", header: String? = null,
-                      content: String): Alert {
-        with(Alert(type)) {
-            this.title = title
-            this.headerText = header
-            this.contentText = content
-            setOnHidden { stage?.toFront() }
-            return this
-        }
+                      content: String) = Alert(type).apply {
+        this.title = title
+        this.headerText = header
+        this.contentText = content
+        setOnHidden { stage?.toFront() }
     }
 
     fun info(stage: Stage? = Kaga.ROOT_STAGE,
              title: String = "KAGA - Info",
              header: String? = null,
-             content: String): Alert =
+             content: String) =
             alert(Alert.AlertType.INFORMATION, stage, title, header, content)
 
     fun warn(stage: Stage? = Kaga.ROOT_STAGE,
              title: String = "KAGA - Warning",
              header: String? = null,
-             content: String): Alert =
+             content: String) =
             alert(Alert.AlertType.WARNING, stage, title, header, content)
+
+    fun error(stage: Stage? = Kaga.ROOT_STAGE,
+              title: String = "KAGA - Warning",
+              header: String? = null,
+              content: String) =
+            alert(Alert.AlertType.ERROR, stage, title, header, content)
 }
 
 class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
@@ -246,11 +249,11 @@ class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>
     init {
         isSortable = false
         setCellFactory {
-            val cell = TableCell<T, String>()
-            cell.textProperty().bind(javafx.beans.binding.Bindings.`when`(cell.emptyProperty())
-                    .then("")
-                    .otherwise(cell.indexProperty().add(start).asString()))
-            cell
+            TableCell<T, String>().apply {
+                textProperty().bind(javafx.beans.binding.Bindings.`when`(emptyProperty())
+                        .then("")
+                        .otherwise(indexProperty().add(start).asString()))
+            }
         }
     }
 }
@@ -261,7 +264,7 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
     init {
         val addText = "<Add Item>"
         setCellFactory {
-            with(ComboBoxTableCell<String, String>()) {
+            ComboBoxTableCell<String, String>().apply {
                 converter = object : StringConverter<String>() {
                     override fun toString(string: String?): String {
                         if (index != table.items.size - 1) {
@@ -277,25 +280,22 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
                     items.setAll(if (index != table.items.size - 1) addText else "")
                     items.addAll(options.filter { filter.invoke(this, it) })
                 }
-                this
             }
         }
         setOnEditCommit { event ->
-            run {
-                with(table.items) {
-                    val index = event.tablePosition.row
-                    if (index != size - 1) {
-                        removeAt(index)
-                        if (event.newValue != addText) add(index, event.newValue)
-                        table.selectionModel.select(index)
-                    } else {
-                        if (event.newValue != addText && index < maxRows && event.newValue != "") {
-                            add(size - 1, event.newValue)
-                        }
+            with(table.items) {
+                val index = event.tablePosition.row
+                if (index != size - 1) {
+                    removeAt(index)
+                    if (event.newValue != addText) add(index, event.newValue)
+                    table.selectionModel.select(index)
+                } else {
+                    if (event.newValue != addText && index < maxRows && event.newValue != "") {
+                        add(size - 1, event.newValue)
                     }
-                    table.refresh()
-                    event.consume()
                 }
+                table.refresh()
+                event.consume()
             }
         }
         table.items.addListener(ListChangeListener<String> {

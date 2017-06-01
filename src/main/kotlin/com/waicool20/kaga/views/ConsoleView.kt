@@ -33,6 +33,7 @@ import javafx.scene.control.Tooltip
 import javafx.scene.input.Clipboard
 import javafx.scene.layout.GridPane
 import javafx.util.Duration
+import kotlin.concurrent.schedule
 import tornadofx.*
 import java.io.PrintStream
 import java.util.*
@@ -62,15 +63,13 @@ class ConsoleView : View() {
             val bounds = localToScene(boundsInLocal)
             tooltip.show(copyButton, bounds.maxX + scene.window.x, bounds.minY + scene.window.y)
         }
-        Timer().schedule(object : TimerTask() {
-            override fun run() {
-                Platform.runLater {
-                    val timeline = Timeline()
-                    timeline.keyFrames.add(KeyFrame(Duration.millis(500.0), KeyValue(tooltip.opacityProperty(), 0)))
-                    timeline.play()
-                }
+        Timer().schedule(delay = 500L) {
+            Platform.runLater {
+                val timeline = Timeline()
+                timeline.keyFrames.add(KeyFrame(Duration.millis(500.0), KeyValue(tooltip.opacityProperty(), 0)))
+                timeline.play()
             }
-        }, 500L)
+        }
     }
 
     @FXML private fun toTop() {

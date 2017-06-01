@@ -41,13 +41,11 @@ class NightBattlesChooserView : SingleListView<String>() {
         tableView().lockColumnWidths()
         tableView().disableHeaderMoving()
         tableView().columns.addAll(nodeNumColumn, nightBattleColumn)
-        tableView().items.addAll(Kaga.PROFILE!!.sortie.nightBattles.map { if (it) "Yes" else "No" })
+        tableView().items.addAll(Kaga.PROFILE.sortie.nightBattles.map { if (it) "Yes" else "No" })
     }
 
     override fun onSaveButton() {
-        with(tableView().items) {
-            Kaga.PROFILE!!.sortie.nightBattles.setAll(subList(0, size - 1).map { it == "Yes" })
-        }
+        Kaga.PROFILE.sortie.nightBattles.setAll(tableView().items.dropLast(1).map { it == "Yes" })
         close()
     }
 }

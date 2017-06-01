@@ -21,10 +21,7 @@
 package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.AlertFactory
-import com.waicool20.kaga.util.NoneSelectableCellFactory
-import com.waicool20.kaga.util.asTimeSpinner
-import com.waicool20.kaga.util.bind
+import com.waicool20.kaga.util.*
 import javafx.beans.binding.Bindings
 import javafx.beans.value.ChangeListener
 import javafx.fxml.FXML
@@ -93,7 +90,7 @@ class SortieTabView {
     private fun setValues() {
         eventCheckBox.selectedProperty().removeListener(eventCheckBoxListener)
         areaComboBox.cellFactory = NoneSelectableCellFactory("--.+?--".toRegex())
-        with(Kaga.PROFILE!!.sortie) {
+        with(Kaga.PROFILE.sortie) {
             if (area == "E") {
                 setAreaItems(true)
                 eventCheckBox.isSelected = true
@@ -118,14 +115,14 @@ class SortieTabView {
 
         repairTimeHourSpinner.asTimeSpinner(TimeUnit.HOURS)
         repairTimeMinSpinner.asTimeSpinner(TimeUnit.MINUTES)
-        with(String.format("%04d", Kaga.PROFILE!!.sortie.repairTimeLimit.toInt())) {
-            repairTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
-            repairTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
+        with(String.format("%04d", Kaga.PROFILE.sortie.repairTimeLimit.toInt())) {
+            repairTimeHourSpinner.valueFactory.value = substring(0, 2).toInt()
+            repairTimeMinSpinner.valueFactory.value = substring(2, 4).toInt()
         }
     }
 
     private fun createBindings() {
-        with(Kaga.PROFILE!!.sortie) {
+        with(Kaga.PROFILE.sortie) {
             enableButton.bind(enabledProperty)
             areaComboBox.valueProperty().addListener { _, _, newVal ->
                 setProfileArea(newVal)
@@ -174,7 +171,7 @@ class SortieTabView {
 
     private fun setProfileArea(map: String?) {
         if (map == null) return
-        with(Kaga.PROFILE!!.sortie) {
+        with(Kaga.PROFILE.sortie) {
             if (eventCheckBox.isSelected) {
                 area = "E"
                 subarea = map

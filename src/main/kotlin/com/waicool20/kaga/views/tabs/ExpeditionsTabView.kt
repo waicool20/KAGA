@@ -65,7 +65,7 @@ class ExpeditionsTabView {
         fleet2ComboBox.converter = converter
         fleet3ComboBox.converter = converter
         fleet4ComboBox.converter = converter
-        with(Kaga.PROFILE!!.expeditions) {
+        with(Kaga.PROFILE.expeditions) {
             fleet2ComboBox.value = fleet2
             fleet3ComboBox.value = fleet3
             fleet4ComboBox.value = fleet4
@@ -73,7 +73,7 @@ class ExpeditionsTabView {
     }
 
     private fun createBindings() {
-        with(Kaga.PROFILE!!.expeditions) {
+        with(Kaga.PROFILE.expeditions) {
             enableButton.bind(enabledProperty)
             fleet2ComboBox.valueProperty().addListener { _, _, newVal -> if (newVal != null) fleet2 = newVal }
             fleet3ComboBox.valueProperty().addListener { _, _, newVal -> if (newVal != null) fleet3 = newVal }

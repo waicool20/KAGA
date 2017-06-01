@@ -73,22 +73,19 @@ class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
         }
     }
 
-    private fun updateTooltip() {
-        if (nodeUnderMouse == null) return
-        with(nodeUnderMouse!!) {
-            val tab = getParentTabPane()?.selectionModel?.selectedItem
-            val labeltip = if (tab == null) {
-                tooltips.find { it.id == nodeUnderMouse?.parent?.id }
-            } else {
-                tooltips.find { it.id == "${if (tab.text != "") tab.text else tab.properties["text"]}-${nodeUnderMouse?.parent?.id}" }
-            }
-            if (labeltip != null) {
-                showingTooltip = Tooltip(labeltip.description)
-                showingTooltip.isWrapText = true
-                showingTooltip.maxWidth = 500.0
-                val bounds = localToScene(boundsInLocal)
-                showingTooltip.show(nodeUnderMouse, bounds.maxX + scene.window.x, bounds.minY + scene.window.y)
-            }
+    private fun updateTooltip() = nodeUnderMouse?.run {
+        val tab = getParentTabPane()?.selectionModel?.selectedItem
+        val labeltip = if (tab == null) {
+            tooltips.find { it.id == nodeUnderMouse?.parent?.id }
+        } else {
+            tooltips.find { it.id == "${if (tab.text != "") tab.text else tab.properties["text"]}-${nodeUnderMouse?.parent?.id}" }
+        }
+        if (labeltip != null) {
+            showingTooltip = Tooltip(labeltip.description)
+            showingTooltip.isWrapText = true
+            showingTooltip.maxWidth = 500.0
+            val bounds = localToScene(boundsInLocal)
+            showingTooltip.show(nodeUnderMouse, bounds.maxX + scene.window.x, bounds.minY + scene.window.y)
         }
     }
 }

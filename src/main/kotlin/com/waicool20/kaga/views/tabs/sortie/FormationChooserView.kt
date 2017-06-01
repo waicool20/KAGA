@@ -34,8 +34,8 @@ class FormationChooserView : SingleListView<String>() {
         val nodeNumColumn = IndexColumn<String>("Node", 1)
         nodeNumColumn.setWidthRatio(tableView(), 0.25)
 
-        val selections = if (Kaga.PROFILE!!.sortie.combinedFleet) {
-            CombatFormation.values().filter { it.name.contains("combined", true)}.map { it.prettyString }
+        val selections = if (Kaga.PROFILE.sortie.combinedFleet) {
+            CombatFormation.values().filter { it.name.contains("combined", true) }.map { it.prettyString }
         } else {
             CombatFormation.values().filterNot { it.name.contains("combined", true) }.map({ it.prettyString })
         }
@@ -47,13 +47,11 @@ class FormationChooserView : SingleListView<String>() {
         tableView().lockColumnWidths()
         tableView().disableHeaderMoving()
         tableView().columns.addAll(nodeNumColumn, formationColumn)
-        tableView().items.addAll(Kaga.PROFILE!!.sortie.formations.map { it.prettyString })
+        tableView().items.addAll(Kaga.PROFILE.sortie.formations.map { it.prettyString })
     }
 
     override fun onSaveButton() {
-        with(tableView().items) {
-            Kaga.PROFILE!!.sortie.formations.setAll(subList(0, size - 1).map { CombatFormation.fromPrettyString(it) })
-        }
+        Kaga.PROFILE.sortie.formations.setAll(tableView().items.dropLast(1).map { CombatFormation.fromPrettyString(it) })
         close()
     }
 }

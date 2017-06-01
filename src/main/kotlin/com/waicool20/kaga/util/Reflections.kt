@@ -49,10 +49,10 @@ fun Class<*>.toPrimitive(): Class<*> {
     }
 }
 
-fun Field.hasGenericType() = this.genericType is ParameterizedType
+fun Field.hasGenericType() = genericType is ParameterizedType
 
 fun Field.getGenericClass(level: Int): Class<*> {
-    var paramType = this.genericType as ParameterizedType
+    var paramType = genericType as ParameterizedType
     var objType = paramType.actualTypeArguments[0]
     for (i in level downTo 1) {
         if (objType is ParameterizedType) {

@@ -46,8 +46,8 @@ import java.awt.Desktop
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.regex.Pattern
 import java.util.stream.Collectors
+import kotlin.streams.toList
 
 
 class KagaView {
@@ -77,7 +77,7 @@ class KagaView {
     }
 
     private fun createBindings() {
-        profileNameComboBox.bind(Kaga.PROFILE!!.nameProperty)
+        profileNameComboBox.bind(Kaga.PROFILE.nameProperty)
     }
 
     @FXML private fun showProfiles() {
@@ -86,11 +86,10 @@ class KagaView {
                 .filter { Files.isRegularFile(it) }
                 .map { it.fileName.toString() }
                 .map {
-                    val matcher = Pattern.compile("(.+?)-config\\.ini").matcher(it)
-                    if (matcher.matches()) matcher.group(1) else ""
+                    "(.+?)-config\\.ini".toRegex().matchEntire(it)?.groupValues?.get(1) ?: ""
                 }.filter(String::isNotEmpty)
                 .filter { it != currentProfile }
-                .collect(Collectors.toList<String>()).sorted()
+                .toList().sorted()
         if (profiles.isNotEmpty()) {
             profileNameComboBox.items.setAll(profiles)
         }
@@ -100,8 +99,8 @@ class KagaView {
         val newProfile = profileNameComboBox.value
         val path = Kaga.CONFIG_DIR.resolve("$newProfile-config.ini")
         if (Files.exists(path)) {
-            val profile = KancolleAutoProfile.load(path)
-            if (profile != null) {
+            try {
+                val profile = KancolleAutoProfile.load(path)
                 Kaga.PROFILE = profile
                 Kaga.CONFIG.currentProfile = profile.name
                 Kaga.CONFIG.save()
@@ -116,40 +115,42 @@ class KagaView {
                 AlertFactory.info(
                         content = "Profile ${profile.name} has been loaded!"
                 ).showAndWait()
+            } catch (e: Exception) {
+                val warning = "Failed to parse profile $newProfile, reason: ${e.message}"
+                logger.error(warning)
+                AlertFactory.error(
+                        content = warning
+                ).showAndWait()
             }
         }
     }
 
-    @FXML private fun onSaveButton() {
-        with(Kaga.PROFILE!!) {
-            if (name == KancolleAutoProfile.DEFAULT_NAME) {
-                val text = "Not a valid profile name, didn't save it..."
-                logger.warn(text)
-                AlertFactory.info(content = text).showAndWait()
-                return
-            }
-            Kaga.CONFIG.currentProfile = name
-            Kaga.CONFIG.save()
-            save()
-            AlertFactory.info(content = "Profile $name was saved!").showAndWait()
+    @FXML private fun onSaveButton() = Kaga.PROFILE.run {
+        if (name == KancolleAutoProfile.DEFAULT_NAME) {
+            val text = "Not a valid profile name, didn't save it..."
+            logger.warn(text)
+            AlertFactory.info(content = text).showAndWait()
+            return@run
         }
+        Kaga.CONFIG.currentProfile = name
+        Kaga.CONFIG.save()
+        save()
+        AlertFactory.info(content = "Profile $name was saved!").showAndWait()
     }
 
-    @FXML private fun onDeleteButton() {
-        with(Kaga.PROFILE!!) {
-            val text = "Not a valid profile name, didn't delete it..."
-            if (name == KancolleAutoProfile.DEFAULT_NAME) {
-                logger.warn(text)
-                AlertFactory.warn(content = text).showAndWait()
-                return
-            }
-            val toDelete = name
-            if (delete()) {
-                profileNameComboBox.value = ""
-                AlertFactory.info(content = "Profile $toDelete was deleted").showAndWait()
-            } else {
-                AlertFactory.warn(content = text).showAndWait()
-            }
+    @FXML private fun onDeleteButton() = Kaga.PROFILE.run {
+        val warning = "Not a valid profile name, didn't delete it..."
+        if (name == KancolleAutoProfile.DEFAULT_NAME) {
+            logger.warn(warning)
+            AlertFactory.warn(content = warning).showAndWait()
+            return@run
+        }
+        val toDelete = name
+        if (delete()) {
+            profileNameComboBox.value = ""
+            AlertFactory.info(content = "Profile $toDelete was deleted").showAndWait()
+        } else {
+            AlertFactory.warn(content = warning).showAndWait()
         }
     }
 
@@ -203,7 +204,7 @@ class KagaView {
                 .filter { Files.isRegularFile(it) }
                 .filter { it.fileName.toString().endsWith(".log") }
                 .map(Path::toFile)
-                .sorted().collect(Collectors.toList())
+                .sorted().toList()
                 .lastOrNull()
         if (log == null) {
             AlertFactory.warn(

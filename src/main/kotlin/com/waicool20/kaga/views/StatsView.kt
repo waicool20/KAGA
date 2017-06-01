@@ -29,7 +29,7 @@ import java.text.DecimalFormat
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 
 class StatsView : View() {
@@ -43,31 +43,27 @@ class StatsView : View() {
     private val bucketsUsedLabel: Label by fxid()
     private val submarinesSwitchedLabel: Label by fxid()
     private val crashesLabel: Label by fxid()
-    private val timer = Timer()
 
     init {
-        timer.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                if (Kaga.KANCOLLE_AUTO.isRunning()) {
-                    Platform.runLater { updateStats() }
-                }
+        fixedRateTimer(period = 1000L) {
+            if (Kaga.KANCOLLE_AUTO.isRunning()) {
+                Platform.runLater { updateStats() }
             }
-        }, 0L, 1000L)
-    }
-
-    private fun updateStats() {
-        with(Kaga.KANCOLLE_AUTO.statsTracker) {
-            timeElapsedLabel.text = elapsedTimeSince(startingTime)
-            startingTimeLabel.text = startingTime?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
-            sortiesConductedLabel.text = sortiesConductedTotal().toString()
-            sortiesPerHourLabel.text = formatDecimal(sortiesConductedTotal() / hoursSince(startingTime))
-            expeditionsConductedLabel.text = expeditionsConductedTotal().toString()
-            pvpsConductedLabel.text = pvpsConductedTotal().toString()
-            bucketsUsedLabel.text = bucketsUsedTotal().toString()
-            submarinesSwitchedLabel.text = submarinesSwitchedTotal().toString()
-            crashesLabel.text = crashes.toString()
         }
     }
+
+    private fun updateStats() = Kaga.KANCOLLE_AUTO.statsTracker.run {
+        timeElapsedLabel.text = elapsedTimeSince(startingTime)
+        startingTimeLabel.text = startingTime?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
+        sortiesConductedLabel.text = sortiesConductedTotal().toString()
+        sortiesPerHourLabel.text = formatDecimal(sortiesConductedTotal() / hoursSince(startingTime))
+        expeditionsConductedLabel.text = expeditionsConductedTotal().toString()
+        pvpsConductedLabel.text = pvpsConductedTotal().toString()
+        bucketsUsedLabel.text = bucketsUsedTotal().toString()
+        submarinesSwitchedLabel.text = submarinesSwitchedTotal().toString()
+        crashesLabel.text = crashes.toString()
+    }
+
 
     private fun elapsedTimeSince(time: LocalDateTime?): String {
         if (time == null) return "0:00:00"

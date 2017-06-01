@@ -26,6 +26,7 @@ import java.util.*
 import kotlin.concurrent.timerTask
 
 class LockPreventer {
+    private var isRunning = false
     private val timer by lazy { Timer() }
     private val robot by lazy { Robot() }
     private val task by lazy {
@@ -36,6 +37,17 @@ class LockPreventer {
         }
     }
 
-    fun start() = timer.schedule(task, 0L, 60 * 1000L)
-    fun stop() = task.cancel()
+    fun start() {
+        if (!isRunning) {
+            isRunning = true
+            timer.schedule(task, 0L, 60 * 1000L)
+        }
+    }
+
+    fun stop() {
+        if (isRunning) {
+            isRunning = false
+            task.cancel()
+        }
+    }
 }

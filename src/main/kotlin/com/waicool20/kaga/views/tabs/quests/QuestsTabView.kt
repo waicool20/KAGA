@@ -46,7 +46,7 @@ class QuestsTabView {
     }
 
     private fun createBindings() {
-        with(Kaga.PROFILE!!.quests) {
+        with(Kaga.PROFILE.quests) {
             enableButton.bind(enabledProperty)
             checkScheduleSpinner.bind(checkScheduleProperty)
         }

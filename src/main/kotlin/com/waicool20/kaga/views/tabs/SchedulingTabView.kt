@@ -57,7 +57,7 @@ class SchedulingTabView {
     private fun setValues() {
         startTimeHourSpinner.asTimeSpinner(TimeUnit.HOURS)
         startTimeMinSpinner.asTimeSpinner(TimeUnit.MINUTES)
-        with(String.format("%04d", Kaga.PROFILE!!.scheduledSleep.startTime.toInt())) {
+        with(String.format("%04d", Kaga.PROFILE.scheduledSleep.startTime.toInt())) {
             startTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
             startTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
         }
@@ -67,14 +67,14 @@ class SchedulingTabView {
     }
 
     private fun createBindings() {
-        with(Kaga.PROFILE!!.scheduledSleep) {
+        with(Kaga.PROFILE.scheduledSleep) {
             enableSleepButton.bind(enabledProperty)
             val binding = Bindings.concat(startTimeHourSpinner.valueProperty().asString("%02d"),
                     startTimeMinSpinner.valueProperty().asString("%02d"))
             startTimeProperty.bind(binding)
             sleepLengthSpinner.bind(lengthProperty)
         }
-        with(Kaga.PROFILE!!.scheduledStop) {
+        with(Kaga.PROFILE.scheduledStop) {
             enableAutoStopButton.bind(enabledProperty)
             modeChoiceBox.bind(modeProperty)
             countSpinner.bind(countProperty)

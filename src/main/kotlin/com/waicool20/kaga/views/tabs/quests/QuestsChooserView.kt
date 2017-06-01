@@ -33,7 +33,7 @@ import javafx.scene.control.cell.CheckBoxTableCell
 import tornadofx.*
 
 data class Quest(val id: String, val description: String, val requirements: List<String>) {
-    val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE!!.quests.quests.containsIgnoreCase(id))
+    val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE.quests.quests.containsIgnoreCase(id))
 }
 
 class QuestsChooserView : SingleListView<Quest>() {
@@ -61,8 +61,8 @@ class QuestsChooserView : SingleListView<Quest>() {
         indexColumn.setCellValueFactory { SimpleStringProperty(it.value.id) }
         descColumn.setCellValueFactory { SimpleStringProperty(it.value.description) }
         descColumn.setCellFactory {
-            with(TableCell<Quest, String>()) {
-                this.itemProperty().addListener { _, _, newVal ->
+            TableCell<Quest, String>().apply {
+                itemProperty().addListener { _, _, newVal ->
                     if (newVal != null) {
                         val tooltip = Tooltip("- ${rowItem.requirements.joinToString("\n- ")}")
                         tooltip.isWrapText = true
@@ -71,7 +71,6 @@ class QuestsChooserView : SingleListView<Quest>() {
                     }
                 }
                 textProperty().bind(itemProperty())
-                this
             }
         }
         enableColumn.cellFactory = CheckBoxTableCell.forTableColumn(enableColumn)
@@ -81,7 +80,7 @@ class QuestsChooserView : SingleListView<Quest>() {
     }
 
     override fun onSaveButton() {
-        Kaga.PROFILE!!.quests.quests.setAll(tableView().items
+        Kaga.PROFILE.quests.quests.setAll(tableView().items
                 .filter { it.enabledProperty.get() }
                 .map { it.id.toLowerCase() }
                 .sorted()

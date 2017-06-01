@@ -20,18 +20,7 @@
 
 package com.waicool20.kaga.util
 
-fun Collection<String>.getIgnoreCase(string: String): String? {
-    forEach {
-        if (it.equals(string, true)) return it
-    }
-    return null
-}
-
-fun Collection<String>.containsIgnoreCase(string: String): Boolean {
-    forEach {
-        if (it.equals(string, true)) return true
-    }
-    return false
-}
+fun Collection<String>.getIgnoreCase(string: String) = find { it.equals(string, true) }
+fun Collection<String>.containsIgnoreCase(string: String) = any { it.equals(string, true) }
 
 

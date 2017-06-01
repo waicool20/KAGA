@@ -57,7 +57,7 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
             }
         }
         Submarines.values().forEach {
-            enabledSubs.put(it, SimpleBooleanProperty(Kaga.PROFILE!!.submarineSwitch.enabledSubs.contains(it)))
+            enabledSubs.put(it, SimpleBooleanProperty(Kaga.PROFILE.submarineSwitch.enabledSubs.contains(it)))
         }
         enableColumn.cellFactory = CheckBoxTableCell.forTableColumn(enableColumn)
         enableColumn.setCellValueFactory { enabledSubs[it.value] }
@@ -65,7 +65,7 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
     }
 
     override fun onSaveButton() {
-        Kaga.PROFILE!!.submarineSwitch.enabledSubs.setAll(enabledSubs.filter({ it.value.value }).keys)
+        Kaga.PROFILE.submarineSwitch.enabledSubs.setAll(enabledSubs.filter({ it.value.value }).keys)
         close()
     }
 }

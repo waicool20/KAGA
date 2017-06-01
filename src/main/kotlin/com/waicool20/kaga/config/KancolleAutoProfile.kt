@@ -41,10 +41,16 @@ import java.util.regex.Pattern
 
 
 class KancolleAutoProfile(
-        name: String, val general: General, val scheduledSleep: ScheduledSleep,
-        val scheduledStop: ScheduledStop, val expeditions: Expeditions,
-        val pvp: Pvp, val sortie: Sortie, val submarineSwitch: SubmarineSwitch,
-        val lbas: Lbas, val quests: Quests
+        name: String = KancolleAutoProfile.Loader.DEFAULT_NAME,
+        val general: General = General(),
+        val scheduledSleep: ScheduledSleep = ScheduledSleep(),
+        val scheduledStop: ScheduledStop = ScheduledStop(),
+        val expeditions: Expeditions = Expeditions(),
+        val pvp: Pvp = Pvp(),
+        val sortie: Sortie = Sortie(),
+        val submarineSwitch: SubmarineSwitch = SubmarineSwitch(),
+        val lbas: Lbas = Lbas(),
+        val quests: Quests = Quests()
 ) {
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
     @JsonIgnore var nameProperty = SimpleStringProperty(name)
@@ -72,20 +78,17 @@ class KancolleAutoProfile(
         return writer.toString()
     }
 
-    private fun getIni(): Wini {
-        with(Wini()) {
-            add("General").fromObject(general)
-            add("ScheduledSleep").fromObject(scheduledSleep)
-            add("ScheduledStop").fromObject(scheduledStop)
-            add("Expeditions").fromObject(expeditions)
-            add("PvP").fromObject(pvp)
-            add("Combat").fromObject(sortie)
-            add("SubmarineSwitch").fromObject(submarineSwitch)
-            add("LBAS").fromObject(lbas)
-            quests.quests.setAll(quests.quests.map(String::toLowerCase))
-            add("Quests").fromObject(quests)
-            return this
-        }
+    private fun getIni() = Wini().apply {
+        add("General").fromObject(general)
+        add("ScheduledSleep").fromObject(scheduledSleep)
+        add("ScheduledStop").fromObject(scheduledStop)
+        add("Expeditions").fromObject(expeditions)
+        add("PvP").fromObject(pvp)
+        add("Combat").fromObject(sortie)
+        add("SubmarineSwitch").fromObject(submarineSwitch)
+        add("LBAS").fromObject(lbas)
+        quests.quests.setAll(quests.quests.map(String::toLowerCase))
+        add("Quests").fromObject(quests)
     }
 
     fun delete(): Boolean {
@@ -107,7 +110,7 @@ class KancolleAutoProfile(
         private val loaderLogger = LoggerFactory.getLogger(KancolleAutoProfile.Loader::class.java)
         val DEFAULT_NAME = "[Current Profile]"
 
-        @JvmStatic fun load(path: Path = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini")): KancolleAutoProfile? {
+        fun load(path: Path = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini")): KancolleAutoProfile {
             if (Files.exists(path)) {
                 loaderLogger.info("Attempting to load KancolleAuto Profile")
                 loaderLogger.debug("Loading KancolleAuto Profile from $path")
@@ -126,31 +129,25 @@ class KancolleAutoProfile(
                 }
                 val ini = Wini(path.toFile())
 
-                val general = ini["General"]?.toObject(General::class.java)
-                val scheduledSleep = ini["ScheduledSleep"]?.toObject(ScheduledSleep::class.java)
-                val scheduledStop = ini["ScheduledStop"]?.toObject(ScheduledStop::class.java)
-                val expeditions = ini["Expeditions"]?.toObject(Expeditions::class.java)
-                val pvp = ini["PvP"]?.toObject(Pvp::class.java)
-                val sortie = ini["Combat"]?.toObject(Sortie::class.java)
-                val submarineSwitch = ini["SubmarineSwitch"]?.toObject(SubmarineSwitch::class.java)
-                val lbas = ini["LBAS"]?.toObject(Lbas::class.java)
-                val quests = ini["Quests"]?.toObject(Quests::class.java)
+                val general = ini["General"]?.toObject(General::class.java) ?: throw Exception("Could not parse General section!")
+                val scheduledSleep = ini["ScheduledSleep"]?.toObject(ScheduledSleep::class.java) ?: throw Exception("Could not parse ScheduledSleep section!")
+                val scheduledStop = ini["ScheduledStop"]?.toObject(ScheduledStop::class.java) ?: throw Exception("Could not parse ScheduledStop section!")
+                val expeditions = ini["Expeditions"]?.toObject(Expeditions::class.java) ?: throw Exception("Could not parse Expeditions section!")
+                val pvp = ini["PvP"]?.toObject(Pvp::class.java) ?: throw Exception("Could not parse PvP section!")
+                val sortie = ini["Combat"]?.toObject(Sortie::class.java) ?: throw Exception("Could not parse Combat section!")
+                val submarineSwitch = ini["SubmarineSwitch"]?.toObject(SubmarineSwitch::class.java) ?: throw Exception("Could not parse SubmarineSwitch section!")
+                val lbas = ini["LBAS"]?.toObject(Lbas::class.java) ?: throw Exception("Could not parse LBAS section!")
+                val quests = ini["Quests"]?.toObject(Quests::class.java) ?: throw Exception("Could not parse Quests section!")
 
-                if (general == null || scheduledSleep == null || scheduledStop == null ||
-                        expeditions == null || pvp == null || sortie == null ||
-                        submarineSwitch == null || lbas == null || quests == null) {
-                    return null
-                }
-                with(KancolleAutoProfile(name, general, scheduledSleep, scheduledStop,
-                        expeditions, pvp, sortie, submarineSwitch, lbas, quests)) {
+                return KancolleAutoProfile(name, general, scheduledSleep, scheduledStop,
+                        expeditions, pvp, sortie, submarineSwitch, lbas, quests).apply {
                     loaderLogger.info("Loading KancolleAuto profile was successful")
                     loaderLogger.debug("Loaded $this")
-                    return this
                 }
+            } else {
+                loaderLogger.debug("Config at $path not found, falling back to config.ini in kancolle-auto root")
+                return load()
             }
-            loaderLogger.warn("File does not exist!")
-            loaderLogger.debug("Could not load $path")
-            return null
         }
     }
 
@@ -182,15 +179,18 @@ class KancolleAutoProfile(
     }
 
     class General(
-            program: String, recoveryMethod: RecoveryMethod, basicRecovery: Boolean,
-            sleepCycle: Int, paranoia: Int, sleepModifier: Int
+            program: String = "Chrome",
+            recoveryMethod: RecoveryMethod = RecoveryMethod.KC3,
+            basicRecovery: Boolean = true,
+            sleepCycle: Int = 20,
+            paranoia: Int = 1,
+            sleepModifier: Int = 0
     ) {
         @JsonIgnore @IniConfig(key = "Program") val programProperty = SimpleStringProperty(program)
         @JsonIgnore @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
         @JsonIgnore @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = SimpleBooleanProperty(basicRecovery)
-        val offset = (TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan")
-                .rawOffset) / 3600000
-        @JsonIgnore @IniConfig(key = "JSTOffset", read = false) val jstOffsetProperty: IntegerProperty = SimpleIntegerProperty(offset)
+        val offset = (TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan").rawOffset) / 3600000
+        @JsonIgnore @IniConfig(key = "JSTOffset", shouldRead = false) val jstOffsetProperty: IntegerProperty = SimpleIntegerProperty(offset)
         @JsonIgnore @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = SimpleIntegerProperty(sleepCycle)
         @JsonIgnore @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = SimpleIntegerProperty(paranoia)
         @JsonIgnore @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = SimpleIntegerProperty(sleepModifier)
@@ -204,7 +204,11 @@ class KancolleAutoProfile(
         @get:JsonProperty var sleepModifier by sleepModifierProperty
     }
 
-    class ScheduledSleep(enabled: Boolean, startTime: String, length: Double) {
+    class ScheduledSleep(
+            enabled: Boolean = true,
+            startTime: String = "0030",
+            length: Double = 3.5
+    ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "StartTime") val startTimeProperty = SimpleStringProperty(startTime)
         @JsonIgnore @IniConfig(key = "SleepLength") val lengthProperty = SimpleDoubleProperty(length)
@@ -214,7 +218,11 @@ class KancolleAutoProfile(
         @get:JsonProperty var length by lengthProperty
     }
 
-    class ScheduledStop(enabled: Boolean, mode: ScheduledStopMode, count: Int) {
+    class ScheduledStop(
+            enabled: Boolean = false,
+            mode: ScheduledStopMode = ScheduledStopMode.TIME,
+            count: Int = 5
+    ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "Mode") val modeProperty = SimpleObjectProperty(mode)
         @JsonIgnore @IniConfig(key = "Count") val countProperty = SimpleIntegerProperty(count)
@@ -224,7 +232,12 @@ class KancolleAutoProfile(
         @get:JsonProperty var count by countProperty
     }
 
-    class Expeditions(enabled: Boolean, fleet2: String, fleet3: String, fleet4: String) {
+    class Expeditions(
+            enabled: Boolean = true,
+            fleet2: String = "2",
+            fleet3: String = "5",
+            fleet4: String = "21"
+    ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "Fleet2") val fleet2Property = SimpleStringProperty(fleet2)
         @JsonIgnore @IniConfig(key = "Fleet3") val fleet3Property = SimpleStringProperty(fleet3)
@@ -236,7 +249,10 @@ class KancolleAutoProfile(
         @get:JsonProperty var fleet4 by fleet4Property
     }
 
-    class Pvp(enabled: Boolean, fleetComp: Int) {
+    class Pvp(
+            enabled: Boolean = false,
+            fleetComp: Int = 1
+    ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)
 
@@ -245,10 +261,22 @@ class KancolleAutoProfile(
     }
 
     class Sortie(
-            enabled: Boolean, fleetComps: List<Int>, area: String, subarea: String, combinedFleet: Boolean,
-            nodes: Int, nodeSelects: List<String>, formations: List<CombatFormation>,
-            nightBattles: List<Boolean>, retreatLimit: Int, repairLimit: Int, repairTimeLimit: String,
-            checkFatigue: Boolean, portCheck: Boolean, medalStop: Boolean, lastNodePush: Boolean
+            enabled: Boolean = false,
+            fleetComps: List<Int> = listOf(2),
+            area: String = "2",
+            subarea: String = "3",
+            combinedFleet: Boolean = false,
+            nodes: Int = 5,
+            nodeSelects: List<String> = emptyList(),
+            formations: List<CombatFormation> = listOf(CombatFormation.LINE_AHEAD),
+            nightBattles: List<Boolean> = listOf(false),
+            retreatLimit: Int = 2,
+            repairLimit: Int = 1,
+            repairTimeLimit: String = "0030",
+            checkFatigue: Boolean = false,
+            portCheck: Boolean = false,
+            medalStop: Boolean = false,
+            lastNodePush: Boolean = false
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "FleetComps") val fleetCompsProperty = SimpleListProperty(FXCollections.observableArrayList(fleetComps))
@@ -285,7 +313,12 @@ class KancolleAutoProfile(
         @get:JsonProperty var lastNodePush by lastNodePushProperty
     }
 
-    class SubmarineSwitch(enabled: Boolean, enabledSubs: List<Submarines>, replaceLimit: Int, fatigueSwitch: Boolean) {
+    class SubmarineSwitch(
+            enabled: Boolean = true,
+            enabledSubs: List<Submarines> = listOf(Submarines.SS),
+            replaceLimit: Int = 0,
+            fatigueSwitch: Boolean = false
+    ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "EnabledSubs") val enabledSubsProperty = SimpleListProperty(FXCollections.observableArrayList(enabledSubs))
         @JsonIgnore @IniConfig(key = "ReplaceLimit") val replaceLimitProperty = SimpleIntegerProperty(replaceLimit)
@@ -298,8 +331,11 @@ class KancolleAutoProfile(
     }
 
     class Lbas(
-            enabled: Boolean, enabledGroups: Set<Int>, group1Nodes: List<String>,
-            group2Nodes: List<String>, group3Nodes: List<String>
+            enabled: Boolean = false,
+            enabledGroups: Set<Int> = emptySet(),
+            group1Nodes: List<String> = emptyList(),
+            group2Nodes: List<String> = emptyList(),
+            group3Nodes: List<String> = emptyList()
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "EnabledGroups") val enabledGroupsProperty = SimpleSetProperty(FXCollections.observableSet(enabledGroups))
@@ -314,7 +350,11 @@ class KancolleAutoProfile(
         @get:JsonProperty var group3Nodes by group3NodesProperty
     }
 
-    class Quests(enabled: Boolean, quests: List<String>, checkSchedule: Int) {
+    class Quests(
+            enabled: Boolean = true,
+            quests: List<String> = listOf("bd1", "bd2", "bd3", "bd4", "bd5", "bd6", "bd7", "bd8", "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "bw7", "bw8", "bw9", "bw10", "c2", "c3", "c4", "c8", "d2", "d3", "d4", "d9", "d11", "e3", "e4"),
+            checkSchedule: Int = 5
+    ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore @IniConfig(key = "Quests") val questsProperty = SimpleListProperty(FXCollections.observableArrayList(quests))
         @JsonIgnore @IniConfig(key = "CheckSchedule") val checkScheduleProperty = SimpleIntegerProperty(checkSchedule)

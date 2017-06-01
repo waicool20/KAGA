@@ -48,7 +48,7 @@ class GeneralTabView {
     }
 
     fun createBindings() {
-        with(Kaga.PROFILE!!.general) {
+        with(Kaga.PROFILE.general) {
             recoveryMethodChoiceBox.bind(recoveryMethodProperty)
             programTextField.bind(programProperty)
             basicRecoveryCheckBox.bind(basicRecoveryProperty)

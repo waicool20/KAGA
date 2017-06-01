@@ -25,74 +25,66 @@ import java.util.*
 
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class IniConfig(val key: String, val read: Boolean = true)
+annotation class IniConfig(val key: String, val shouldRead: Boolean = true)
 
 fun <T : Any> Profile.Section.toObject(obj: Class<T>): T? {
     val args = mutableListOf<Any>()
     val argClasses = mutableListOf<Class<*>>()
     obj.declaredFields.forEach { field ->
-        run {
-            val config = field.annotations.find { it is IniConfig } as? IniConfig
-            if (config != null && config.read) {
-                val fieldObject = field.type.getMethod("getValue").returnType.toPrimitive()
-                if (field.hasGenericType()) {
-                    val genericClass = field.getGenericClass(0)
-                    val isList = List::class.java.isAssignableFrom(field.type)
-                    if (isList || Set::class.java.isAssignableFrom(field.type)) {
-                        val collection: MutableCollection<Any> = if (isList) ArrayList() else LinkedHashSet()
-                        this[config.key]?.split("\\s?,\\s?".toRegex())?.forEach { value ->
-                            if (value.isNotEmpty()) {
+        val config = field.annotations.find { it is IniConfig } as? IniConfig
+        if (config != null && config.shouldRead) {
+            val fieldObject = field.type.getMethod("getValue").returnType.toPrimitive()
+            if (field.hasGenericType()) {
+                val genericClass = field.getGenericClass(0)
+                val isList = List::class.java.isAssignableFrom(field.type)
+                if (isList || Set::class.java.isAssignableFrom(field.type)) {
+                    val collection: MutableCollection<Any> = if (isList) ArrayList() else LinkedHashSet()
+                    this[config.key]?.split("\\s?,\\s?".toRegex())
+                            ?.filter { it.isNotEmpty() }
+                            ?.forEach { value ->
                                 if (genericClass.isEnum) {
-                                    val enumObj = genericClass.enumConstants.find {
+                                    genericClass.enumConstants.find {
                                         it.toString().equals(value, true) ||
                                                 it.toString().equals(value.replace("_", "-"), true)
-                                    }
-                                    if (enumObj != null) collection.add(enumObj)
+                                    }?.let { collection.add(it) }
                                 } else {
                                     collection.add(value.toObject(genericClass))
                                 }
                             }
-                        }
-                        argClasses.add(if (isList) List::class.java else Set::class.java)
-                        args.add(collection)
-                    } else {
-                        if (genericClass.isEnum) {
-                            val enumName = this[config.key]?.replace("-", "_")?.toUpperCase() ?: ""
-                            val enumObj = genericClass.enumConstants.find { it.toString().equals(enumName, true) }
-                            if (enumObj != null) {
-                                argClasses.add(genericClass)
-                                args.add(enumObj)
-                            }
-                        }
-                    }
+                    argClasses.add(if (isList) List::class.java else Set::class.java)
+                    args.add(collection)
                 } else {
-                    var value: Any
-                    try {
-                        value = this.get(config.key, fieldObject)
-                    } catch (e: Exception) {
-                        when (e.cause) {
-                            is NumberFormatException -> value = 0
-                            else -> throw e
+                    if (genericClass.isEnum) {
+                        val enumName = this[config.key]?.replace("-", "_")?.toUpperCase() ?: ""
+                        genericClass.enumConstants.find { it.toString().equals(enumName, true) }?.let {
+                            argClasses.add(genericClass)
+                            args.add(it)
                         }
                     }
-                    argClasses.add(fieldObject)
-                    args.add(value)
                 }
+            } else {
+                var value: Any
+                try {
+                    value = this.get(config.key, fieldObject)
+                } catch (e: Exception) {
+                    when (e.cause) {
+                        is NumberFormatException -> value = 0
+                        else -> throw e
+                    }
+                }
+                argClasses.add(fieldObject)
+                args.add(value)
             }
         }
     }
     return obj.getConstructor(*argClasses.toTypedArray()).newInstance(*args.toTypedArray())
 }
 
-fun Profile.Section.fromObject(obj: Any) {
-    obj.javaClass.declaredFields.forEach { field ->
-        run {
-            val config = field.annotations.find { it is IniConfig } as? IniConfig
-            if (config != null) {
-                field.isAccessible = true
-                val prop = field.get(obj)
-                this.add(config.key, prop.javaClass.getMethod("get").invoke(prop).toString().replace("\\[|]".toRegex(), ""))
-            }
-        }
+fun Profile.Section.fromObject(obj: Any) = obj.javaClass.declaredFields.forEach { field ->
+    (field.annotations.find { it is IniConfig } as? IniConfig)?.let {
+        field.isAccessible = true
+        val prop = field.get(obj)
+        this.add(it.key, prop.javaClass.getMethod("get").invoke(prop).toString().replace("\\[|]".toRegex(), ""))
     }
 }
+

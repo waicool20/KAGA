@@ -93,7 +93,6 @@ class MouseIncrementHandler(delayMillis: Long, incrementInterval: Long) : EventH
             }
         }
     }
-
 }
 
 

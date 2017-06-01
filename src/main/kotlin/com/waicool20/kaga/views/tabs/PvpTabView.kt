@@ -45,7 +45,7 @@ class PvpTabView {
     }
 
     private fun createBindings() {
-        with(Kaga.PROFILE!!.pvp) {
+        with(Kaga.PROFILE.pvp) {
             enableButton.bind(enabledProperty)
             fleetCompComboBox.bind(fleetCompProperty)
         }

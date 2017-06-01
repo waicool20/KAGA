@@ -53,28 +53,22 @@ class PathChooserView : View() {
         checkErrors()
     }
 
-    @FXML private fun openSikulixJarChooser() {
-        with(FileChooser()) {
-            title = "Path to Sikulix Jar File..."
-            extensionFilters.add(FileChooser.ExtensionFilter("JAR files (*.jar)", "*.jar"))
-            val file = showOpenDialog(null)
-            if (file != null) {
-                Kaga.CONFIG.sikulixJarPath = file.toPath()
-                sikulixJarPathTextField.text = file.path
-                checkErrors()
-            }
+    @FXML private fun openSikulixJarChooser() = FileChooser().run {
+        title = "Path to Sikulix Jar File..."
+        extensionFilters.add(FileChooser.ExtensionFilter("JAR files (*.jar)", "*.jar"))
+        showOpenDialog(null)?.let {
+            Kaga.CONFIG.sikulixJarPath = it.toPath()
+            sikulixJarPathTextField.text = it.path
+            checkErrors()
         }
     }
 
-    @FXML private fun openKancolleAutoRootChooser() {
-        with(DirectoryChooser()) {
-            title = "Path to Kancolle Auto root directory..."
-            val directory = showDialog(null)
-            if (directory != null) {
-                Kaga.CONFIG.kancolleAutoRootDirPath = directory.toPath()
-                kancolleAutoDirTextField.text = directory.path
-                checkErrors()
-            }
+    @FXML private fun openKancolleAutoRootChooser() = DirectoryChooser().run {
+        title = "Path to Kancolle Auto root directory..."
+        showDialog(null)?.let {
+            Kaga.CONFIG.kancolleAutoRootDirPath = it.toPath()
+            kancolleAutoDirTextField.text = it.path
+            checkErrors()
         }
     }
 
@@ -83,7 +77,7 @@ class PathChooserView : View() {
             logger.info("Configuration was found valid! Starting main application...")
             Kaga.CONFIG.save()
             (saveButton.scene.window as Stage).close()
-            Kaga.INSTANCE.startMainApplication()
+            Kaga.startMainApplication()
         }
     }
 

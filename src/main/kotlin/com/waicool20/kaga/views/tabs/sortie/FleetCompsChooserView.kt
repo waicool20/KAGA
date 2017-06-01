@@ -31,7 +31,7 @@ import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.CheckBoxTableCell
 
 data class FleetComp(val number: Int) {
-    val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE!!.sortie.fleetComps.contains(number))
+    val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE.sortie.fleetComps.contains(number))
 }
 
 class FleetCompsChooserView : SingleListView<FleetComp>() {
@@ -58,10 +58,8 @@ class FleetCompsChooserView : SingleListView<FleetComp>() {
     }
 
     override fun onSaveButton() {
-        Kaga.PROFILE!!.sortie.fleetComps.setAll(tableView().items
-                .filter { it.enabledProperty.value }
-                .map { it.number }
-        )
+        Kaga.PROFILE.sortie.fleetComps
+                .setAll(tableView().items.filter { it.enabledProperty.value }.map { it.number })
         close()
     }
 }

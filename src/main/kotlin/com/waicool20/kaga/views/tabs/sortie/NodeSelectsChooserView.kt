@@ -33,11 +33,11 @@ class NodeSelectsChooserView : NodeChooserView("Selection", regexMap) {
         nodeColumn?.filter = { _, string ->
             !tableView.items.contains(string)
         }
-        tableView.items.addAll(Kaga.PROFILE!!.sortie.nodeSelects.map { converter?.toPrettyString(it) })
+        tableView.items.addAll(Kaga.PROFILE.sortie.nodeSelects.mapNotNull { converter?.toPrettyString(it) })
     }
 
     override fun save(items: List<String>) {
-        Kaga.PROFILE!!.sortie.nodeSelects.setAll(tableView.items.map { converter?.toImageName(it) })
+        Kaga.PROFILE.sortie.nodeSelects.setAll(tableView.items.mapNotNull { converter?.toImageName(it) }.dropLast(1))
         close()
     }
 }
