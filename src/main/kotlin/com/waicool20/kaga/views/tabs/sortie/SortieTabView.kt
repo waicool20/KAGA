@@ -50,6 +50,7 @@ class SortieTabView {
     @FXML private lateinit var nodesSpinner: Spinner<Int>
     @FXML private lateinit var retreatLimitComboBox: ComboBox<Int>
     @FXML private lateinit var repairLimitComboBox: ComboBox<Int>
+    @FXML private lateinit var reserveDocksCheckBox: CheckBox
     @FXML private lateinit var repairTimeHourSpinner: Spinner<Int>
     @FXML private lateinit var repairTimeMinSpinner: Spinner<Int>
     @FXML private lateinit var checkFatigueCheckBox: CheckBox
@@ -131,6 +132,7 @@ class SortieTabView {
             combinedFleetCheckBox.bind(combinedFleetProperty)
             nodesSpinner.bind(nodesProperty)
             retreatLimitComboBox.bind(retreatLimitProperty)
+            reserveDocksCheckBox.bind(reserveDocksProperty)
             repairLimitComboBox.bind(repairLimitProperty)
             val binding = Bindings.concat(repairTimeHourSpinner.valueProperty().asString("%02d"),
                     repairTimeMinSpinner.valueProperty().asString("%02d"))

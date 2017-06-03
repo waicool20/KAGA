@@ -108,6 +108,10 @@
     "description": "Several options that are checked before and after sortieing"
   },
   {
+    "id": "Sortie-reserveDocksCheckBox",
+    "description": "Reserves a single dock when trying to repair ships, useful for preventing repairs from blocking continuous sorties but may increase bucket usage"
+  },
+  {
     "id": "Sortie-checkFatigueCheckBox",
     "description": "Whether or not to consider fatigue/morale before sorties. If the ships have an unhappy face (morale of 29 or below) the script will wait for a set amount of time for morale to recover."
   },

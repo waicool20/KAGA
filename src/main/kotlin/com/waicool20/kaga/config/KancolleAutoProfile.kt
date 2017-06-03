@@ -273,6 +273,7 @@ class KancolleAutoProfile(
             retreatLimit: Int = 2,
             repairLimit: Int = 1,
             repairTimeLimit: String = "0030",
+            reserveDocks: Boolean = false,
             checkFatigue: Boolean = false,
             portCheck: Boolean = false,
             medalStop: Boolean = false,
@@ -290,6 +291,7 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
         @JsonIgnore @IniConfig(key = "RepairLimit") val repairLimitProperty = SimpleIntegerProperty(repairLimit)
         @JsonIgnore @IniConfig(key = "RepairTimeLimit") val repairTimeLimitProperty = SimpleStringProperty(repairTimeLimit)
+        @JsonIgnore @IniConfig(key = "ReserveDocks") val reserveDocksProperty = SimpleBooleanProperty(reserveDocks)
         @JsonIgnore @IniConfig(key = "CheckFatigue") val checkFatigueProperty = SimpleBooleanProperty(checkFatigue)
         @JsonIgnore @IniConfig(key = "PortCheck") val portCheckProperty = SimpleBooleanProperty(portCheck)
         @JsonIgnore @IniConfig(key = "MedalStop") val medalStopProperty = SimpleBooleanProperty(medalStop)
@@ -307,6 +309,7 @@ class KancolleAutoProfile(
         @get:JsonProperty var retreatLimit by retreatLimitProperty
         @get:JsonProperty var repairLimit by repairLimitProperty
         @get:JsonProperty var repairTimeLimit by repairTimeLimitProperty
+        @get:JsonProperty var reserveDocks by reserveDocksProperty
         @get:JsonProperty var checkFatigue by checkFatigueProperty
         @get:JsonProperty var portCheck by portCheckProperty
         @get:JsonProperty var medalStop by medalStopProperty
