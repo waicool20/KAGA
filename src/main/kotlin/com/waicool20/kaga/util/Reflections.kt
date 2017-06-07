@@ -60,5 +60,5 @@ fun Field.getGenericClass(level: Int): Class<*> {
             objType = paramType.actualTypeArguments[0]
         }
     }
-    return Class.forName(objType.typeName.replace("<.+>".toRegex(), ""))
+    return objType as Class<*>
 }
