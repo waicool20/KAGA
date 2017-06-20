@@ -146,7 +146,11 @@ class KancolleAutoProfile(
                 }
             } else {
                 loaderLogger.debug("Config at $path not found, falling back to config.ini in kancolle-auto root")
-                return load()
+                if (Kaga.CONFIG.isValid()) {
+                    return load()
+                } else {
+                    throw Exception("No valid kancolle-auto root, couldn't read config.ini")
+                }
             }
         }
     }
@@ -369,6 +373,7 @@ class KancolleAutoProfile(
         @get:JsonProperty var quests by questsProperty
         @get:JsonProperty var checkSchedule by checkScheduleProperty
     }
+
 
     override fun toString(): String = ObjectMapper().writeValueAsString(this)
 }
