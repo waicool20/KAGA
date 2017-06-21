@@ -36,6 +36,7 @@ class KancolleAuto {
     private val logger = LoggerFactory.getLogger(javaClass)
     private var kancolleAutoProcess: Process? = null
     private var streamGobbler: StreamGobbler? = null
+    private var shouldStop = false
 
     var statsTracker = KancolleAutoStatsTracker()
 
@@ -50,7 +51,7 @@ class KancolleAuto {
         )
         val lockPreventer = if (Kaga.CONFIG.preventLock) LockPreventer() else null
         statsTracker.startNewSession()
-        while (true) {
+        KCAutoLoop@ while (true) {
             if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
             logger.info("Starting new Kancolle Auto session")
             logger.debug("Launching with command: ${args.joinToString(" ")}")
@@ -63,20 +64,26 @@ class KancolleAuto {
             logger.info("Kancolle Auto session has terminated!")
             logger.debug("Exit Value was $exitVal")
             lockPreventer?.stop()
-            if (!(exitVal == 0 || exitVal == 143)) {
-                logger.info("Kancolle Auto didn't terminate gracefully")
-                saveCrashLog()
-                if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
-                    if (statsTracker.crashes < Kaga.CONFIG.autoRestartMaxRetries) {
-                        logger.info("Auto Restart enabled...attempting restart")
-                        statsTracker.trackNewChild()
-                    } else {
-                        logger.info("Auto restart retry limit reached, terminating current session.")
-                        break
+            when (exitVal) {
+                0, 143 -> break@KCAutoLoop
+                else -> {
+                    if (shouldStop) {
+                        shouldStop = false
+                        logger.info("User initiated termination, exiting kancolle-auto process loop regardless...")
+                        break@KCAutoLoop
+                    }
+                    logger.info("Kancolle Auto didn't terminate gracefully")
+                    saveCrashLog()
+                    if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
+                        if (statsTracker.crashes < Kaga.CONFIG.autoRestartMaxRetries) {
+                            logger.info("Auto Restart enabled...attempting restart")
+                            statsTracker.trackNewChild()
+                        } else {
+                            logger.info("Auto restart retry limit reached, terminating current session.")
+                            break@KCAutoLoop
+                        }
                     }
                 }
-            } else {
-                break
             }
         }
     }
@@ -84,6 +91,7 @@ class KancolleAuto {
     fun stop() {
         logger.info("Terminating current Kancolle Auto session")
         kancolleAutoProcess?.destroy()
+        shouldStop = true
     }
 
     fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess?.isAlive ?: false
