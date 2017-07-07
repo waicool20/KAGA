@@ -51,8 +51,8 @@ fun ObservableValue<*>.listen(unit: () -> Unit) = addListener { _ -> unit.invoke
 
 fun ReadOnlyObjectProperty<Scene>.setInitialSize(width: Double?, height: Double?, asMinimum: Boolean) {
     addListener { _, _, newVal ->
-        newVal?.windowProperty()?.addListener { _, _, newVal ->
-            newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, {
+        newVal?.windowProperty()?.addListener { _, _, newWindow ->
+            newWindow?.addEventFilter(WindowEvent.WINDOW_SHOWN, {
                 with(it.target as Stage) {
                     if (width != null && height != null) {
                         this.width = width
@@ -306,8 +306,8 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
             }
         })
         table.sceneProperty().addListener { _, _, newVal ->
-            newVal?.windowProperty()?.addListener { _, _, newVal ->
-                newVal?.addEventFilter(WindowEvent.WINDOW_SHOWN, {
+            newVal?.windowProperty()?.addListener { _, _, newWindow ->
+                newWindow?.addEventFilter(WindowEvent.WINDOW_SHOWN, {
                     if (table.items.size == 0) table.items.add(addText)
                 })
             }
