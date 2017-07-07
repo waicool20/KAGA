@@ -40,6 +40,15 @@ class KancolleAuto {
 
     var statsTracker = KancolleAutoStatsTracker()
 
+    val version by lazy {
+        with(Files.readAllLines(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("CHANGELOG.md")).first()) {
+            replace("#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex(), { it.groupValues[1] }) // Get date of release
+                    .plus(if (contains("\\[.+?]".toRegex()))
+                        replace(".*?(\\[.+?]).*?".toRegex(), { it.groupValues[1] })
+                    else "") // Add release tag if it exists
+        }
+    }
+
     fun startAndWait(saveConfig: Boolean = true) {
         if (saveConfig) Kaga.PROFILE.save(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini"))
         val args = listOf(
@@ -53,7 +62,7 @@ class KancolleAuto {
         statsTracker.startNewSession()
         KCAutoLoop@ while (true) {
             if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
-            logger.info("Starting new Kancolle Auto session")
+            logger.info("Starting new Kancolle Auto session (Version: $version)")
             logger.debug("Launching with command: ${args.joinToString(" ")}")
             logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
             kancolleAutoProcess = ProcessBuilder(args).start()
@@ -100,13 +109,8 @@ class KancolleAuto {
         val crashTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss"))
         val logFile = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("crashes/$crashTime.log")
         if (Files.notExists(logFile)) Files.createDirectories(logFile.parent)
-        val versionLine = Files.readAllLines(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("CHANGELOG.md"))[0]
-        var kancolleAutoVersion = versionLine.replace("#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex(), { it.groupValues[1] })
-        if (versionLine.contains("\\[.+?]".toRegex())) {
-            kancolleAutoVersion += versionLine.replace(".*?(\\[.+?]).*?".toRegex(), { it.groupValues[1] })
-        }
         val log = template.replace("<DateTime>", crashTime)
-                .replace("<Version>", kancolleAutoVersion)
+                .replace("<Version>", version)
                 .replace("<Viewer>", Kaga.PROFILE.general.program)
                 .replace("<OS>", "${System.getProperty("os.name")} ${System.getProperty("os.version")} ${System.getProperty("os.arch")}")
                 .replace("<Config>", Kaga.PROFILE.asIniString())
