@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.input.KeyCodeCombination?>
@@ -61,7 +62,6 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Debug">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#startWithoutWritingConfig" text="Start w/o writing config" />
                         <MenuItem mnemonicParsing="false" onAction="#openStats" text="Session Stats" />
                         <MenuItem mnemonicParsing="false" onAction="#openConsole" text="Debug Console">
                             <accelerator>
@@ -95,7 +95,12 @@
                         <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                     </padding>
                 </HBox>
-                <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#onStartStopButton" prefHeight="28.0" prefWidth="85.0" style="-fx-background-color: lightgreen;" text="Start" />
+            <SplitMenuButton fx:id="startStopButton" mnemonicParsing="false" onAction="#onStartStopButton" stylesheets="@../styles/greenstyle.css" text="Start">
+              <items>
+                  <MenuItem fx:id="startButtonItem1" mnemonicParsing="false" onAction="#startWithoutWritingConfig" text="Start w/o writing config" />
+                  <MenuItem fx:id="stopButtonItem1" mnemonicParsing="false" onAction="#stopAtPort" text="Stop at port" />
+              </items>
+            </SplitMenuButton>
             </children>
         </HBox>
         <TabPane fx:id="tabpane" rotateGraphic="true" side="LEFT" style="-fx-border-width: 1 0 0 0; -fx-border-color: lightgrey;" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">

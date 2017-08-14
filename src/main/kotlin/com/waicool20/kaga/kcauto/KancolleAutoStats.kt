@@ -26,6 +26,7 @@ import java.time.LocalDateTime
 class KancolleAutoStatsTracker {
     var startingTime: LocalDateTime? = null
     var crashes = 0
+    var atPort = true
     val history = mutableListOf<KancolleAutoStats>()
 
     init {
@@ -58,12 +59,27 @@ class KancolleAutoStatsTracker {
         LoggingEventBus.subscribe(".*Kancolle Auto didn't terminate gracefully.*".toRegex(), {
             crashes++
         })
+
+        // Track home
+        LoggingEventBus.subscribe(".*Beginning PvP sortie!.*".toRegex(), {
+            atPort = false
+        })
+        LoggingEventBus.subscribe(".*Commencing sortie!.*".toRegex(), {
+            atPort = false
+        })
+        LoggingEventBus.subscribe(".*PvP complete!.*".toRegex(), {
+            atPort = true
+        })
+        LoggingEventBus.subscribe(".*Sortie complete!.*".toRegex(), {
+            atPort = true
+        })
     }
 
     fun startNewSession() {
         history.clear()
         startingTime = LocalDateTime.now()
         crashes = 0
+        atPort = true
         trackNewChild()
     }
 

@@ -29,6 +29,8 @@ import java.nio.file.Files
 import java.nio.file.StandardOpenOption
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 
 class KancolleAuto {
@@ -101,6 +103,16 @@ class KancolleAuto {
         logger.info("Terminating current Kancolle Auto session")
         kancolleAutoProcess?.destroy()
         shouldStop = true
+    }
+
+    fun stopAtPort() {
+        logger.info("Will wait for any ongoing battle to finish first before terminating current Kancolle auto session!")
+        thread {
+            while (!statsTracker.atPort) {
+                TimeUnit.MILLISECONDS.sleep(10)
+            }
+            stop()
+        }
     }
 
     fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess?.isAlive ?: false
