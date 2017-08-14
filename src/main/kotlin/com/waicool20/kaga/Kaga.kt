@@ -29,6 +29,7 @@ import com.waicool20.kaga.handlers.KeyboardIncrementHandler
 import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
 import com.waicool20.kaga.kcauto.KancolleAuto
+import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.LineListenerOutputStream
 import com.waicool20.kaga.util.TeeOutputStream
 import com.waicool20.kaga.views.ConsoleView
@@ -38,17 +39,26 @@ import javafx.application.Application
 import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
+import javafx.scene.control.Alert
+import javafx.scene.control.Hyperlink
+import javafx.scene.control.Label
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.KeyEvent.KEY_PRESSED
 import javafx.scene.input.MouseEvent.MOUSE_PRESSED
 import javafx.scene.input.MouseEvent.MOUSE_RELEASED
+import javafx.scene.layout.FlowPane
 import javafx.stage.Modality
 import javafx.stage.Stage
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.HttpClients
 import org.slf4j.LoggerFactory
 import tornadofx.*
+import java.awt.Desktop
 import java.io.PrintStream
+import java.net.URI
 import java.nio.file.Path
 import java.nio.file.Paths
+import kotlin.concurrent.thread
 
 class KagaApp : Application() {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -79,15 +89,38 @@ class KagaApp : Application() {
 }
 
 object Kaga {
-    data class VersionInfo(val version: String, val kcAutoCompatibility: String)
+    data class VersionInfo(val version: String = "Unknown", val kcAutoCompatibility: String = "Unknown") : Comparable<VersionInfo> {
+        override fun equals(other: Any?) = other != null && other is VersionInfo && compareTo(other) == 0
+        override fun hashCode() = super.hashCode()
+
+        override fun compareTo(other: VersionInfo): Int {
+            var tokens1 = version.split("\\D".toRegex()).mapNotNull { it.toIntOrNull() }
+            var tokens2 = other.version.split("\\D".toRegex()).mapNotNull { it.toIntOrNull() }
+            val size1 = tokens1.size
+            val size2 = tokens2.size
+            if (size1 != size2) {
+                if (size1 > size2) {
+                    tokens2 += List(size1 - size2) { 0 }
+                } else {
+                    tokens1 += List(size2 - size1) { 0 }
+                }
+            }
+            if (tokens1 == tokens2) return 0
+            tokens1.zip(tokens2).forEach { (first, second) ->
+                if (first > second) return 1
+            }
+            return -1
+        }
+    }
 
     private val logger = LoggerFactory.getLogger(javaClass)
+    private val mapper = jacksonObjectMapper()
     val JAR_DIR: Path = Paths.get(Kaga::class.java.protectionDomain.codeSource.location.toURI()).parent
     val CONFIG_DIR: Path = JAR_DIR.resolve("kaga")
 
     lateinit var ROOT_STAGE: Stage
 
-    val VERSION_INFO = jacksonObjectMapper().readValue(javaClass.classLoader.getResourceAsStream("version.txt"), VersionInfo::class.java)
+    val VERSION_INFO = mapper.readValue(javaClass.classLoader.getResourceAsStream("version.txt"), VersionInfo::class.java) ?: VersionInfo()
 
     val CONSOLE_STAGE by lazy {
         Stage().apply {
@@ -139,6 +172,7 @@ object Kaga {
         if (CONFIG.showDebugOnStart) CONSOLE_STAGE.show()
         startKCAutoListener()
         if (CONFIG.showStatsOnStart) STATS_STAGE.show()
+        checkForUpdates()
     }
 
     fun startPathChooser() = with(Stage()) {
@@ -156,6 +190,46 @@ object Kaga {
         KANCOLLE_AUTO.stop()
         Platform.exit()
         System.exit(0)
+    }
+
+    fun checkForUpdates() {
+        logger.info("Checking for updates...")
+        thread {
+            HttpClients.createDefault().use { client ->
+                try {
+                    val response = client.execute(HttpGet("https://api.github.com/repos/waicool20/Kaga/releases/latest"))
+                    val json = mapper.readTree(response.entity.content)
+                    val latestVersion = VersionInfo(json.at("/tag_name").asText())
+                    if (latestVersion > VERSION_INFO) {
+                        Platform.runLater {
+                            Alert(Alert.AlertType.INFORMATION, "KAGA - Update").apply {
+                                headerText = null
+                                val pane = FlowPane()
+                                val label = Label("""
+                                |A new update for KAGA is available: ${latestVersion.version}
+                                |Current version: ${VERSION_INFO.version}
+                                |
+                                |Get the update over here:
+                                """.trimMargin())
+                                val link = json.at("/html_url").asText()
+                                val hyperlink = Hyperlink(link).apply {
+                                    setOnAction {
+                                        if (Desktop.isDesktopSupported()) {
+                                            thread { Desktop.getDesktop().browse(URI(link)) }
+                                        }
+                                    }
+                                }
+                                pane.children.addAll(label, hyperlink)
+                                dialogPane.contentProperty().set(pane)
+                                showAndWait()
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    logger.error("Could not check for updates, reason: $e")
+                }
+            }
+        }
     }
 
     private fun startKCAutoListener() = LineListenerOutputStream().let {
