@@ -46,6 +46,6 @@ class NightBattlesChooserView : SingleListView<String>() {
 
     override fun onSaveButton() {
         Kaga.PROFILE.sortie.nightBattles.setAll(tableView().items.dropLast(1).map { it == "Yes" })
-        close()
+        closeWindow()
     }
 }

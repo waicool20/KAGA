@@ -60,6 +60,6 @@ class FleetCompsChooserView : SingleListView<FleetComp>() {
     override fun onSaveButton() {
         Kaga.PROFILE.sortie.fleetComps
                 .setAll(tableView().items.filter { it.enabledProperty.value }.map { it.number })
-        close()
+        closeWindow()
     }
 }

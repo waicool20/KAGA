@@ -88,7 +88,7 @@ abstract class NodeChooserView(private val nodeColumnTitle: String, regexMap: Ma
 
     @FXML override fun onSaveButton() {
         save(tableView.items.map { converter?.toImageName(it) ?: "" }.dropLast(1))
-        close()
+        closeWindow()
     }
 
     override fun tableView() = tableView

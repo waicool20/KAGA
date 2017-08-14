@@ -85,6 +85,6 @@ class QuestsChooserView : SingleListView<Quest>() {
                 .map { it.id.toLowerCase() }
                 .sorted()
         )
-        close()
+        closeWindow()
     }
 }

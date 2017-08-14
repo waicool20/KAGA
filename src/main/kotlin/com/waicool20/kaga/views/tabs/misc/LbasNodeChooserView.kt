@@ -66,6 +66,6 @@ class LbasNodeChooserView(val group: Int) : NodeChooserView("LBAS Node", regexMa
                 else -> Unit
             }
         }
-        close()
+        closeWindow()
     }
 }

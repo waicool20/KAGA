@@ -66,6 +66,6 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
 
     override fun onSaveButton() {
         Kaga.PROFILE.submarineSwitch.enabledSubs.setAll(enabledSubs.filter({ it.value.value }).keys)
-        close()
+        closeWindow()
     }
 }

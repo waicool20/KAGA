@@ -38,11 +38,11 @@ abstract class SingleListView<T> : Fragment() {
     }
 
     abstract fun onSaveButton()
-    @FXML protected open fun onCancelButton() = close()
+    @FXML protected open fun onCancelButton() = closeWindow()
 
     protected open fun tableView(): TableView<T> = tableView
-    protected fun close() {
-        (tableView().scene.window as Stage).close()
+    protected fun closeWindow() {
+        close()
         Kaga.ROOT_STAGE.toFront()
     }
 }

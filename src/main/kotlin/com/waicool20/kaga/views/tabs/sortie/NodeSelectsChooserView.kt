@@ -38,7 +38,7 @@ class NodeSelectsChooserView : NodeChooserView("Selection", regexMap) {
 
     override fun save(items: List<String>) {
         Kaga.PROFILE.sortie.nodeSelects.setAll(tableView.items.mapNotNull { converter?.toImageName(it) }.dropLast(1))
-        close()
+        closeWindow()
     }
 }
 

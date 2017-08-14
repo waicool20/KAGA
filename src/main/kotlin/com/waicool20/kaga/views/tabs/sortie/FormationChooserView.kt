@@ -52,6 +52,6 @@ class FormationChooserView : SingleListView<String>() {
 
     override fun onSaveButton() {
         Kaga.PROFILE.sortie.formations.setAll(tableView().items.dropLast(1).map { CombatFormation.fromPrettyString(it) })
-        close()
+        closeWindow()
     }
 }
