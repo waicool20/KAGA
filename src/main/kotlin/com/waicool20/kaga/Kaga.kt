@@ -29,7 +29,6 @@ import com.waicool20.kaga.handlers.KeyboardIncrementHandler
 import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
 import com.waicool20.kaga.kcauto.KancolleAuto
-import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.LineListenerOutputStream
 import com.waicool20.kaga.util.TeeOutputStream
 import com.waicool20.kaga.views.ConsoleView
@@ -96,20 +95,19 @@ object Kaga {
         override fun compareTo(other: VersionInfo): Int {
             var tokens1 = version.split("\\D".toRegex()).mapNotNull { it.toIntOrNull() }
             var tokens2 = other.version.split("\\D".toRegex()).mapNotNull { it.toIntOrNull() }
-            val size1 = tokens1.size
-            val size2 = tokens2.size
-            if (size1 != size2) {
-                if (size1 > size2) {
-                    tokens2 += List(size1 - size2) { 0 }
-                } else {
-                    tokens1 += List(size2 - size1) { 0 }
+            val diff = Math.abs(tokens1.size - tokens2.size)
+            if (tokens1.size > tokens2.size) {
+                tokens2 += List(diff) { 0 }
+            } else {
+                tokens1 += List(diff) { 0 }
+            }
+            tokens1.zip(tokens2).forEach { (first, second) ->
+                when {
+                    first > second -> return 1
+                    first < second -> return -1
                 }
             }
-            if (tokens1 == tokens2) return 0
-            tokens1.zip(tokens2).forEach { (first, second) ->
-                if (first > second) return 1
-            }
-            return -1
+            return 0
         }
     }
 
