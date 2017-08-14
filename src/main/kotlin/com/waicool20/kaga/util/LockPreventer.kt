@@ -49,6 +49,7 @@ class LockPreventer {
         if (isRunning) {
             isRunning = false
             task.cancel()
+            timer.purge()
         }
     }
 }
