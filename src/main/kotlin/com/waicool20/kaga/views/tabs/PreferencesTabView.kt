@@ -41,6 +41,7 @@ class PreferencesTabView {
     @FXML private lateinit var debugModeEnableCheckBox: CheckBox
     @FXML private lateinit var showDebugCheckBox: CheckBox
     @FXML private lateinit var showStatsCheckBox: CheckBox
+    @FXML private lateinit var checkForUpdatesCheckBox: CheckBox
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
     @FXML private lateinit var kancolleAutoRootPathLink: Hyperlink
 
@@ -75,6 +76,7 @@ class PreferencesTabView {
             debugModeEnableCheckBox.selectedProperty().bindBidirectional(debugModeEnabledProperty)
             showDebugCheckBox.selectedProperty().bindBidirectional(showDebugOnStartProperty)
             showStatsCheckBox.selectedProperty().bindBidirectional(showStatsOnStartProperty)
+            checkForUpdatesCheckBox.selectedProperty().bindBidirectional(checkForUpdatesProperty)
         }
     }
 

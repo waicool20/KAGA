@@ -193,6 +193,11 @@ object Kaga {
     }
 
     fun checkForUpdates() {
+        logger.info("KAGA - ${VERSION_INFO.version}")
+        if (!CONFIG.checkForUpdates) {
+            logger.info("Update checking disabled, skipping")
+            return
+        }
         logger.info("Checking for updates...")
         thread {
             HttpClients.createDefault().use { client ->
@@ -224,9 +229,12 @@ object Kaga {
                                 showAndWait()
                             }
                         }
+                    } else {
+                        logger.info("No updates so far....")
                     }
                 } catch (e: Exception) {
-                    logger.error("Could not check for updates, reason: $e")
+                    logger.info("Could not check for updates, maybe your internet is down?")
+                    logger.error("Update check failed, reason: $e")
                 }
             }
         }

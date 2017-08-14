@@ -42,19 +42,20 @@
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="ALWAYS" />
-                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8">
+                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9">
                     <children>
                         <Label fx:id="sikuliScriptJarLabel" text="Sikuli Script Jar:" />
                         <Hyperlink fx:id="sikulixJarPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" HBox.hgrow="ALWAYS" />
@@ -63,7 +64,7 @@
                         <Insets left="10.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9">
+                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10">
                     <children>
                         <Label fx:id="kancolleAutoRootLabel" text="Kancolle Auto Root:" />
                         <Hyperlink fx:id="kancolleAutoRootPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" HBox.hgrow="ALWAYS" />
@@ -92,7 +93,7 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOTE: The options listed here are stored independently from your Kancolle Auto profiles!&#10;Any changes to the options are applied immediately but are only persisted if saved." textAlignment="CENTER" wrappingWidth="330.0" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
-                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
                     <children>
                         <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
                         <Button mnemonicParsing="false" onAction="#onResetButton" text="Reset" />
@@ -185,6 +186,18 @@
                </padding>
             </HBox>
             <Spinner fx:id="maxRetriesSpinner" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <HBox alignment="CENTER_LEFT" GridPane.rowIndex="8">
+               <children>
+                  <Label fx:id="checkForUpdatesLabel" text="Check for updates:" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <CheckBox fx:id="checkForUpdatesCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             </children>
         </GridPane>
     </children>

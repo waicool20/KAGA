@@ -49,7 +49,8 @@ class KagaConfig(currentProfile: String = "",
                  autoRestartMaxRetries: Int = 10,
                  debugModeEnabled: Boolean = true,
                  showDebugOnStart: Boolean = true,
-                 showStatsOnStart: Boolean = true) {
+                 showStatsOnStart: Boolean = true,
+                 checkForUpdates: Boolean = true) {
     @JsonIgnore val currentProfileProperty = SimpleStringProperty(currentProfile)
     @JsonIgnore val sikulixJarPathProperty = SimpleObjectProperty<Path>(sikulixJarPath)
     @JsonIgnore val kancolleAutoRootDirPathProperty = SimpleObjectProperty<Path>(kancolleAutoRootDirPath)
@@ -60,6 +61,7 @@ class KagaConfig(currentProfile: String = "",
     @JsonIgnore val debugModeEnabledProperty = SimpleBooleanProperty(debugModeEnabled)
     @JsonIgnore val showDebugOnStartProperty = SimpleBooleanProperty(showDebugOnStart)
     @JsonIgnore val showStatsOnStartProperty = SimpleBooleanProperty(showStatsOnStart)
+    @JsonIgnore val checkForUpdatesProperty = SimpleBooleanProperty(checkForUpdates)
 
     @get:JsonProperty var currentProfile by currentProfileProperty
     @get:JsonProperty var sikulixJarPath by sikulixJarPathProperty
@@ -71,6 +73,7 @@ class KagaConfig(currentProfile: String = "",
     @get:JsonProperty var debugModeEnabled by debugModeEnabledProperty
     @get:JsonProperty var showDebugOnStart by showDebugOnStartProperty
     @get:JsonProperty var showStatsOnStart by showStatsOnStartProperty
+    @get:JsonProperty var checkForUpdates by checkForUpdatesProperty
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
