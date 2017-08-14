@@ -23,6 +23,7 @@ package com.waicool20.kaga.util
 import java.awt.Robot
 import java.awt.event.KeyEvent
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.timerTask
 
 class LockPreventer {
@@ -32,7 +33,7 @@ class LockPreventer {
     private val task by lazy {
         timerTask {
             robot.keyPress(KeyEvent.VK_SHIFT)
-            Thread.sleep(10)
+            TimeUnit.MILLISECONDS.sleep(10)
             robot.keyRelease(KeyEvent.VK_SHIFT)
         }
     }

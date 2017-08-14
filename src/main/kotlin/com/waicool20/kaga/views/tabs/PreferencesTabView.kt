@@ -31,6 +31,7 @@ import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
 import java.awt.Desktop
 import java.nio.file.Path
+import kotlin.concurrent.thread
 
 class PreferencesTabView {
     @FXML private lateinit var preventLockCheckBox: CheckBox
@@ -60,9 +61,7 @@ class PreferencesTabView {
 
     private fun openFile(path: Path) {
         if (Desktop.isDesktopSupported()) {
-            Thread({
-                Desktop.getDesktop().open(path.toFile())
-            }).start()
+            thread { Desktop.getDesktop().open(path.toFile()) }
             Kaga.ROOT_STAGE.toBack()
         }
     }

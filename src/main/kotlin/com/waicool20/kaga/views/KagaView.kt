@@ -46,6 +46,7 @@ import java.awt.Desktop
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.concurrent.thread
 import kotlin.streams.toList
 
 
@@ -171,7 +172,7 @@ class KagaView {
     }
 
     private fun startKancolleAuto(saveConfig: Boolean = true) {
-        Thread {
+        thread {
             Platform.runLater {
                 kagaStatus.text = runningText
                 startStopButton.text = "Stop"
@@ -185,7 +186,7 @@ class KagaView {
                 checkStartStopButton()
                 profileSelectionHBox.isDisable = false
             }
-        }.start()
+        }
         Kaga.CONSOLE_STAGE.toFront()
         Kaga.STATS_STAGE.toFront()
     }
@@ -228,9 +229,7 @@ class KagaView {
             ).showAndWait()
         } else {
             if (Desktop.isDesktopSupported()) {
-                Thread({
-                    Desktop.getDesktop().open(log)
-                }).start()
+                thread { Desktop.getDesktop().open(log) }
                 Kaga.ROOT_STAGE.toBack()
             }
         }
@@ -245,9 +244,7 @@ class KagaView {
 
     @FXML private fun openRepo() {
         if (Desktop.isDesktopSupported()) {
-            Thread({
-                Desktop.getDesktop().browse(URI("https://github.com/waicool20/KAGA"))
-            }).start()
+            thread { Desktop.getDesktop().browse(URI("https://github.com/waicool20/KAGA")) }
             Kaga.ROOT_STAGE.toBack()
         }
     }
