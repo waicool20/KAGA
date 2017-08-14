@@ -252,6 +252,18 @@ class KagaView {
         }
     }
 
+    @FXML private fun openAbout() {
+        AlertFactory.info(
+                title = "KAGA - About",
+                content = """
+Kancolle Auto GUI App by waicool20
+
+Version: ${Kaga.VERSION_INFO.version}
+Kancolle-Auto Compatibility: ${Kaga.VERSION_INFO.kcAutoCompatibility}
+""".trimMargin()
+        ).showAndWait()
+    }
+
     @FXML private fun openConsole() = Kaga.CONSOLE_STAGE.show()
 
     @FXML private fun openStats() = Kaga.STATS_STAGE.show()
