@@ -73,6 +73,9 @@ class KancolleAutoStatsTracker {
         LoggingEventBus.subscribe(".*Sortie complete!.*".toRegex(), {
             atPort = true
         })
+        LoggingEventBus.subscribe(".*At Home!.*".toRegex(), {
+            atPort = true
+        })
     }
 
     fun startNewSession() {
