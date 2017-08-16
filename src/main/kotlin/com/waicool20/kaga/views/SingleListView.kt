@@ -42,7 +42,7 @@ abstract class SingleListView<T> : Fragment() {
 
     protected open fun tableView(): TableView<T> = tableView
     protected fun closeWindow() {
-        close()
+        (tableView().scene.window as Stage).close()
         Kaga.ROOT_STAGE.toFront()
     }
 }
