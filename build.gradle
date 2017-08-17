@@ -72,10 +72,10 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile group: 'no.tornado', name: 'tornadofx', version: '1.7.9'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.5'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.5'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.5'
-    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.8.5'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.9.0'
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
 }
