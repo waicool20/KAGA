@@ -30,52 +30,44 @@ class KancolleAutoStatsTracker {
     val history = mutableListOf<KancolleAutoStats>()
 
     init {
-        // Track sorties conducted
-        LoggingEventBus.subscribe(".*~(\\d+) sorties conducted.*".toRegex(), {
-            currentStats().sortiesConducted = it.groupValues[1].toInt()
-        })
+        with(LoggingEventBus) {
+            // Track sorties conducted
+            subscribe(".*~(\\d+) sorties conducted.*".toRegex()) {
+                currentStats().sortiesConducted = it.groupValues[1].toInt()
+            }
 
-        // Track expeditions conducted
-        LoggingEventBus.subscribe(".*~(\\d+) expeditions conducted.*".toRegex(), {
-            currentStats().expeditionsConducted = it.groupValues[1].toInt()
-        })
+            // Track expeditions conducted
+            subscribe(".*~(\\d+) expeditions conducted.*".toRegex()) {
+                currentStats().expeditionsConducted = it.groupValues[1].toInt()
+            }
 
-        // Track pvp conducted
-        LoggingEventBus.subscribe(".*~(\\d+) PvPs conducted.*".toRegex(), {
-            currentStats().pvpsConducted = it.groupValues[1].toInt()
-        })
+            // Track pvp conducted
+            subscribe(".*~(\\d+) PvPs conducted.*".toRegex()) {
+                currentStats().pvpsConducted = it.groupValues[1].toInt()
+            }
 
-        // Track buckets used
-        LoggingEventBus.subscribe(".*[uU]sing bucket.*".toRegex(), {
-            currentStats().bucketsUsed++
-        })
+            // Track buckets used
+            subscribe(".*[uU]sing bucket.*".toRegex()) {
+                currentStats().bucketsUsed++
+            }
 
-        // Track submarines switched
-        LoggingEventBus.subscribe(".*Swapping submarines!.*".toRegex(), {
-            currentStats().submarinesSwitched++
-        })
+            // Track submarines switched
+            subscribe(".*Swapping submarines!.*".toRegex()) {
+                currentStats().submarinesSwitched++
+            }
 
-        // Track crashes occurred
-        LoggingEventBus.subscribe(".*Kancolle Auto didn't terminate gracefully.*".toRegex(), {
-            crashes++
-        })
+            // Track crashes occurred
+            subscribe(".*Kancolle Auto didn't terminate gracefully.*".toRegex()) {
+                crashes++
+            }
 
-        // Track home
-        LoggingEventBus.subscribe(".*Beginning PvP sortie!.*".toRegex(), {
-            atPort = false
-        })
-        LoggingEventBus.subscribe(".*Commencing sortie!.*".toRegex(), {
-            atPort = false
-        })
-        LoggingEventBus.subscribe(".*PvP complete!.*".toRegex(), {
-            atPort = true
-        })
-        LoggingEventBus.subscribe(".*Sortie complete!.*".toRegex(), {
-            atPort = true
-        })
-        LoggingEventBus.subscribe(".*At Home!.*".toRegex(), {
-            atPort = true
-        })
+            // Track home
+            subscribe(".*Beginning PvP sortie!.*".toRegex()) { atPort = false }
+            subscribe(".*Commencing sortie!.*".toRegex()) { atPort = false }
+            subscribe(".*PvP complete!.*".toRegex()) { atPort = true }
+            subscribe(".*Sortie complete!.*".toRegex()) { atPort = true }
+            subscribe(".*At Home!.*".toRegex()) { atPort = true }
+        }
     }
 
     fun startNewSession() {
