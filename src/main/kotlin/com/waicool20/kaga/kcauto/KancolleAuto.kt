@@ -20,7 +20,7 @@
 
 package com.waicool20.kaga.kcauto
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.LockPreventer
 import com.waicool20.kaga.util.StreamGobbler
@@ -43,11 +43,10 @@ class KancolleAuto {
     var statsTracker = KancolleAutoStatsTracker()
 
     val version by lazy {
-        with(Files.readAllLines(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("CHANGELOG.md")).first()) {
-            replace("#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex(), { it.groupValues[1] }) // Get date of release
-                    .plus(if (contains("\\[.+?]".toRegex()))
-                        replace(".*?(\\[.+?]).*?".toRegex(), { it.groupValues[1] })
-                    else "") // Add release tag if it exists
+        Files.readAllLines(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("CHANGELOG.md")).first().let {
+            val date = "#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex().matchEntire(it)?.groupValues?.get(1) ?: "Unknown"
+            val release = ".*?(\\[.+?]).*?".toRegex().matchEntire(it)?.groupValues?.get(1) ?: ""
+            "$date $release"
         }
     }
 
@@ -66,7 +65,7 @@ class KancolleAuto {
             if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
             logger.info("Starting new Kancolle Auto session (Version: $version)")
             logger.debug("Launching with command: ${args.joinToString(" ")}")
-            logger.debug("Session profile: ${ObjectMapper().writeValueAsString(Kaga.PROFILE)}")
+            logger.debug("Session profile: ${jacksonObjectMapper().writeValueAsString(Kaga.PROFILE)}")
             kancolleAutoProcess = ProcessBuilder(args).start()
             streamGobbler = StreamGobbler(kancolleAutoProcess)
             streamGobbler?.run()
