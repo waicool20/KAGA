@@ -70,7 +70,7 @@ class LineListenerOutputStream : LineBufferedOutputStream() {
     override fun writeLine(line: String) {
         Kaga.LOG = if (line.contains("\u001b[2J\u001b[H")) "" else appendLineWithLimit(Kaga.LOG, line)
                 .replace("\\u001b\\[.+?m".toRegex(), "")
-        LoggingEventBus.publish(line.replaceFirst("\n", ""))
+        LoggingEventBus.publish(line.replaceFirst("\\r?\\n".toRegex(), ""))
     }
 }
 
