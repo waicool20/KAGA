@@ -24,28 +24,28 @@ import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType
 
 fun String.toObject(clazz: Class<*>): Any {
-    when (clazz) {
-        Boolean::class.javaObjectType -> return toBoolean()
-        Byte::class.javaObjectType -> return toByte()
-        Short::class.javaObjectType -> return toShort()
-        Int::class.javaObjectType -> return toInt()
-        Long::class.javaObjectType -> return toLong()
-        Float::class.javaObjectType -> return toFloat()
-        Double::class.javaObjectType -> return toDouble()
-        else -> return this
+    return when (clazz) {
+        Boolean::class.javaObjectType -> toBoolean()
+        Byte::class.javaObjectType -> toByte()
+        Short::class.javaObjectType -> toShort()
+        Int::class.javaObjectType -> toInt()
+        Long::class.javaObjectType -> toLong()
+        Float::class.javaObjectType -> toFloat()
+        Double::class.javaObjectType -> toDouble()
+        else -> this
     }
 }
 
 fun Class<*>.toPrimitive(): Class<*> {
-    when (this) {
-        Boolean::class.javaObjectType -> return Boolean::class.java
-        Byte::class.javaObjectType -> return Byte::class.java
-        Short::class.javaObjectType -> return Short::class.java
-        Int::class.javaObjectType -> return Int::class.java
-        Long::class.javaObjectType -> return Long::class.java
-        Float::class.javaObjectType -> return Float::class.java
-        Double::class.javaObjectType -> return Double::class.java
-        else -> return this
+    return when (this) {
+        Boolean::class.javaObjectType -> Boolean::class.java
+        Byte::class.javaObjectType -> Byte::class.java
+        Short::class.javaObjectType -> Short::class.java
+        Int::class.javaObjectType -> Int::class.java
+        Long::class.javaObjectType -> Long::class.java
+        Float::class.javaObjectType -> Float::class.java
+        Double::class.javaObjectType -> Double::class.java
+        else -> this
     }
 }
 

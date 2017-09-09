@@ -47,7 +47,7 @@ fun Parent.setInitialSceneSizeAsMin() = sceneProperty().setInitialSizeAsMin()
 fun ReadOnlyObjectProperty<Scene>.setInitialSizeAsMin() = setInitialSize(null, null, true)
 fun Parent.setInitialSceneSize(width: Double, height: Double, asMinimum: Boolean) = sceneProperty().setInitialSize(width, height, asMinimum)
 
-fun ObservableValue<*>.listen(unit: () -> Unit) = addListener { _ -> unit.invoke() }
+fun ObservableValue<*>.listen(unit: () -> Unit) = addListener { _ -> unit() }
 
 fun ReadOnlyObjectProperty<Scene>.setInitialSize(width: Double?, height: Double?, asMinimum: Boolean) {
     addListener { _, _, newVal ->
