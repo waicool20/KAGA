@@ -22,34 +22,33 @@ package com.waicool20.kaga.util
 
 import java.awt.Robot
 import java.awt.event.KeyEvent
-import java.util.*
+import java.util.concurrent.ScheduledFuture
+import java.util.concurrent.ScheduledThreadPoolExecutor
 import java.util.concurrent.TimeUnit
-import kotlin.concurrent.timerTask
 
 class LockPreventer {
-    private var isRunning = false
-    private val timer by lazy { Timer() }
+    private val scheduler by lazy { ScheduledThreadPoolExecutor(1) }
     private val robot by lazy { Robot() }
-    private val task by lazy {
-        timerTask {
-            robot.keyPress(KeyEvent.VK_SHIFT)
-            TimeUnit.MILLISECONDS.sleep(10)
-            robot.keyRelease(KeyEvent.VK_SHIFT)
-        }
-    }
+
+    private var isRunning = false
+    private var task: ScheduledFuture<*>? = null
 
     fun start() {
         if (!isRunning) {
             isRunning = true
-            timer.schedule(task, 0L, 60 * 1000L)
+            task = scheduler.scheduleAtFixedRate({
+                robot.keyPress(KeyEvent.VK_SHIFT)
+                TimeUnit.MILLISECONDS.sleep(10)
+                robot.keyRelease(KeyEvent.VK_SHIFT)
+            },0, 1, TimeUnit.MINUTES)
         }
     }
 
     fun stop() {
         if (isRunning) {
             isRunning = false
-            task.cancel()
-            timer.purge()
+            task?.cancel(false)
+            scheduler.purge()
         }
     }
 }
