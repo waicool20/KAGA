@@ -27,11 +27,13 @@ import java.util.*
 @Retention(AnnotationRetention.RUNTIME)
 annotation class IniConfig(val key: String, val shouldRead: Boolean = true)
 
-fun <T : Any> Profile.Section.toObject(obj: Class<T>): T? {
+inline fun <reified T> Profile.Section.toObject(): T? = toObject(T::class.java)
+
+fun <T> Profile.Section.toObject(obj: Class<T>): T? {
     val args = mutableListOf<Any>()
     val argClasses = mutableListOf<Class<*>>()
     obj.declaredFields.forEach { field ->
-        val config = field.annotations.find { it is IniConfig } as? IniConfig
+        val config = field.annotations.filterIsInstance<IniConfig>().firstOrNull()
         if (config != null && config.shouldRead) {
             val fieldObject = field.type.getMethod("getValue").returnType.toPrimitive()
             if (field.hasGenericType()) {
@@ -63,12 +65,11 @@ fun <T : Any> Profile.Section.toObject(obj: Class<T>): T? {
                     }
                 }
             } else {
-                var value: Any
-                try {
-                    value = this.get(config.key, fieldObject)
+                val value = try {
+                    this.get(config.key, fieldObject)
                 } catch (e: Exception) {
                     when (e.cause) {
-                        is NumberFormatException -> value = 0
+                        is NumberFormatException -> 0
                         else -> throw e
                     }
                 }
@@ -81,7 +82,7 @@ fun <T : Any> Profile.Section.toObject(obj: Class<T>): T? {
 }
 
 fun Profile.Section.fromObject(obj: Any) = obj.javaClass.declaredFields.forEach { field ->
-    (field.annotations.find { it is IniConfig } as? IniConfig)?.let {
+    field.annotations.filterIsInstance<IniConfig>().firstOrNull()?.let {
         field.isAccessible = true
         val prop = field.get(obj)
         this.add(it.key, prop.javaClass.getMethod("get").invoke(prop).toString().replace("\\[|]".toRegex(), ""))

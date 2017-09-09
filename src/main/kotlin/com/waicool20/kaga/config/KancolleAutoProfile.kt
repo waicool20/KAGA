@@ -31,7 +31,8 @@ import javafx.beans.property.*
 import javafx.collections.FXCollections
 import org.ini4j.Wini
 import org.slf4j.LoggerFactory
-import tornadofx.*
+import tornadofx.getValue
+import tornadofx.setValue
 import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Path
@@ -93,15 +94,15 @@ class KancolleAutoProfile(
 
     fun delete(): Boolean {
         with(path()) {
-            if (Files.exists(this)) {
+            return if (Files.exists(this)) {
                 Files.delete(this)
                 logger.info("Deleted profile")
                 logger.debug("Deleted ${this@KancolleAutoProfile} from $this")
-                return true
+                true
             } else {
                 logger.warn("File doesn't exist, can't delete!")
                 logger.debug("Couldn't delete $this")
-                return false
+                false
             }
         }
     }
@@ -129,15 +130,15 @@ class KancolleAutoProfile(
                 }
                 val ini = Wini(path.toFile())
 
-                val general = ini["General"]?.toObject(General::class.java) ?: throw Exception("Could not parse General section!")
-                val scheduledSleep = ini["ScheduledSleep"]?.toObject(ScheduledSleep::class.java) ?: throw Exception("Could not parse ScheduledSleep section!")
-                val scheduledStop = ini["ScheduledStop"]?.toObject(ScheduledStop::class.java) ?: throw Exception("Could not parse ScheduledStop section!")
-                val expeditions = ini["Expeditions"]?.toObject(Expeditions::class.java) ?: throw Exception("Could not parse Expeditions section!")
-                val pvp = ini["PvP"]?.toObject(Pvp::class.java) ?: throw Exception("Could not parse PvP section!")
-                val sortie = ini["Combat"]?.toObject(Sortie::class.java) ?: throw Exception("Could not parse Combat section!")
-                val submarineSwitch = ini["SubmarineSwitch"]?.toObject(SubmarineSwitch::class.java) ?: throw Exception("Could not parse SubmarineSwitch section!")
-                val lbas = ini["LBAS"]?.toObject(Lbas::class.java) ?: throw Exception("Could not parse LBAS section!")
-                val quests = ini["Quests"]?.toObject(Quests::class.java) ?: throw Exception("Could not parse Quests section!")
+                val general = checkNotNull(ini["General"]?.toObject<General>()) { "Could not parse General section!" }
+                val scheduledSleep = checkNotNull(ini["ScheduledSleep"]?.toObject<ScheduledSleep>()) { "Could not parse ScheduledSleep section!" }
+                val scheduledStop = checkNotNull(ini["ScheduledStop"]?.toObject<ScheduledStop>()) { "Could not parse ScheduledStop section!" }
+                val expeditions = checkNotNull(ini["Expeditions"]?.toObject<Expeditions>()) { "Could not parse Expeditions section!" }
+                val pvp = checkNotNull(ini["PvP"]?.toObject<Pvp>()) { "Could not parse PvP section!" }
+                val sortie = checkNotNull(ini["Combat"]?.toObject<Sortie>()) { "Could not parse Combat section!" }
+                val submarineSwitch = checkNotNull(ini["SubmarineSwitch"]?.toObject<SubmarineSwitch>()) { "Could not parse SubmarineSwitch section!" }
+                val lbas = checkNotNull(ini["LBAS"]?.toObject<Lbas>()) { "Could not parse LBAS section!" }
+                val quests = checkNotNull(ini["Quests"]?.toObject<Quests>()) { "Could not parse Quests section!" }
 
                 return KancolleAutoProfile(name, general, scheduledSleep, scheduledStop,
                         expeditions, pvp, sortie, submarineSwitch, lbas, quests).apply {
@@ -146,11 +147,8 @@ class KancolleAutoProfile(
                 }
             } else {
                 loaderLogger.debug("Config at $path not found, falling back to config.ini in kancolle-auto root")
-                if (Kaga.CONFIG.isValid()) {
-                    return load()
-                } else {
-                    throw Exception("No valid kancolle-auto root, couldn't read config.ini")
-                }
+                check(Kaga.CONFIG.isValid())
+                return load()
             }
         }
     }
