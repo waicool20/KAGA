@@ -78,6 +78,7 @@
                             </accelerator>
                         </MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#openRepo" text="Github Repository" />
+                        <MenuItem mnemonicParsing="false" onAction="#checkForUpdates" text="Check for updates" />
                         <MenuItem mnemonicParsing="false" onAction="#openAbout" text="About" />
                     </items>
                 </Menu>

@@ -70,7 +70,8 @@ class KagaView {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    @FXML fun initialize() {
+    @FXML
+    fun initialize() {
         Kaga.ROOT_STAGE.addEventHandler(WindowEvent.WINDOW_HIDDEN, { Kaga.KANCOLLE_AUTO.stop() })
         tabpane.setSideWithHorizontalText(Side.LEFT)
         createBindings()
@@ -248,6 +249,8 @@ class KagaView {
             Kaga.ROOT_STAGE.toBack()
         }
     }
+
+    @FXML private fun checkForUpdates() = Kaga.checkForUpdates(true)
 
     @FXML private fun openAbout() {
         AlertFactory.info(
