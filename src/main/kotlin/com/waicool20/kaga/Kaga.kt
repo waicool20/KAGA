@@ -23,6 +23,7 @@ package com.waicool20.kaga
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.handlers.KeyboardIncrementHandler
@@ -118,7 +119,7 @@ object Kaga {
 
     lateinit var ROOT_STAGE: Stage
 
-    val VERSION_INFO = mapper.readValue(javaClass.classLoader.getResourceAsStream("version.txt"), VersionInfo::class.java) ?: VersionInfo()
+    val VERSION_INFO = mapper.readValue<VersionInfo>(javaClass.classLoader.getResourceAsStream("version.txt"))
 
     val CONSOLE_STAGE by lazy {
         Stage().apply {

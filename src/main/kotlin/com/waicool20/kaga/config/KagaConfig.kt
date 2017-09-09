@@ -25,7 +25,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonMappingException
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.listen
 import javafx.beans.property.SimpleBooleanProperty
@@ -77,6 +78,7 @@ class KagaConfig(currentProfile: String = "",
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
+
     init {
         debugModeEnabledProperty.listen {
             Kaga.setLogLevel(Level.toLevel(logLevel()))
@@ -84,6 +86,7 @@ class KagaConfig(currentProfile: String = "",
     }
 
     companion object Loader {
+        private val mapper = jacksonObjectMapper()
         private val loaderLogger = LoggerFactory.getLogger(KagaConfig.Loader::class.java)
         val CONFIG_FILE: Path = Kaga.CONFIG_DIR.resolve("kaga.json")
         @JvmStatic fun load(): KagaConfig {
@@ -95,7 +98,7 @@ class KagaConfig(currentProfile: String = "",
                 Files.createFile(CONFIG_FILE)
             }
             try {
-                with(ObjectMapper().readValue(CONFIG_FILE.toFile(), KagaConfig::class.java)) {
+                with(jacksonObjectMapper().readValue<KagaConfig>(CONFIG_FILE.toFile())) {
                     loaderLogger.info("Loading KAGA configuration was successful")
                     loaderLogger.debug("Loaded $this")
                     return this
@@ -127,11 +130,11 @@ class KagaConfig(currentProfile: String = "",
     fun save() {
         logger.info("Saving KAGA configuration file")
         logger.debug("Saved $this to ${Loader.CONFIG_FILE}")
-        ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(Loader.CONFIG_FILE.toFile(), this)
+        mapper.writerWithDefaultPrettyPrinter().writeValue(Loader.CONFIG_FILE.toFile(), this)
         logger.info("Saving KAGA configuration was successful")
     }
 
-    override fun toString(): String = ObjectMapper().writeValueAsString(this)
+    override fun toString(): String = mapper.writeValueAsString(this)
 }
 
 

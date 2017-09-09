@@ -22,7 +22,7 @@ package com.waicool20.kaga.config
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.IniConfig
 import com.waicool20.kaga.util.fromObject
@@ -373,5 +373,5 @@ class KancolleAutoProfile(
     }
 
 
-    override fun toString(): String = ObjectMapper().writeValueAsString(this)
+    override fun toString(): String = jacksonObjectMapper().writeValueAsString(this)
 }
