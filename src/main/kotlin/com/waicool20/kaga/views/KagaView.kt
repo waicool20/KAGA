@@ -47,6 +47,7 @@ import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.concurrent.thread
+import kotlin.streams.asSequence
 import kotlin.streams.toList
 
 
@@ -84,14 +85,14 @@ class KagaView {
 
     @FXML private fun showProfiles() {
         val currentProfile = profileNameComboBox.value
-        val profiles = Files.walk(Kaga.CONFIG_DIR)
+        val profiles = Files.walk(Kaga.CONFIG_DIR).toList()
                 .filter { Files.isRegularFile(it) }
                 .map { it.fileName.toString() }
-                .map {
-                    "(.+?)-config\\.ini".toRegex().matchEntire(it)?.groupValues?.get(1) ?: ""
-                }.filter(String::isNotEmpty)
+                .mapNotNull {
+                    "(.+?)-config\\.ini".toRegex().matchEntire(it)?.groupValues?.get(1)
+                }
                 .filter { it != currentProfile }
-                .toList().sorted()
+                .sorted()
         if (profiles.isNotEmpty()) {
             profileNameComboBox.items.setAll(profiles)
         }
