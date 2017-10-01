@@ -1,4 +1,4 @@
 {
-    "version": "v1.8.0",
-    "kcAutoCompatibility": "2017-06-07"
+    "version": "v1.8.1",
+    "kcAutoCompatibility": "2017-09-29"
 }
