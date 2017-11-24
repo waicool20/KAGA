@@ -159,7 +159,7 @@ class KancolleAutoProfile(
 
     enum class CombatFormation(val prettyString: String) {
         LINE_AHEAD("Line Ahead"), DOUBLE_LINE("Double Line"), DIAMOND("Diamond"),
-        ECHELON("Echelon"), LINE_ABREAST("Line Abreast"), COMBINEDFLEET_1("Cruising Formation 1 (Anti-Sub)"),
+        ECHELON("Echelon"), LINE_ABREAST("Line Abreast"), ALERT("Alert"), COMBINEDFLEET_1("Cruising Formation 1 (Anti-Sub)"),
         COMBINEDFLEET_2("Cruising Formation 2 (Forward)"), COMBINEDFLEET_3("Cruising Formation 3 (Ring)"), COMBINEDFLEET_4("Cruising Formation 4 (Battle)");
 
         companion object {
