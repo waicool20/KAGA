@@ -41,12 +41,14 @@ class SchedulingTabView {
     @FXML private lateinit var startTimeMinSpinner: Spinner<Int>
     @FXML private lateinit var sleepLengthSpinner: Spinner<Double>
 
+    /* TODO Disabled temporarily till kcauto-kai is finalized
     @FXML private lateinit var enableAutoStopButton: CheckBox
     @FXML private lateinit var modeChoiceBox: ChoiceBox<KancolleAutoProfile.ScheduledStopMode>
-    @FXML private lateinit var countSpinner: Spinner<Int>
+    @FXML private lateinit var countSpinner: Spinner<Int>*/
 
     @FXML private lateinit var sleepContent: GridPane
-    @FXML private lateinit var stopContent: GridPane
+    /* TODO Disabled temporarily till kcauto-kai is finalized
+    @FXML private lateinit var stopContent: GridPane*/
 
     @FXML fun initialize() {
         setValues()
@@ -62,8 +64,9 @@ class SchedulingTabView {
             startTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
         }
         sleepLengthSpinner.valueFactory = SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, java.lang.Double.MAX_VALUE, 0.0, 0.1)
+        /* TODO Disabled temporarily till kcauto-kai is finalized
         modeChoiceBox.items.setAll(*KancolleAutoProfile.ScheduledStopMode.values())
-        countSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE)
+        countSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE)*/
     }
 
     private fun createBindings() {
@@ -74,12 +77,14 @@ class SchedulingTabView {
             startTimeProperty.bind(binding)
             sleepLengthSpinner.bind(lengthProperty)
         }
+        /* TODO Disabled temporarily till kcauto-kai is finalized
         with(Kaga.PROFILE.scheduledStop) {
             enableAutoStopButton.bind(enabledProperty)
             modeChoiceBox.bind(modeProperty)
             countSpinner.bind(countProperty)
-        }
+        }*/
         sleepContent.disableProperty().bind(Bindings.not(enableSleepButton.selectedProperty()))
-        stopContent.disableProperty().bind(Bindings.not(enableAutoStopButton.selectedProperty()))
+        /* TODO Disabled temporarily till kcauto-kai is finalized
+        stopContent.disableProperty().bind(Bindings.not(enableAutoStopButton.selectedProperty()))*/
     }
 }

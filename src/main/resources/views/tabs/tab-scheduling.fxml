@@ -96,7 +96,8 @@
                         </HBox>
                     </children>
                 </GridPane>
-                <GridPane fx:id="stopContent" GridPane.rowIndex="4">
+                <!-- TODO Disabled temporarily till kcauto-kai is finalized
+              <GridPane fx:id="stopContent" GridPane.rowIndex="4">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"
                                            minWidth="-Infinity" prefWidth="138.0"/>
@@ -145,7 +146,7 @@
                     <padding>
                         <Insets left="20.0"/>
                     </padding>
-                </HBox>
+                </HBox>-->
             </children>
         </GridPane>
     </children>

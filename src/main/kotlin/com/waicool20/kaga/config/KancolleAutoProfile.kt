@@ -43,7 +43,8 @@ class KancolleAutoProfile(
         name: String = KancolleAutoProfile.Loader.DEFAULT_NAME,
         val general: General = General(),
         val scheduledSleep: ScheduledSleep = ScheduledSleep(),
-        val scheduledStop: ScheduledStop = ScheduledStop(),
+        /* TODO Disabled temporarily till kcauto-kai is finalized
+        val scheduledStop: ScheduledStop = ScheduledStop(),*/
         val expeditions: Expeditions = Expeditions(),
         val pvp: Pvp = Pvp(),
         val sortie: Sortie = Sortie(),
@@ -80,7 +81,8 @@ class KancolleAutoProfile(
     private fun getIni() = Wini().apply {
         add("General").fromObject(general)
         add("ScheduledSleep").fromObject(scheduledSleep)
-        add("ScheduledStop").fromObject(scheduledStop)
+        /* TODO Disabled temporarily till kcauto-kai is finalized
+        add("ScheduledStop").fromObject(scheduledStop)*/
         add("Expeditions").fromObject(expeditions)
         add("PvP").fromObject(pvp)
         add("Combat").fromObject(sortie)
@@ -130,7 +132,8 @@ class KancolleAutoProfile(
 
                 val general = checkNotNull(ini["General"]?.toObject<General>()) { "Could not parse General section!" }
                 val scheduledSleep = checkNotNull(ini["ScheduledSleep"]?.toObject<ScheduledSleep>()) { "Could not parse ScheduledSleep section!" }
-                val scheduledStop = checkNotNull(ini["ScheduledStop"]?.toObject<ScheduledStop>()) { "Could not parse ScheduledStop section!" }
+                /* TODO Disabled temporarily till kcauto-kai is finalized
+                val scheduledStop = checkNotNull(ini["ScheduledStop"]?.toObject<ScheduledStop>()) { "Could not parse ScheduledStop section!" }*/
                 val expeditions = checkNotNull(ini["Expeditions"]?.toObject<Expeditions>()) { "Could not parse Expeditions section!" }
                 val pvp = checkNotNull(ini["PvP"]?.toObject<Pvp>()) { "Could not parse PvP section!" }
                 val sortie = checkNotNull(ini["Combat"]?.toObject<Sortie>()) { "Could not parse Combat section!" }
@@ -138,7 +141,9 @@ class KancolleAutoProfile(
                 val lbas = checkNotNull(ini["LBAS"]?.toObject<Lbas>()) { "Could not parse LBAS section!" }
                 val quests = checkNotNull(ini["Quests"]?.toObject<Quests>()) { "Could not parse Quests section!" }
 
-                return KancolleAutoProfile(name, general, scheduledSleep, scheduledStop,
+                return KancolleAutoProfile(name, general, scheduledSleep,
+                        /* TODO Disabled temporarily till kcauto-kai is finalized
+                        scheduledStop,*/
                         expeditions, pvp, sortie, submarineSwitch, lbas, quests).apply {
                     loaderLogger.info("Loading KancolleAuto profile was successful")
                     loaderLogger.debug("Loaded $this")
@@ -222,6 +227,7 @@ class KancolleAutoProfile(
         @get:JsonProperty var length by lengthProperty
     }
 
+    /* TODO Disabled temporarily till kcauto-kai is finalized
     class ScheduledStop(
             enabled: Boolean = false,
             mode: ScheduledStopMode = ScheduledStopMode.TIME,
@@ -234,7 +240,7 @@ class KancolleAutoProfile(
         @get:JsonProperty var enabled by enabledProperty
         @get:JsonProperty var mode by modeProperty
         @get:JsonProperty var count by countProperty
-    }
+    }*/
 
     class Expeditions(
             enabled: Boolean = true,
