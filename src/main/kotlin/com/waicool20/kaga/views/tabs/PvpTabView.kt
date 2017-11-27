@@ -31,7 +31,8 @@ import tornadofx.*
 
 class PvpTabView {
     @FXML private lateinit var enableButton: CheckBox
-    @FXML private lateinit var fleetCompComboBox: ComboBox<Int>
+    /* TODO Disabled temporarily till kcauto-kai is finalized
+    @FXML private lateinit var fleetCompComboBox: ComboBox<Int>*/
 
     @FXML private lateinit var content: GridPane
 
@@ -41,13 +42,15 @@ class PvpTabView {
     }
 
     private fun setValues() {
-        fleetCompComboBox.items.setAll((1..5).toList())
+        /* TODO Disabled temporarily till kcauto-kai is finalized
+        fleetCompComboBox.items.setAll((1..5).toList())*/
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.pvp) {
             enableButton.bind(enabledProperty)
-            fleetCompComboBox.bind(fleetCompProperty)
+            /* TODO Disabled temporarily till kcauto-kai is finalized
+            fleetCompComboBox.bind(fleetCompProperty)*/
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }

@@ -260,14 +260,17 @@ class KancolleAutoProfile(
     }
 
     class Pvp(
-            enabled: Boolean = false,
-            fleetComp: Int = 1
+            enabled: Boolean = false
+            /* TODO Disabled temporarily till kcauto-kai is finalized
+            fleetComp: Int = 1*/
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)
+        /* TODO Disabled temporarily till kcauto-kai is finalized
+        @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)*/
 
         @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var fleetComp by fleetCompProperty
+        /* TODO Disabled temporarily till kcauto-kai is finalized
+        @get:JsonProperty var fleetComp by fleetCompProperty*/
     }
 
     class Sortie(

@@ -50,7 +50,8 @@
                                         vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <HBox alignment="CENTER">
+                    <!-- TODO Disabled temporarily till kcauto-kai is finalized
+                      <HBox alignment="CENTER">
                             <children>
                                 <Label fx:id="fleetCompLabel" text="Fleet Comp:"/>
                             </children>
@@ -60,7 +61,7 @@
                                 <ComboBox fx:id="fleetCompComboBox" prefHeight="28.0"
                                           prefWidth="75.0"/>
                             </children>
-                        </HBox>
+                        </HBox>-->
                     </children>
                 </GridPane>
                 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
