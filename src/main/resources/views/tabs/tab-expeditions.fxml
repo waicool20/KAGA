@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.CheckComboBox?>
+
 <!--
   ~ GPLv3 License
   ~
@@ -23,79 +31,81 @@
   ~
   -->
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121"
-            fx:controller="com.waicool20.kaga.views.tabs.ExpeditionsTabView">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.ExpeditionsTabView">
     <children>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
-                      prefHeight="45.0">
+                <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0">
                     <children>
-                        <CheckBox fx:id="enableButton" mnemonicParsing="false" text="Enable"/>
+                        <CheckBox fx:id="enableButton" mnemonicParsing="false" text="Enable" />
                     </children>
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <padding>
-                        <Insets left="20.0"/>
+                        <Insets left="20.0" />
                     </padding>
                 </HBox>
                 <GridPane fx:id="content" GridPane.rowIndex="1">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"
-                                           minWidth="-Infinity" prefWidth="138.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"
-                                           minWidth="-Infinity"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0"
-                                        vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
                         <HBox alignment="CENTER">
                             <children>
-                                <Label fx:id="fleet2Label" text="Fleet 2:"/>
+                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                           <children>
+                                      <Label fx:id="fleet2Label" text="Fleet 2:" />
+                              <CheckComboBox fx:id="fleet2CheckComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
                             </children>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets left="40.0" />
+                     </padding>
                         </HBox>
-                        <HBox alignment="CENTER" GridPane.rowIndex="1">
-                            <children>
-                                <Label fx:id="fleet3Label" text="Fleet 3:"/>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" GridPane.rowIndex="2">
-                            <children>
-                                <Label fx:id="fleet4Label" text="Fleet 4:"/>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
-                            <children>
-                                <ComboBox fx:id="fleet2ComboBox" prefHeight="28.0"
-                                          prefWidth="150.0"/>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1"
-                              GridPane.rowIndex="1">
-                            <children>
-                                <ComboBox fx:id="fleet3ComboBox" prefWidth="150.0"/>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1"
-                              GridPane.rowIndex="2">
-                            <children>
-                                <ComboBox fx:id="fleet4ComboBox" prefWidth="150.0"/>
-                            </children>
-                        </HBox>
+                  <HBox alignment="CENTER" GridPane.rowIndex="1">
+                     <children>
+                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="fleet3Label" text="Fleet 3:" />
+                              <CheckComboBox fx:id="fleet3CheckComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="40.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" GridPane.rowIndex="2">
+                     <children>
+                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="fleet4Label" text="Fleet 4:" />
+                              <CheckComboBox fx:id="fleet4CheckComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="40.0" />
+                     </padding>
+                  </HBox>
                     </children>
                 </GridPane>
             </children>

@@ -22,62 +22,71 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import javafx.beans.binding.Bindings
+import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
-import javafx.scene.control.ComboBox
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
+import org.controlsfx.control.CheckComboBox
 import tornadofx.*
 
 
 class ExpeditionsTabView {
     @FXML private lateinit var enableButton: CheckBox
-    @FXML private lateinit var fleet2ComboBox: ComboBox<String>
-    @FXML private lateinit var fleet3ComboBox: ComboBox<String>
-    @FXML private lateinit var fleet4ComboBox: ComboBox<String>
+    @FXML private lateinit var fleet2CheckComboBox: CheckComboBox<String>
+    @FXML private lateinit var fleet3CheckComboBox: CheckComboBox<String>
+    @FXML private lateinit var fleet4CheckComboBox: CheckComboBox<String>
 
     @FXML private lateinit var content: GridPane
 
-    @FXML fun initialize() {
+    private val specialExpediions = mapOf(
+            "9998" to "Pre-Boss Node Support",
+            "9999" to "Boss Node Support"
+    )
+
+    @FXML
+    fun initialize() {
         setValues()
         createBindings()
     }
 
     private fun setValues() {
-        val special = mapOf(
-                "" to "<Off-Duty>",
-                "9998" to "Pre-Boss Node Support",
-                "9999" to "Boss Node Support"
-        )
-        with(special.keys.toMutableList()) {
-            addAll(1, (1..41).map(Int::toString))
-            fleet2ComboBox.items.setAll(this)
-            fleet3ComboBox.items.setAll(this)
-            fleet4ComboBox.items.setAll(this)
+
+        with(specialExpediions.keys.toMutableList()) {
+            addAll(0, (1..41).map(Int::toString))
+            fleet2CheckComboBox.items.addAll(this)
+            fleet3CheckComboBox.items.addAll(this)
+            fleet4CheckComboBox.items.addAll(this)
         }
         val converter = object : StringConverter<String>() {
             override fun toString(string: String?): String {
-                return special.getOrElse(string ?: "", { string ?: "" })
+                return specialExpediions.getOrElse(string ?: "", { string ?: "" })
             }
 
             override fun fromString(string: String?): String = ""
         }
-        fleet2ComboBox.converter = converter
-        fleet3ComboBox.converter = converter
-        fleet4ComboBox.converter = converter
+        fleet2CheckComboBox.converter = converter
+        fleet3CheckComboBox.converter = converter
+        fleet4CheckComboBox.converter = converter
         with(Kaga.PROFILE.expeditions) {
-            fleet2ComboBox.value = fleet2
-            fleet3ComboBox.value = fleet3
-            fleet4ComboBox.value = fleet4
+            fleet2.forEach { fleet2CheckComboBox.checkModel.check(it) }
+            fleet3.forEach { fleet3CheckComboBox.checkModel.check(it) }
+            fleet4.forEach { fleet4CheckComboBox.checkModel.check(it) }
         }
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.expeditions) {
             enableButton.bind(enabledProperty)
-            fleet2ComboBox.valueProperty().addListener { _, _, newVal -> if (newVal != null) fleet2 = newVal }
-            fleet3ComboBox.valueProperty().addListener { _, _, newVal -> if (newVal != null) fleet3 = newVal }
-            fleet4ComboBox.valueProperty().addListener { _, _, newVal -> if (newVal != null) fleet4 = newVal }
+            fleet2CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
+                fleet2.setAll(change.list)
+            }
+            fleet3CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
+                fleet3.setAll(change.list)
+            }
+            fleet4CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
+                fleet4.setAll(change.list)
+            }
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }

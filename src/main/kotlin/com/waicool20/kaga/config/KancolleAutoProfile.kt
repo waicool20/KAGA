@@ -244,14 +244,14 @@ class KancolleAutoProfile(
 
     class Expeditions(
             enabled: Boolean = true,
-            fleet2: String = "2",
-            fleet3: String = "5",
-            fleet4: String = "21"
+            fleet2: List<String> = listOf("2"),
+            fleet3: List<String> = listOf("5"),
+            fleet4: List<String> = listOf("21")
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "Fleet2") val fleet2Property = SimpleStringProperty(fleet2)
-        @JsonIgnore @IniConfig(key = "Fleet3") val fleet3Property = SimpleStringProperty(fleet3)
-        @JsonIgnore @IniConfig(key = "Fleet4") val fleet4Property = SimpleStringProperty(fleet4)
+        @JsonIgnore @IniConfig(key = "Fleet2") val fleet2Property = SimpleListProperty(FXCollections.observableList(fleet2))
+        @JsonIgnore @IniConfig(key = "Fleet3") val fleet3Property = SimpleListProperty(FXCollections.observableList(fleet3))
+        @JsonIgnore @IniConfig(key = "Fleet4") val fleet4Property = SimpleListProperty(FXCollections.observableList(fleet4))
 
         @get:JsonProperty var enabled by enabledProperty
         @get:JsonProperty var fleet2 by fleet2Property
