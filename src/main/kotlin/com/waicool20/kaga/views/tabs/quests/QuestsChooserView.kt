@@ -32,6 +32,7 @@ import javafx.scene.control.Tooltip
 import javafx.scene.control.cell.CheckBoxTableCell
 import tornadofx.*
 
+/* TODO Disabled temporarily till kcauto-kai is finalized
 data class Quest(val id: String, val description: String, val requirements: List<String>) {
     val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE.quests.quests.containsIgnoreCase(id))
 }
@@ -88,3 +89,4 @@ class QuestsChooserView : SingleListView<Quest>() {
         closeWindow()
     }
 }
+*/

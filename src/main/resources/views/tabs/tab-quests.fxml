@@ -50,6 +50,7 @@
                                         prefHeight="45.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
+                    <!-- TODO Disabled temporarily till kcauto-kai is finalized
                         <HBox alignment="CENTER" GridPane.rowIndex="1">
                             <children>
                                 <Label fx:id="checkScheduleLabel" text="Check Schedule:"/>
@@ -60,7 +61,7 @@
                                 <Label fx:id="questsLabel" text="Quests:"/>
                             </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1"
+                    <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1"
                               GridPane.rowIndex="1">
                             <children>
                                 <Spinner fx:id="checkScheduleSpinner" editable="true"/>
@@ -71,7 +72,7 @@
                                 <Button mnemonicParsing="false" onAction="#onConfigureQuestsButton"
                                         text="Configure"/>
                             </children>
-                        </HBox>
+                        </HBox>-->
                     </children>
                 </GridPane>
                 <HBox prefWidth="300.0">

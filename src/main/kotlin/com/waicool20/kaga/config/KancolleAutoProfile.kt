@@ -88,7 +88,8 @@ class KancolleAutoProfile(
         add("Combat").fromObject(sortie)
         add("SubmarineSwitch").fromObject(submarineSwitch)
         add("LBAS").fromObject(lbas)
-        quests.quests.setAll(quests.quests.map(String::toLowerCase))
+        /* TODO Disabled temporarily till kcauto-kai is finalized
+        quests.quests.setAll(quests.quests.map(String::toLowerCase))*/
         add("Quests").fromObject(quests)
     }
 
@@ -370,17 +371,20 @@ class KancolleAutoProfile(
     }
 
     class Quests(
-            enabled: Boolean = true,
+            enabled: Boolean = true
+            /* TODO Disabled temporarily till kcauto-kai is finalized
             quests: List<String> = listOf("bd1", "bd2", "bd3", "bd4", "bd5", "bd6", "bd7", "bd8", "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "bw7", "bw8", "bw9", "bw10", "c2", "c3", "c4", "c8", "d2", "d3", "d4", "d9", "d11", "e3", "e4"),
-            checkSchedule: Int = 5
+            checkSchedule: Int = 5*/
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        /* TODO Disabled temporarily till kcauto-kai is finalized
         @JsonIgnore @IniConfig(key = "Quests") val questsProperty = SimpleListProperty(FXCollections.observableArrayList(quests))
-        @JsonIgnore @IniConfig(key = "CheckSchedule") val checkScheduleProperty = SimpleIntegerProperty(checkSchedule)
+        @JsonIgnore @IniConfig(key = "CheckSchedule") val checkScheduleProperty = SimpleIntegerProperty(checkSchedule)*/
 
         @get:JsonProperty var enabled by enabledProperty
+        /* TODO Disabled temporarily till kcauto-kai is finalized
         @get:JsonProperty var quests by questsProperty
-        @get:JsonProperty var checkSchedule by checkScheduleProperty
+        @get:JsonProperty var checkSchedule by checkScheduleProperty*/
     }
 
 

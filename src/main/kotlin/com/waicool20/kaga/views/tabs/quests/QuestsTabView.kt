@@ -33,7 +33,8 @@ import tornadofx.*
 
 class QuestsTabView {
     @FXML private lateinit var enableButton: CheckBox
-    @FXML private lateinit var checkScheduleSpinner: Spinner<Int>
+    /* TODO Disabled temporarily till kcauto-kai is finalized
+    @FXML private lateinit var checkScheduleSpinner: Spinner<Int>*/
     @FXML private lateinit var content: GridPane
 
     @FXML fun initialize() {
@@ -42,17 +43,20 @@ class QuestsTabView {
     }
 
     private fun setValues() {
-        checkScheduleSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
+        /* TODO Disabled temporarily till kcauto-kai is finalized
+        checkScheduleSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)*/
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.quests) {
             enableButton.bind(enabledProperty)
-            checkScheduleSpinner.bind(checkScheduleProperty)
+            /* TODO Disabled temporarily till kcauto-kai is finalized
+            checkScheduleSpinner.bind(checkScheduleProperty)*/
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 
+    /* TODO Disabled temporarily till kcauto-kai is finalized
     @FXML private fun onConfigureQuestsButton() =
-            find(QuestsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
+        find(QuestsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)*/
 }
