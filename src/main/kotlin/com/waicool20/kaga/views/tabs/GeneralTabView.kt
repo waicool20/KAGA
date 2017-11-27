@@ -29,11 +29,12 @@ import tornadofx.*
 
 class GeneralTabView {
     @FXML private lateinit var programTextField: TextField
+    /* TODO Disabled temporarily till kcauto-kai is finalized
     @FXML private lateinit var recoveryMethodChoiceBox: ChoiceBox<KancolleAutoProfile.RecoveryMethod>
     @FXML private lateinit var basicRecoveryCheckBox: CheckBox
     @FXML private lateinit var paranoiaSpinner: Spinner<Int>
     @FXML private lateinit var sleepCycleSpinner: Spinner<Int>
-    @FXML private lateinit var sleepModifierSpinner: Spinner<Int>
+    @FXML private lateinit var sleepModifierSpinner: Spinner<Int>*/
 
     @FXML fun initialize() {
         setValues()
@@ -41,20 +42,22 @@ class GeneralTabView {
     }
 
     fun setValues() {
+        /* TODO Disabled temporarily till kcauto-kai is finalized
         recoveryMethodChoiceBox.items.setAll(*KancolleAutoProfile.RecoveryMethod.values())
         paranoiaSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
         sleepCycleSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
-        sleepModifierSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)
+        sleepModifierSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)*/
     }
 
     fun createBindings() {
         with(Kaga.PROFILE.general) {
-            recoveryMethodChoiceBox.bind(recoveryMethodProperty)
             programTextField.bind(programProperty)
+            /* TODO Disabled temporarily till kcauto-kai is finalized
+            recoveryMethodChoiceBox.bind(recoveryMethodProperty)
             basicRecoveryCheckBox.bind(basicRecoveryProperty)
             paranoiaSpinner.bind(paranoiaProperty)
             sleepCycleSpinner.bind(sleepCycleProperty)
-            sleepModifierSpinner.bind(sleepModifierProperty)
+            sleepModifierSpinner.bind(sleepModifierProperty)*/
         }
     }
 }

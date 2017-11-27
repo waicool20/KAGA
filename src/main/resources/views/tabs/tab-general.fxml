@@ -50,16 +50,18 @@
                         <Label fx:id="programLabel" text="Program:"/>
                     </children>
                 </HBox>
+                <!-- TODO Disabled temporarily till kcauto-kai is finalized
                 <HBox alignment="CENTER" GridPane.rowIndex="1">
                     <children>
                         <Label fx:id="recoveryMethodLabel" text="Recovery Method:"/>
                     </children>
-                </HBox>
+                </HBox>-->
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                     <children>
                         <TextField fx:id="programTextField"/>
                     </children>
                 </HBox>
+                <!-- TODO Disabled temporarily till kcauto-kai is finalized
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <children>
                         <ChoiceBox fx:id="recoveryMethodChoiceBox" prefWidth="150.0"/>
@@ -104,7 +106,7 @@
                     <children>
                         <CheckBox fx:id="basicRecoveryCheckBox" mnemonicParsing="false"/>
                     </children>
-                </HBox>
+                </HBox>-->
             </children>
         </GridPane>
     </children>
