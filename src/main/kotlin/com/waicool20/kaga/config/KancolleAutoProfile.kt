@@ -112,7 +112,8 @@ class KancolleAutoProfile(
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KancolleAutoProfile.Loader::class.java)
         val DEFAULT_NAME = "[Current Profile]"
-        val VALID_NODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter { it.isNotEmpty() }
+        val VALID_NODES = (1..12).map { it.toString() }
+                .plus("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter { it.isNotEmpty() })
                 .plus(listOf("Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZZ1", "ZZ2", "ZZ3"))
                 .let {
                     FXCollections.observableList(it)
@@ -315,8 +316,8 @@ class KancolleAutoProfile(
             fleetMode: FleetMode = FleetMode.STANDARD,
             nodeSelects: List<String> = emptyList(),
             formations: List<String> = emptyList(),
+            nightBattles: List<String> = emptyList(),
 
-            nightBattles: List<Boolean> = listOf(false),
             retreatLimit: Int = 2,
             repairLimit: Int = 1,
             repairTimeLimit: String = "0030",
@@ -332,8 +333,8 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "FleetMode") val fleetModeProperty = SimpleObjectProperty(fleetMode)
         @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleListProperty(FXCollections.observableList(nodeSelects))
         @JsonIgnore @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableList(formations))
+        @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableList(nightBattles))
 
-        @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
         @JsonIgnore @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
         @JsonIgnore @IniConfig(key = "RepairLimit") val repairLimitProperty = SimpleIntegerProperty(repairLimit)
         @JsonIgnore @IniConfig(key = "RepairTimeLimit") val repairTimeLimitProperty = SimpleStringProperty(repairTimeLimit)
@@ -347,10 +348,10 @@ class KancolleAutoProfile(
         @get:JsonProperty var map by mapProperty
         @get:JsonProperty var nodes by nodesProperty
         @get:JsonProperty var fleetMode by fleetModeProperty
-
         @get:JsonProperty var nodeSelects by nodeSelectsProperty
         @get:JsonProperty var formations by formationsProperty
         @get:JsonProperty var nightBattles by nightBattlesProperty
+
         @get:JsonProperty var retreatLimit by retreatLimitProperty
         @get:JsonProperty var repairLimit by repairLimitProperty
         @get:JsonProperty var repairTimeLimit by repairTimeLimitProperty

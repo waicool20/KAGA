@@ -28,6 +28,7 @@ import com.waicool20.kaga.util.lockColumnWidths
 import com.waicool20.kaga.util.setWidthRatio
 import com.waicool20.kaga.views.SingleListView
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.ComboBoxTableCell
 import tornadofx.*
@@ -38,20 +39,24 @@ data class NodeSelect(val source: SimpleStringProperty, val destination: SimpleS
 
 class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = true) {
 
+    private val VALID_NODES = KancolleAutoProfile.VALID_NODES.filter { it.matches("^\\d+".toRegex()) }.let {
+        FXCollections.observableList(it)
+    }
+
     init {
         title = "KAGA - Node Selects Chooser"
         val indexColumn = IndexColumn<NodeSelect>("#", 1).apply {
             setWidthRatio(tableView(), 0.20)
         }
         val sourceNodeColumn = TableColumn<NodeSelect, String>("Source Node").apply {
-            cellFactory = ComboBoxTableCell.forTableColumn(KancolleAutoProfile.VALID_NODES)
+            cellFactory = ComboBoxTableCell.forTableColumn(VALID_NODES)
             setCellValueFactory { it.value.source }
             setWidthRatio(tableView(), 0.40)
             isSortable = false
         }
 
         val destNodeColumn = TableColumn<NodeSelect, String>("Destination Node").apply {
-            cellFactory = ComboBoxTableCell.forTableColumn(KancolleAutoProfile.VALID_NODES)
+            cellFactory = ComboBoxTableCell.forTableColumn(VALID_NODES)
             setCellValueFactory { it.value.destination }
             setWidthRatio(tableView(), 0.40)
             isSortable = false
@@ -70,10 +75,6 @@ class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = t
         if (tableView().items.last().isValid()) {
             tableView().items.add(NodeSelect(SimpleStringProperty(), SimpleStringProperty()))
         }
-    }
-
-    override fun onRemoveButton() {
-        tableView().selectedItem?.let { tableView().items.remove(it) }
     }
 
     override fun onSaveButton() {

@@ -21,31 +21,67 @@
 package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.*
+import com.waicool20.kaga.config.KancolleAutoProfile
+import com.waicool20.kaga.util.IndexColumn
+import com.waicool20.kaga.util.disableHeaderMoving
+import com.waicool20.kaga.util.lockColumnWidths
+import com.waicool20.kaga.util.setWidthRatio
 import com.waicool20.kaga.views.SingleListView
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.scene.control.TableColumn
+import javafx.scene.control.cell.CheckBoxTableCell
+import javafx.scene.control.cell.ComboBoxTableCell
+import tornadofx.*
 
+data class NightBattleEntry(val node: SimpleStringProperty, val nightBattle: SimpleBooleanProperty) {
+    fun isValid() = node.isNotNull.value
+}
 
-class NightBattlesChooserView : SingleListView<String>() {
+class NightBattlesChooserView : SingleListView<NightBattleEntry>(showControlButtons = true) {
 
     init {
         title = "KAGA - Night Battle Chooser"
-        val nodeNumColumn = IndexColumn<String>("Node", 1)
-        nodeNumColumn.setWidthRatio(tableView(), 0.25)
+        val indexColumn = IndexColumn<NightBattleEntry>("#", 1).apply {
+            setWidthRatio(tableView(), 0.20)
+        }
+        val nodeColumn = TableColumn<NightBattleEntry, String>("Node").apply {
+            cellFactory = ComboBoxTableCell.forTableColumn(KancolleAutoProfile.VALID_NODES)
+            setCellValueFactory { it.value.node }
+            setWidthRatio(tableView(), 0.40)
+            isSortable = false
+        }
 
-        val nightBattleColumn = OptionsColumn("Night Battle?", listOf("Yes", "No"), tableView())
-        nightBattleColumn.setWidthRatio(tableView(), 0.75)
-        nightBattleColumn.isSortable = false
-        nightBattleColumn.setCellValueFactory { SimpleStringProperty(it.value) }
+        val destNodeColumn = TableColumn<NightBattleEntry, Boolean>("Night Battle?").apply {
+            cellFactory = CheckBoxTableCell.forTableColumn(this)
+            setCellValueFactory { it.value.nightBattle }
+            setWidthRatio(tableView(), 0.40)
+            isSortable = false
+        }
 
         tableView().lockColumnWidths()
         tableView().disableHeaderMoving()
-        tableView().columns.addAll(nodeNumColumn, nightBattleColumn)
-        tableView().items.addAll(Kaga.PROFILE.sortie.nightBattles.map { if (it) "Yes" else "No" })
+        tableView().columns.addAll(indexColumn, nodeColumn, destNodeColumn)
+        val items = Kaga.PROFILE.sortie.nightBattles.map { str ->
+            str.takeLastWhile { it != ':' }.toBoolean().let {
+                NightBattleEntry(SimpleStringProperty(str.takeWhile { it != ':' }), SimpleBooleanProperty(it))
+            }
+        }
+        tableView().items.addAll(items)
+    }
+
+    override fun onAddButton() {
+        if (tableView().items.last().isValid()) {
+            tableView().items.add(NightBattleEntry(SimpleStringProperty(), SimpleBooleanProperty()))
+        }
     }
 
     override fun onSaveButton() {
-        Kaga.PROFILE.sortie.nightBattles.setAll(tableView().items.dropLast(1).map { it == "Yes" })
-        closeWindow()
+        tableView().items.filter { it.isValid() }
+                .map { "${it.node.value}:${it.nightBattle.value}" }
+                .let {
+                    Kaga.PROFILE.sortie.nightBattles.setAll(it)
+                }
+        close()
     }
 }

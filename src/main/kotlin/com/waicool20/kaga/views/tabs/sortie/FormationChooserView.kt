@@ -42,15 +42,13 @@ data class FormationEntry(val node: SimpleStringProperty, val formation: SimpleO
 
 class FormationChooserView : SingleListView<FormationEntry>(showControlButtons = true) {
 
-    private val VALID_NODES = FXCollections.observableList((1..12).map { it.toString() }.plus(KancolleAutoProfile.VALID_NODES))
-
     init {
         title = "KAGA - Formation Chooser"
         val indexColumn = IndexColumn<FormationEntry>("#", 1).apply {
             setWidthRatio(tableView(), 0.20)
         }
         val nodeColumn = TableColumn<FormationEntry, String>("Node").apply {
-            cellFactory = ComboBoxTableCell.forTableColumn(VALID_NODES)
+            cellFactory = ComboBoxTableCell.forTableColumn(KancolleAutoProfile.VALID_NODES)
             setCellValueFactory { it.value.node }
             setWidthRatio(tableView(), 0.40)
             isSortable = false
@@ -84,10 +82,6 @@ class FormationChooserView : SingleListView<FormationEntry>(showControlButtons =
         if (tableView().items.last().isValid()) {
             tableView().items.add(FormationEntry(SimpleStringProperty(), SimpleObjectProperty()))
         }
-    }
-
-    override fun onRemoveButton() {
-        tableView().selectedItem?.let { tableView().items.remove(it) }
     }
 
     override fun onSaveButton() {
