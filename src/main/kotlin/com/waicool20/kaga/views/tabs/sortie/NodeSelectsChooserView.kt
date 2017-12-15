@@ -32,7 +32,9 @@ import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.ComboBoxTableCell
 import tornadofx.*
 
-data class NodeSelect(val source: SimpleStringProperty, val destination: SimpleStringProperty)
+data class NodeSelect(val source: SimpleStringProperty, val destination: SimpleStringProperty) {
+    fun isValid() = source.isNotNull.value && destination.isNotNull.value
+}
 
 class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = true) {
 
@@ -65,7 +67,7 @@ class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = t
     }
 
     override fun onAddButton() {
-        if (tableView().items.last().let { it.source.isNotNull.value && it.destination.isNotNull.value }) {
+        if (tableView().items.last().isValid()) {
             tableView().items.add(NodeSelect(SimpleStringProperty(), SimpleStringProperty()))
         }
     }
@@ -75,7 +77,7 @@ class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = t
     }
 
     override fun onSaveButton() {
-        tableView().items.filter { it.source.isNotNull.value && it.destination.isNotNull.value }
+        tableView().items.filter { it.isValid() }
                 .map { "${it.source.value}>${it.destination.value}" }
                 .let {
                     Kaga.PROFILE.sortie.nodeSelects.setAll(it)
@@ -83,5 +85,3 @@ class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = t
         close()
     }
 }
-
-

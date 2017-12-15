@@ -313,9 +313,9 @@ class KancolleAutoProfile(
             map: String = "1-1",
             nodes: Int = 5,
             fleetMode: FleetMode = FleetMode.STANDARD,
-
             nodeSelects: List<String> = emptyList(),
-            formations: List<CombatFormation> = listOf(CombatFormation.LINE_AHEAD),
+            formations: List<String> = emptyList(),
+
             nightBattles: List<Boolean> = listOf(false),
             retreatLimit: Int = 2,
             repairLimit: Int = 1,
@@ -331,8 +331,8 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "CombatNodes") val nodesProperty = SimpleIntegerProperty(nodes)
         @JsonIgnore @IniConfig(key = "FleetMode") val fleetModeProperty = SimpleObjectProperty(fleetMode)
         @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleListProperty(FXCollections.observableList(nodeSelects))
+        @JsonIgnore @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableList(formations))
 
-        @JsonIgnore @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableArrayList(formations))
         @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
         @JsonIgnore @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
         @JsonIgnore @IniConfig(key = "RepairLimit") val repairLimitProperty = SimpleIntegerProperty(repairLimit)

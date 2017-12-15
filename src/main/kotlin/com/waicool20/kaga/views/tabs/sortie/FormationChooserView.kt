@@ -21,37 +21,81 @@
 package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.config.KancolleAutoProfile.CombatFormation
-import com.waicool20.kaga.util.*
+import com.waicool20.kaga.util.IndexColumn
+import com.waicool20.kaga.util.disableHeaderMoving
+import com.waicool20.kaga.util.lockColumnWidths
+import com.waicool20.kaga.util.setWidthRatio
 import com.waicool20.kaga.views.SingleListView
+import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
+import javafx.scene.control.TableColumn
+import javafx.scene.control.cell.ComboBoxTableCell
+import javafx.util.StringConverter
+import tornadofx.*
 
+data class FormationEntry(val node: SimpleStringProperty, val formation: SimpleObjectProperty<CombatFormation>) {
+    fun isValid() = node.isNotNull.value && formation.isNotNull.value
+}
 
-class FormationChooserView : SingleListView<String>() {
+class FormationChooserView : SingleListView<FormationEntry>(showControlButtons = true) {
+
+    private val VALID_NODES = FXCollections.observableList((1..12).map { it.toString() }.plus(KancolleAutoProfile.VALID_NODES))
 
     init {
-        title = "KAGA - Formations Chooser"
-        val nodeNumColumn = IndexColumn<String>("Node", 1)
-        nodeNumColumn.setWidthRatio(tableView(), 0.25)
-
-        val selections = if (/*Kaga.PROFILE.sortie.combinedFleet*/true) {
-            CombatFormation.values().filter { it.name.contains("combined", true) }.map { it.prettyString }
-        } else {
-            CombatFormation.values().filterNot { it.name.contains("combined", true) }.map({ it.prettyString })
+        title = "KAGA - Formation Chooser"
+        val indexColumn = IndexColumn<FormationEntry>("#", 1).apply {
+            setWidthRatio(tableView(), 0.20)
         }
-        val formationColumn = OptionsColumn("Formation", selections, tableView())
-        formationColumn.setWidthRatio(tableView(), 0.75)
-        formationColumn.isSortable = false
-        formationColumn.setCellValueFactory { SimpleStringProperty(it.value) }
+        val nodeColumn = TableColumn<FormationEntry, String>("Node").apply {
+            cellFactory = ComboBoxTableCell.forTableColumn(VALID_NODES)
+            setCellValueFactory { it.value.node }
+            setWidthRatio(tableView(), 0.40)
+            isSortable = false
+        }
+
+        val formationColumn = TableColumn<FormationEntry, CombatFormation>("Formation").apply {
+            val converter = object : StringConverter<CombatFormation>() {
+                override fun toString(formation: CombatFormation?) = formation?.prettyString ?: ""
+                override fun fromString(string: String?) = CombatFormation.fromPrettyString(string ?: "")
+            }
+            cellFactory = ComboBoxTableCell.forTableColumn(converter, FXCollections.observableList(CombatFormation.values().toList()))
+            setCellValueFactory { it.value.formation }
+            setWidthRatio(tableView(), 0.40)
+            isSortable = false
+        }
 
         tableView().lockColumnWidths()
         tableView().disableHeaderMoving()
-        tableView().columns.addAll(nodeNumColumn, formationColumn)
-        tableView().items.addAll(Kaga.PROFILE.sortie.formations.map { it.prettyString })
+        tableView().columns.addAll(indexColumn, nodeColumn, formationColumn)
+        val items = Kaga.PROFILE.sortie.formations.mapNotNull { str ->
+            CombatFormation.values().find {
+                it.toString().equals(str.takeLastWhile { c -> c != ':' }, true)
+            }?.let { formation ->
+                FormationEntry(SimpleStringProperty(str.takeWhile { it != ':' }), SimpleObjectProperty(formation))
+            }
+        }
+        tableView().items.addAll(items)
+    }
+
+    override fun onAddButton() {
+        if (tableView().items.last().isValid()) {
+            tableView().items.add(FormationEntry(SimpleStringProperty(), SimpleObjectProperty()))
+        }
+    }
+
+    override fun onRemoveButton() {
+        tableView().selectedItem?.let { tableView().items.remove(it) }
     }
 
     override fun onSaveButton() {
-        Kaga.PROFILE.sortie.formations.setAll(tableView().items.dropLast(1).map { CombatFormation.fromPrettyString(it) })
-        closeWindow()
+        tableView().items.filter { it.isValid() }
+                .map { "${it.node.value}:${it.formation.value}" }
+                .let {
+                    Kaga.PROFILE.sortie.formations.setAll(it)
+                }
+        close()
     }
 }
