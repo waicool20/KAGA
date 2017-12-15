@@ -24,21 +24,26 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.setInitialSceneSizeAsMin
 import javafx.fxml.FXML
 import javafx.scene.Parent
+import javafx.scene.control.ButtonBar
 import javafx.scene.control.TableView
 import javafx.stage.Stage
 import tornadofx.*
 
 
-abstract class SingleListView<T> : Fragment() {
+abstract class SingleListView<T>(showControlButtons: Boolean = false) : Fragment() {
     final override val root: Parent by fxml("/views/single-list.fxml")
     private val tableView: TableView<T> by fxid()
+    private val controlButtons: ButtonBar by fxid()
 
     init {
         root.setInitialSceneSizeAsMin()
+        controlButtons.isVisible = showControlButtons
     }
 
     abstract fun onSaveButton()
     @FXML protected open fun onCancelButton() = closeWindow()
+    @FXML protected open fun onAddButton() = Unit
+    @FXML protected open fun onRemoveButton() = Unit
 
     protected open fun tableView(): TableView<T> = tableView
     protected fun closeWindow() {

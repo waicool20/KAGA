@@ -148,20 +148,8 @@ class SortieTabView {
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 
-    @FXML private fun onConfigureNodeSelectsButton() {
-        val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/single-list.fxml"))
-        loader.setController(NodeSelectsChooserView())
-        val scene = Scene(loader.load())
-        with(Stage()) {
-            this.scene = scene
-            title = "KAGA - Node Selects Configuration"
-            initOwner(Kaga.ROOT_STAGE.owner)
-            initModality(Modality.WINDOW_MODAL)
-            show()
-            minHeight = height + 25
-            minWidth = width + 25
-        }
-    }
+    @FXML private fun onConfigureNodeSelectsButton() =
+            find(NodeSelectsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
 
     @FXML private fun onConfigureFormationsButton() =
             find(FormationChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)

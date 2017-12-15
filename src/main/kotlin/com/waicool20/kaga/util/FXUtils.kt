@@ -267,10 +267,10 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
             ComboBoxTableCell<String, String>().apply {
                 converter = object : StringConverter<String>() {
                     override fun toString(string: String?): String {
-                        if (index != table.items.size - 1) {
-                            return if (string == addText) "" else string ?: ""
+                        return if (index != table.items.size - 1) {
+                            if (string == addText) "" else string ?: ""
                         } else {
-                            return string ?: ""
+                            string ?: ""
                         }
                     }
 

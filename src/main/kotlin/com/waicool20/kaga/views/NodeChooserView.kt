@@ -62,6 +62,7 @@ class NodeImgStringConverter(val regexMap: Map<Regex, Regex>) {
             regexMap.keys.map { string.matches(it) }.contains(true)
 }
 
+/* TODO Disabled temporarily till kcauto-kai is finalized
 abstract class NodeChooserView(private val nodeColumnTitle: String, regexMap: Map<Regex, Regex>) : SingleListView<String>() {
     @FXML protected lateinit var tableView: TableView<String>
     protected val converter: NodeImgStringConverter? = NodeImgStringConverter(regexMap)
@@ -94,4 +95,4 @@ abstract class NodeChooserView(private val nodeColumnTitle: String, regexMap: Ma
     override fun tableView() = tableView
 
     abstract fun save(items: List<String>)
-}
+}*/

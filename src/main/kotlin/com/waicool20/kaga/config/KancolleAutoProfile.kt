@@ -112,6 +112,11 @@ class KancolleAutoProfile(
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KancolleAutoProfile.Loader::class.java)
         val DEFAULT_NAME = "[Current Profile]"
+        val VALID_NODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter { it.isNotEmpty() }
+                .plus(listOf("Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZZ1", "ZZ2", "ZZ3"))
+                .let {
+                    FXCollections.observableList(it)
+                }
 
         fun load(path: Path = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini")): KancolleAutoProfile {
             if (Files.exists(path)) {
@@ -325,8 +330,8 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "Map") val mapProperty = SimpleStringProperty(map)
         @JsonIgnore @IniConfig(key = "CombatNodes") val nodesProperty = SimpleIntegerProperty(nodes)
         @JsonIgnore @IniConfig(key = "FleetMode") val fleetModeProperty = SimpleObjectProperty(fleetMode)
+        @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleListProperty(FXCollections.observableList(nodeSelects))
 
-        @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleListProperty(FXCollections.observableArrayList(nodeSelects))
         @JsonIgnore @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableArrayList(formations))
         @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
         @JsonIgnore @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
