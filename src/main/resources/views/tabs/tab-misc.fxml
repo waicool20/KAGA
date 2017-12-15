@@ -72,6 +72,7 @@
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1">
+                        <!-- TODO Disabled temporarily till kcauto-kai is finalized
                             <children>
                                 <CheckBox fx:id="group1CheckBox" mnemonicParsing="false" text="Enable" />
                                 <Button fx:id="configGrp1NodesBtn" mnemonicParsing="false" onAction="#onConfigureGroup1NodesButton" text="Configure" />
@@ -87,28 +88,32 @@
                             <children>
                                 <CheckBox fx:id="group3CheckBox" mnemonicParsing="false" text="Enable" />
                                 <Button fx:id="configGrp3NodesBtn" mnemonicParsing="false" onAction="#onConfigureGroup3NodesButton" text="Configure" />
-                            </children>
+                            </children>-->
                         </HBox>
                     </children>
                 </GridPane>
                 <HBox GridPane.rowIndex="3">
+                    <!-- TODO Disabled temporarily till kcauto-kai is finalized
                     <children>
                         <CheckBox fx:id="enableLbasButton" mnemonicParsing="false" text="Enable LBAS" />
                     </children>
                     <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
+                    -->
                 </HBox>
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <!-- TODO Disabled temporarily till kcauto-kai is finalized
                     <children>
                         <CheckBox fx:id="enableSubSwitchButton" mnemonicParsing="false" text="Enable submarine switching" />
                         <Button fx:id="configSubSwitchBtn" mnemonicParsing="false" onAction="#onConfigureSubSwitchButton" text="Configure" />
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
-                    </padding>
+                    </padding>-->
                 </HBox>
                 <GridPane fx:id="subSwitchContent" GridPane.rowIndex="1">
+                    <!-- TODO Disabled temporarily till kcauto-kai is finalized
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="138.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -138,6 +143,7 @@
                   </HBox>
                   <CheckBox fx:id="useBucketsCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     </children>
+                    -->
                 </GridPane>
             </children>
         </GridPane>

@@ -24,6 +24,7 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.views.NodeChooserView
 import javafx.fxml.FXML
 
+/* TODO Disabled temporarily till kcauto-kai is finalized
 private val regexMap = mapOf("_node_lbas_E-(\\d)-(\\w)_(1|2)".toRegex() to "E(\\d): Node (\\w) Selection (1|2)".toRegex(),
         "_node_lbas_E-(\\d)-(\\w)_(1|2)_(cleared)".toRegex() to "E(\\d): Node (\\w) Selection (1|2) \\[(\\w+?)\\]".toRegex(),
         "node_lbas_(\\d)-(\\d)-(\\w)_(1|2)".toRegex() to "(\\d)-(\\d): Node (\\w) Selection (1|2)".toRegex())
@@ -68,4 +69,4 @@ class LbasNodeChooserView(val group: Int) : NodeChooserView("LBAS Node", regexMa
         }
         closeWindow()
     }
-}
+}*/

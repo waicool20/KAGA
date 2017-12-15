@@ -53,6 +53,8 @@ class MiscTabView {
     @FXML private lateinit var lbasContent: GridPane
     @FXML private lateinit var subSwitchContent: GridPane
 
+    fun initialize() = Unit
+    /* TODO Disabled temporarily till kcauto-kai is finalized
     @FXML fun initialize() {
         setValues()
         createBindings()
@@ -116,6 +118,7 @@ class MiscTabView {
 
     @FXML private fun onConfigureGroup3NodesButton() = configureNode(3)
 
+
     @FXML private fun onConfigureSubSwitchButton() =
             find(SubSwitchChooserView::class).openModal()
 
@@ -134,4 +137,5 @@ class MiscTabView {
             minWidth = width + 25
         }
     }
+    */
 }

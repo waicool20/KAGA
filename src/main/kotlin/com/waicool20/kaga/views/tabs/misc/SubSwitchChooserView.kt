@@ -31,7 +31,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.CheckBoxTableCell
 
-
+/* TODO Disabled temporarily till kcauto-kai is finalized
 class SubSwitchChooserView : SingleListView<Submarines>() {
     val enabledSubs = mutableMapOf<Submarines, SimpleBooleanProperty>()
 
@@ -69,3 +69,4 @@ class SubSwitchChooserView : SingleListView<Submarines>() {
         closeWindow()
     }
 }
+*/

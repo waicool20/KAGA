@@ -21,6 +21,7 @@
 package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.*
 import javafx.beans.binding.Bindings
 import javafx.beans.value.ChangeListener
@@ -44,10 +45,12 @@ import kotlin.streams.toList
 
 class SortieTabView {
     @FXML private lateinit var enableButton: CheckBox
-    @FXML private lateinit var eventCheckBox: CheckBox
-    @FXML private lateinit var areaComboBox: ComboBox<String>
-    @FXML private lateinit var combinedFleetCheckBox: CheckBox
+    @FXML private lateinit var engineComboBox: ComboBox<KancolleAutoProfile.Engine>
+    @FXML private lateinit var mapComboBox: ComboBox<String>
     @FXML private lateinit var nodesSpinner: Spinner<Int>
+    @FXML private lateinit var fleetModeComboBox: ComboBox<KancolleAutoProfile.FleetMode>
+
+
     @FXML private lateinit var retreatLimitComboBox: ComboBox<Int>
     @FXML private lateinit var repairLimitComboBox: ComboBox<Int>
     @FXML private lateinit var reserveDocksCheckBox: CheckBox
@@ -56,7 +59,6 @@ class SortieTabView {
     @FXML private lateinit var checkFatigueCheckBox: CheckBox
     @FXML private lateinit var checkPortCheckBox: CheckBox
     @FXML private lateinit var medalStopCheckBox: CheckBox
-    @FXML private lateinit var lastNodePushCheckBox: CheckBox
 
     @FXML private lateinit var content: GridPane
 
@@ -74,7 +76,10 @@ class SortieTabView {
             "-- World 5 --",
             "5-1", "5-2", "5-3", "5-4", "5-5",
             "-- World 6 --",
-            "6-1", "6-2", "6-3", "6-4", "6-5"
+            "6-1", "6-2", "6-3", "6-4", "6-5",
+            "-- Event --",
+            "E-1", "E-2", "E-3", "E-4",
+            "E-5", "E-6", "E-7", "E-8"
     )
 
     @FXML fun initialize() {
@@ -82,27 +87,27 @@ class SortieTabView {
         createBindings()
     }
 
-    private val eventCheckBoxListener = ChangeListener<Boolean> { _, _, newVal ->
-        setAreaItems(newVal)
-        areaComboBox.value = areaComboBox.items.find { !it.matches("--.+?--".toRegex()) }
-        setProfileArea(areaComboBox.selectionModel.selectedItem)
-    }
-
     private fun setValues() {
-        eventCheckBox.selectedProperty().removeListener(eventCheckBoxListener)
-        areaComboBox.cellFactory = NoneSelectableCellFactory("--.+?--".toRegex())
-        with(Kaga.PROFILE.sortie) {
-            if (area == "E") {
-                setAreaItems(true)
-                eventCheckBox.isSelected = true
-                areaComboBox.value = subarea
-            } else {
-                setAreaItems(false)
-                eventCheckBox.isSelected = false
-                areaComboBox.value = "$area-$subarea"
-            }
+        val engineConverter = object: StringConverter<KancolleAutoProfile.Engine>() {
+            override fun toString(engine: KancolleAutoProfile.Engine?) = engine?.prettyString ?: ""
+            override fun fromString(string: String?) = KancolleAutoProfile.Engine.fromPrettyString(string ?: "")
         }
-        nodesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE)
+        engineComboBox.converter = engineConverter
+        engineComboBox.items.setAll(KancolleAutoProfile.Engine.values().toList())
+
+        mapComboBox.cellFactory = NoneSelectableCellFactory("--.+?--".toRegex())
+        mapComboBox.items.setAll(maps)
+
+        nodesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12)
+
+        val fleetModeConverter = object: StringConverter<KancolleAutoProfile.FleetMode>() {
+            override fun toString(fleetMode: KancolleAutoProfile.FleetMode?) = fleetMode?.prettyString ?: ""
+            override fun fromString(string: String?) = KancolleAutoProfile.FleetMode.fromPrettyString(string ?: "")
+        }
+        fleetModeComboBox.converter = fleetModeConverter
+        fleetModeComboBox.items.setAll(KancolleAutoProfile.FleetMode.values().toList())
+
+
         val damageLevels = listOf("Light damage", "Moderate damage", "Critical damage", "Null")
         val damageConverter = object : StringConverter<Int>() {
             override fun toString(int: Int?): String = damageLevels[int ?: 3]
@@ -125,12 +130,11 @@ class SortieTabView {
     private fun createBindings() {
         with(Kaga.PROFILE.sortie) {
             enableButton.bind(enabledProperty)
-            areaComboBox.valueProperty().addListener { _, _, newVal ->
-                setProfileArea(newVal)
-            }
-            eventCheckBox.selectedProperty().addListener(eventCheckBoxListener)
-            combinedFleetCheckBox.bind(combinedFleetProperty)
+            engineComboBox.bind(engineProperty)
+            mapComboBox.bind(mapProperty)
             nodesSpinner.bind(nodesProperty)
+            fleetModeComboBox.bind(fleetModeProperty)
+
             retreatLimitComboBox.bind(retreatLimitProperty)
             reserveDocksCheckBox.bind(reserveDocksProperty)
             repairLimitComboBox.bind(repairLimitProperty)
@@ -140,15 +144,9 @@ class SortieTabView {
             checkFatigueCheckBox.bind(checkFatigueProperty)
             checkPortCheckBox.bind(portCheckProperty)
             medalStopCheckBox.bind(medalStopProperty)
-            lastNodePushCheckBox.bind(lastNodePushProperty)
         }
-        combinedFleetCheckBox.visibleProperty().bind(eventCheckBox.selectedProperty())
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
-        eventCheckBox.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
-
-    @FXML private fun onConfigureFleetCompsButton() =
-        find(FleetCompsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
 
     @FXML private fun onConfigureNodeSelectsButton() {
         val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/single-list.fxml"))
@@ -170,43 +168,4 @@ class SortieTabView {
 
     @FXML private fun onConfigureNightBattlesButton() =
             find(NightBattlesChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
-
-    private fun setProfileArea(map: String?) {
-        if (map == null) return
-        with(Kaga.PROFILE.sortie) {
-            if (eventCheckBox.isSelected) {
-                area = "E"
-                subarea = map
-            } else {
-                area = map[0].toString()
-                subarea = map[2].toString()
-            }
-        }
-    }
-
-    private fun setAreaItems(isEvent: Boolean) {
-        if (isEvent) {
-            val eventMaps = mutableListOf<String>()
-            Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli/combat.sikuli"), 1)
-                    .map { it.fileName.toString() }
-                    .filter { it.startsWith("_event_panel_") }
-                    .map { it.replace("_event_panel_", "").replace(".png", "") }
-                    .sorted().toList().groupBy { "-- Page ${it[0]} --" }
-                    .forEach {
-                        with(eventMaps) {
-                            if (!contains(it.key)) add(it.key)
-                            addAll(it.value)
-                        }
-                    }
-            areaComboBox.items.setAll(eventMaps)
-            if (eventMaps.isEmpty()) {
-                logger.warn("No event maps were found during scan. Please check/update your Kancolle Auto installation.")
-                AlertFactory.warn(
-                        content = "No event maps were found. Is Kancolle Auto up to date? Is an event really going on?"
-                ).showAndWait()
-            }
-        } else {
-            areaComboBox.items.setAll(maps)
-        }
-    }
 }

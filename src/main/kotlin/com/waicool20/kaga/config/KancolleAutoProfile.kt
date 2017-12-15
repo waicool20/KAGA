@@ -48,8 +48,9 @@ class KancolleAutoProfile(
         val expeditions: Expeditions = Expeditions(),
         val pvp: Pvp = Pvp(),
         val sortie: Sortie = Sortie(),
+        /* TODO Disabled temporarily till kcauto-kai is finalized
         val submarineSwitch: SubmarineSwitch = SubmarineSwitch(),
-        val lbas: Lbas = Lbas(),
+        val lbas: Lbas = Lbas(),*/
         val quests: Quests = Quests()
 ) {
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
@@ -86,9 +87,9 @@ class KancolleAutoProfile(
         add("Expeditions").fromObject(expeditions)
         add("PvP").fromObject(pvp)
         add("Combat").fromObject(sortie)
+        /* TODO Disabled temporarily till kcauto-kai is finalized
         add("SubmarineSwitch").fromObject(submarineSwitch)
         add("LBAS").fromObject(lbas)
-        /* TODO Disabled temporarily till kcauto-kai is finalized
         quests.quests.setAll(quests.quests.map(String::toLowerCase))*/
         add("Quests").fromObject(quests)
     }
@@ -138,14 +139,17 @@ class KancolleAutoProfile(
                 val expeditions = checkNotNull(ini["Expeditions"]?.toObject<Expeditions>()) { "Could not parse Expeditions section!" }
                 val pvp = checkNotNull(ini["PvP"]?.toObject<Pvp>()) { "Could not parse PvP section!" }
                 val sortie = checkNotNull(ini["Combat"]?.toObject<Sortie>()) { "Could not parse Combat section!" }
+                /* TODO Disabled temporarily till kcauto-kai is finalized
                 val submarineSwitch = checkNotNull(ini["SubmarineSwitch"]?.toObject<SubmarineSwitch>()) { "Could not parse SubmarineSwitch section!" }
-                val lbas = checkNotNull(ini["LBAS"]?.toObject<Lbas>()) { "Could not parse LBAS section!" }
+                val lbas = checkNotNull(ini["LBAS"]?.toObject<Lbas>()) { "Could not parse LBAS section!" } */
                 val quests = checkNotNull(ini["Quests"]?.toObject<Quests>()) { "Could not parse Quests section!" }
 
                 return KancolleAutoProfile(name, general, scheduledSleep,
                         /* TODO Disabled temporarily till kcauto-kai is finalized
                         scheduledStop,*/
-                        expeditions, pvp, sortie, submarineSwitch, lbas, quests).apply {
+                        expeditions, pvp, sortie,
+                        /* TODO Disabled temporarily till kcauto-kai is finalized
+                        submarineSwitch, lbas,*/ quests).apply {
                     loaderLogger.info("Loading KancolleAuto profile was successful")
                     loaderLogger.debug("Loaded $this")
                 }
@@ -167,7 +171,7 @@ class KancolleAutoProfile(
         COMBINEDFLEET_2("Cruising Formation 2 (Forward)"), COMBINEDFLEET_3("Cruising Formation 3 (Ring)"), COMBINEDFLEET_4("Cruising Formation 4 (Battle)");
 
         companion object {
-            fun fromPrettyString(string: String) = CombatFormation.values().first { it.prettyString.equals(string, true) }
+            fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
         }
 
         override fun toString(): String = name.toLowerCase()
@@ -183,6 +187,30 @@ class KancolleAutoProfile(
         UIT_25("UIT-25", false), I_504("I-504", false);
 
         override fun toString() = prettyString.toLowerCase().replace(" ", "-")
+    }
+
+    enum class Engine(val prettyString: String) {
+        LEGACY("Legacy"), LIVE("Live / Dynamic");
+
+        companion object {
+            fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
+        }
+
+        override fun toString() = name.toLowerCase()
+    }
+
+    enum class FleetMode(val prettyString: String, val value: String) {
+        STANDARD("Standard", ""),
+        CTF("Carrier Task Force", "ctf"),
+        STF("Strike Task Force", "stf"),
+        TRANSPORT("Transport Escort", "transport"),
+        STRIKING("Striking Fleet", "striking");
+
+        companion object {
+            fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
+        }
+
+        override fun toString() = value
     }
 
     class General(
@@ -276,11 +304,11 @@ class KancolleAutoProfile(
 
     class Sortie(
             enabled: Boolean = false,
-            fleetComps: List<Int> = listOf(2),
-            area: String = "2",
-            subarea: String = "3",
-            combinedFleet: Boolean = false,
+            engine: Engine = Engine.LEGACY,
+            map: String = "1-1",
             nodes: Int = 5,
+            fleetMode: FleetMode = FleetMode.STANDARD,
+
             nodeSelects: List<String> = emptyList(),
             formations: List<CombatFormation> = listOf(CombatFormation.LINE_AHEAD),
             nightBattles: List<Boolean> = listOf(false),
@@ -290,15 +318,14 @@ class KancolleAutoProfile(
             reserveDocks: Boolean = false,
             checkFatigue: Boolean = false,
             portCheck: Boolean = false,
-            medalStop: Boolean = false,
-            lastNodePush: Boolean = false
+            medalStop: Boolean = false
     ) {
         @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "FleetComps") val fleetCompsProperty = SimpleListProperty(FXCollections.observableArrayList(fleetComps))
-        @JsonIgnore @IniConfig(key = "Area") val areaProperty = SimpleStringProperty(area)
-        @JsonIgnore @IniConfig(key = "Subarea") val subareaProperty = SimpleStringProperty(subarea)
-        @JsonIgnore @IniConfig(key = "CombinedFleet") val combinedFleetProperty = SimpleBooleanProperty(combinedFleet)
-        @JsonIgnore @IniConfig(key = "Nodes") val nodesProperty = SimpleIntegerProperty(nodes)
+        @JsonIgnore @IniConfig(key = "Engine") val engineProperty = SimpleObjectProperty(engine)
+        @JsonIgnore @IniConfig(key = "Map") val mapProperty = SimpleStringProperty(map)
+        @JsonIgnore @IniConfig(key = "CombatNodes") val nodesProperty = SimpleIntegerProperty(nodes)
+        @JsonIgnore @IniConfig(key = "FleetMode") val fleetModeProperty = SimpleObjectProperty(fleetMode)
+
         @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleListProperty(FXCollections.observableArrayList(nodeSelects))
         @JsonIgnore @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableArrayList(formations))
         @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableArrayList(nightBattles))
@@ -309,14 +336,13 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "CheckFatigue") val checkFatigueProperty = SimpleBooleanProperty(checkFatigue)
         @JsonIgnore @IniConfig(key = "PortCheck") val portCheckProperty = SimpleBooleanProperty(portCheck)
         @JsonIgnore @IniConfig(key = "MedalStop") val medalStopProperty = SimpleBooleanProperty(medalStop)
-        @JsonIgnore @IniConfig(key = "LastNodePush") val lastNodePushProperty = SimpleBooleanProperty(lastNodePush)
 
         @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var fleetComps by fleetCompsProperty
-        @get:JsonProperty var area by areaProperty
-        @get:JsonProperty var subarea by subareaProperty
-        @get:JsonProperty var combinedFleet by combinedFleetProperty
+        @get:JsonProperty var engine by engineProperty
+        @get:JsonProperty var map by mapProperty
         @get:JsonProperty var nodes by nodesProperty
+        @get:JsonProperty var fleetMode by fleetModeProperty
+
         @get:JsonProperty var nodeSelects by nodeSelectsProperty
         @get:JsonProperty var formations by formationsProperty
         @get:JsonProperty var nightBattles by nightBattlesProperty
@@ -327,7 +353,6 @@ class KancolleAutoProfile(
         @get:JsonProperty var checkFatigue by checkFatigueProperty
         @get:JsonProperty var portCheck by portCheckProperty
         @get:JsonProperty var medalStop by medalStopProperty
-        @get:JsonProperty var lastNodePush by lastNodePushProperty
     }
 
     class SubmarineSwitch(
