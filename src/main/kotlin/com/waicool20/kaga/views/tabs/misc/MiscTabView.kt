@@ -21,47 +21,103 @@
 package com.waicool20.kaga.views.tabs.misc
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.bind
-import javafx.beans.binding.Bindings
-import javafx.collections.SetChangeListener
+import com.waicool20.kaga.config.KancolleAutoProfile
+import javafx.collections.FXCollections
+import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
-import javafx.scene.Scene
-import javafx.scene.control.Button
-import javafx.scene.control.CheckBox
-import javafx.scene.control.ComboBox
-import javafx.scene.layout.GridPane
-import javafx.stage.Modality
-import javafx.stage.Stage
-import javafx.util.StringConverter
-import tornadofx.*
+import javafx.scene.control.Label
+import org.controlsfx.control.CheckComboBox
 
 class MiscTabView {
+
+    private val VALID_NODES = KancolleAutoProfile.VALID_NODES.filterNot { it.matches("^\\d+".toRegex()) }.let {
+        FXCollections.observableList(it)
+    }
+
+    @FXML private lateinit var grp1CheckComboBox: CheckComboBox<String>
+    @FXML private lateinit var grp2CheckComboBox: CheckComboBox<String>
+    @FXML private lateinit var grp3CheckComboBox: CheckComboBox<String>
+    @FXML private lateinit var grp1NodesWarnLabel: Label
+    @FXML private lateinit var grp2NodesWarnLabel: Label
+    @FXML private lateinit var grp3NodesWarnLabel: Label
+
+    @FXML
+    fun initialize() {
+        setValues()
+        createBindings()
+    }
+
+    private fun setValues() {
+        grp1CheckComboBox.items.setAll(VALID_NODES)
+        grp2CheckComboBox.items.setAll(VALID_NODES)
+        grp3CheckComboBox.items.setAll(VALID_NODES)
+
+        with(Kaga.PROFILE.sortie) {
+            lbasGroup1Nodes.forEach { grp1CheckComboBox.checkModel.check(it) }
+            lbasGroup2Nodes.forEach { grp2CheckComboBox.checkModel.check(it) }
+            lbasGroup3Nodes.forEach { grp3CheckComboBox.checkModel.check(it) }
+        }
+        updateLBASGroups()
+    }
+
+    private fun createBindings() {
+        with(Kaga.PROFILE.sortie) {
+            grp1CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
+                lbasGroup1Nodes.setAll(change.list)
+                updateLBASGroups()
+            }
+            grp2CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
+                lbasGroup2Nodes.setAll(change.list)
+                updateLBASGroups()
+            }
+            grp3CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
+                lbasGroup3Nodes.setAll(change.list)
+                updateLBASGroups()
+            }
+        }
+    }
+
+    private fun updateLBASGroups() {
+        with(Kaga.PROFILE.sortie) {
+            if (lbasGroup1Nodes.size == 2) {
+                lbasGroups.add("1")
+                grp1NodesWarnLabel.isVisible = false
+            } else {
+                lbasGroups.remove("1")
+                grp1NodesWarnLabel.isVisible = true
+            }
+            if (lbasGroup2Nodes.size == 2) {
+                lbasGroups.add("2")
+                grp2NodesWarnLabel.isVisible = false
+            } else {
+                lbasGroups.remove("2")
+                grp2NodesWarnLabel.isVisible = true
+            }
+            if (lbasGroup3Nodes.size == 2) {
+                lbasGroups.add("3")
+                grp3NodesWarnLabel.isVisible = false
+            } else {
+                lbasGroups.remove("3")
+                grp3NodesWarnLabel.isVisible = true
+            }
+        }
+    }
+
+    /* TODO Disabled temporarily till kcauto-kai is finalized
     @FXML private lateinit var enableSubSwitchButton: CheckBox
     @FXML private lateinit var configSubSwitchBtn: Button
     @FXML private lateinit var replaceLimitComboBox: ComboBox<Int>
     @FXML private lateinit var fatigueSwitchCheckBox: CheckBox
     @FXML private lateinit var useBucketsCheckBox: CheckBox
-    @FXML private lateinit var enableLbasButton: CheckBox
-    @FXML private lateinit var group1CheckBox: CheckBox
-    @FXML private lateinit var group2CheckBox: CheckBox
-    @FXML private lateinit var group3CheckBox: CheckBox
-    @FXML private lateinit var configGrp1NodesBtn: Button
-    @FXML private lateinit var configGrp2NodesBtn: Button
-    @FXML private lateinit var configGrp3NodesBtn: Button
 
-    @FXML private lateinit var lbasContent: GridPane
     @FXML private lateinit var subSwitchContent: GridPane
 
-    fun initialize() = Unit
-    /* TODO Disabled temporarily till kcauto-kai is finalized
     @FXML fun initialize() {
         setValues()
         createBindings()
     }
 
     private fun setValues() {
-        updateGroupCheckBoxes(Kaga.PROFILE.lbas.enabledGroups)
         val damageLevels = listOf("Light damage", "Moderate damage", "Critical damage", "Null")
         val damageConverter = object : StringConverter<Int>() {
             override fun toString(int: Int?): String = damageLevels[int ?: 3]
@@ -80,62 +136,11 @@ class MiscTabView {
                 fatigueSwitchCheckBox.bind(fatigueSwitchProperty)
                 useBucketsCheckBox.bind(useBucketsProperty)
             }
-            with(lbas) {
-                enableLbasButton.bind(enabledProperty)
-                enabledGroups.addListener(SetChangeListener { change -> updateGroupCheckBoxes(change.set) })
-            }
         }
         subSwitchContent.disableProperty().bind(Bindings.not(enableSubSwitchButton.selectedProperty()))
-        group1CheckBox.selectedProperty().addListener({ _, _, newVal -> setGroups(newVal, 1) })
-        group2CheckBox.selectedProperty().addListener({ _, _, newVal -> setGroups(newVal, 2) })
-        group3CheckBox.selectedProperty().addListener({ _, _, newVal -> setGroups(newVal, 3) })
-        lbasContent.disableProperty().bind(Bindings.not(enableLbasButton.selectedProperty()))
-        configGrp1NodesBtn.disableProperty().bind(Bindings.not(group1CheckBox.selectedProperty()))
-        configGrp2NodesBtn.disableProperty().bind(Bindings.not(group2CheckBox.selectedProperty()))
-        configGrp3NodesBtn.disableProperty().bind(Bindings.not(group3CheckBox.selectedProperty()))
-        configSubSwitchBtn.disableProperty().bind(Bindings.not(enableSubSwitchButton.selectedProperty()))
     }
-
-    private fun setGroups(newVal: Boolean, group: Int) {
-        with(Kaga.PROFILE.lbas) {
-            if (newVal) {
-                enabledGroups.add(group)
-            } else {
-                enabledGroups.remove(group)
-            }
-        }
-    }
-
-    private fun updateGroupCheckBoxes(set: Set<Int>) {
-        group1CheckBox.selectedProperty().value = set.contains(1)
-        group2CheckBox.selectedProperty().value = set.contains(2)
-        group3CheckBox.selectedProperty().value = set.contains(3)
-    }
-
-    @FXML private fun onConfigureGroup1NodesButton() = configureNode(1)
-
-    @FXML private fun onConfigureGroup2NodesButton() = configureNode(2)
-
-    @FXML private fun onConfigureGroup3NodesButton() = configureNode(3)
-
 
     @FXML private fun onConfigureSubSwitchButton() =
             find(SubSwitchChooserView::class).openModal()
-
-
-    private fun configureNode(group: Int) {
-        val loader = FXMLLoader(Kaga::class.java.classLoader.getResource("views/single-list.fxml"))
-        loader.setController(LbasNodeChooserView(group))
-        val scene = Scene(loader.load())
-        with(Stage()) {
-            this.scene = scene
-            title = "KAGA - LBAS Nodes Configuration"
-            initOwner(Kaga.ROOT_STAGE.owner)
-            initModality(Modality.WINDOW_MODAL)
-            show()
-            minHeight = height + 25
-            minWidth = width + 25
-        }
-    }
     */
 }
