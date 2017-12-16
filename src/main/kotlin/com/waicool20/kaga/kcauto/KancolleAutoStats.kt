@@ -31,24 +31,26 @@ class KancolleAutoStatsTracker {
 
     init {
         with(LoggingEventBus) {
+            // TODO Add attempted sorties stat
             // Track sorties conducted
-            subscribe(".*~(\\d+) sorties conducted.*".toRegex()) {
+            subscribe(".*Combat done: (\\d+) / attempted: (\\d+).*".toRegex()) {
                 currentStats().sortiesConducted = it.groupValues[1].toInt()
             }
 
+            // TODO Add sent expeditions stat
             // Track expeditions conducted
-            subscribe(".*~(\\d+) expeditions conducted.*".toRegex()) {
-                currentStats().expeditionsConducted = it.groupValues[1].toInt()
+            subscribe(".*Expeditions sent: (\\d+) / received: (\\d+).*".toRegex()) {
+                currentStats().expeditionsConducted = it.groupValues[2].toInt()
             }
 
             // Track pvp conducted
-            subscribe(".*~(\\d+) PvPs conducted.*".toRegex()) {
+            subscribe(".*PvPs done: (\\d+).*".toRegex()) {
                 currentStats().pvpsConducted = it.groupValues[1].toInt()
             }
 
             // Track buckets used
-            subscribe(".*[uU]sing bucket.*".toRegex()) {
-                currentStats().bucketsUsed++
+            subscribe(".*Resupplies: (\\d+) \\|\\| Repairs: (\\d+) \\|\\| Buckets: (\\d+).*".toRegex()) {
+                currentStats().bucketsUsed = it.groupValues[3].toInt()
             }
 
             // Track submarines switched
@@ -62,11 +64,11 @@ class KancolleAutoStatsTracker {
             }
 
             // Track home
-            subscribe(".*Beginning PvP sortie!.*".toRegex()) { atPort = false }
-            subscribe(".*Commencing sortie!.*".toRegex()) { atPort = false }
-            subscribe(".*PvP complete!.*".toRegex()) { atPort = true }
-            subscribe(".*Sortie complete!.*".toRegex()) { atPort = true }
-            subscribe(".*At Home!.*".toRegex()) { atPort = true }
+            subscribe(".*Beginning PvP.*".toRegex()) { atPort = false }
+            subscribe(".*Navigating to combat screen.*".toRegex()) { atPort = false }
+            subscribe(".*Finished PvP sortie.*".toRegex()) { atPort = true }
+            subscribe(".*Sortie complete.*".toRegex()) { atPort = true }
+            subscribe(".*At Home.*".toRegex()) { atPort = true }
         }
     }
 
