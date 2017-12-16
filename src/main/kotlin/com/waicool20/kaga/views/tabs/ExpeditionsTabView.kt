@@ -22,6 +22,7 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import javafx.beans.binding.Bindings
+import javafx.beans.property.SimpleSetProperty
 import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
@@ -69,9 +70,9 @@ class ExpeditionsTabView {
         fleet3CheckComboBox.converter = converter
         fleet4CheckComboBox.converter = converter
         with(Kaga.PROFILE.expeditions) {
-            fleet2.forEach { fleet2CheckComboBox.checkModel.check(it) }
-            fleet3.forEach { fleet3CheckComboBox.checkModel.check(it) }
-            fleet4.forEach { fleet4CheckComboBox.checkModel.check(it) }
+            fleet2.distinct().forEach { fleet2CheckComboBox.checkModel.check(it) }
+            fleet3.distinct().forEach { fleet3CheckComboBox.checkModel.check(it) }
+            fleet4.distinct().forEach { fleet4CheckComboBox.checkModel.check(it) }
         }
     }
 
