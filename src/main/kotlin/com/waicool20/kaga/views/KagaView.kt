@@ -259,7 +259,7 @@ class KagaView {
                         Kancolle Auto GUI App by waicool20
 
                         Version: ${Kaga.VERSION_INFO.version}
-                        Kancolle-Auto Compatibility: ${Kaga.VERSION_INFO.kcAutoCompatibility}
+                        KCAuto Kai Compatibility: ${Kaga.VERSION_INFO.kcAutoCompatibility}
                         """.trimIndent()
         ).showAndWait()
     }
