@@ -22,7 +22,6 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import javafx.beans.binding.Bindings
-import javafx.beans.property.SimpleSetProperty
 import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
@@ -52,7 +51,6 @@ class ExpeditionsTabView {
     }
 
     private fun setValues() {
-
         with(specialExpediions.keys.toMutableList()) {
             addAll(0, (1..41).map(Int::toString))
             fleet2CheckComboBox.items.addAll(this)
@@ -70,9 +68,9 @@ class ExpeditionsTabView {
         fleet3CheckComboBox.converter = converter
         fleet4CheckComboBox.converter = converter
         with(Kaga.PROFILE.expeditions) {
-            fleet2.distinct().forEach { fleet2CheckComboBox.checkModel.check(it) }
-            fleet3.distinct().forEach { fleet3CheckComboBox.checkModel.check(it) }
-            fleet4.distinct().forEach { fleet4CheckComboBox.checkModel.check(it) }
+            fleet2.forEach { exp -> fleet2CheckComboBox.checkModel.let { if (!it.isChecked(exp)) it.check(exp) } }
+            fleet3.forEach { exp -> fleet3CheckComboBox.checkModel.let { if (!it.isChecked(exp)) it.check(exp) } }
+            fleet4.forEach { exp -> fleet4CheckComboBox.checkModel.let { if (!it.isChecked(exp)) it.check(exp) } }
         }
     }
 
@@ -80,13 +78,13 @@ class ExpeditionsTabView {
         with(Kaga.PROFILE.expeditions) {
             enableButton.bind(enabledProperty)
             fleet2CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                fleet2.setAll(change.list)
+                fleet2.setAll(change.list.distinct())
             }
             fleet3CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                fleet3.setAll(change.list)
+                fleet3.setAll(change.list.distinct())
             }
             fleet4CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                fleet4.setAll(change.list)
+                fleet4.setAll(change.list.distinct())
             }
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
