@@ -72,7 +72,7 @@ abstract class NodeChooserView(private val nodeColumnTitle: String, regexMap: Ma
         if (converter == null) return
         val nodeNumColumn = IndexColumn<String>("Node", 1)
         nodeNumColumn.setWidthRatio(tableView, 0.25)
-        val selections = Files.walk(Kaga.CONFIG.kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli/combat.sikuli"), 1)
+        val selections = Files.walk(Kaga.CONFIG.kcaKaiRootDirPath.resolve("kancolle_auto.sikuli/combat.sikuli"), 1)
                 .map { it.fileName.toString().replace(".png", "", true) }
                 .sorted()
                 .filter { converter.matches(it) }

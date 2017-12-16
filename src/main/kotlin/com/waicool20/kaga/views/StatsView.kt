@@ -46,13 +46,13 @@ class StatsView : View() {
 
     init {
         fixedRateTimer(period = 1000L) {
-            if (Kaga.KANCOLLE_AUTO.isRunning()) {
+            if (Kaga.KCAUTO_KAI.isRunning()) {
                 Platform.runLater { updateStats() }
             }
         }
     }
 
-    private fun updateStats() = Kaga.KANCOLLE_AUTO.statsTracker.run {
+    private fun updateStats() = Kaga.KCAUTO_KAI.statsTracker.run {
         timeElapsedLabel.text = elapsedTimeSince(startingTime)
         startingTimeLabel.text = startingTime?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
         sortiesConductedLabel.text = sortiesConductedTotal().toString()

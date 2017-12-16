@@ -43,7 +43,7 @@ import java.util.jar.JarFile
 @JsonIgnoreProperties(ignoreUnknown = true)
 class KagaConfig(currentProfile: String = "",
                  sikulixJarPath: Path = Paths.get(""),
-                 kancolleAutoRootDirPath: Path = Paths.get(""),
+                 kcaKaiRootDirPath: Path = Paths.get(""),
                  preventLock: Boolean = false,
                  clearConsoleOnStart: Boolean = true,
                  autoRestartOnKCAutoCrash: Boolean = true,
@@ -54,7 +54,7 @@ class KagaConfig(currentProfile: String = "",
                  checkForUpdates: Boolean = true) {
     @JsonIgnore val currentProfileProperty = SimpleStringProperty(currentProfile)
     @JsonIgnore val sikulixJarPathProperty = SimpleObjectProperty<Path>(sikulixJarPath)
-    @JsonIgnore val kancolleAutoRootDirPathProperty = SimpleObjectProperty<Path>(kancolleAutoRootDirPath)
+    @JsonIgnore val kcaKaiRootDirPathProperty = SimpleObjectProperty<Path>(kcaKaiRootDirPath)
     @JsonIgnore val preventLockProperty = SimpleBooleanProperty(preventLock)
     @JsonIgnore val clearConsoleOnStartProperty = SimpleBooleanProperty(clearConsoleOnStart)
     @JsonIgnore val autoRestartOnKCAutoCrashProperty = SimpleBooleanProperty(autoRestartOnKCAutoCrash)
@@ -66,7 +66,7 @@ class KagaConfig(currentProfile: String = "",
 
     @get:JsonProperty var currentProfile by currentProfileProperty
     @get:JsonProperty var sikulixJarPath by sikulixJarPathProperty
-    @get:JsonProperty var kancolleAutoRootDirPath by kancolleAutoRootDirPathProperty
+    @get:JsonProperty var kcaKaiRootDirPath by kcaKaiRootDirPathProperty
     @get:JsonProperty var preventLock by preventLockProperty
     @get:JsonProperty var clearConsoleOnStart by clearConsoleOnStartProperty
     @get:JsonProperty var autoRestartOnKCAutoCrash by autoRestartOnKCAutoCrashProperty
@@ -120,7 +120,7 @@ class KagaConfig(currentProfile: String = "",
     }
 
     fun kancolleAutoRootDirPathIsValid(): Boolean =
-            Files.exists(kancolleAutoRootDirPath.resolve("kancolle_auto.sikuli"))
+            Files.exists(kcaKaiRootDirPath.resolve("kcauto-kai.sikuli"))
 
     @JsonIgnore fun isValid(): Boolean =
             sikulixJarIsValid() && kancolleAutoRootDirPathIsValid()

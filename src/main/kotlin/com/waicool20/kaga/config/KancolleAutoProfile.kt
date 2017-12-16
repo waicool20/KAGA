@@ -36,6 +36,7 @@ import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption
+import java.util.*
 import java.util.regex.Pattern
 
 
@@ -121,7 +122,7 @@ class KancolleAutoProfile(
                     FXCollections.observableList(it)
                 }
 
-        fun load(path: Path = Kaga.CONFIG.kancolleAutoRootDirPath.resolve("config.ini")): KancolleAutoProfile {
+        fun load(path: Path = Kaga.CONFIG.kcaKaiRootDirPath.resolve("config.ini")): KancolleAutoProfile {
             if (Files.exists(path)) {
                 loaderLogger.info("Attempting to load KancolleAuto Profile")
                 loaderLogger.debug("Loading KancolleAuto Profile from $path")
@@ -254,21 +255,25 @@ class KancolleAutoProfile(
         @JsonIgnore
         @IniConfig(key = "Program")
         val programProperty = SimpleStringProperty(program)
+        @JsonIgnore
+        @IniConfig(key = "JSTOffset", shouldRead = false)
+        val jstOffsetProperty = ((TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan").rawOffset) / 3600000).let {
+            SimpleIntegerProperty(it)
+        }
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @JsonIgnore @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
         @JsonIgnore @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = SimpleBooleanProperty(basicRecovery)
-        val offset = (TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan").rawOffset) / 3600000
-        @JsonIgnore @IniConfig(key = "JSTOffset", shouldRead = false) val jstOffsetProperty: IntegerProperty = SimpleIntegerProperty(offset)
         @JsonIgnore @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = SimpleIntegerProperty(sleepCycle)
         @JsonIgnore @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = SimpleIntegerProperty(paranoia)
         @JsonIgnore @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = SimpleIntegerProperty(sleepModifier)*/
 
         @get:JsonProperty
         var program by programProperty
+        @get:JsonProperty
+        var jstOffset by jstOffsetProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @get:JsonProperty var recoveryMethod by recoveryMethodProperty
         @get:JsonProperty var basicRecovery by basicRecoveryProperty
-        @get:JsonProperty var jstOffset by jstOffsetProperty
         @get:JsonProperty var sleepCycle by sleepCycleProperty
         @get:JsonProperty var paranoia by paranoiaProperty
         @get:JsonProperty var sleepModifier by sleepModifierProperty*/

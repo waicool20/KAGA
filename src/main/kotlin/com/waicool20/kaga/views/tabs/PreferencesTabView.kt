@@ -43,7 +43,7 @@ class PreferencesTabView {
     @FXML private lateinit var showStatsCheckBox: CheckBox
     @FXML private lateinit var checkForUpdatesCheckBox: CheckBox
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
-    @FXML private lateinit var kancolleAutoRootPathLink: Hyperlink
+    @FXML private lateinit var kcaKaiRootPathLink: Hyperlink
 
     @FXML fun initialize() {
         setValues()
@@ -53,9 +53,9 @@ class PreferencesTabView {
     fun setValues() {
         with(Kaga.CONFIG) {
             sikulixJarPathLink.setOnAction { openFile(sikulixJarPath.parent) }
-            kancolleAutoRootPathLink.setOnAction { openFile(kancolleAutoRootDirPath) }
+            kcaKaiRootPathLink.setOnAction { openFile(kcaKaiRootDirPath) }
             sikulixJarPathLink.text = sikulixJarPath.toString()
-            kancolleAutoRootPathLink.text = kancolleAutoRootDirPath.toString()
+            kcaKaiRootPathLink.text = kcaKaiRootDirPath.toString()
             maxRetriesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Int.MAX_VALUE)
         }
     }

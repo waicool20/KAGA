@@ -29,7 +29,7 @@ import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.handlers.KeyboardIncrementHandler
 import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
-import com.waicool20.kaga.kcauto.KancolleAuto
+import com.waicool20.kaga.kcauto.KancolleAutoKai
 import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.LineListenerOutputStream
 import com.waicool20.kaga.util.TeeOutputStream
@@ -153,7 +153,7 @@ object Kaga {
     }
 
     var LOG = ""
-    val KANCOLLE_AUTO by lazy { KancolleAuto() }
+    val KCAUTO_KAI by lazy { KancolleAutoKai() }
 
     fun startMainApplication() {
         CONFIG.currentProfile = PROFILE.name
@@ -187,7 +187,7 @@ object Kaga {
     }
 
     fun exit() {
-        KANCOLLE_AUTO.stop()
+        KCAUTO_KAI.stop()
         Platform.exit()
         System.exit(0)
     }

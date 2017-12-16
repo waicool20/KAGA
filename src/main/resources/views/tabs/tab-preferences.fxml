@@ -66,8 +66,8 @@
                 </HBox>
                 <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10">
                     <children>
-                        <Label fx:id="kancolleAutoRootLabel" text="Kancolle Auto Root:" />
-                        <Hyperlink fx:id="kancolleAutoRootPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="kcaKaiRootLabel" text="Kancolle Auto Root:" />
+                        <Hyperlink fx:id="kcaKaiRootPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" HBox.hgrow="ALWAYS" />
                     </children>
                     <padding>
                         <Insets left="10.0" />

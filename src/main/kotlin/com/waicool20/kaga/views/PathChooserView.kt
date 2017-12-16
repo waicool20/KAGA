@@ -37,7 +37,7 @@ class PathChooserView : View() {
     override val root: GridPane by fxml("/views/path-chooser.fxml", hasControllerAttribute = true)
     private val pathChooserFlavorText: Label by fxid()
     private val sikulixJarPathTextField: TextField by fxid()
-    private val kancolleAutoDirTextField: TextField by fxid()
+    private val kcaKaiDirTextField: TextField by fxid()
     private val saveButton: Button by fxid()
     private val pathErrorsText: Label by fxid()
 
@@ -63,11 +63,11 @@ class PathChooserView : View() {
         }
     }
 
-    @FXML private fun openKancolleAutoRootChooser() = DirectoryChooser().run {
-        title = "Path to Kancolle Auto root directory..."
+    @FXML private fun openKCAutoKaiRootChooser() = DirectoryChooser().run {
+        title = "Path to KCAuto Kai root directory..."
         showDialog(null)?.let {
-            Kaga.CONFIG.kancolleAutoRootDirPath = it.toPath()
-            kancolleAutoDirTextField.text = it.path
+            Kaga.CONFIG.kcaKaiRootDirPath = it.toPath()
+            kcaKaiDirTextField.text = it.path
             checkErrors()
         }
     }
@@ -83,7 +83,7 @@ class PathChooserView : View() {
 
     private fun checkErrors() {
         sikulixJarPathTextField.style = "-fx-border-color:${if (!Kaga.CONFIG.sikulixJarIsValid()) "red" else "inherit"}"
-        kancolleAutoDirTextField.style = "-fx-border-color: ${if (!Kaga.CONFIG.kancolleAutoRootDirPathIsValid()) "red" else "inherit"}"
+        kcaKaiDirTextField.style = "-fx-border-color: ${if (!Kaga.CONFIG.kancolleAutoRootDirPathIsValid()) "red" else "inherit"}"
         setErrorText()
     }
 
@@ -92,7 +92,7 @@ class PathChooserView : View() {
         if (sikulixJarPathTextField.style.contains("red")) {
             errors += "Invalid Sikuli Jar File!\n"
         }
-        if (kancolleAutoDirTextField.style.contains("red")) {
+        if (kcaKaiDirTextField.style.contains("red")) {
             errors += "Invalid Kancolle Auto directory!\n"
         }
         pathErrorsText.text = errors
