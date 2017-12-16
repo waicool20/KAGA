@@ -54,8 +54,10 @@ class KancolleAutoProfile(
         val quests: Quests = Quests()
 ) {
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
-    @JsonIgnore var nameProperty = SimpleStringProperty(name)
-    @get:JsonProperty var name by nameProperty
+    @JsonIgnore
+    var nameProperty = SimpleStringProperty(name)
+    @get:JsonProperty
+    var name by nameProperty
 
     fun path(): Path = Kaga.CONFIG_DIR.resolve("$name-config.ini")
 
@@ -167,9 +169,9 @@ class KancolleAutoProfile(
         }
     }
 
-    enum class RecoveryMethod {BROWSER, KC3, KCV, KCT, EO, NONE }
+    enum class RecoveryMethod { BROWSER, KC3, KCV, KCT, EO, NONE }
 
-    enum class ScheduledStopMode {TIME, EXPEDITION, SORTIE, PVP }
+    enum class ScheduledStopMode { TIME, EXPEDITION, SORTIE, PVP }
 
     enum class CombatFormation(val prettyString: String) {
         LINE_AHEAD("Line Ahead"), DOUBLE_LINE("Double Line"), DIAMOND("Diamond"),
@@ -219,6 +221,27 @@ class KancolleAutoProfile(
         override fun toString() = value
     }
 
+    enum class DamageLevel(val prettyString: String, val value: String) {
+        LIGHT("Light Damage", "minor"),
+        MODERATE("Moderate Damage", "moderate"),
+        CRITICAL("Critical Damage", "heavy");
+
+        companion object {
+            fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
+        }
+
+        override fun toString() = value
+    }
+
+    enum class SortieOptions(val value: String) {
+        CHECK_FATIGUE("CheckFatigue"),
+        RESERVE_DOCKS("ReserveDocks"),
+        PORT_CHECK("PortCheck"),
+        MEDAL_STOP("MedalStop");
+
+        override fun toString() = value
+    }
+
     class General(
             program: String = "Chrome"
             /* TODO Disabled temporarily till kcauto-kai is finalized
@@ -228,7 +251,9 @@ class KancolleAutoProfile(
             paranoia: Int = 1,
             sleepModifier: Int = 0*/
     ) {
-        @JsonIgnore @IniConfig(key = "Program") val programProperty = SimpleStringProperty(program)
+        @JsonIgnore
+        @IniConfig(key = "Program")
+        val programProperty = SimpleStringProperty(program)
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @JsonIgnore @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
         @JsonIgnore @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = SimpleBooleanProperty(basicRecovery)
@@ -238,7 +263,8 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = SimpleIntegerProperty(paranoia)
         @JsonIgnore @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = SimpleIntegerProperty(sleepModifier)*/
 
-        @get:JsonProperty var program by programProperty
+        @get:JsonProperty
+        var program by programProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @get:JsonProperty var recoveryMethod by recoveryMethodProperty
         @get:JsonProperty var basicRecovery by basicRecoveryProperty
@@ -253,13 +279,22 @@ class KancolleAutoProfile(
             startTime: String = "0030",
             length: Double = 3.5
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "StartTime") val startTimeProperty = SimpleStringProperty(startTime)
-        @JsonIgnore @IniConfig(key = "SleepLength") val lengthProperty = SimpleDoubleProperty(length)
+        @JsonIgnore
+        @IniConfig(key = "Enabled")
+        val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore
+        @IniConfig(key = "StartTime")
+        val startTimeProperty = SimpleStringProperty(startTime)
+        @JsonIgnore
+        @IniConfig(key = "SleepLength")
+        val lengthProperty = SimpleDoubleProperty(length)
 
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var startTime by startTimeProperty
-        @get:JsonProperty var length by lengthProperty
+        @get:JsonProperty
+        var enabled by enabledProperty
+        @get:JsonProperty
+        var startTime by startTimeProperty
+        @get:JsonProperty
+        var length by lengthProperty
     }
 
     /* TODO Disabled temporarily till kcauto-kai is finalized
@@ -283,15 +318,27 @@ class KancolleAutoProfile(
             fleet3: List<String> = listOf("5"),
             fleet4: List<String> = listOf("21")
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "Fleet2") val fleet2Property = SimpleListProperty(FXCollections.observableList(fleet2))
-        @JsonIgnore @IniConfig(key = "Fleet3") val fleet3Property = SimpleListProperty(FXCollections.observableList(fleet3))
-        @JsonIgnore @IniConfig(key = "Fleet4") val fleet4Property = SimpleListProperty(FXCollections.observableList(fleet4))
+        @JsonIgnore
+        @IniConfig(key = "Enabled")
+        val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore
+        @IniConfig(key = "Fleet2")
+        val fleet2Property = SimpleListProperty(FXCollections.observableList(fleet2))
+        @JsonIgnore
+        @IniConfig(key = "Fleet3")
+        val fleet3Property = SimpleListProperty(FXCollections.observableList(fleet3))
+        @JsonIgnore
+        @IniConfig(key = "Fleet4")
+        val fleet4Property = SimpleListProperty(FXCollections.observableList(fleet4))
 
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var fleet2 by fleet2Property
-        @get:JsonProperty var fleet3 by fleet3Property
-        @get:JsonProperty var fleet4 by fleet4Property
+        @get:JsonProperty
+        var enabled by enabledProperty
+        @get:JsonProperty
+        var fleet2 by fleet2Property
+        @get:JsonProperty
+        var fleet3 by fleet3Property
+        @get:JsonProperty
+        var fleet4 by fleet4Property
     }
 
     class Pvp(
@@ -299,11 +346,14 @@ class KancolleAutoProfile(
             /* TODO Disabled temporarily till kcauto-kai is finalized
             fleetComp: Int = 1*/
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore
+        @IniConfig(key = "Enabled")
+        val enabledProperty = SimpleBooleanProperty(enabled)
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)*/
 
-        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty
+        var enabled by enabledProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @get:JsonProperty var fleetComp by fleetCompProperty*/
     }
@@ -317,48 +367,72 @@ class KancolleAutoProfile(
             nodeSelects: List<String> = emptyList(),
             formations: List<String> = emptyList(),
             nightBattles: List<String> = emptyList(),
-
-            retreatLimit: Int = 2,
-            repairLimit: Int = 1,
+            retreatLimit: DamageLevel = DamageLevel.CRITICAL,
+            repairLimit: DamageLevel = DamageLevel.MODERATE,
             repairTimeLimit: String = "0030",
-            reserveDocks: Boolean = false,
-            checkFatigue: Boolean = false,
-            portCheck: Boolean = false,
-            medalStop: Boolean = false
+            miscOptions: Set<SortieOptions> = emptySet()
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "Engine") val engineProperty = SimpleObjectProperty(engine)
-        @JsonIgnore @IniConfig(key = "Map") val mapProperty = SimpleStringProperty(map)
-        @JsonIgnore @IniConfig(key = "CombatNodes") val nodesProperty = SimpleIntegerProperty(nodes)
-        @JsonIgnore @IniConfig(key = "FleetMode") val fleetModeProperty = SimpleObjectProperty(fleetMode)
-        @JsonIgnore @IniConfig(key = "NodeSelects") val nodeSelectsProperty = SimpleListProperty(FXCollections.observableList(nodeSelects))
-        @JsonIgnore @IniConfig(key = "Formations") val formationsProperty = SimpleListProperty(FXCollections.observableList(formations))
-        @JsonIgnore @IniConfig(key = "NightBattles") val nightBattlesProperty = SimpleListProperty(FXCollections.observableList(nightBattles))
+        @JsonIgnore
+        @IniConfig(key = "Enabled")
+        val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore
+        @IniConfig(key = "Engine")
+        val engineProperty = SimpleObjectProperty(engine)
+        @JsonIgnore
+        @IniConfig(key = "Map")
+        val mapProperty = SimpleStringProperty(map)
+        @JsonIgnore
+        @IniConfig(key = "CombatNodes")
+        val nodesProperty = SimpleIntegerProperty(nodes)
+        @JsonIgnore
+        @IniConfig(key = "FleetMode")
+        val fleetModeProperty = SimpleObjectProperty(fleetMode)
+        @JsonIgnore
+        @IniConfig(key = "NodeSelects")
+        val nodeSelectsProperty = SimpleListProperty(FXCollections.observableList(nodeSelects))
+        @JsonIgnore
+        @IniConfig(key = "Formations")
+        val formationsProperty = SimpleListProperty(FXCollections.observableList(formations))
+        @JsonIgnore
+        @IniConfig(key = "NightBattles")
+        val nightBattlesProperty = SimpleListProperty(FXCollections.observableList(nightBattles))
+        @JsonIgnore
+        @IniConfig(key = "RetreatLimit")
+        val retreatLimitProperty = SimpleObjectProperty(retreatLimit)
+        @JsonIgnore
+        @IniConfig(key = "RepairLimit")
+        val repairLimitProperty = SimpleObjectProperty(repairLimit)
+        @JsonIgnore
+        @IniConfig(key = "RepairTimeLimit")
+        val repairTimeLimitProperty = SimpleStringProperty(repairTimeLimit)
+        @JsonIgnore
+        @IniConfig(key = "MiscOptions")
+        val miscOptionsProperty = SimpleSetProperty(FXCollections.observableSet(miscOptions))
 
-        @JsonIgnore @IniConfig(key = "RetreatLimit") val retreatLimitProperty = SimpleIntegerProperty(retreatLimit)
-        @JsonIgnore @IniConfig(key = "RepairLimit") val repairLimitProperty = SimpleIntegerProperty(repairLimit)
-        @JsonIgnore @IniConfig(key = "RepairTimeLimit") val repairTimeLimitProperty = SimpleStringProperty(repairTimeLimit)
-        @JsonIgnore @IniConfig(key = "ReserveDocks") val reserveDocksProperty = SimpleBooleanProperty(reserveDocks)
-        @JsonIgnore @IniConfig(key = "CheckFatigue") val checkFatigueProperty = SimpleBooleanProperty(checkFatigue)
-        @JsonIgnore @IniConfig(key = "PortCheck") val portCheckProperty = SimpleBooleanProperty(portCheck)
-        @JsonIgnore @IniConfig(key = "MedalStop") val medalStopProperty = SimpleBooleanProperty(medalStop)
-
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var engine by engineProperty
-        @get:JsonProperty var map by mapProperty
-        @get:JsonProperty var nodes by nodesProperty
-        @get:JsonProperty var fleetMode by fleetModeProperty
-        @get:JsonProperty var nodeSelects by nodeSelectsProperty
-        @get:JsonProperty var formations by formationsProperty
-        @get:JsonProperty var nightBattles by nightBattlesProperty
-
-        @get:JsonProperty var retreatLimit by retreatLimitProperty
-        @get:JsonProperty var repairLimit by repairLimitProperty
-        @get:JsonProperty var repairTimeLimit by repairTimeLimitProperty
-        @get:JsonProperty var reserveDocks by reserveDocksProperty
-        @get:JsonProperty var checkFatigue by checkFatigueProperty
-        @get:JsonProperty var portCheck by portCheckProperty
-        @get:JsonProperty var medalStop by medalStopProperty
+        @get:JsonProperty
+        var enabled by enabledProperty
+        @get:JsonProperty
+        var engine by engineProperty
+        @get:JsonProperty
+        var map by mapProperty
+        @get:JsonProperty
+        var nodes by nodesProperty
+        @get:JsonProperty
+        var fleetMode by fleetModeProperty
+        @get:JsonProperty
+        var nodeSelects by nodeSelectsProperty
+        @get:JsonProperty
+        var formations by formationsProperty
+        @get:JsonProperty
+        var nightBattles by nightBattlesProperty
+        @get:JsonProperty
+        var retreatLimit by retreatLimitProperty
+        @get:JsonProperty
+        var repairLimit by repairLimitProperty
+        @get:JsonProperty
+        var repairTimeLimit by repairTimeLimitProperty
+        @get:JsonProperty
+        var miscOptions by miscOptionsProperty
     }
 
     class SubmarineSwitch(
@@ -368,17 +442,32 @@ class KancolleAutoProfile(
             fatigueSwitch: Boolean = false,
             useBuckets: Boolean = false
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "EnabledSubs") val enabledSubsProperty = SimpleListProperty(FXCollections.observableArrayList(enabledSubs))
-        @JsonIgnore @IniConfig(key = "ReplaceLimit") val replaceLimitProperty = SimpleIntegerProperty(replaceLimit)
-        @JsonIgnore @IniConfig(key = "FatigueSwitch") val fatigueSwitchProperty = SimpleBooleanProperty(fatigueSwitch)
-        @JsonIgnore @IniConfig(key = "UseBuckets") val useBucketsProperty = SimpleBooleanProperty(useBuckets)
+        @JsonIgnore
+        @IniConfig(key = "Enabled")
+        val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore
+        @IniConfig(key = "EnabledSubs")
+        val enabledSubsProperty = SimpleListProperty(FXCollections.observableArrayList(enabledSubs))
+        @JsonIgnore
+        @IniConfig(key = "ReplaceLimit")
+        val replaceLimitProperty = SimpleIntegerProperty(replaceLimit)
+        @JsonIgnore
+        @IniConfig(key = "FatigueSwitch")
+        val fatigueSwitchProperty = SimpleBooleanProperty(fatigueSwitch)
+        @JsonIgnore
+        @IniConfig(key = "UseBuckets")
+        val useBucketsProperty = SimpleBooleanProperty(useBuckets)
 
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var enabledSubs by enabledSubsProperty
-        @get:JsonProperty var replaceLimit by replaceLimitProperty
-        @get:JsonProperty var fatigueSwitch by fatigueSwitchProperty
-        @get:JsonProperty var useBuckets by useBucketsProperty
+        @get:JsonProperty
+        var enabled by enabledProperty
+        @get:JsonProperty
+        var enabledSubs by enabledSubsProperty
+        @get:JsonProperty
+        var replaceLimit by replaceLimitProperty
+        @get:JsonProperty
+        var fatigueSwitch by fatigueSwitchProperty
+        @get:JsonProperty
+        var useBuckets by useBucketsProperty
     }
 
     class Lbas(
@@ -388,17 +477,32 @@ class KancolleAutoProfile(
             group2Nodes: List<String> = emptyList(),
             group3Nodes: List<String> = emptyList()
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "EnabledGroups") val enabledGroupsProperty = SimpleSetProperty(FXCollections.observableSet(enabledGroups))
-        @JsonIgnore @IniConfig(key = "Group1Nodes") val group1NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group1Nodes))
-        @JsonIgnore @IniConfig(key = "Group2Nodes") val group2NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group2Nodes))
-        @JsonIgnore @IniConfig(key = "Group3Nodes") val group3NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group3Nodes))
+        @JsonIgnore
+        @IniConfig(key = "Enabled")
+        val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore
+        @IniConfig(key = "EnabledGroups")
+        val enabledGroupsProperty = SimpleSetProperty(FXCollections.observableSet(enabledGroups))
+        @JsonIgnore
+        @IniConfig(key = "Group1Nodes")
+        val group1NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group1Nodes))
+        @JsonIgnore
+        @IniConfig(key = "Group2Nodes")
+        val group2NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group2Nodes))
+        @JsonIgnore
+        @IniConfig(key = "Group3Nodes")
+        val group3NodesProperty = SimpleListProperty(FXCollections.observableArrayList(group3Nodes))
 
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var enabledGroups by enabledGroupsProperty
-        @get:JsonProperty var group1Nodes by group1NodesProperty
-        @get:JsonProperty var group2Nodes by group2NodesProperty
-        @get:JsonProperty var group3Nodes by group3NodesProperty
+        @get:JsonProperty
+        var enabled by enabledProperty
+        @get:JsonProperty
+        var enabledGroups by enabledGroupsProperty
+        @get:JsonProperty
+        var group1Nodes by group1NodesProperty
+        @get:JsonProperty
+        var group2Nodes by group2NodesProperty
+        @get:JsonProperty
+        var group3Nodes by group3NodesProperty
     }
 
     class Quests(
@@ -407,12 +511,15 @@ class KancolleAutoProfile(
             quests: List<String> = listOf("bd1", "bd2", "bd3", "bd4", "bd5", "bd6", "bd7", "bd8", "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "bw7", "bw8", "bw9", "bw10", "c2", "c3", "c4", "c8", "d2", "d3", "d4", "d9", "d11", "e3", "e4"),
             checkSchedule: Int = 5*/
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
+        @JsonIgnore
+        @IniConfig(key = "Enabled")
+        val enabledProperty = SimpleBooleanProperty(enabled)
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @JsonIgnore @IniConfig(key = "Quests") val questsProperty = SimpleListProperty(FXCollections.observableArrayList(quests))
         @JsonIgnore @IniConfig(key = "CheckSchedule") val checkScheduleProperty = SimpleIntegerProperty(checkSchedule)*/
 
-        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty
+        var enabled by enabledProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @get:JsonProperty var quests by questsProperty
         @get:JsonProperty var checkSchedule by checkScheduleProperty*/

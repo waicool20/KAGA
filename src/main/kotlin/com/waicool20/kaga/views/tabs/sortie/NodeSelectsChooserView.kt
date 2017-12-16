@@ -31,7 +31,6 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.ComboBoxTableCell
-import tornadofx.*
 
 data class NodeSelect(val source: SimpleStringProperty, val destination: SimpleStringProperty) {
     fun isValid() = source.isNotNull.value && destination.isNotNull.value
@@ -72,7 +71,7 @@ class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = t
     }
 
     override fun onAddButton() {
-        if (tableView().items.last().isValid()) {
+        if (tableView().items.let { it.isEmpty() || it.last().isValid() }) {
             tableView().items.add(NodeSelect(SimpleStringProperty(), SimpleStringProperty()))
         }
     }

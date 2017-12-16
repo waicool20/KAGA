@@ -49,13 +49,11 @@ class SortieTabView {
     @FXML private lateinit var mapComboBox: ComboBox<String>
     @FXML private lateinit var nodesSpinner: Spinner<Int>
     @FXML private lateinit var fleetModeComboBox: ComboBox<KancolleAutoProfile.FleetMode>
-
-
-    @FXML private lateinit var retreatLimitComboBox: ComboBox<Int>
-    @FXML private lateinit var repairLimitComboBox: ComboBox<Int>
-    @FXML private lateinit var reserveDocksCheckBox: CheckBox
+    @FXML private lateinit var retreatLimitComboBox: ComboBox<KancolleAutoProfile.DamageLevel>
+    @FXML private lateinit var repairLimitComboBox: ComboBox<KancolleAutoProfile.DamageLevel>
     @FXML private lateinit var repairTimeHourSpinner: Spinner<Int>
     @FXML private lateinit var repairTimeMinSpinner: Spinner<Int>
+    @FXML private lateinit var reserveDocksCheckBox: CheckBox
     @FXML private lateinit var checkFatigueCheckBox: CheckBox
     @FXML private lateinit var checkPortCheckBox: CheckBox
     @FXML private lateinit var medalStopCheckBox: CheckBox
@@ -107,15 +105,12 @@ class SortieTabView {
         fleetModeComboBox.converter = fleetModeConverter
         fleetModeComboBox.items.setAll(KancolleAutoProfile.FleetMode.values().toList())
 
-
-        val damageLevels = listOf("Light damage", "Moderate damage", "Critical damage", "Null")
-        val damageConverter = object : StringConverter<Int>() {
-            override fun toString(int: Int?): String = damageLevels[int ?: 3]
-
-            override fun fromString(string: String?): Int = damageLevels.indexOf(string)
+        val damageConverter = object : StringConverter<KancolleAutoProfile.DamageLevel>() {
+            override fun toString(level: KancolleAutoProfile.DamageLevel?) = level?.prettyString ?: ""
+            override fun fromString(string: String?)= KancolleAutoProfile.DamageLevel.fromPrettyString(string ?: "")
         }
-        retreatLimitComboBox.items.setAll((0..2).toList())
-        repairLimitComboBox.items.setAll((0..2).toList())
+        retreatLimitComboBox.items.setAll(KancolleAutoProfile.DamageLevel.values().toList())
+        repairLimitComboBox.items.setAll(KancolleAutoProfile.DamageLevel.values().toList())
         retreatLimitComboBox.converter = damageConverter
         repairLimitComboBox.converter = damageConverter
 
@@ -124,6 +119,13 @@ class SortieTabView {
         with(String.format("%04d", Kaga.PROFILE.sortie.repairTimeLimit.toInt())) {
             repairTimeHourSpinner.valueFactory.value = substring(0, 2).toInt()
             repairTimeMinSpinner.valueFactory.value = substring(2, 4).toInt()
+        }
+
+        with(Kaga.PROFILE.sortie.miscOptions) {
+            reserveDocksCheckBox.isSelected = contains(KancolleAutoProfile.SortieOptions.RESERVE_DOCKS)
+            checkFatigueCheckBox.isSelected = contains(KancolleAutoProfile.SortieOptions.CHECK_FATIGUE)
+            checkPortCheckBox.isSelected = contains(KancolleAutoProfile.SortieOptions.PORT_CHECK)
+            medalStopCheckBox.isSelected = contains(KancolleAutoProfile.SortieOptions.MEDAL_STOP)
         }
     }
 
@@ -136,15 +138,27 @@ class SortieTabView {
             fleetModeComboBox.bind(fleetModeProperty)
 
             retreatLimitComboBox.bind(retreatLimitProperty)
-            reserveDocksCheckBox.bind(reserveDocksProperty)
             repairLimitComboBox.bind(repairLimitProperty)
             val binding = Bindings.concat(repairTimeHourSpinner.valueProperty().asString("%02d"),
                     repairTimeMinSpinner.valueProperty().asString("%02d"))
             repairTimeLimitProperty.bind(binding)
-            checkFatigueCheckBox.bind(checkFatigueProperty)
-            checkPortCheckBox.bind(portCheckProperty)
-            medalStopCheckBox.bind(medalStopProperty)
         }
+
+        with(Kaga.PROFILE.sortie.miscOptions) {
+            reserveDocksCheckBox.selectedProperty().addListener { _, _, newVal ->
+                if (newVal) add(KancolleAutoProfile.SortieOptions.RESERVE_DOCKS) else remove(KancolleAutoProfile.SortieOptions.RESERVE_DOCKS)
+            }
+            checkFatigueCheckBox.selectedProperty().addListener { _, _, newVal ->
+                if (newVal) add(KancolleAutoProfile.SortieOptions.CHECK_FATIGUE) else remove(KancolleAutoProfile.SortieOptions.CHECK_FATIGUE)
+            }
+            checkPortCheckBox.selectedProperty().addListener { _, _, newVal ->
+                if (newVal) add(KancolleAutoProfile.SortieOptions.PORT_CHECK) else remove(KancolleAutoProfile.SortieOptions.PORT_CHECK)
+            }
+            medalStopCheckBox.selectedProperty().addListener { _, _, newVal ->
+                if (newVal) add(KancolleAutoProfile.SortieOptions.MEDAL_STOP) else remove(KancolleAutoProfile.SortieOptions.MEDAL_STOP)
+            }
+        }
+
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 

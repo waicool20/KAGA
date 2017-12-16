@@ -32,7 +32,6 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.CheckBoxTableCell
 import javafx.scene.control.cell.ComboBoxTableCell
-import tornadofx.*
 
 data class NightBattleEntry(val node: SimpleStringProperty, val nightBattle: SimpleBooleanProperty) {
     fun isValid() = node.isNotNull.value
@@ -71,7 +70,7 @@ class NightBattlesChooserView : SingleListView<NightBattleEntry>(showControlButt
     }
 
     override fun onAddButton() {
-        if (tableView().items.last().isValid()) {
+        if (tableView().items.let { it.isEmpty() || it.last().isValid() }) {
             tableView().items.add(NightBattleEntry(SimpleStringProperty(), SimpleBooleanProperty()))
         }
     }

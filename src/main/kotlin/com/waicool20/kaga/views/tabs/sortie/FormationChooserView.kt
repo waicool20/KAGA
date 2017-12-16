@@ -34,7 +34,6 @@ import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.ComboBoxTableCell
 import javafx.util.StringConverter
-import tornadofx.*
 
 data class FormationEntry(val node: SimpleStringProperty, val formation: SimpleObjectProperty<CombatFormation>) {
     fun isValid() = node.isNotNull.value && formation.isNotNull.value
@@ -79,7 +78,7 @@ class FormationChooserView : SingleListView<FormationEntry>(showControlButtons =
     }
 
     override fun onAddButton() {
-        if (tableView().items.last().isValid()) {
+        if (tableView().items.let { it.isEmpty() || it.last().isValid() }) {
             tableView().items.add(FormationEntry(SimpleStringProperty(), SimpleObjectProperty()))
         }
     }
