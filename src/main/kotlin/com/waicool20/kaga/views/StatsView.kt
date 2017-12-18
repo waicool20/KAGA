@@ -22,8 +22,10 @@ package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
 import javafx.application.Platform
+import javafx.beans.value.ChangeListener
 import javafx.scene.control.Label
-import javafx.scene.layout.GridPane
+import javafx.scene.control.TitledPane
+import javafx.scene.layout.VBox
 import tornadofx.*
 import java.text.DecimalFormat
 import java.time.Duration
@@ -33,18 +35,36 @@ import kotlin.concurrent.fixedRateTimer
 
 
 class StatsView : View() {
-    override val root: GridPane by fxml("/views/stats.fxml", hasControllerAttribute = true)
+    override val root: VBox by fxml("/views/stats.fxml", hasControllerAttribute = true)
     private val startingTimeLabel: Label by fxid()
     private val timeElapsedLabel: Label by fxid()
-    private val sortiesConductedLabel: Label by fxid()
+
+    private val sortiesTitledPane: TitledPane by fxid()
+    private val sortiesDoneLabel: Label by fxid()
+    private val sortiesAttemptedLabel: Label by fxid()
     private val sortiesPerHourLabel: Label by fxid()
-    private val expeditionsConductedLabel: Label by fxid()
+
     private val pvpsConductedLabel: Label by fxid()
+
+    private val expeditionsTitledPane: TitledPane by fxid()
+    private val expeditionsSentLabel: Label by fxid()
+    private val expeditionsReceivedLabel: Label by fxid()
+
+    private val miscTitledPane: TitledPane by fxid()
+    private val resuppliesLabel: Label by fxid()
+    private val repairsLabel: Label by fxid()
     private val bucketsUsedLabel: Label by fxid()
     private val submarinesSwitchedLabel: Label by fxid()
     private val crashesLabel: Label by fxid()
 
     init {
+        val listener = ChangeListener<Number> { _, _, newVal ->
+            if (newVal.toInt() % 4 == 0) currentStage?.sizeToScene()
+        }
+        sortiesTitledPane.heightProperty().addListener(listener)
+        expeditionsTitledPane.heightProperty().addListener(listener)
+        miscTitledPane.heightProperty().addListener(listener)
+
         fixedRateTimer(period = 1000L) {
             if (Kaga.KCAUTO_KAI.isRunning()) {
                 Platform.runLater { updateStats() }
@@ -55,10 +75,18 @@ class StatsView : View() {
     private fun updateStats() = Kaga.KCAUTO_KAI.statsTracker.run {
         timeElapsedLabel.text = elapsedTimeSince(startingTime)
         startingTimeLabel.text = startingTime?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
-        sortiesConductedLabel.text = sortiesConductedTotal().toString()
-        sortiesPerHourLabel.text = formatDecimal(sortiesConductedTotal() / hoursSince(startingTime))
-        expeditionsConductedLabel.text = expeditionsConductedTotal().toString()
-        pvpsConductedLabel.text = pvpsConductedTotal().toString()
+
+        sortiesDoneLabel.text = sortiesDoneTotal().toString()
+        sortiesAttemptedLabel.text = sortiesAttemptedTotal().toString()
+        sortiesPerHourLabel.text = formatDecimal(sortiesDoneTotal() / hoursSince(startingTime))
+
+        expeditionsSentLabel.text = expeditionsSentTotal().toString()
+        expeditionsReceivedLabel.text = expeditionsReceivedTotal().toString()
+
+        pvpsConductedLabel.text = pvpsDoneTotal().toString()
+
+        repairsLabel.text = repairsTotal().toString()
+        resuppliesLabel.text = resuppliesTotal().toString()
         bucketsUsedLabel.text = bucketsUsedTotal().toString()
         submarinesSwitchedLabel.text = submarinesSwitchedTotal().toString()
         crashesLabel.text = crashes.toString()

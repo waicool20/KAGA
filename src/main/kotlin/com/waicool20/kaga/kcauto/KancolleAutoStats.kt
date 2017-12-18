@@ -34,23 +34,33 @@ class KancolleAutoStatsTracker {
             // TODO Add attempted sorties stat
             // Track sorties conducted
             subscribe(".*Combat done: (\\d+) / attempted: (\\d+).*".toRegex()) {
-                currentStats().sortiesConducted = it.groupValues[1].toInt()
+                currentStats().apply {
+                    sortiesDone = it.groupValues[1].toInt()
+                    sortiesAttempted = it.groupValues[2].toInt()
+                }
             }
 
             // TODO Add sent expeditions stat
             // Track expeditions conducted
             subscribe(".*Expeditions sent: (\\d+) / received: (\\d+).*".toRegex()) {
-                currentStats().expeditionsConducted = it.groupValues[2].toInt()
+                currentStats().apply {
+                    expeditionsSent = it.groupValues[1].toInt()
+                    expeditionsReceived = it.groupValues[2].toInt()
+                }
             }
 
             // Track pvp conducted
             subscribe(".*PvPs done: (\\d+).*".toRegex()) {
-                currentStats().pvpsConducted = it.groupValues[1].toInt()
+                currentStats().pvpsDone = it.groupValues[1].toInt()
             }
 
             // Track buckets used
             subscribe(".*Resupplies: (\\d+) \\|\\| Repairs: (\\d+) \\|\\| Buckets: (\\d+).*".toRegex()) {
-                currentStats().bucketsUsed = it.groupValues[3].toInt()
+                currentStats().apply {
+                    resupplies = it.groupValues[1].toInt()
+                    repairs = it.groupValues[2].toInt()
+                    bucketsUsed = it.groupValues[3].toInt()
+                }
             }
 
             // Track submarines switched
@@ -82,23 +92,35 @@ class KancolleAutoStatsTracker {
 
     fun trackNewChild() = history.add(KancolleAutoStats())
 
-    fun sortiesConductedTotal() = history.map { it.sortiesConducted }.sum()
+    fun sortiesDoneTotal() = history.sumBy { it.sortiesDone }
 
-    fun expeditionsConductedTotal() = history.map { it.expeditionsConducted }.sum()
+    fun sortiesAttemptedTotal() = history.sumBy { it.sortiesAttempted }
 
-    fun pvpsConductedTotal() = history.map { it.pvpsConducted }.sum()
+    fun expeditionsSentTotal() = history.sumBy { it.expeditionsSent }
 
-    fun bucketsUsedTotal() = history.map { it.bucketsUsed }.sum()
+    fun expeditionsReceivedTotal() = history.sumBy { it.expeditionsReceived }
 
-    fun submarinesSwitchedTotal() = history.map { it.submarinesSwitched }.sum()
+    fun pvpsDoneTotal() = history.sumBy { it.pvpsDone }
+
+    fun resuppliesTotal() = history.sumBy { it.resupplies }
+
+    fun repairsTotal() = history.sumBy { it.repairs }
+
+    fun bucketsUsedTotal() = history.sumBy { it.bucketsUsed }
+
+    fun submarinesSwitchedTotal() = history.sumBy { it.submarinesSwitched }
 
     private fun currentStats() = history.last()
 }
 
 data class KancolleAutoStats(
-        var sortiesConducted: Int = 0,
-        var expeditionsConducted: Int = 0,
-        var pvpsConducted: Int = 0,
+        var sortiesDone: Int = 0,
+        var sortiesAttempted: Int = 0,
+        var expeditionsSent: Int = 0,
+        var expeditionsReceived: Int = 0,
+        var pvpsDone: Int = 0,
+        var resupplies: Int = 0,
+        var repairs: Int = 0,
         var bucketsUsed: Int = 0,
         var submarinesSwitched: Int = 0
 )
