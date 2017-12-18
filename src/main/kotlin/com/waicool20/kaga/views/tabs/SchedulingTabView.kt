@@ -21,62 +21,61 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.config.KancolleAutoProfile
-import com.waicool20.kaga.util.asTimeSpinner
-import com.waicool20.kaga.util.bind
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
-import javafx.scene.control.ChoiceBox
-import javafx.scene.control.Spinner
-import javafx.scene.control.SpinnerValueFactory
-import javafx.scene.layout.GridPane
-import tornadofx.*
-import java.util.concurrent.TimeUnit
+import javafx.scene.control.Label
+import javafx.scene.layout.VBox
+import org.controlsfx.control.RangeSlider
+import java.time.LocalTime
+import kotlin.math.roundToInt
 
 
 class SchedulingTabView {
     @FXML private lateinit var enableSleepButton: CheckBox
-    @FXML private lateinit var startTimeHourSpinner: Spinner<Int>
-    @FXML private lateinit var startTimeMinSpinner: Spinner<Int>
-    @FXML private lateinit var sleepLengthSpinner: Spinner<Double>
+    @FXML private lateinit var sleepRangeSlider: RangeSlider
+    @FXML private lateinit var sleepTimeLabel: Label
 
     /* TODO Disabled temporarily till kcauto-kai is finalized
     @FXML private lateinit var enableAutoStopButton: CheckBox
     @FXML private lateinit var modeChoiceBox: ChoiceBox<KancolleAutoProfile.ScheduledStopMode>
     @FXML private lateinit var countSpinner: Spinner<Int>*/
 
-    @FXML private lateinit var sleepContent: GridPane
+    @FXML private lateinit var sleepContent: VBox
     /* TODO Disabled temporarily till kcauto-kai is finalized
     @FXML private lateinit var stopContent: GridPane*/
 
-    @FXML fun initialize() {
+    @FXML
+    fun initialize() {
         setValues()
         createBindings()
     }
 
 
     private fun setValues() {
-        startTimeHourSpinner.asTimeSpinner(TimeUnit.HOURS)
-        startTimeMinSpinner.asTimeSpinner(TimeUnit.MINUTES)
-        with(String.format("%04d", Kaga.PROFILE.scheduledSleep.startTime.toInt())) {
-            startTimeHourSpinner.valueFactory.value = this.substring(0, 2).toInt()
-            startTimeMinSpinner.valueFactory.value = this.substring(2, 4).toInt()
+        with(Kaga.PROFILE.scheduledSleep) {
+            val sTime = String.format("%04d", startTime.toInt()).let { LocalTime.of(it.substring(0, 2).toInt(), it.substring(2, 4).toInt()) }
+            val endTime = sTime.plusMinutes((length * 60).toLong())
+            sleepRangeSlider.lowValue = sTime.hour + (sTime.minute / 60.0)
+            sleepRangeSlider.highValue = endTime.hour + (endTime.minute / 60.0)
+            updateSleepTime()
         }
-        sleepLengthSpinner.valueFactory = SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, java.lang.Double.MAX_VALUE, 0.0, 0.1)
+
         /* TODO Disabled temporarily till kcauto-kai is finalized
         modeChoiceBox.items.setAll(*KancolleAutoProfile.ScheduledStopMode.values())
         countSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE)*/
     }
 
     private fun createBindings() {
-        with(Kaga.PROFILE.scheduledSleep) {
+        sleepRangeSlider.lowValueProperty().addListener { _ -> updateSleepTime() }
+        sleepRangeSlider.highValueProperty().addListener { _ -> updateSleepTime() }
+/*        with(Kaga.PROFILE.scheduledSleep) {
             enableSleepButton.bind(enabledProperty)
             val binding = Bindings.concat(startTimeHourSpinner.valueProperty().asString("%02d"),
                     startTimeMinSpinner.valueProperty().asString("%02d"))
             startTimeProperty.bind(binding)
             sleepLengthSpinner.bind(lengthProperty)
-        }
+        }*/
         /* TODO Disabled temporarily till kcauto-kai is finalized
         with(Kaga.PROFILE.scheduledStop) {
             enableAutoStopButton.bind(enabledProperty)
@@ -87,4 +86,25 @@ class SchedulingTabView {
         /* TODO Disabled temporarily till kcauto-kai is finalized
         stopContent.disableProperty().bind(Bindings.not(enableAutoStopButton.selectedProperty()))*/
     }
+
+    private fun updateSleepTime() {
+        with(sleepRangeSlider) {
+            val startHour = lowValue.toInt()
+            val startMinute = ((lowValue - startHour) * 60).toInt()
+            val sTime = formatTime(startHour, startMinute)
+
+            val endHour = highValue.toInt()
+            val endMinute = ((highValue - endHour) * 60).toInt()
+            val endTime = formatTime(endHour, endMinute)
+
+            sleepTimeLabel.text = "$sTime - $endTime"
+
+            with(Kaga.PROFILE.scheduledSleep) {
+                startTime = sTime.replace(":", "")
+                length = ((highValue - lowValue) * 100).roundToInt() / 100.0
+            }
+        }
+    }
+
+    private fun formatTime(hour: Int, minute: Int) = String.format("%02d:%02d", hour, minute)
 }
