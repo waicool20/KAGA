@@ -61,6 +61,7 @@ class KancolleAutoKai {
         )
         val lockPreventer = if (Kaga.CONFIG.preventLock) LockPreventer() else null
         statsTracker.startNewSession()
+        shouldStop = false
         KCAutoLoop@ while (true) {
             if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
             logger.info("Starting new Kancolle Auto session (Version: $version)")
