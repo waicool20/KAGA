@@ -27,6 +27,7 @@ import javafx.scene.control.CheckBox
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import org.controlsfx.control.RangeSlider
+import tornadofx.*
 import java.time.LocalTime
 import kotlin.math.roundToInt
 
@@ -67,6 +68,7 @@ class SchedulingTabView {
     }
 
     private fun createBindings() {
+        enableSleepButton.selectedProperty().bindBidirectional(Kaga.PROFILE.scheduledSleep.enabledProperty)
         sleepRangeSlider.lowValueProperty().addListener { _ -> updateSleepTime() }
         sleepRangeSlider.highValueProperty().addListener { _ -> updateSleepTime() }
 /*        with(Kaga.PROFILE.scheduledSleep) {
@@ -99,7 +101,7 @@ class SchedulingTabView {
 
             sleepTimeLabel.text = "$sTime - $endTime"
 
-            with(Kaga.PROFILE.scheduledSleep) {
+            with(Kaga.PROFILE.scheduledSleep){
                 startTime = sTime.replace(":", "")
                 length = ((highValue - lowValue) * 100).roundToInt() / 100.0
             }
