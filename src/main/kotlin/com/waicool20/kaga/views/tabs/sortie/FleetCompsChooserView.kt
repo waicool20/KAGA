@@ -29,7 +29,7 @@ import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.CheckBoxTableCell
-/*
+/* TODO Disabled temporarily till kcauto-kai is finalized
 data class FleetComp(val number: Int) {
     val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE.sortie.fleetComps.contains(number))
 }

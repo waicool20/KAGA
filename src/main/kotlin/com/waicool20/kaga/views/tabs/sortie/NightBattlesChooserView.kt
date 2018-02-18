@@ -81,6 +81,6 @@ class NightBattlesChooserView : SingleListView<NightBattleEntry>(showControlButt
                 .let {
                     Kaga.PROFILE.sortie.nightBattles.setAll(it)
                 }
-        close()
+        closeWindow()
     }
 }

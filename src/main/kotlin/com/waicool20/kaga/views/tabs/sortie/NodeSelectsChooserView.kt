@@ -82,6 +82,6 @@ class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = t
                 .let {
                     Kaga.PROFILE.sortie.nodeSelects.setAll(it)
                 }
-        close()
+        closeWindow()
     }
 }

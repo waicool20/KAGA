@@ -89,6 +89,6 @@ class FormationChooserView : SingleListView<FormationEntry>(showControlButtons =
                 .let {
                     Kaga.PROFILE.sortie.formations.setAll(it)
                 }
-        close()
+        closeWindow()
     }
 }

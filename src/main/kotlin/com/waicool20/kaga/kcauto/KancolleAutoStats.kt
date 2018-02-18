@@ -31,7 +31,6 @@ class KancolleAutoStatsTracker {
 
     init {
         with(LoggingEventBus) {
-            // TODO Add attempted sorties stat
             // Track sorties conducted
             subscribe(".*Combat done: (\\d+) / attempted: (\\d+).*".toRegex()) {
                 currentStats().apply {
@@ -40,7 +39,6 @@ class KancolleAutoStatsTracker {
                 }
             }
 
-            // TODO Add sent expeditions stat
             // Track expeditions conducted
             subscribe(".*Expeditions sent: (\\d+) / received: (\\d+).*".toRegex()) {
                 currentStats().apply {
