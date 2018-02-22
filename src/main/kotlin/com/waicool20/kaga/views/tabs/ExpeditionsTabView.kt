@@ -51,15 +51,14 @@ class ExpeditionsTabView {
     }
 
     private fun setValues() {
-        with(specialExpediions.keys.toMutableList()) {
-            addAll(0, (1..41).map(Int::toString))
-            fleet2CheckComboBox.items.addAll(this)
-            fleet3CheckComboBox.items.addAll(this)
-            fleet4CheckComboBox.items.addAll(this)
+        (1..41).map(Int::toString).plus(specialExpediions.keys).let {
+            fleet2CheckComboBox.items.addAll(it)
+            fleet3CheckComboBox.items.addAll(it)
+            fleet4CheckComboBox.items.addAll(it)
         }
         val converter = object : StringConverter<String>() {
             override fun toString(string: String?): String {
-                return specialExpediions.getOrElse(string ?: "", { string ?: "" })
+                return specialExpediions.getOrElse(string ?: "") { string ?: "" }
             }
 
             override fun fromString(string: String?): String = ""
