@@ -49,8 +49,7 @@ class KancolleAutoProfile(
         val expeditions: Expeditions = Expeditions(),
         val pvp: Pvp = Pvp(),
         val sortie: Sortie = Sortie(),
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        val submarineSwitch: SubmarineSwitch = SubmarineSwitch()*/
+        val shipSwitcher: ShipSwitcher = ShipSwitcher(),
         val quests: Quests = Quests()
 ) {
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
@@ -86,8 +85,8 @@ class KancolleAutoProfile(
         add("Expeditions").fromObject(expeditions)
         add("PvP").fromObject(pvp)
         add("Combat").fromObject(sortie)
+        add("ShipSwitcher").fromObject(shipSwitcher)
         /* TODO Disabled temporarily till kcauto-kai is finalized
-        add("SubmarineSwitch").fromObject(submarineSwitch)
         quests.quests.setAll(quests.quests.map(String::toLowerCase))*/
         add("Quests").fromObject(quests)
     }
@@ -136,23 +135,18 @@ class KancolleAutoProfile(
                 }
                 val ini = Wini(path.toFile())
 
-                val general = checkNotNull(ini["General"]?.toObject<General>()) { "Could not parse General section!" }
-                val scheduledSleep = checkNotNull(ini["ScheduledSleep"]?.toObject<ScheduledSleep>()) { "Could not parse ScheduledSleep section!" }
-                /* TODO Disabled temporarily till kcauto-kai is finalized
-                val scheduledStop = checkNotNull(ini["ScheduledStop"]?.toObject<ScheduledStop>()) { "Could not parse ScheduledStop section!" }*/
-                val expeditions = checkNotNull(ini["Expeditions"]?.toObject<Expeditions>()) { "Could not parse Expeditions section!" }
-                val pvp = checkNotNull(ini["PvP"]?.toObject<Pvp>()) { "Could not parse PvP section!" }
-                val sortie = checkNotNull(ini["Combat"]?.toObject<Sortie>()) { "Could not parse Combat section!" }
-                /* TODO Disabled temporarily till kcauto-kai is finalized
-                val submarineSwitch = checkNotNull(ini["SubmarineSwitch"]?.toObject<SubmarineSwitch>()) { "Could not parse SubmarineSwitch section!" } */
-                val quests = checkNotNull(ini["Quests"]?.toObject<Quests>()) { "Could not parse Quests section!" }
-
-                return KancolleAutoProfile(name, general, scheduledSleep,
+                return KancolleAutoProfile(
+                        name,
+                        loadSection(ini),
+                        loadSection(ini),
                         /* TODO Disabled temporarily till kcauto-kai is finalized
                         scheduledStop,*/
-                        expeditions, pvp, sortie,
-                        /* TODO Disabled temporarily till kcauto-kai is finalized
-                        submarineSwitch,*/ quests).apply {
+                        loadSection(ini),
+                        loadSection(ini, "PvP"),
+                        loadSection(ini, "Combat"),
+                        loadSection(ini),
+                        loadSection(ini)
+                ).apply {
                     loaderLogger.info("Loading KancolleAuto profile was successful")
                     loaderLogger.debug("Loaded $this")
                 }
@@ -161,6 +155,13 @@ class KancolleAutoProfile(
                 check(Kaga.CONFIG.isValid())
                 return load()
             }
+        }
+
+        private inline fun <reified T> loadSection(ini: Wini, section: String? = null): T {
+            val name = T::class.simpleName
+            return ini[section ?: name]?.toObject<T>() ?: run {
+                error("Could not parse $name section! Using defaults for it!")
+            }.let { T::class.java.newInstance() }
         }
     }
 
@@ -363,17 +364,17 @@ class KancolleAutoProfile(
             map: String = "1-1",
             nodes: Int = 5,
             fleetMode: FleetMode = FleetMode.STANDARD,
-            nodeSelects: List<String> = emptyList(),
-            formations: List<String> = emptyList(),
-            nightBattles: List<String> = emptyList(),
+            nodeSelects: List<String> = mutableListOf(),
+            formations: List<String> = mutableListOf(),
+            nightBattles: List<String> = mutableListOf(),
             retreatLimit: DamageLevel = DamageLevel.CRITICAL,
             repairLimit: DamageLevel = DamageLevel.MODERATE,
             repairTimeLimit: String = "0030",
-            lbasGroups: Set<String> = emptySet(),
-            lbasGroup1Nodes: List<String> = emptyList(),
-            lbasGroup2Nodes: List<String> = emptyList(),
-            lbasGroup3Nodes: List<String> = emptyList(),
-            miscOptions: Set<SortieOptions> = emptySet()
+            lbasGroups: Set<String> = mutableSetOf(),
+            lbasGroup1Nodes: List<String> = mutableListOf(),
+            lbasGroup2Nodes: List<String> = mutableListOf(),
+            lbasGroup3Nodes: List<String> = mutableListOf(),
+            miscOptions: Set<SortieOptions> = mutableSetOf()
     ) {
         @JsonIgnore
         @IniConfig(key = "Enabled")
@@ -458,39 +459,87 @@ class KancolleAutoProfile(
         var miscOptions by miscOptionsProperty
     }
 
-    class SubmarineSwitch(
+    class ShipSwitcher(
             enabled: Boolean = true,
-            enabledSubs: List<Submarines> = listOf(Submarines.SS),
-            replaceLimit: Int = 0,
-            fatigueSwitch: Boolean = false,
-            useBuckets: Boolean = false
+            slot1Criteria: List<String> = mutableListOf(),
+            slot1Ships: List<String> = mutableListOf(),
+            slot2Criteria: List<String> = mutableListOf(),
+            slot2Ships: List<String> = mutableListOf(),
+            slot3Criteria: List<String> = mutableListOf(),
+            slot3Ships: List<String> = mutableListOf(),
+            slot4Criteria: List<String> = mutableListOf(),
+            slot4Ships: List<String> = mutableListOf(),
+            slot5Criteria: List<String> = mutableListOf(),
+            slot5Ships: List<String> = mutableListOf(),
+            slot6Criteria: List<String> = mutableListOf(),
+            slot6Ships: List<String> = mutableListOf()
     ) {
         @JsonIgnore
-        @IniConfig(key = "Enabled")
+        @IniConfig("Enabled")
         val enabledProperty = SimpleBooleanProperty(enabled)
         @JsonIgnore
-        @IniConfig(key = "EnabledSubs")
-        val enabledSubsProperty = SimpleListProperty(FXCollections.observableArrayList(enabledSubs))
+        @IniConfig("Slot1Criteria")
+        val slot1CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot1Criteria))
         @JsonIgnore
-        @IniConfig(key = "ReplaceLimit")
-        val replaceLimitProperty = SimpleIntegerProperty(replaceLimit)
+        @IniConfig("Slot1Ships")
+        val slot1ShipsProperty = SimpleListProperty(FXCollections.observableList(slot1Ships))
         @JsonIgnore
-        @IniConfig(key = "FatigueSwitch")
-        val fatigueSwitchProperty = SimpleBooleanProperty(fatigueSwitch)
+        @IniConfig("Slot2Criteria")
+        val slot2CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot2Criteria))
         @JsonIgnore
-        @IniConfig(key = "UseBuckets")
-        val useBucketsProperty = SimpleBooleanProperty(useBuckets)
+        @IniConfig("Slot2Ships")
+        val slot2ShipsProperty = SimpleListProperty(FXCollections.observableList(slot2Ships))
+        @JsonIgnore
+        @IniConfig("Slot3Criteria")
+        val slot3CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot3Criteria))
+        @JsonIgnore
+        @IniConfig("Slot3Ships")
+        val slot3ShipsProperty = SimpleListProperty(FXCollections.observableList(slot3Ships))
+        @JsonIgnore
+        @IniConfig("Slot4Criteria")
+        val slot4CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot4Criteria))
+        @JsonIgnore
+        @IniConfig("Slot4Ships")
+        val slot4ShipsProperty = SimpleListProperty(FXCollections.observableList(slot4Ships))
+        @JsonIgnore
+        @IniConfig("Slot5Criteria")
+        val slot5CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot5Criteria))
+        @JsonIgnore
+        @IniConfig("Slot5Ships")
+        val slot5ShipsProperty = SimpleListProperty(FXCollections.observableList(slot5Ships))
+        @JsonIgnore
+        @IniConfig("Slot6Criteria")
+        val slot6CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot6Criteria))
+        @JsonIgnore
+        @IniConfig("Slot6Ships")
+        val slot6ShipsProperty = SimpleListProperty(FXCollections.observableList(slot6Ships))
 
         @get:JsonProperty
         var enabled by enabledProperty
         @get:JsonProperty
-        var enabledSubs by enabledSubsProperty
+        var slot1Criteria by slot1CriteriaProperty
         @get:JsonProperty
-        var replaceLimit by replaceLimitProperty
+        var slot1Ships by slot1ShipsProperty
         @get:JsonProperty
-        var fatigueSwitch by fatigueSwitchProperty
+        var slot2Criteria by slot2CriteriaProperty
         @get:JsonProperty
-        var useBuckets by useBucketsProperty
+        var slot2Ships by slot2CriteriaProperty
+        @get:JsonProperty
+        var slot3Criteria by slot3CriteriaProperty
+        @get:JsonProperty
+        var slot3Ships by slot3CriteriaProperty
+        @get:JsonProperty
+        var slot4Criteria by slot4CriteriaProperty
+        @get:JsonProperty
+        var slot4Ships by slot4CriteriaProperty
+        @get:JsonProperty
+        var slot5Criteria by slot5CriteriaProperty
+        @get:JsonProperty
+        var slot5Ships by slot5CriteriaProperty
+        @get:JsonProperty
+        var slot6Criteria by slot6CriteriaProperty
+        @get:JsonProperty
+        var slot6Ships by slot6CriteriaProperty
     }
 
     class Quests(
@@ -512,7 +561,6 @@ class KancolleAutoProfile(
         @get:JsonProperty var quests by questsProperty
         @get:JsonProperty var checkSchedule by checkScheduleProperty*/
     }
-
 
     override fun toString(): String = jacksonObjectMapper().writeValueAsString(this)
 }
