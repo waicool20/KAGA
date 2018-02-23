@@ -102,45 +102,4 @@ class MiscTabView {
             }
         }
     }
-
-    /* TODO Disabled temporarily till kcauto-kai is finalized
-    @FXML private lateinit var enableSubSwitchButton: CheckBox
-    @FXML private lateinit var configSubSwitchBtn: Button
-    @FXML private lateinit var replaceLimitComboBox: ComboBox<Int>
-    @FXML private lateinit var fatigueSwitchCheckBox: CheckBox
-    @FXML private lateinit var useBucketsCheckBox: CheckBox
-
-    @FXML private lateinit var subSwitchContent: GridPane
-
-    @FXML fun initialize() {
-        setValues()
-        createBindings()
-    }
-
-    private fun setValues() {
-        val damageLevels = listOf("Light damage", "Moderate damage", "Critical damage", "Null")
-        val damageConverter = object : StringConverter<Int>() {
-            override fun toString(int: Int?): String = damageLevels[int ?: 3]
-
-            override fun fromString(string: String?): Int = damageLevels.indexOf(string)
-        }
-        replaceLimitComboBox.items.setAll((0..2).toList())
-        replaceLimitComboBox.converter = damageConverter
-    }
-
-    private fun createBindings() {
-        with(Kaga.PROFILE) {
-            with(submarineSwitch) {
-                enableSubSwitchButton.bind(enabledProperty)
-                replaceLimitComboBox.bind(replaceLimitProperty)
-                fatigueSwitchCheckBox.bind(fatigueSwitchProperty)
-                useBucketsCheckBox.bind(useBucketsProperty)
-            }
-        }
-        subSwitchContent.disableProperty().bind(Bindings.not(enableSubSwitchButton.selectedProperty()))
-    }
-
-    @FXML private fun onConfigureSubSwitchButton() =
-            find(SubSwitchChooserView::class).openModal()
-    */
 }

@@ -137,6 +137,11 @@
                         <fx:include fx:id="questsTab" source="tabs/tab-quests.fxml" />
                     </content>
                 </Tab>
+                <Tab text="ShipSwitcher">
+                    <content>
+                        <fx:include fx:id="shipSwitcherTab" source="tabs/tab-shipswitcher.fxml" />
+                    </content>
+                </Tab>
                 <Tab text="Misc">
                     <content>
                         <fx:include fx:id="miscTab" source="tabs/tab-misc.fxml" />
