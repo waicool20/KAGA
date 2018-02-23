@@ -51,40 +51,26 @@ class ExpeditionsTabView {
     }
 
     private fun setValues() {
-        (1..41).map(Int::toString).plus(specialExpediions.keys).let {
+        (1..41).map(Int::toString).plus(specialExpediions.keys).also {
             fleet2CheckComboBox.items.addAll(it)
             fleet3CheckComboBox.items.addAll(it)
             fleet4CheckComboBox.items.addAll(it)
         }
         val converter = object : StringConverter<String>() {
-            override fun toString(string: String?): String {
-                return specialExpediions.getOrElse(string ?: "") { string ?: "" }
-            }
-
+            override fun toString(expNumber: String) = specialExpediions[expNumber] ?: expNumber
             override fun fromString(string: String?): String = ""
         }
         fleet2CheckComboBox.converter = converter
         fleet3CheckComboBox.converter = converter
         fleet4CheckComboBox.converter = converter
-        with(Kaga.PROFILE.expeditions) {
-            fleet2.forEach { exp -> fleet2CheckComboBox.checkModel.let { if (!it.isChecked(exp)) it.check(exp) } }
-            fleet3.forEach { exp -> fleet3CheckComboBox.checkModel.let { if (!it.isChecked(exp)) it.check(exp) } }
-            fleet4.forEach { exp -> fleet4CheckComboBox.checkModel.let { if (!it.isChecked(exp)) it.check(exp) } }
-        }
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.expeditions) {
             enableButton.bind(enabledProperty)
-            fleet2CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                fleet2.setAll(change.list.distinct())
-            }
-            fleet3CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                fleet3.setAll(change.list.distinct())
-            }
-            fleet4CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                fleet4.setAll(change.list.distinct())
-            }
+            fleet2.bind<String, String>(fleet2CheckComboBox.checkModel.checkedItems) { it }
+            fleet3.bind<String, String>(fleet3CheckComboBox.checkModel.checkedItems) { it }
+            fleet4.bind<String, String>(fleet4CheckComboBox.checkModel.checkedItems) { it }
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }

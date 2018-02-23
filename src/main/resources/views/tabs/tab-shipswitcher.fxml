@@ -32,7 +32,7 @@
   ~
   -->
 
-<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.ShipSwitcherTabView">
+<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView">
    <children>
       <GridPane layoutX="10.0" layoutY="10.0">
          <columnConstraints>

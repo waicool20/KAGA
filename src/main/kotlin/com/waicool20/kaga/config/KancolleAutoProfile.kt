@@ -238,6 +238,18 @@ class KancolleAutoProfile(
         override fun toString() = value
     }
 
+    enum class SwitchCriteria(val prettyString: String, val value: String) {
+        FATIGUE("Fatigue", "fatigue"),
+        DAMAGE("Damage", "damage"),
+        SPARKLE("Sparkle", "sparkle");
+
+        companion object {
+            fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
+        }
+
+        override fun toString() = value
+    }
+
     class General(
             program: String = "Chrome"
             /* TODO Disabled temporarily till kcauto-kai is finalized
@@ -247,11 +259,9 @@ class KancolleAutoProfile(
             paranoia: Int = 1,
             sleepModifier: Int = 0*/
     ) {
-        @JsonIgnore
-        @IniConfig(key = "Program")
+        @JsonIgnore @IniConfig(key = "Program")
         val programProperty = SimpleStringProperty(program)
-        @JsonIgnore
-        @IniConfig(key = "JSTOffset", shouldRead = false)
+        @JsonIgnore @IniConfig(key = "JSTOffset", shouldRead = false)
         val jstOffsetProperty = ((TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan").rawOffset) / 3600000).let {
             SimpleIntegerProperty(it)
         }
@@ -262,10 +272,8 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = SimpleIntegerProperty(paranoia)
         @JsonIgnore @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = SimpleIntegerProperty(sleepModifier)*/
 
-        @get:JsonProperty
-        var program by programProperty
-        @get:JsonProperty
-        var jstOffset by jstOffsetProperty
+        @get:JsonProperty var program by programProperty
+        @get:JsonProperty var jstOffset by jstOffsetProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @get:JsonProperty var recoveryMethod by recoveryMethodProperty
         @get:JsonProperty var basicRecovery by basicRecoveryProperty
@@ -279,22 +287,16 @@ class KancolleAutoProfile(
             startTime: String = "0030",
             length: Double = 3.5
     ) {
-        @JsonIgnore
-        @IniConfig(key = "Enabled")
+        @JsonIgnore @IniConfig(key = "Enabled")
         val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore
-        @IniConfig(key = "StartTime")
+        @JsonIgnore @IniConfig(key = "StartTime")
         val startTimeProperty = SimpleStringProperty(startTime)
-        @JsonIgnore
-        @IniConfig(key = "SleepLength")
+        @JsonIgnore @IniConfig(key = "SleepLength")
         val lengthProperty = SimpleDoubleProperty(length)
 
-        @get:JsonProperty
-        var enabled by enabledProperty
-        @get:JsonProperty
-        var startTime by startTimeProperty
-        @get:JsonProperty
-        var length by lengthProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var startTime by startTimeProperty
+        @get:JsonProperty var length by lengthProperty
     }
 
     /* TODO Disabled temporarily till kcauto-kai is finalized
@@ -318,27 +320,19 @@ class KancolleAutoProfile(
             fleet3: List<String> = listOf("5"),
             fleet4: List<String> = listOf("21")
     ) {
-        @JsonIgnore
-        @IniConfig(key = "Enabled")
+        @JsonIgnore @IniConfig(key = "Enabled")
         val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore
-        @IniConfig(key = "Fleet2")
+        @JsonIgnore @IniConfig(key = "Fleet2")
         val fleet2Property = SimpleListProperty(FXCollections.observableList(fleet2))
-        @JsonIgnore
-        @IniConfig(key = "Fleet3")
+        @JsonIgnore @IniConfig(key = "Fleet3")
         val fleet3Property = SimpleListProperty(FXCollections.observableList(fleet3))
-        @JsonIgnore
-        @IniConfig(key = "Fleet4")
+        @JsonIgnore @IniConfig(key = "Fleet4")
         val fleet4Property = SimpleListProperty(FXCollections.observableList(fleet4))
 
-        @get:JsonProperty
-        var enabled by enabledProperty
-        @get:JsonProperty
-        var fleet2 by fleet2Property
-        @get:JsonProperty
-        var fleet3 by fleet3Property
-        @get:JsonProperty
-        var fleet4 by fleet4Property
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var fleet2 by fleet2Property
+        @get:JsonProperty var fleet3 by fleet3Property
+        @get:JsonProperty var fleet4 by fleet4Property
     }
 
     class Pvp(
@@ -346,14 +340,12 @@ class KancolleAutoProfile(
             /* TODO Disabled temporarily till kcauto-kai is finalized
             fleetComp: Int = 1*/
     ) {
-        @JsonIgnore
-        @IniConfig(key = "Enabled")
+        @JsonIgnore @IniConfig(key = "Enabled")
         val enabledProperty = SimpleBooleanProperty(enabled)
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)*/
 
-        @get:JsonProperty
-        var enabled by enabledProperty
+        @get:JsonProperty var enabled by enabledProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @get:JsonProperty var fleetComp by fleetCompProperty*/
     }
@@ -376,170 +368,112 @@ class KancolleAutoProfile(
             lbasGroup3Nodes: List<String> = mutableListOf(),
             miscOptions: Set<SortieOptions> = mutableSetOf()
     ) {
-        @JsonIgnore
-        @IniConfig(key = "Enabled")
+        @JsonIgnore @IniConfig(key = "Enabled")
         val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore
-        @IniConfig(key = "Engine")
+        @JsonIgnore @IniConfig(key = "Engine")
         val engineProperty = SimpleObjectProperty(engine)
-        @JsonIgnore
-        @IniConfig(key = "Map")
+        @JsonIgnore @IniConfig(key = "Map")
         val mapProperty = SimpleStringProperty(map)
-        @JsonIgnore
-        @IniConfig(key = "CombatNodes")
+        @JsonIgnore @IniConfig(key = "CombatNodes")
         val nodesProperty = SimpleIntegerProperty(nodes)
-        @JsonIgnore
-        @IniConfig(key = "FleetMode")
+        @JsonIgnore @IniConfig(key = "FleetMode")
         val fleetModeProperty = SimpleObjectProperty(fleetMode)
-        @JsonIgnore
-        @IniConfig(key = "NodeSelects")
+        @JsonIgnore @IniConfig(key = "NodeSelects")
         val nodeSelectsProperty = SimpleListProperty(FXCollections.observableList(nodeSelects))
-        @JsonIgnore
-        @IniConfig(key = "Formations")
+        @JsonIgnore @IniConfig(key = "Formations")
         val formationsProperty = SimpleListProperty(FXCollections.observableList(formations))
-        @JsonIgnore
-        @IniConfig(key = "NightBattles")
+        @JsonIgnore @IniConfig(key = "NightBattles")
         val nightBattlesProperty = SimpleListProperty(FXCollections.observableList(nightBattles))
-        @JsonIgnore
-        @IniConfig(key = "RetreatLimit")
+        @JsonIgnore @IniConfig(key = "RetreatLimit")
         val retreatLimitProperty = SimpleObjectProperty(retreatLimit)
-        @JsonIgnore
-        @IniConfig(key = "RepairLimit")
+        @JsonIgnore @IniConfig(key = "RepairLimit")
         val repairLimitProperty = SimpleObjectProperty(repairLimit)
-        @JsonIgnore
-        @IniConfig(key = "RepairTimeLimit")
+        @JsonIgnore @IniConfig(key = "RepairTimeLimit")
         val repairTimeLimitProperty = SimpleStringProperty(repairTimeLimit)
-        @JsonIgnore
-        @IniConfig(key = "LBASGroups")
+        @JsonIgnore @IniConfig(key = "LBASGroups")
         val lbasGroupsProperty = SimpleSetProperty(FXCollections.observableSet(lbasGroups))
-        @JsonIgnore
-        @IniConfig(key = "LBASGroup1Nodes")
+        @JsonIgnore @IniConfig(key = "LBASGroup1Nodes")
         val lbasGroup1NodesProperty = SimpleListProperty(FXCollections.observableList(lbasGroup1Nodes))
-        @JsonIgnore
-        @IniConfig(key = "LBASGroup2Nodes")
+        @JsonIgnore @IniConfig(key = "LBASGroup2Nodes")
         val lbasGroup2NodesProperty = SimpleListProperty(FXCollections.observableList(lbasGroup2Nodes))
-        @JsonIgnore
-        @IniConfig(key = "LBASGroup3Nodes")
+        @JsonIgnore @IniConfig(key = "LBASGroup3Nodes")
         val lbasGroup3NodesProperty = SimpleListProperty(FXCollections.observableList(lbasGroup3Nodes))
-        @JsonIgnore
-        @IniConfig(key = "MiscOptions")
+        @JsonIgnore @IniConfig(key = "MiscOptions")
         val miscOptionsProperty = SimpleSetProperty(FXCollections.observableSet(miscOptions))
 
-        @get:JsonProperty
-        var enabled by enabledProperty
-        @get:JsonProperty
-        var engine by engineProperty
-        @get:JsonProperty
-        var map by mapProperty
-        @get:JsonProperty
-        var nodes by nodesProperty
-        @get:JsonProperty
-        var fleetMode by fleetModeProperty
-        @get:JsonProperty
-        var nodeSelects by nodeSelectsProperty
-        @get:JsonProperty
-        var formations by formationsProperty
-        @get:JsonProperty
-        var nightBattles by nightBattlesProperty
-        @get:JsonProperty
-        var retreatLimit by retreatLimitProperty
-        @get:JsonProperty
-        var repairLimit by repairLimitProperty
-        @get:JsonProperty
-        var repairTimeLimit by repairTimeLimitProperty
-        @get:JsonProperty
-        var lbasGroups by lbasGroupsProperty
-        @get:JsonProperty
-        var lbasGroup1Nodes by lbasGroup1NodesProperty
-        @get:JsonProperty
-        var lbasGroup2Nodes by lbasGroup2NodesProperty
-        @get:JsonProperty
-        var lbasGroup3Nodes by lbasGroup3NodesProperty
-        @get:JsonProperty
-        var miscOptions by miscOptionsProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var engine by engineProperty
+        @get:JsonProperty var map by mapProperty
+        @get:JsonProperty var nodes by nodesProperty
+        @get:JsonProperty var fleetMode by fleetModeProperty
+        @get:JsonProperty var nodeSelects by nodeSelectsProperty
+        @get:JsonProperty var formations by formationsProperty
+        @get:JsonProperty var nightBattles by nightBattlesProperty
+        @get:JsonProperty var retreatLimit by retreatLimitProperty
+        @get:JsonProperty var repairLimit by repairLimitProperty
+        @get:JsonProperty var repairTimeLimit by repairTimeLimitProperty
+        @get:JsonProperty var lbasGroups by lbasGroupsProperty
+        @get:JsonProperty var lbasGroup1Nodes by lbasGroup1NodesProperty
+        @get:JsonProperty var lbasGroup2Nodes by lbasGroup2NodesProperty
+        @get:JsonProperty var lbasGroup3Nodes by lbasGroup3NodesProperty
+        @get:JsonProperty var miscOptions by miscOptionsProperty
     }
 
     class ShipSwitcher(
             enabled: Boolean = true,
-            slot1Criteria: List<String> = mutableListOf(),
+            slot1Criteria: List<SwitchCriteria> = mutableListOf(),
             slot1Ships: List<String> = mutableListOf(),
-            slot2Criteria: List<String> = mutableListOf(),
+            slot2Criteria: List<SwitchCriteria> = mutableListOf(),
             slot2Ships: List<String> = mutableListOf(),
-            slot3Criteria: List<String> = mutableListOf(),
+            slot3Criteria: List<SwitchCriteria> = mutableListOf(),
             slot3Ships: List<String> = mutableListOf(),
-            slot4Criteria: List<String> = mutableListOf(),
+            slot4Criteria: List<SwitchCriteria> = mutableListOf(),
             slot4Ships: List<String> = mutableListOf(),
-            slot5Criteria: List<String> = mutableListOf(),
+            slot5Criteria: List<SwitchCriteria> = mutableListOf(),
             slot5Ships: List<String> = mutableListOf(),
-            slot6Criteria: List<String> = mutableListOf(),
+            slot6Criteria: List<SwitchCriteria> = mutableListOf(),
             slot6Ships: List<String> = mutableListOf()
     ) {
-        @JsonIgnore
-        @IniConfig("Enabled")
+        @JsonIgnore @IniConfig("Enabled")
         val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore
-        @IniConfig("Slot1Criteria")
+        @JsonIgnore @IniConfig("Slot1Criteria")
         val slot1CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot1Criteria))
-        @JsonIgnore
-        @IniConfig("Slot1Ships")
+        @JsonIgnore @IniConfig("Slot1Ships")
         val slot1ShipsProperty = SimpleListProperty(FXCollections.observableList(slot1Ships))
-        @JsonIgnore
-        @IniConfig("Slot2Criteria")
+        @JsonIgnore @IniConfig("Slot2Criteria")
         val slot2CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot2Criteria))
-        @JsonIgnore
-        @IniConfig("Slot2Ships")
+        @JsonIgnore @IniConfig("Slot2Ships")
         val slot2ShipsProperty = SimpleListProperty(FXCollections.observableList(slot2Ships))
-        @JsonIgnore
-        @IniConfig("Slot3Criteria")
+        @JsonIgnore @IniConfig("Slot3Criteria")
         val slot3CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot3Criteria))
-        @JsonIgnore
-        @IniConfig("Slot3Ships")
+        @JsonIgnore @IniConfig("Slot3Ships")
         val slot3ShipsProperty = SimpleListProperty(FXCollections.observableList(slot3Ships))
-        @JsonIgnore
-        @IniConfig("Slot4Criteria")
+        @JsonIgnore @IniConfig("Slot4Criteria")
         val slot4CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot4Criteria))
-        @JsonIgnore
-        @IniConfig("Slot4Ships")
+        @JsonIgnore @IniConfig("Slot4Ships")
         val slot4ShipsProperty = SimpleListProperty(FXCollections.observableList(slot4Ships))
-        @JsonIgnore
-        @IniConfig("Slot5Criteria")
+        @JsonIgnore @IniConfig("Slot5Criteria")
         val slot5CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot5Criteria))
-        @JsonIgnore
-        @IniConfig("Slot5Ships")
+        @JsonIgnore @IniConfig("Slot5Ships")
         val slot5ShipsProperty = SimpleListProperty(FXCollections.observableList(slot5Ships))
-        @JsonIgnore
-        @IniConfig("Slot6Criteria")
+        @JsonIgnore @IniConfig("Slot6Criteria")
         val slot6CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot6Criteria))
-        @JsonIgnore
-        @IniConfig("Slot6Ships")
+        @JsonIgnore @IniConfig("Slot6Ships")
         val slot6ShipsProperty = SimpleListProperty(FXCollections.observableList(slot6Ships))
 
-        @get:JsonProperty
-        var enabled by enabledProperty
-        @get:JsonProperty
-        var slot1Criteria by slot1CriteriaProperty
-        @get:JsonProperty
-        var slot1Ships by slot1ShipsProperty
-        @get:JsonProperty
-        var slot2Criteria by slot2CriteriaProperty
-        @get:JsonProperty
-        var slot2Ships by slot2CriteriaProperty
-        @get:JsonProperty
-        var slot3Criteria by slot3CriteriaProperty
-        @get:JsonProperty
-        var slot3Ships by slot3CriteriaProperty
-        @get:JsonProperty
-        var slot4Criteria by slot4CriteriaProperty
-        @get:JsonProperty
-        var slot4Ships by slot4CriteriaProperty
-        @get:JsonProperty
-        var slot5Criteria by slot5CriteriaProperty
-        @get:JsonProperty
-        var slot5Ships by slot5CriteriaProperty
-        @get:JsonProperty
-        var slot6Criteria by slot6CriteriaProperty
-        @get:JsonProperty
-        var slot6Ships by slot6CriteriaProperty
+        @get:JsonProperty var enabled by enabledProperty
+        @get:JsonProperty var slot1Criteria by slot1CriteriaProperty
+        @get:JsonProperty var slot1Ships by slot1ShipsProperty
+        @get:JsonProperty var slot2Criteria by slot2CriteriaProperty
+        @get:JsonProperty var slot2Ships by slot2CriteriaProperty
+        @get:JsonProperty var slot3Criteria by slot3CriteriaProperty
+        @get:JsonProperty var slot3Ships by slot3CriteriaProperty
+        @get:JsonProperty var slot4Criteria by slot4CriteriaProperty
+        @get:JsonProperty var slot4Ships by slot4CriteriaProperty
+        @get:JsonProperty var slot5Criteria by slot5CriteriaProperty
+        @get:JsonProperty var slot5Ships by slot5CriteriaProperty
+        @get:JsonProperty var slot6Criteria by slot6CriteriaProperty
+        @get:JsonProperty var slot6Ships by slot6CriteriaProperty
     }
 
     class Quests(
