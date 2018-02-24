@@ -23,11 +23,13 @@ package com.waicool20.kaga.views.tabs.misc
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.bind
+import com.waicool20.kaga.util.persist
+import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.Label
-import javafx.scene.input.MouseEvent
 import org.controlsfx.control.CheckComboBox
+import kotlin.reflect.KMutableProperty0
 
 class MiscTabView {
 
@@ -56,35 +58,22 @@ class MiscTabView {
 
     private fun createBindings() {
         with(Kaga.PROFILE.sortie) {
-            grp1CheckComboBox.bind(lbasGroup1NodesProperty) { updateLBASGroups() }
-            grp2CheckComboBox.bind(lbasGroup2NodesProperty) { updateLBASGroups() }
-            grp3CheckComboBox.bind(lbasGroup3NodesProperty) { updateLBASGroups() }
+            createLbasBinding(::grp1CheckComboBox, lbasGroup1NodesProperty, grp1NodesWarnLabel)
+            createLbasBinding(::grp2CheckComboBox, lbasGroup2NodesProperty, grp2NodesWarnLabel)
+            createLbasBinding(::grp3CheckComboBox, lbasGroup3NodesProperty, grp3NodesWarnLabel)
         }
-        updateLBASGroups()
     }
 
-    private fun updateLBASGroups() {
-        with(Kaga.PROFILE.sortie) {
-            if (lbasGroup1Nodes.size == 2) {
-                lbasGroups.add("1")
-                grp1NodesWarnLabel.isVisible = false
+    private fun createLbasBinding(boxProp: KMutableProperty0<CheckComboBox<String>>, list: SimpleListProperty<String>, label: Label) {
+        val box = boxProp.get()
+        box.bind(list)
+        list.sizeProperty().isEqualTo(2).persist().addListener { _, _, newVal ->
+            label.isVisible = !newVal
+            val group = boxProp.name.filter { it.isDigit() }
+            if (newVal) {
+                Kaga.PROFILE.sortie.lbasGroups.add(group)
             } else {
-                lbasGroups.remove("1")
-                grp1NodesWarnLabel.isVisible = true
-            }
-            if (lbasGroup2Nodes.size == 2) {
-                lbasGroups.add("2")
-                grp2NodesWarnLabel.isVisible = false
-            } else {
-                lbasGroups.remove("2")
-                grp2NodesWarnLabel.isVisible = true
-            }
-            if (lbasGroup3Nodes.size == 2) {
-                lbasGroups.add("3")
-                grp3NodesWarnLabel.isVisible = false
-            } else {
-                lbasGroups.remove("3")
-                grp3NodesWarnLabel.isVisible = true
+                Kaga.PROFILE.sortie.lbasGroups.remove(group)
             }
         }
     }

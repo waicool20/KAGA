@@ -20,6 +20,7 @@
 
 package com.waicool20.kaga.util
 
+import javafx.beans.binding.*
 import javafx.beans.property.*
 import javafx.collections.ListChangeListener
 import javafx.scene.control.ComboBox
@@ -29,7 +30,14 @@ import org.controlsfx.control.CheckComboBox
 private object Bindings {
     val objectBindings = mutableMapOf<ObjectProperty<*>, MutableList<ObjectProperty<*>>>()
     val checkComboBoxBindings = mutableListOf<CheckComboBoxBinding<*>>()
+    val anyBinding = mutableListOf<Binding<*>>()
 }
+
+fun BooleanBinding.persist() = also { Bindings.anyBinding.add(this) }
+fun IntegerBinding.persist() = also { Bindings.anyBinding.add(this) }
+fun LongBinding.persist() = also { Bindings.anyBinding.add(this) }
+fun FloatBinding.persist() = also { Bindings.anyBinding.add(this) }
+fun DoubleBinding.persist() = also { Bindings.anyBinding.add(this) }
 
 fun Spinner<Int>.bind(integerProperty: IntegerProperty, readOnly: Boolean = false) =
         bind(valueFactory.valueProperty(), integerProperty.asObject(), readOnly)
