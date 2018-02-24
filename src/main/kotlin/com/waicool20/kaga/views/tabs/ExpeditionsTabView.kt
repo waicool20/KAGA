@@ -21,8 +21,8 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.util.bind
 import javafx.beans.binding.Bindings
-import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.layout.GridPane
@@ -52,9 +52,9 @@ class ExpeditionsTabView {
 
     private fun setValues() {
         (1..41).map(Int::toString).plus(specialExpediions.keys).also {
-            fleet2CheckComboBox.items.addAll(it)
-            fleet3CheckComboBox.items.addAll(it)
-            fleet4CheckComboBox.items.addAll(it)
+            fleet2CheckComboBox.items.setAll(it)
+            fleet3CheckComboBox.items.setAll(it)
+            fleet4CheckComboBox.items.setAll(it)
         }
         val converter = object : StringConverter<String>() {
             override fun toString(expNumber: String) = specialExpediions[expNumber] ?: expNumber
@@ -68,9 +68,9 @@ class ExpeditionsTabView {
     private fun createBindings() {
         with(Kaga.PROFILE.expeditions) {
             enableButton.bind(enabledProperty)
-            fleet2.bind<String, String>(fleet2CheckComboBox.checkModel.checkedItems) { it }
-            fleet3.bind<String, String>(fleet3CheckComboBox.checkModel.checkedItems) { it }
-            fleet4.bind<String, String>(fleet4CheckComboBox.checkModel.checkedItems) { it }
+            fleet2CheckComboBox.bind(fleet2Property)
+            fleet3CheckComboBox.bind(fleet3Property)
+            fleet4CheckComboBox.bind(fleet4Property)
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }

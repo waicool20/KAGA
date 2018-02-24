@@ -22,10 +22,11 @@ package com.waicool20.kaga.views.tabs.misc
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
+import com.waicool20.kaga.util.bind
 import javafx.collections.FXCollections
-import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.Label
+import javafx.scene.input.MouseEvent
 import org.controlsfx.control.CheckComboBox
 
 class MiscTabView {
@@ -51,30 +52,15 @@ class MiscTabView {
         grp1CheckComboBox.items.setAll(VALID_NODES)
         grp2CheckComboBox.items.setAll(VALID_NODES)
         grp3CheckComboBox.items.setAll(VALID_NODES)
-
-        with(Kaga.PROFILE.sortie) {
-            lbasGroup1Nodes.forEach { grp1CheckComboBox.checkModel.check(it) }
-            lbasGroup2Nodes.forEach { grp2CheckComboBox.checkModel.check(it) }
-            lbasGroup3Nodes.forEach { grp3CheckComboBox.checkModel.check(it) }
-        }
-        updateLBASGroups()
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.sortie) {
-            grp1CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                lbasGroup1Nodes.setAll(change.list)
-                updateLBASGroups()
-            }
-            grp2CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                lbasGroup2Nodes.setAll(change.list)
-                updateLBASGroups()
-            }
-            grp3CheckComboBox.checkModel.checkedItems.addListener { change: ListChangeListener.Change<out String> ->
-                lbasGroup3Nodes.setAll(change.list)
-                updateLBASGroups()
-            }
+            grp1CheckComboBox.bind(lbasGroup1NodesProperty) { updateLBASGroups() }
+            grp2CheckComboBox.bind(lbasGroup2NodesProperty) { updateLBASGroups() }
+            grp3CheckComboBox.bind(lbasGroup3NodesProperty) { updateLBASGroups() }
         }
+        updateLBASGroups()
     }
 
     private fun updateLBASGroups() {

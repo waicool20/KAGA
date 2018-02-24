@@ -20,10 +20,13 @@
 
 package com.waicool20.kaga.util
 
+import com.sun.javafx.scene.control.ReadOnlyUnbackedObservableList
 import com.sun.javafx.scene.control.skin.TableHeaderRow
 import com.waicool20.kaga.Kaga
 import javafx.beans.property.ReadOnlyObjectProperty
+import javafx.beans.property.SimpleListProperty
 import javafx.beans.value.ObservableValue
+import javafx.collections.FXCollections
 import javafx.collections.ListChangeListener
 import javafx.geometry.Pos
 import javafx.geometry.Side
@@ -40,6 +43,8 @@ import javafx.stage.Stage
 import javafx.stage.WindowEvent
 import javafx.util.Callback
 import javafx.util.StringConverter
+import org.controlsfx.control.CheckModel
+import org.controlsfx.control.IndexedCheckModel
 import java.util.concurrent.TimeUnit
 
 
@@ -313,4 +318,9 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
             }
         }
     }
+}
+
+fun <T> CheckModel<T>.checkAll(items: List<T>) {
+    clearChecks()
+    if (items.isNotEmpty()) items.forEach { check(it) }
 }
