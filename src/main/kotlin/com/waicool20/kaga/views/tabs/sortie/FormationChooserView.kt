@@ -56,7 +56,8 @@ class FormationChooserView : SingleListView<FormationEntry>(showControlButtons =
         val formationColumn = TableColumn<FormationEntry, CombatFormation>("Formation").apply {
             val converter = object : StringConverter<CombatFormation>() {
                 override fun toString(formation: CombatFormation?) = formation?.prettyString ?: ""
-                override fun fromString(string: String?) = CombatFormation.fromPrettyString(string ?: "")
+                override fun fromString(string: String?) = CombatFormation.fromPrettyString(string
+                        ?: "")
             }
             cellFactory = ComboBoxTableCell.forTableColumn(converter, FXCollections.observableList(CombatFormation.values().toList()))
             setCellValueFactory { it.value.formation }
@@ -71,8 +72,8 @@ class FormationChooserView : SingleListView<FormationEntry>(showControlButtons =
             CombatFormation.values().find {
                 it.toString().equals(str.takeLastWhile { c -> c != ':' }, true)
             }?.let { formation ->
-                FormationEntry(SimpleStringProperty(str.takeWhile { it != ':' }), SimpleObjectProperty(formation))
-            }
+                        FormationEntry(SimpleStringProperty(str.takeWhile { it != ':' }), SimpleObjectProperty(formation))
+                    }
         }
         tableView().items.addAll(items)
     }
@@ -86,9 +87,7 @@ class FormationChooserView : SingleListView<FormationEntry>(showControlButtons =
     override fun onSaveButton() {
         tableView().items.filter { it.isValid() }
                 .map { "${it.node.value}:${it.formation.value}" }
-                .let {
-                    Kaga.PROFILE.sortie.formations.setAll(it)
-                }
+                .let { Kaga.PROFILE.sortie.formationsProperty.setAll(it) }
         closeWindow()
     }
 }

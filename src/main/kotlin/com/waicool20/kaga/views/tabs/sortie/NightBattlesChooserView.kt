@@ -78,9 +78,7 @@ class NightBattlesChooserView : SingleListView<NightBattleEntry>(showControlButt
     override fun onSaveButton() {
         tableView().items.filter { it.isValid() }
                 .map { "${it.node.value}:${it.nightBattle.value}" }
-                .let {
-                    Kaga.PROFILE.sortie.nightBattles.setAll(it)
-                }
+                .let { Kaga.PROFILE.sortie.nightBattlesProperty.setAll(it) }
         closeWindow()
     }
 }

@@ -79,9 +79,7 @@ class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = t
     override fun onSaveButton() {
         tableView().items.filter { it.isValid() }
                 .map { "${it.source.value}>${it.destination.value}" }
-                .let {
-                    Kaga.PROFILE.sortie.nodeSelects.setAll(it)
-                }
+                .let { Kaga.PROFILE.sortie.nodeSelectsProperty.setAll(it) }
         closeWindow()
     }
 }
