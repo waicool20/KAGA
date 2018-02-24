@@ -69,9 +69,9 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile group: 'org.ini4j', name: 'ini4j', version: '0.5.4'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    compile group: 'no.tornado', name: 'tornadofx', version: '1.7.9'
+    compile group: 'no.tornado', name: 'tornadofx', version: '1.7.15'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.0'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0'
