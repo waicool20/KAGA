@@ -295,9 +295,9 @@ class KancolleAutoProfile(
 
     class Expeditions(
             enabled: Boolean = true,
-            fleet2: List<String> = listOf("2"),
-            fleet3: List<String> = listOf("5"),
-            fleet4: List<String> = listOf("21")
+            fleet2: List<String> = mutableListOf("2"),
+            fleet3: List<String> = mutableListOf("5"),
+            fleet4: List<String> = mutableListOf("21")
     ) {
         @JsonIgnore @IniConfig(key = "Enabled")
         val enabledProperty = enabled.toProperty()
