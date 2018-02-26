@@ -29,17 +29,23 @@ import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import org.controlsfx.control.CheckComboBox
+import org.controlsfx.control.PrefixSelectionChoiceBox
+import org.controlsfx.control.PrefixSelectionComboBox
+import tornadofx.*
 import kotlin.reflect.KMutableProperty0
 
 class MiscTabView {
 
-    private val VALID_NODES = KancolleAutoProfile.VALID_NODES.filterNot { it.matches("^\\d+".toRegex()) }.let {
-        FXCollections.observableList(it)
-    }
+    private val VALID_NODES = KancolleAutoProfile.VALID_NODES
+            .filterNot { it.matches("^\\d+".toRegex()) }
+            .let { FXCollections.observableList(listOf("") + it) }
 
-    @FXML private lateinit var grp1CheckComboBox: CheckComboBox<String>
-    @FXML private lateinit var grp2CheckComboBox: CheckComboBox<String>
-    @FXML private lateinit var grp3CheckComboBox: CheckComboBox<String>
+    @FXML private lateinit var grp1choice1ComboBox: PrefixSelectionComboBox<String>
+    @FXML private lateinit var grp1choice2ComboBox: PrefixSelectionComboBox<String>
+    @FXML private lateinit var grp2choice1ComboBox: PrefixSelectionComboBox<String>
+    @FXML private lateinit var grp2choice2ComboBox: PrefixSelectionComboBox<String>
+    @FXML private lateinit var grp3choice1ComboBox: PrefixSelectionComboBox<String>
+    @FXML private lateinit var grp3choice2ComboBox: PrefixSelectionComboBox<String>
     @FXML private lateinit var grp1NodesWarnLabel: Label
     @FXML private lateinit var grp2NodesWarnLabel: Label
     @FXML private lateinit var grp3NodesWarnLabel: Label
@@ -51,30 +57,56 @@ class MiscTabView {
     }
 
     private fun setValues() {
-        grp1CheckComboBox.items.setAll(VALID_NODES)
-        grp2CheckComboBox.items.setAll(VALID_NODES)
-        grp3CheckComboBox.items.setAll(VALID_NODES)
+        grp1choice1ComboBox.items.setAll(VALID_NODES)
+        grp1choice2ComboBox.items.setAll(VALID_NODES)
+        grp2choice1ComboBox.items.setAll(VALID_NODES)
+        grp2choice2ComboBox.items.setAll(VALID_NODES)
+        grp3choice1ComboBox.items.setAll(VALID_NODES)
+        grp3choice2ComboBox.items.setAll(VALID_NODES)
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.sortie) {
-            createLbasBinding(::grp1CheckComboBox, lbasGroup1NodesProperty, grp1NodesWarnLabel)
-            createLbasBinding(::grp2CheckComboBox, lbasGroup2NodesProperty, grp2NodesWarnLabel)
-            createLbasBinding(::grp3CheckComboBox, lbasGroup3NodesProperty, grp3NodesWarnLabel)
+            createLbasBinding(::grp1choice1ComboBox, ::grp1choice2ComboBox, lbasGroup1NodesProperty, grp1NodesWarnLabel)
+            createLbasBinding(::grp2choice1ComboBox, ::grp2choice2ComboBox, lbasGroup2NodesProperty, grp2NodesWarnLabel)
+            createLbasBinding(::grp3choice1ComboBox, ::grp3choice2ComboBox, lbasGroup3NodesProperty, grp3NodesWarnLabel)
         }
     }
 
-    private fun createLbasBinding(boxProp: KMutableProperty0<CheckComboBox<String>>, list: SimpleListProperty<String>, label: Label) {
-        val box = boxProp.get()
-        box.bind(list)
-        list.sizeProperty().isEqualTo(2).persist().addListener { _, _, newVal ->
-            label.isVisible = !newVal
-            val group = boxProp.name.filter { it.isDigit() }
-            if (newVal) {
+    private fun createLbasBinding(
+            choice1Prop: KMutableProperty0<PrefixSelectionComboBox<String>>,
+            choice2Prop: KMutableProperty0<PrefixSelectionComboBox<String>>,
+            list: SimpleListProperty<String>,
+            label: Label
+    ) {
+        val box1 = choice1Prop.get()
+        val box2 = choice2Prop.get()
+        val choice1 = list.getOrNull(0) ?: ""
+        val choice2 = list.getOrNull(1) ?: ""
+
+        box1.selectionModel.select(choice1)
+        box2.selectionModel.select(choice2)
+
+        val update: (Boolean) -> Unit = { updateList ->
+            val items = listOf(box1.selectedItem, box2.selectedItem).filterNot { it.isNullOrBlank() }
+            val sizeIsOk = items.size == 2
+            label.isVisible = !sizeIsOk
+            val group = choice1Prop.name.first { it.isDigit() }.toString()
+            if (sizeIsOk) {
                 Kaga.PROFILE.sortie.lbasGroups.add(group)
             } else {
                 Kaga.PROFILE.sortie.lbasGroups.remove(group)
             }
+            if (updateList) list.setAll(items)
         }
+
+        box1.selectionModel.selectedItemProperty().addListener { _, _, _ ->
+            update(true)
+        }
+
+        box2.selectionModel.selectedItemProperty().addListener { _, _, _ ->
+            update(true)
+        }
+        update(false)
     }
 }

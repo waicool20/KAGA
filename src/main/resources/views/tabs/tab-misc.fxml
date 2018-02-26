@@ -7,8 +7,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import org.controlsfx.control.CheckComboBox?>
+<?import org.controlsfx.control.PrefixSelectionComboBox?>
 
 <!--
   ~ GPLv3 License
@@ -32,141 +33,97 @@
 
 <AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.MiscTabView">
     <children>
-        <GridPane layoutY="-6.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <children>
-                <GridPane fx:id="lbasContent" GridPane.rowIndex="3">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="125.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+          <GridPane fx:id="lbasContent">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="125.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <HBox alignment="CENTER">
-                            <children>
-                                <Label fx:id="lbasGroup1Label" text="LBAS Group 1:" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" GridPane.rowIndex="1">
-                            <children>
-                                <Label fx:id="lbasGroup2Label" text="LBAS Group 2:" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" GridPane.rowIndex="2">
-                            <children>
-                                <Label fx:id="lbasGroup3Label" text="LBAS Group 3:" />
-                            </children>
-                        </HBox>
-                  <HBox alignment="CENTER" GridPane.columnIndex="1">
-                     <children>
-                        <CheckComboBox fx:id="grp1CheckComboBox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
-                     </children>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+              <children>
+                  <HBox alignment="CENTER">
+                      <children>
+                          <Label fx:id="lbasGroup1Label" text="LBAS Group 1:" />
+                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <CheckComboBox fx:id="grp2CheckComboBox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
-                     </children>
+                  <HBox alignment="CENTER" GridPane.rowIndex="1">
+                      <children>
+                          <Label fx:id="lbasGroup2Label" text="LBAS Group 2:" />
+                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <children>
-                        <CheckComboBox fx:id="grp3CheckComboBox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.columnIndex="2">
-                     <children>
-                        <Label fx:id="grp1NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 1 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <children>
-                        <Label fx:id="grp2NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 2 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <children>
-                        <Label fx:id="grp3NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 3 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </HBox>
-                    </children>
-                </GridPane>
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                <!-- TODO Disabled temporarily till kcauto-kai is finalized
-                    <children>
-                        <CheckBox fx:id="enableSubSwitchButton" mnemonicParsing="false" text="Enable submarine switching" />
-                        <Button fx:id="configSubSwitchBtn" mnemonicParsing="false" onAction="#onConfigureSubSwitchButton" text="Configure" />
-                    </children>
-                    <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
-                    </padding>-->
-                </HBox>
-                <GridPane fx:id="subSwitchContent" GridPane.rowIndex="1">
-                    <!-- TODO Disabled temporarily till kcauto-kai is finalized
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="138.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <HBox alignment="CENTER">
-                            <children>
-                                <Label fx:id="replaceLimitLabel" text="Replace Limit:" />
-                            </children>
-                        </HBox>
-                        <ComboBox fx:id="replaceLimitComboBox" prefWidth="150.0" GridPane.columnIndex="1" />
-                        <HBox alignment="CENTER" GridPane.rowIndex="1">
-                            <children>
-                                <Label fx:id="fatigueSwitchLabel" text="Fatigue Switch:" />
-                            </children>
-                        </HBox>
-                        <CheckBox fx:id="fatigueSwitchCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <HBox alignment="CENTER" GridPane.rowIndex="2">
-                     <children>
-                        <Label fx:id="useBucketsLabel" text="Use Buckets:" />
-                     </children>
+                      <children>
+                          <Label fx:id="lbasGroup3Label" text="LBAS Group 3:" />
+                      </children>
                   </HBox>
-                  <CheckBox fx:id="useBucketsCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                    </children>
-                    -->
-                </GridPane>
-            </children>
-        </GridPane>
+            <VBox spacing="10.0" GridPane.columnIndex="1">
+               <children>
+                  <PrefixSelectionComboBox fx:id="grp1choice1ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+                  <PrefixSelectionComboBox fx:id="grp1choice2ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="CENTER" GridPane.columnIndex="2">
+               <children>
+                  <Label fx:id="grp1NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 1 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <Label fx:id="grp2NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 2 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <Label fx:id="grp3NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 3 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <PrefixSelectionComboBox fx:id="grp2choice1ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+                  <PrefixSelectionComboBox fx:id="grp2choice2ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <PrefixSelectionComboBox fx:id="grp3choice1ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+                  <PrefixSelectionComboBox fx:id="grp3choice2ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </VBox>
+              </children>
+          </GridPane>
     </children>
 </AnchorPane>
