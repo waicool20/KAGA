@@ -50,16 +50,16 @@ import javafx.scene.input.MouseEvent.MOUSE_RELEASED
 import javafx.scene.layout.FlowPane
 import javafx.stage.Modality
 import javafx.stage.Stage
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.impl.client.HttpClients
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.awt.Desktop
 import java.io.PrintStream
 import java.net.URI
+import java.net.URL
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.concurrent.thread
+import kotlin.math.abs
 
 class KagaApp : Application() {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -97,7 +97,7 @@ object Kaga {
         override fun compareTo(other: VersionInfo): Int {
             var tokens1 = version.split("\\D".toRegex()).mapNotNull { it.toIntOrNull() }
             var tokens2 = other.version.split("\\D".toRegex()).mapNotNull { it.toIntOrNull() }
-            val diff = Math.abs(tokens1.size - tokens2.size)
+            val diff = abs(tokens1.size - tokens2.size)
             if (tokens1.size > tokens2.size) {
                 tokens2 += List(diff) { 0 }
             } else {
@@ -194,59 +194,57 @@ object Kaga {
 
     fun checkForUpdates(showNoUpdatesDialog: Boolean = false) {
         logger.info("KAGA - ${VERSION_INFO.version}")
+        logger.info("KCAuto-Kai Compatibility: v${VERSION_INFO.kcAutoCompatibility}")
         if (!CONFIG.checkForUpdates) {
             logger.info("Update checking disabled, skipping")
             return
         }
         logger.info("Checking for updates...")
         thread {
-            HttpClients.createDefault().use { client ->
-                try {
-                    val response = client.execute(HttpGet("https://api.github.com/repos/waicool20/Kaga/releases/latest"))
-                    val json = mapper.readTree(response.entity.content)
-                    val latestVersion = VersionInfo(json.at("/tag_name").asText())
-                    if (latestVersion > VERSION_INFO) {
-                        Platform.runLater {
-                            Alert(Alert.AlertType.INFORMATION, "KAGA - Update").apply {
-                                headerText = null
-                                val pane = FlowPane()
-                                val label = Label("""
+            try {
+                val json = mapper.readTree(URL("https://api.github.com/repos/waicool20/Kaga/releases/latest"))
+                val latestVersion = VersionInfo(json.at("/tag_name").asText())
+                if (latestVersion > VERSION_INFO) {
+                    Platform.runLater {
+                        Alert(Alert.AlertType.INFORMATION, "KAGA - Update").apply {
+                            headerText = null
+                            val pane = FlowPane()
+                            val label = Label("""
                                 A new update for KAGA is available: ${latestVersion.version}
                                 Current version: ${VERSION_INFO.version}
 
                                 Get the update over here:
                                 """.trimIndent())
-                                val link = json.at("/html_url").asText()
-                                val hyperlink = Hyperlink(link).apply {
-                                    setOnAction {
-                                        if (Desktop.isDesktopSupported()) {
-                                            thread { Desktop.getDesktop().browse(URI(link)) }
-                                        }
+                            val link = json.at("/html_url").asText()
+                            val hyperlink = Hyperlink(link).apply {
+                                setOnAction {
+                                    if (Desktop.isDesktopSupported()) {
+                                        thread { Desktop.getDesktop().browse(URI(link)) }
                                     }
                                 }
-                                pane.children.addAll(label, hyperlink)
-                                dialogPane.contentProperty().set(pane)
-                                showAndWait()
                             }
+                            pane.children.addAll(label, hyperlink)
+                            dialogPane.contentProperty().set(pane)
+                            showAndWait()
                         }
-                    } else {
-                        if (showNoUpdatesDialog) {
-                            Platform.runLater {
-                                AlertFactory.info(
-                                        content = """
+                    }
+                } else {
+                    if (showNoUpdatesDialog) {
+                        Platform.runLater {
+                            AlertFactory.info(
+                                    content = """
                                     No updates so far...
 
                                     Current version: ${VERSION_INFO.version}
                                     """.trimIndent()
-                                ).showAndWait()
-                            }
+                            ).showAndWait()
                         }
-                        logger.info("No updates so far....")
                     }
-                } catch (e: Exception) {
-                    logger.info("Could not check for updates, maybe your internet is down?")
-                    logger.error("Update check failed, reason: $e")
+                    logger.info("No updates so far....")
                 }
+            } catch (e: Exception) {
+                logger.info("Could not check for updates, maybe your internet is down?")
+                logger.error("Update check failed, reason: $e")
             }
         }
     }

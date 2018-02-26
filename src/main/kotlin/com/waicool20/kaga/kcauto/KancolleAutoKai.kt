@@ -44,10 +44,7 @@ class KancolleAutoKai {
 
     val version by lazy {
         Files.readAllLines(Kaga.CONFIG.kcaKaiRootDirPath.resolve("CHANGELOG.md")).first().let {
-            val date = "#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex().matchEntire(it)?.groupValues?.get(1)
-                    ?: "Unknown"
-            val release = ".*?(\\[.+?]).*?".toRegex().matchEntire(it)?.groupValues?.get(1) ?: ""
-            "$date $release"
+            it.dropWhile { !it.isDigit() }
         }
     }
 
