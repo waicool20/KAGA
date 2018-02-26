@@ -61,7 +61,10 @@ fun <T> CheckComboBox<T>.bind(
         listProperty: ListProperty<T>,
         readOnly: Boolean = false,
         onChange: (ListChangeListener.Change<out T>) -> Unit = {}) {
-    Bindings.checkComboBoxBindings.add(CheckComboBoxBinding(this, listProperty, readOnly, onChange))
+    with(Bindings.checkComboBoxBindings) {
+        find { it.checkComboBox == this }?.also { it.unbind() }.also { remove(it) }
+        add(CheckComboBoxBinding(this@bind, listProperty, readOnly, onChange))
+    }
 }
 
 private fun <T> bind(objectProperty: ObjectProperty<T>, objectProperty1: ObjectProperty<T>, readOnly: Boolean = false) {
@@ -100,6 +103,11 @@ class CheckComboBoxBinding<T>(
         checkComboBox.checkModel.checkAll(listProperty)
         checkComboBox.checkModel.checkedItems.addListener(toListener)
         if (!readOnly) listProperty.addListener(fromListener)
+    }
+
+    fun unbind() {
+        checkComboBox.checkModel.checkedItems.removeListener(toListener)
+        listProperty.removeListener(fromListener)
     }
 }
 

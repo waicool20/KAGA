@@ -27,6 +27,7 @@ import com.waicool20.kaga.util.setSideWithHorizontalText
 import com.waicool20.kaga.views.tabs.*
 import com.waicool20.kaga.views.tabs.MiscTabView
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
+import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.application.Platform
 import javafx.fxml.FXML
@@ -60,6 +61,7 @@ class KagaView {
     @FXML private lateinit var pvpTabController: PvpTabView
     @FXML private lateinit var sortieTabController: SortieTabView
     @FXML private lateinit var miscTabController: MiscTabView
+    @FXML private lateinit var shipSwitcherTabController: ShipSwitcherTabView
     @FXML private lateinit var questsTabController: QuestsTabView
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -108,6 +110,7 @@ class KagaView {
                 sortieTabController.initialize()
                 miscTabController.initialize()
                 questsTabController.initialize()
+                shipSwitcherTabController.initialize()
                 AlertFactory.info(
                         content = "Profile ${profile.name} has been loaded!"
                 ).showAndWait()
