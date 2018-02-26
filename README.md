@@ -67,6 +67,11 @@ Configuring the formations for each node is easy with a dropdown list:
 Statistics window for some of you nerds:
 ![Statistics window](screenshots/Main_and_Stats_window.png?raw=true)
 
+Discord integration in the works for a crash notifications and script status queries  
+(Currently under development, future updates will contain more stats)
+![Discord integration](screenshots/Discord_Integration.png?raw=true)
+
+
 # Troubleshooting
 
 Check out the [Troubleshooting wiki page](https://github.com/waicool20/KAGA/wiki)
