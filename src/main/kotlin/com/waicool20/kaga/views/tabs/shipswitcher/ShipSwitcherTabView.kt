@@ -22,12 +22,16 @@ package com.waicool20.kaga.views.tabs.shipswitcher
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile.SwitchCriteria
+import com.waicool20.kaga.util.bind
+import javafx.beans.property.SimpleListProperty
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.CheckBox
+import javafx.scene.layout.VBox
 import javafx.util.StringConverter
 import org.controlsfx.control.CheckComboBox
 import tornadofx.*
+import kotlin.reflect.KProperty0
 
 class ShipSwitcherTabView {
     @FXML private lateinit var enableButton: CheckBox
@@ -44,6 +48,15 @@ class ShipSwitcherTabView {
     @FXML private lateinit var slot4ShipsButton: Button
     @FXML private lateinit var slot5ShipsButton: Button
     @FXML private lateinit var slot6ShipsButton: Button
+
+    @FXML private lateinit var slot1ShipsVBox: VBox
+    @FXML private lateinit var slot2ShipsVBox: VBox
+    @FXML private lateinit var slot3ShipsVBox: VBox
+    @FXML private lateinit var slot4ShipsVBox: VBox
+    @FXML private lateinit var slot5ShipsVBox: VBox
+    @FXML private lateinit var slot6ShipsVBox: VBox
+
+    data class SlotShipsEditScope(val slot: KProperty0<SimpleListProperty<String>>): Scope()
 
     @FXML
     fun initialize() {
@@ -71,27 +84,36 @@ class ShipSwitcherTabView {
             slot6CriteriaComboBox.items.setAll(it)
         }
 
-        slot1ShipsButton.setOnAction { configureSlotShips(1) }
-        slot2ShipsButton.setOnAction { configureSlotShips(2) }
-        slot3ShipsButton.setOnAction { configureSlotShips(3) }
-        slot4ShipsButton.setOnAction { configureSlotShips(4) }
-        slot5ShipsButton.setOnAction { configureSlotShips(5) }
-        slot6ShipsButton.setOnAction { configureSlotShips(6) }
+        with(Kaga.PROFILE.shipSwitcher) {
+            slot1ShipsButton.setOnAction { configureSlotShips(::slot1ShipsProperty) }
+            slot2ShipsButton.setOnAction { configureSlotShips(::slot2ShipsProperty) }
+            slot3ShipsButton.setOnAction { configureSlotShips(::slot3ShipsProperty) }
+            slot4ShipsButton.setOnAction { configureSlotShips(::slot4ShipsProperty) }
+            slot5ShipsButton.setOnAction { configureSlotShips(::slot5ShipsProperty) }
+            slot6ShipsButton.setOnAction { configureSlotShips(::slot6ShipsProperty) }
+        }
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.shipSwitcher) {
             enableButton.bind(enabledProperty)
-            slot1CriteriaProperty.bind<SwitchCriteria, SwitchCriteria>(slot1CriteriaComboBox.checkModel.checkedItems) { it }
-            slot2CriteriaProperty.bind<SwitchCriteria, SwitchCriteria>(slot2CriteriaComboBox.checkModel.checkedItems) { it }
-            slot3CriteriaProperty.bind<SwitchCriteria, SwitchCriteria>(slot3CriteriaComboBox.checkModel.checkedItems) { it }
-            slot4CriteriaProperty.bind<SwitchCriteria, SwitchCriteria>(slot4CriteriaComboBox.checkModel.checkedItems) { it }
-            slot5CriteriaProperty.bind<SwitchCriteria, SwitchCriteria>(slot5CriteriaComboBox.checkModel.checkedItems) { it }
-            slot6CriteriaProperty.bind<SwitchCriteria, SwitchCriteria>(slot6CriteriaComboBox.checkModel.checkedItems) { it }
+            slot1CriteriaComboBox.bind(slot1CriteriaProperty)
+            slot2CriteriaComboBox.bind(slot2CriteriaProperty)
+            slot3CriteriaComboBox.bind(slot3CriteriaProperty)
+            slot4CriteriaComboBox.bind(slot4CriteriaProperty)
+            slot5CriteriaComboBox.bind(slot5CriteriaProperty)
+            slot6CriteriaComboBox.bind(slot6CriteriaProperty)
         }
+        slot1ShipsVBox.disableProperty().bind(slot1CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
+        slot2ShipsVBox.disableProperty().bind(slot2CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
+        slot3ShipsVBox.disableProperty().bind(slot3CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
+        slot4ShipsVBox.disableProperty().bind(slot4CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
+        slot5ShipsVBox.disableProperty().bind(slot5CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
+        slot6ShipsVBox.disableProperty().bind(slot6CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
     }
 
-    private fun configureSlotShips(slot: Int) = find<SlotShipsConfigurationView>(params = mapOf("slot" to slot)).openModal()
+    private fun configureSlotShips(slot: KProperty0<SimpleListProperty<String>>) =
+            find<SlotShipsEditorWorkspace>(SlotShipsEditScope(slot)).openModal(resizable = false)
 }
 
 

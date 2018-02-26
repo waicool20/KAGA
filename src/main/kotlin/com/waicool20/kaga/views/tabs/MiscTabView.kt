@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.views.tabs.misc
+package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile

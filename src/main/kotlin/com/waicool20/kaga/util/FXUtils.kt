@@ -45,6 +45,7 @@ import javafx.util.Callback
 import javafx.util.StringConverter
 import org.controlsfx.control.CheckModel
 import org.controlsfx.control.IndexedCheckModel
+import tornadofx.*
 import java.util.concurrent.TimeUnit
 
 
@@ -323,4 +324,17 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
 fun <T> CheckModel<T>.checkAll(items: List<T>) {
     clearChecks()
     if (items.isNotEmpty()) items.forEach { check(it) }
+}
+
+inline fun <reified T: UIComponent> Workspace.dockAndReplace(
+        transition: ViewTransition? = null,
+        scope: Scope = this.scope,
+        params: Map<*, Any?>? = null) {
+    dockedComponent?.root?.replaceWith(find<T>().root, transition)
+    dock<T>(scope, params)
+}
+
+class EnumCapitalizedNameConverter<T: Enum<*>>: StringConverter<T>() {
+    override fun toString(e: T) = e.toString().replace("_", " ").toLowerCase().capitalize()
+    override fun fromString(string: String): T? = null
 }

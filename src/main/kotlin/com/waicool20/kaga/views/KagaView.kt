@@ -25,7 +25,7 @@ import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.setSideWithHorizontalText
 import com.waicool20.kaga.views.tabs.*
-import com.waicool20.kaga.views.tabs.misc.MiscTabView
+import com.waicool20.kaga.views.tabs.MiscTabView
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.application.Platform

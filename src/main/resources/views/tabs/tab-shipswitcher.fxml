@@ -73,10 +73,10 @@
                         <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot1CriteriaLabel" text="Slot 1 Criteria:" />
-                              <CheckComboBox fx:id="slot1CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                              <CheckComboBox fx:id="slot1CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="slot1ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot1ShipsLabel" text="Slot 1 Ships:">
                                  <VBox.margin>
@@ -99,10 +99,10 @@
                         <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot2CriteriaLabel" text="Slot 2 Criteria:" />
-                              <CheckComboBox fx:id="slot2CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                              <CheckComboBox fx:id="slot2CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="slot2ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot2ShipsLabel" text="Slot 2 Ships:">
                                  <VBox.margin>
@@ -122,10 +122,10 @@
                         <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot3CriteriaLabel" text="Slot 3 Criteria:" />
-                              <CheckComboBox fx:id="slot3CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                              <CheckComboBox fx:id="slot3CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="slot3ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot3ShipsLabel" text="Slot 3 Ships:">
                                  <VBox.margin>
@@ -145,10 +145,10 @@
                         <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot4CriteriaLabel" text="Slot 4 Criteria:" />
-                              <CheckComboBox fx:id="slot4CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                              <CheckComboBox fx:id="slot4CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="slot4ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot4ShipsLabel" text="Slot 4 Ships:">
                                  <VBox.margin>
@@ -168,10 +168,10 @@
                         <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot5CriteriaLabel" text="Slot 5 Criteria:" />
-                              <CheckComboBox fx:id="slot5CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                              <CheckComboBox fx:id="slot5CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="slot5ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot5ShipsLabel" text="Slot 5 Ships:">
                                  <VBox.margin>
@@ -191,10 +191,10 @@
                         <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot6CriteriaLabel" text="Slot 6 Criteria:" />
-                              <CheckComboBox fx:id="slot6CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                              <CheckComboBox fx:id="slot6CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="slot6ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="slot6ShipsLabel" text="Slot 6 Ships:">
                                  <VBox.margin>

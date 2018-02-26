@@ -27,7 +27,8 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.IniConfig
 import com.waicool20.kaga.util.fromObject
 import com.waicool20.kaga.util.toObject
-import javafx.beans.property.*
+import javafx.beans.property.SimpleListProperty
+import javafx.beans.property.SimpleSetProperty
 import javafx.collections.FXCollections
 import org.ini4j.Wini
 import org.slf4j.LoggerFactory
@@ -38,7 +39,6 @@ import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.util.*
 import java.util.regex.Pattern
-
 
 class KancolleAutoProfile(
         name: String = KancolleAutoProfile.Loader.DEFAULT_NAME,
@@ -53,10 +53,8 @@ class KancolleAutoProfile(
         val quests: Quests = Quests()
 ) {
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
-    @JsonIgnore
-    var nameProperty = SimpleStringProperty(name)
-    @get:JsonProperty
-    var name by nameProperty
+    @JsonIgnore var nameProperty = name.toProperty()
+    @get:JsonProperty var name by nameProperty
 
     fun path(): Path = Kaga.CONFIG_DIR.resolve("$name-config.ini")
 
@@ -112,9 +110,7 @@ class KancolleAutoProfile(
         val VALID_NODES = (1..12).map { it.toString() }
                 .plus("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter { it.isNotEmpty() })
                 .plus(listOf("Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZZ1", "ZZ2", "ZZ3"))
-                .let {
-                    FXCollections.observableList(it)
-                }
+                .let { FXCollections.observableList(it) }
 
         fun load(path: Path = Kaga.CONFIG.kcaKaiRootDirPath.resolve("config.ini")): KancolleAutoProfile {
             if (Files.exists(path)) {
@@ -171,26 +167,15 @@ class KancolleAutoProfile(
 
     enum class CombatFormation(val prettyString: String) {
         LINE_AHEAD("Line Ahead"), DOUBLE_LINE("Double Line"), DIAMOND("Diamond"),
-        ECHELON("Echelon"), LINE_ABREAST("Line Abreast"), VANGUARD("Vanguard"), COMBINEDFLEET_1("Cruising Formation 1 (Anti-Sub)"),
-        COMBINEDFLEET_2("Cruising Formation 2 (Forward)"), COMBINEDFLEET_3("Cruising Formation 3 (Ring)"), COMBINEDFLEET_4("Cruising Formation 4 (Battle)");
+        ECHELON("Echelon"), LINE_ABREAST("Line Abreast"), VANGUARD("Vanguard"),
+        COMBINEDFLEET_1("Cruising Formation 1 (Anti-Sub)"), COMBINEDFLEET_2("Cruising Formation 2 (Forward)"),
+        COMBINEDFLEET_3("Cruising Formation 3 (Ring)"), COMBINEDFLEET_4("Cruising Formation 4 (Battle)");
 
         companion object {
             fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
         }
 
         override fun toString(): String = name.toLowerCase()
-    }
-
-    enum class Submarines(val prettyString: String, val isSSV: Boolean?) {
-        ALL("All", null), SS("SS", null), SSV("SSV", null), I_8("I-8", false),
-        I_8_KAI("I-8 Kai", true), I_13("I-13", true), I_14("I-14", true),
-        I_19("I-19", false), I_19_KAI("I-19 Kai", true), I_26("I-26", false),
-        I_26_KAI("I-26 Kai", true), I_58("I-58", false), I_58_KAI("I-58 Kai", true),
-        I_168("I-168", false), I_401("I-401", true), MARUYU("Maruyu", false),
-        RO_500("Ro-500", false), U_511("U-511", false), LUIGI("Luigi", false),
-        UIT_25("UIT-25", false), I_504("I-504", false);
-
-        override fun toString() = prettyString.toLowerCase().replace(" ", "-")
     }
 
     enum class Engine(val prettyString: String) {
@@ -260,17 +245,15 @@ class KancolleAutoProfile(
             sleepModifier: Int = 0*/
     ) {
         @JsonIgnore @IniConfig(key = "Program")
-        val programProperty = SimpleStringProperty(program)
+        val programProperty = program.toProperty()
         @JsonIgnore @IniConfig(key = "JSTOffset", shouldRead = false)
-        val jstOffsetProperty = ((TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan").rawOffset) / 3600000).let {
-            SimpleIntegerProperty(it)
-        }
+        val jstOffsetProperty = ((TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan").rawOffset) / 3600000).toProperty()
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @JsonIgnore @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
-        @JsonIgnore @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = SimpleBooleanProperty(basicRecovery)
-        @JsonIgnore @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = SimpleIntegerProperty(sleepCycle)
-        @JsonIgnore @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = SimpleIntegerProperty(paranoia)
-        @JsonIgnore @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = SimpleIntegerProperty(sleepModifier)*/
+        @JsonIgnore @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = basicRecovery.toProperty()
+        @JsonIgnore @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = sleepCycle.toProperty()
+        @JsonIgnore @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = paranoia.toProperty()
+        @JsonIgnore @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = sleepModifier.toProperty()*/
 
         @get:JsonProperty var program by programProperty
         @get:JsonProperty var jstOffset by jstOffsetProperty
@@ -288,11 +271,11 @@ class KancolleAutoProfile(
             length: Double = 3.5
     ) {
         @JsonIgnore @IniConfig(key = "Enabled")
-        val enabledProperty = SimpleBooleanProperty(enabled)
+        val enabledProperty = enabled.toProperty()
         @JsonIgnore @IniConfig(key = "StartTime")
-        val startTimeProperty = SimpleStringProperty(startTime)
+        val startTimeProperty = startTime.toProperty()
         @JsonIgnore @IniConfig(key = "SleepLength")
-        val lengthProperty = SimpleDoubleProperty(length)
+        val lengthProperty = length.toProperty()
 
         @get:JsonProperty var enabled by enabledProperty
         @get:JsonProperty var startTime by startTimeProperty
@@ -305,9 +288,9 @@ class KancolleAutoProfile(
             mode: ScheduledStopMode = ScheduledStopMode.TIME,
             count: Int = 5
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = SimpleBooleanProperty(enabled)
-        @JsonIgnore @IniConfig(key = "Mode") val modeProperty = SimpleObjectProperty(mode)
-        @JsonIgnore @IniConfig(key = "Count") val countProperty = SimpleIntegerProperty(count)
+        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = enabled.toProperty()
+        @JsonIgnore @IniConfig(key = "Mode") val modeProperty = mode.toProperty()
+        @JsonIgnore @IniConfig(key = "Count") val countProperty = count.toProperty()
 
         @get:JsonProperty var enabled by enabledProperty
         @get:JsonProperty var mode by modeProperty
@@ -321,7 +304,7 @@ class KancolleAutoProfile(
             fleet4: List<String> = listOf("21")
     ) {
         @JsonIgnore @IniConfig(key = "Enabled")
-        val enabledProperty = SimpleBooleanProperty(enabled)
+        val enabledProperty = enabled.toProperty()
         @JsonIgnore @IniConfig(key = "Fleet2")
         val fleet2Property = SimpleListProperty(FXCollections.observableList(fleet2))
         @JsonIgnore @IniConfig(key = "Fleet3")
@@ -341,9 +324,9 @@ class KancolleAutoProfile(
             fleetComp: Int = 1*/
     ) {
         @JsonIgnore @IniConfig(key = "Enabled")
-        val enabledProperty = SimpleBooleanProperty(enabled)
+        val enabledProperty = enabled.toProperty()
         /* TODO Disabled temporarily till kcauto-kai is finalized
-        @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = SimpleIntegerProperty(fleetComp)*/
+        @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = fleetComp.toProperty()*/
 
         @get:JsonProperty var enabled by enabledProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
@@ -369,15 +352,15 @@ class KancolleAutoProfile(
             miscOptions: Set<SortieOptions> = mutableSetOf()
     ) {
         @JsonIgnore @IniConfig(key = "Enabled")
-        val enabledProperty = SimpleBooleanProperty(enabled)
+        val enabledProperty = enabled.toProperty()
         @JsonIgnore @IniConfig(key = "Engine")
-        val engineProperty = SimpleObjectProperty(engine)
+        val engineProperty = engine.toProperty()
         @JsonIgnore @IniConfig(key = "Map")
-        val mapProperty = SimpleStringProperty(map)
+        val mapProperty = map.toProperty()
         @JsonIgnore @IniConfig(key = "CombatNodes")
-        val nodesProperty = SimpleIntegerProperty(nodes)
+        val nodesProperty = nodes.toProperty()
         @JsonIgnore @IniConfig(key = "FleetMode")
-        val fleetModeProperty = SimpleObjectProperty(fleetMode)
+        val fleetModeProperty = fleetMode.toProperty()
         @JsonIgnore @IniConfig(key = "NodeSelects")
         val nodeSelectsProperty = SimpleListProperty(FXCollections.observableList(nodeSelects))
         @JsonIgnore @IniConfig(key = "Formations")
@@ -385,11 +368,11 @@ class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "NightBattles")
         val nightBattlesProperty = SimpleListProperty(FXCollections.observableList(nightBattles))
         @JsonIgnore @IniConfig(key = "RetreatLimit")
-        val retreatLimitProperty = SimpleObjectProperty(retreatLimit)
+        val retreatLimitProperty = retreatLimit.toProperty()
         @JsonIgnore @IniConfig(key = "RepairLimit")
-        val repairLimitProperty = SimpleObjectProperty(repairLimit)
+        val repairLimitProperty = repairLimit.toProperty()
         @JsonIgnore @IniConfig(key = "RepairTimeLimit")
-        val repairTimeLimitProperty = SimpleStringProperty(repairTimeLimit)
+        val repairTimeLimitProperty = repairTimeLimit.toProperty()
         @JsonIgnore @IniConfig(key = "LBASGroups")
         val lbasGroupsProperty = SimpleSetProperty(FXCollections.observableSet(lbasGroups))
         @JsonIgnore @IniConfig(key = "LBASGroup1Nodes")
@@ -435,7 +418,7 @@ class KancolleAutoProfile(
             slot6Ships: List<String> = mutableListOf()
     ) {
         @JsonIgnore @IniConfig("Enabled")
-        val enabledProperty = SimpleBooleanProperty(enabled)
+        val enabledProperty = enabled.toProperty()
         @JsonIgnore @IniConfig("Slot1Criteria")
         val slot1CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot1Criteria))
         @JsonIgnore @IniConfig("Slot1Ships")
@@ -484,10 +467,10 @@ class KancolleAutoProfile(
     ) {
         @JsonIgnore
         @IniConfig(key = "Enabled")
-        val enabledProperty = SimpleBooleanProperty(enabled)
+        val enabledProperty = enabled.toProperty()
         /* TODO Disabled temporarily till kcauto-kai is finalized
         @JsonIgnore @IniConfig(key = "Quests") val questsProperty = SimpleListProperty(FXCollections.observableArrayList(quests))
-        @JsonIgnore @IniConfig(key = "CheckSchedule") val checkScheduleProperty = SimpleIntegerProperty(checkSchedule)*/
+        @JsonIgnore @IniConfig(key = "CheckSchedule") val checkScheduleProperty = checkSchedule.toProperty()*/
 
         @get:JsonProperty
         var enabled by enabledProperty
