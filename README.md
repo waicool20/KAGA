@@ -1,5 +1,8 @@
 # KAGA
-Kancolle Auto Gui App or Kaga - A GUI for the tool over here: https://github.com/mrmin123/kancolle-auto
+Kancolle Auto Gui App or KAGA 
+
+A GUI for the tool over here: https://github.com/mrmin123/kancolle-auto (Versions below 2.0.0)  
+And here: https://github.com/mrmin123/kcauto-kai (Versions 2.0.0 and above)
 
 ---
 **ALL WARNINGS/DISCLAIMERS FROM KANCOLLE-AUTO ALSO APPLY HERE,  
@@ -10,25 +13,26 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 # Features
 
 - No more hassling with the command line, just click away admiral!
-- More human friendly values instead of pure numbers used to configure Kancolle Auto
+- More human friendly values instead of pure numbers used to configure KCAuto-Kai
 - Profile saving, for easy switching between different routines from orel cruising to your 3-2 grind
-- Automatic restart of Kancolle Auto, KAGA makes sure those subs return to 2-3 even after an internet hiccup!
-- Saves crash logs automatically to <Kancolle Auto Directory>/crashes with details filled in ready for bug reporting
+- Automatic restart of KCAuto-Kai, KAGA makes sure those subs return to 2-3 even after an internet hiccup!
+- Saves crash logs automatically to <KCAuto-Kai Directory>/crashes with details filled in ready for bug reporting
 - Prevents lockscreen(configurable) in case you're too lazy to turn off your screensaver
-- Tooltips to help you configure Kancolle Auto, press Shift Key while hovering over an option to see what it does
+- Tooltips to help you configure KCAuto-Kai, press Shift Key while hovering over an option to see what it does
 - Statistics to help you know what the script is doing! eg. Buckets used, sorties per hour etc. (See screenshots)
 
-Planned:
-- Bundling SikuliX and adding more stats related things like resource expenses by OCR
+Currently under development:
+- UI renewal in certain submenus
+- Discord integration for notifications on crashes and resource queries using YuuBot, remember to join our [Discord Server](#want-to-chat)
 
 # Installation and Usage
 
 * A working copy of KAGA, either download from [release page](https://github.com/waicool20/KAGA/releases) or build a copy from the latest commit (Instructions below)
 * Install [Java JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
-* A working copy of [Kancolle Auto](https://github.com/mrmin123/kancolle-auto)
+* A working copy of [KCAuto-Kai](https://github.com/mrmin123/kcauto-kai)
 
-After you install the dependencies, you may run the JAR executable directly, after which you will be presented a screen to configure paths to the Sikuli Script Jar file and the Kancolle Auto Root directory.
-After that the main application will start and you may begin configuring and saving profiles for Kancolle Auto, it's pretty straight forward with Kaga as your secretary!
+After you install the dependencies, you may run the JAR executable directly, after which you will be presented a screen to configure paths to the Sikuli Script Jar file and the KCAuto-Kai Root directory.
+After that the main application will start and you may begin configuring and saving profiles for KCAuto-Kai, it's pretty straight forward with Kaga as your secretary!
 
 # Build Instructions
 
@@ -54,14 +58,11 @@ Looks may vary on different OS but should run the same regardless, I'm currently
 It may also vary between current release and latest commit, so if you want the eye candy learn how to build it from source, it's easy!
 
 
-Main window and debug window showing the console output of both KAGA and Kancolle Auto:
+Main window and debug window showing the console output of both KAGA and KCAuto-Kai:
 ![Main and Debug window](screenshots/Main_and_Debug_window.png?raw=true)
 
 Configuring the formations for each node is easy with a dropdown list:
 ![Choosing formations](screenshots/Choosing_formations.png?raw=true)
-
-Same goes for quests, easy configuration with checkboxes:
-![Choosing quests](screenshots/Choosing_quests.png?raw=true)
 
 Statistics window for some of you nerds:
 ![Statistics window](screenshots/Main_and_Stats_window.png?raw=true)
@@ -73,7 +74,6 @@ Check out the [Troubleshooting wiki page](https://github.com/waicool20/KAGA/wiki
 # Want to chat?
 
 Want to chat? Or just ask a quick question instead of submitting a full blown issue? Or maybe you just want to share your waifu...
-well then you're welcome to [join me on Discord!](https://discord.gg/2tt5Der)
-
-
-
+well then you're welcome to join us in Discord:
+ 
+[<img src="https://discordapp.com/assets/fc0b01fe10a0b8c602fb0106d8189d9b.png" alt="alt text" width="200px">](https://discord.gg/2tt5Der)
