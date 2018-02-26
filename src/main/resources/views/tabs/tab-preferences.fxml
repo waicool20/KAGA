@@ -33,7 +33,7 @@
   ~
   -->
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.PreferencesTabView">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.PreferencesTabView">
     <children>
         <GridPane>
             <columnConstraints>
@@ -66,7 +66,7 @@
                 </HBox>
                 <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10">
                     <children>
-                        <Label fx:id="kcaKaiRootLabel" text="Kancolle Auto Root:" />
+                        <Label fx:id="kcaKaiRootLabel" text="KCAuto-Kai root:" />
                         <Hyperlink fx:id="kcaKaiRootPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" HBox.hgrow="ALWAYS" />
                     </children>
                     <padding>
@@ -176,7 +176,7 @@
                 <CheckBox fx:id="showStatsCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <HBox alignment="CENTER_LEFT" GridPane.rowIndex="4">
                <children>
-                  <Label fx:id="showStatsLabel1" text="Restart max retries:" />
+                  <Label fx:id="maxRetriesLabel" text="Restart max retries:" />
                </children>
                <opaqueInsets>
                   <Insets />

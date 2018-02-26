@@ -57,17 +57,17 @@
                     <children>
                         <HBox alignment="CENTER">
                             <children>
-                                <Label text="LBAS Group 1:" />
+                                <Label fx:id="lbasGroup1Label" text="LBAS Group 1:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="1">
                             <children>
-                                <Label text="LBAS Group 2:" />
+                                <Label fx:id="lbasGroup2Label" text="LBAS Group 2:" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="2">
                             <children>
-                                <Label text="LBAS Group 3:" />
+                                <Label fx:id="lbasGroup3Label" text="LBAS Group 3:" />
                             </children>
                         </HBox>
                   <HBox alignment="CENTER" GridPane.columnIndex="1">
