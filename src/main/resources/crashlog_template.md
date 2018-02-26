@@ -1,7 +1,7 @@
 ## Log for crash that occurred at <DateTime>
 
-You may submit this as an issue to the Kancolle Auto Github Repository at: 
-> https://github.com/mrmin123/kancolle-auto/issues
+You may submit this as an issue to the KCAuto-Kai Github Repository at: 
+> https://github.com/mrmin123/kcauto-kai/issues
 
 Or if you think it has something to do with KAGA then you may submit the issue at:
 > https://github.com/waicool20/KAGA/issues
@@ -16,7 +16,7 @@ You may want to use a service like [http://pastebin.com/] and replace the sectio
 
 #### Environment details
 
-* Kancolle Auto Version: <Version>
+* KCAuto-Kai Version: <Version>
 * Viewer/browser: <Viewer>
 * Operating system: <OS>
 
