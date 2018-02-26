@@ -444,15 +444,15 @@ class KancolleAutoProfile(
         @get:JsonProperty var slot1Criteria by slot1CriteriaProperty
         @get:JsonProperty var slot1Ships by slot1ShipsProperty
         @get:JsonProperty var slot2Criteria by slot2CriteriaProperty
-        @get:JsonProperty var slot2Ships by slot2CriteriaProperty
+        @get:JsonProperty var slot2Ships by slot2ShipsProperty
         @get:JsonProperty var slot3Criteria by slot3CriteriaProperty
-        @get:JsonProperty var slot3Ships by slot3CriteriaProperty
+        @get:JsonProperty var slot3Ships by slot3ShipsProperty
         @get:JsonProperty var slot4Criteria by slot4CriteriaProperty
-        @get:JsonProperty var slot4Ships by slot4CriteriaProperty
+        @get:JsonProperty var slot4Ships by slot4ShipsProperty
         @get:JsonProperty var slot5Criteria by slot5CriteriaProperty
-        @get:JsonProperty var slot5Ships by slot5CriteriaProperty
+        @get:JsonProperty var slot5Ships by slot5ShipsProperty
         @get:JsonProperty var slot6Criteria by slot6CriteriaProperty
-        @get:JsonProperty var slot6Ships by slot6CriteriaProperty
+        @get:JsonProperty var slot6Ships by slot6ShipsProperty
     }
 
     class Quests(
