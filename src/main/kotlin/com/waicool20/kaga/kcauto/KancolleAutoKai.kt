@@ -44,20 +44,20 @@ class KancolleAutoKai {
 
     val version by lazy {
         Files.readAllLines(Kaga.CONFIG.kcaKaiRootDirPath.resolve("CHANGELOG.md")).first().let {
-            val date = "#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex().matchEntire(it)?.groupValues?.get(1) ?: "Unknown"
+            val date = "#{4} (\\d{4}-\\d{2}-\\d{2}).*?".toRegex().matchEntire(it)?.groupValues?.get(1)
+                    ?: "Unknown"
             val release = ".*?(\\[.+?]).*?".toRegex().matchEntire(it)?.groupValues?.get(1) ?: ""
             "$date $release"
         }
     }
 
     fun startAndWait(saveConfig: Boolean = true) {
-        if (saveConfig) Kaga.PROFILE.save(Kaga.CONFIG.kcaKaiRootDirPath.resolve("config.ini"))
+        if (saveConfig) Kaga.PROFILE.save()
         val args = listOf(
-                "java",
-                "-jar",
-                Kaga.CONFIG.sikulixJarPath.toString(),
-                "-r",
-                "${Kaga.CONFIG.kcaKaiRootDirPath.resolve("kcauto-kai.sikuli")}"
+                "java", "-jar",
+                "${Kaga.CONFIG.sikulixJarPath}", "-r",
+                "${Kaga.CONFIG.kcaKaiRootDirPath.resolve("kcauto-kai.sikuli")}",
+                "--", "cfg", "${Kaga.PROFILE.path()}"
         )
         val lockPreventer = if (Kaga.CONFIG.preventLock) LockPreventer() else null
         statsTracker.startNewSession()
