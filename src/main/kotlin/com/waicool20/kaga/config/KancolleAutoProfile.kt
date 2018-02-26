@@ -38,7 +38,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.util.*
-import java.util.regex.Pattern
 
 class KancolleAutoProfile(
         name: String = KancolleAutoProfile.Loader.DEFAULT_NAME,
@@ -116,19 +115,16 @@ class KancolleAutoProfile(
             if (Files.exists(path)) {
                 loaderLogger.info("Attempting to load KancolleAuto Profile")
                 loaderLogger.debug("Loading KancolleAuto Profile from $path")
-                val matcher = Pattern.compile("(.+?)-config\\.ini").matcher(path.fileName.toString())
-                val name = if (matcher.matches()) {
-                    matcher.group(1)
-                } else {
-                    var backupPath = path.resolveSibling("config.ini.bak")
-                    var index = 0
-                    while (Files.exists(backupPath)) {
-                        backupPath = path.resolveSibling("config.ini.bak${index++}")
-                    }
-                    loaderLogger.info("Copied backup of existing configuration to $backupPath")
-                    Files.copy(path, backupPath)
-                    DEFAULT_NAME
-                }
+                val name = Regex("(.+?)-config\\.ini").matchEntire("${path.fileName}")?.groupValues?.get(1)
+                        ?: run {
+                            val backupPath = (0..999).asSequence()
+                                    .map { "config.ini.bak$it" }
+                                    .map { path.resolveSibling(it) }
+                                    .first { Files.exists(it) }
+                            loaderLogger.info("Copied backup of existing configuration to $backupPath")
+                            Files.copy(path, backupPath)
+                            DEFAULT_NAME
+                        }
                 val ini = Wini(path.toFile())
 
                 return KancolleAutoProfile(
