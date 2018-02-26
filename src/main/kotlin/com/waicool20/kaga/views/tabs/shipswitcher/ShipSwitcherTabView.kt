@@ -27,6 +27,7 @@ import javafx.beans.property.SimpleListProperty
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.CheckBox
+import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
 import javafx.util.StringConverter
 import org.controlsfx.control.CheckComboBox
@@ -55,6 +56,8 @@ class ShipSwitcherTabView {
     @FXML private lateinit var slot4ShipsVBox: VBox
     @FXML private lateinit var slot5ShipsVBox: VBox
     @FXML private lateinit var slot6ShipsVBox: VBox
+
+    @FXML private lateinit var content: GridPane
 
     data class SlotShipsEditScope(val slot: KProperty0<SimpleListProperty<String>>): Scope()
 
@@ -95,6 +98,7 @@ class ShipSwitcherTabView {
     }
 
     private fun createBindings() {
+        content.disableProperty().bind(enableButton.selectedProperty().not())
         with(Kaga.PROFILE.shipSwitcher) {
             enableButton.bind(enabledProperty)
             slot1CriteriaComboBox.bind(slot1CriteriaProperty)
