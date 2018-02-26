@@ -142,9 +142,9 @@
                         <fx:include fx:id="shipSwitcherTab" source="tabs/tab-shipswitcher.fxml" />
                     </content>
                 </Tab>
-                <Tab text="Misc">
+                <Tab text="LBAS">
                     <content>
-                        <fx:include fx:id="miscTab" source="tabs/tab-misc.fxml" />
+                        <fx:include fx:id="lbasTab" source="tabs/tab-lbas.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Preferences">

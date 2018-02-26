@@ -34,7 +34,7 @@ import org.controlsfx.control.PrefixSelectionComboBox
 import tornadofx.*
 import kotlin.reflect.KMutableProperty0
 
-class MiscTabView {
+class LbasTabView {
 
     private val VALID_NODES = KancolleAutoProfile.VALID_NODES
             .filterNot { it.matches("^\\d+".toRegex()) }

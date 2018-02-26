@@ -25,7 +25,7 @@ import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.setSideWithHorizontalText
 import com.waicool20.kaga.views.tabs.*
-import com.waicool20.kaga.views.tabs.MiscTabView
+import com.waicool20.kaga.views.tabs.LbasTabView
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
@@ -60,7 +60,7 @@ class KagaView {
     @FXML private lateinit var expeditionsTabController: ExpeditionsTabView
     @FXML private lateinit var pvpTabController: PvpTabView
     @FXML private lateinit var sortieTabController: SortieTabView
-    @FXML private lateinit var miscTabController: MiscTabView
+    @FXML private lateinit var lbasTabController: LbasTabView
     @FXML private lateinit var shipSwitcherTabController: ShipSwitcherTabView
     @FXML private lateinit var questsTabController: QuestsTabView
 
@@ -108,7 +108,7 @@ class KagaView {
                 expeditionsTabController.initialize()
                 pvpTabController.initialize()
                 sortieTabController.initialize()
-                miscTabController.initialize()
+                lbasTabController.initialize()
                 questsTabController.initialize()
                 shipSwitcherTabController.initialize()
                 AlertFactory.info(

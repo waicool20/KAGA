@@ -160,15 +160,15 @@
     "description": "How often should quests be checked? Settings this to 1 will make quests be checked after every expedition and sortie"
   },
   {
-    "id": "Misc-lbasGroup1Label",
+    "id": "LBAS-lbasGroup1Label",
     "description": "Which nodes to send LBAS group 1 to, only enabled if 2 nodes are specified"
   },
   {
-    "id": "Misc-lbasGroup2Label",
+    "id": "LBAS-lbasGroup2Label",
     "description": "Which nodes to send LBAS group 2 to, only enabled if 2 nodes are specified"
   },
   {
-    "id": "Misc-lbasGroup3Label",
+    "id": "LBAS-lbasGroup3Label",
     "description": "Which nodes to send LBAS group 3 to, only enabled if 2 nodes are specified"
   },
   {
