@@ -21,10 +21,12 @@
 package com.waicool20.kaga.views.tabs.shipswitcher
 
 import com.waicool20.kaga.config.ShipSpecificationByPosition
+import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.util.EnumCapitalizedNameConverter
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.VBox
 import tornadofx.*
 
@@ -48,6 +50,13 @@ class SlotShipsEditByPositionView : View() {
         sortByComboBox.selectionModel.select(spec.sortBy)
         orderComboBox.selectionModel.select(spec.order)
         offsetSpinner.valueFactory.value = spec.offset
+    }
+
+    override fun onDock() {
+        super.onDock()
+        val handler = MouseIncrementHandler(1000L, 40)
+        root.addEventFilter(MouseEvent.MOUSE_PRESSED, handler)
+        root.addEventFilter(MouseEvent.MOUSE_RELEASED, handler)
     }
 
     override fun onSave() {
