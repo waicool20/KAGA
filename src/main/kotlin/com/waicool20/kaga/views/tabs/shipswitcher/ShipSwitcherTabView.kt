@@ -23,15 +23,21 @@ package com.waicool20.kaga.views.tabs.shipswitcher
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile.SwitchCriteria
 import com.waicool20.kaga.util.bind
+import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleListProperty
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.CheckBox
+import javafx.scene.control.Tooltip
+import javafx.scene.input.MouseButton
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
 import javafx.util.StringConverter
 import org.controlsfx.control.CheckComboBox
 import tornadofx.*
+import java.util.concurrent.Callable
+import kotlin.concurrent.thread
 import kotlin.reflect.KProperty0
 
 class ShipSwitcherTabView {
@@ -58,13 +64,28 @@ class ShipSwitcherTabView {
     @FXML private lateinit var slot6ShipsVBox: VBox
 
     @FXML private lateinit var content: GridPane
+    private var currentProperty: Pair<Button, KProperty0<SimpleListProperty<String>>>? = null
 
-    data class SlotShipsEditScope(val slot: KProperty0<SimpleListProperty<String>>): Scope()
+    data class SlotShipsEditScope(val slot: KProperty0<SimpleListProperty<String>>) : Scope()
+
+    private val buttonPropMap by lazy {
+        with(Kaga.PROFILE.shipSwitcher) {
+            mapOf(
+                    slot1ShipsButton to ::slot1ShipsProperty,
+                    slot2ShipsButton to ::slot2ShipsProperty,
+                    slot3ShipsButton to ::slot3ShipsProperty,
+                    slot4ShipsButton to ::slot4ShipsProperty,
+                    slot5ShipsButton to ::slot5ShipsProperty,
+                    slot6ShipsButton to ::slot6ShipsProperty
+            )
+        }
+    }
 
     @FXML
     fun initialize() {
         setValues()
         createBindings()
+        setupButtons()
     }
 
     private fun setValues() {
@@ -86,15 +107,6 @@ class ShipSwitcherTabView {
             slot5CriteriaComboBox.items.setAll(it)
             slot6CriteriaComboBox.items.setAll(it)
         }
-
-        with(Kaga.PROFILE.shipSwitcher) {
-            slot1ShipsButton.setOnAction { configureSlotShips(::slot1ShipsProperty) }
-            slot2ShipsButton.setOnAction { configureSlotShips(::slot2ShipsProperty) }
-            slot3ShipsButton.setOnAction { configureSlotShips(::slot3ShipsProperty) }
-            slot4ShipsButton.setOnAction { configureSlotShips(::slot4ShipsProperty) }
-            slot5ShipsButton.setOnAction { configureSlotShips(::slot5ShipsProperty) }
-            slot6ShipsButton.setOnAction { configureSlotShips(::slot6ShipsProperty) }
-        }
     }
 
     private fun createBindings() {
@@ -114,6 +126,45 @@ class ShipSwitcherTabView {
         slot4ShipsVBox.disableProperty().bind(slot4CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
         slot5ShipsVBox.disableProperty().bind(slot5CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
         slot6ShipsVBox.disableProperty().bind(slot6CriteriaComboBox.checkModel.checkedIndices.sizeProperty.isEqualTo(0))
+    }
+
+    private fun setupButtons() {
+        buttonPropMap.forEach { button, slot ->
+            button.tooltip = Tooltip().apply {
+                textProperty().bind(Bindings.createStringBinding(Callable {
+                    slot.get().joinToString("\n")
+                }, slot.get()))
+            }
+            button.setOnAction { configureSlotShips(slot) }
+            button.setOnMouseClicked { e ->
+                if (!e.isControlDown) return@setOnMouseClicked
+                when (e.button) {
+                    MouseButton.PRIMARY -> {
+                        if (button.textFill == Color.GREEN) {
+                            button.textFill = Color.BLACK
+                            currentProperty = null
+                        } else {
+                            buttonPropMap.keys.filterNot { it == button }.forEach { it.textFill = Color.BLACK }
+                            button.textFill = Color.GREEN
+                            currentProperty = button to slot
+                        }
+                    }
+                    MouseButton.SECONDARY -> {
+                        if (button != currentProperty?.first) {
+                            currentProperty?.second?.get()?.also { sourceProp ->
+                                buttonPropMap[button]?.get()?.setAll(sourceProp)
+                                thread {
+                                    button.style = "-fx-background-color: red"
+                                    Thread.sleep(200)
+                                    button.style = ""
+                                }
+                            }
+                        }
+                    }
+                    else -> Unit // Ignore
+                }
+            }
+        }
     }
 
     private fun configureSlotShips(slot: KProperty0<SimpleListProperty<String>>) =
