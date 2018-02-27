@@ -101,7 +101,7 @@
                             <children>
                                 <HBox alignment="CENTER_LEFT">
                                     <children>
-                                        <Button mnemonicParsing="false" onAction="#onConfigureNodeSelectsButton" text="Configure" />
+                                        <Button fx:id="nodeSelectsButton" mnemonicParsing="false" text="Configure" />
                                     </children>
                                 </HBox>
                             </children>
@@ -116,7 +116,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
                             <children>
-                                <Button mnemonicParsing="false" onAction="#onConfigureFormationsButton" text="Configure" />
+                                <Button fx:id="formationsButton" mnemonicParsing="false" text="Configure" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="5">
@@ -129,7 +129,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
                             <children>
-                                <Button mnemonicParsing="false" onAction="#onConfigureNightBattlesButton" text="Configure" />
+                                <Button fx:id="nightBattlesButton" mnemonicParsing="false" text="Configure" />
                             </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="6">

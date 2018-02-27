@@ -130,10 +130,10 @@ class ShipSwitcherTabView {
 
     private fun setupButtons() {
         buttonPropMap.forEach { button, slot ->
-            button.tooltip = Tooltip().apply {
-                textProperty().bind(Bindings.createStringBinding(Callable {
-                    slot.get().joinToString("\n")
-                }, slot.get()))
+            button.tooltip {
+                textProperty().bind(slot.get().stringBinding {
+                    it?.joinToString("\n")
+                })
             }
             button.setOnAction { configureSlotShips(slot) }
             button.setOnMouseClicked { e ->

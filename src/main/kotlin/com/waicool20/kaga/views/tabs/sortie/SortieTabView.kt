@@ -27,10 +27,7 @@ import com.waicool20.kaga.util.asTimeSpinner
 import com.waicool20.kaga.util.bind
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
-import javafx.scene.control.CheckBox
-import javafx.scene.control.ComboBox
-import javafx.scene.control.Spinner
-import javafx.scene.control.SpinnerValueFactory
+import javafx.scene.control.*
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
 import tornadofx.*
@@ -51,6 +48,10 @@ class SortieTabView {
     @FXML private lateinit var checkFatigueCheckBox: CheckBox
     @FXML private lateinit var checkPortCheckBox: CheckBox
     @FXML private lateinit var medalStopCheckBox: CheckBox
+
+    @FXML private lateinit var nodeSelectsButton: Button
+    @FXML private lateinit var formationsButton: Button
+    @FXML private lateinit var nightBattlesButton: Button
 
     @FXML private lateinit var content: GridPane
 
@@ -76,6 +77,7 @@ class SortieTabView {
     fun initialize() {
         setValues()
         createBindings()
+        setupButtons()
     }
 
     private fun setValues() {
@@ -155,15 +157,26 @@ class SortieTabView {
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
 
-    @FXML
-    private fun onConfigureNodeSelectsButton() =
-            find(NodeSelectsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
-
-    @FXML
-    private fun onConfigureFormationsButton() =
-            find(FormationChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
-
-    @FXML
-    private fun onConfigureNightBattlesButton() =
-            find(NightBattlesChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)
+    private fun setupButtons() {
+        nodeSelectsButton.setOnAction { find<NodeSelectsChooserView>().openModal() }
+        formationsButton.setOnAction { find<FormationChooserView>().openModal() }
+        nightBattlesButton.setOnAction { find<NightBattlesChooserView>().openModal() }
+        with(Kaga.PROFILE.sortie) {
+            nodeSelectsButton.tooltip {
+                textProperty().bind(nodeSelectsProperty.stringBinding {
+                    it?.joinToString("\n")
+                })
+            }
+            formationsButton.tooltip {
+                textProperty().bind(formationsProperty.stringBinding {
+                    it?.joinToString("\n")
+                })
+            }
+            nightBattlesButton.tooltip {
+                textProperty().bind(nightBattlesProperty.stringBinding {
+                    it?.joinToString("\n")
+                })
+            }
+        }
+    }
 }
