@@ -61,7 +61,7 @@ class KancolleAutoKai {
         shouldStop = false
         KCAutoLoop@ while (true) {
             if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
-            logger.info("Starting new Kancolle Auto session (Version: $version)")
+            logger.info("Starting new KCAuto-Kai session (Version: $version)")
             logger.debug("Launching with command: ${args.joinToString(" ")}")
             logger.debug("Session profile: ${jacksonObjectMapper().writeValueAsString(Kaga.PROFILE)}")
             kancolleAutoProcess = ProcessBuilder(args).start()
@@ -69,7 +69,7 @@ class KancolleAutoKai {
             streamGobbler?.run()
             lockPreventer?.start()
             val exitVal = kancolleAutoProcess?.waitFor()
-            logger.info("Kancolle Auto session has terminated!")
+            logger.info("KCAuto-Kai session has terminated!")
             logger.debug("Exit Value was $exitVal")
             lockPreventer?.stop()
             when (exitVal) {
@@ -80,7 +80,7 @@ class KancolleAutoKai {
                         logger.info("User initiated termination, exiting kancolle-auto process loop regardless...")
                         break@KCAutoLoop
                     }
-                    logger.info("Kancolle Auto didn't terminate gracefully")
+                    logger.info("KCAuto-Kai didn't terminate gracefully")
                     saveCrashLog()
                     if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
                         if (statsTracker.crashes < Kaga.CONFIG.autoRestartMaxRetries) {
@@ -97,13 +97,13 @@ class KancolleAutoKai {
     }
 
     fun stop() {
-        logger.info("Terminating current Kancolle Auto session")
+        logger.info("Terminating current KCAuto-Kai session")
         kancolleAutoProcess?.destroy()
         shouldStop = true
     }
 
     fun stopAtPort() {
-        logger.info("Will wait for any ongoing battle to finish first before terminating current Kancolle auto session!")
+        logger.info("Will wait for any ongoing battle to finish first before terminating current KCAuto-Kai session!")
         thread {
             while (!statsTracker.atPort) {
                 TimeUnit.MILLISECONDS.sleep(10)

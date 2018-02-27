@@ -22,6 +22,7 @@ package com.waicool20.kaga.kcauto
 
 import com.waicool20.kaga.util.LoggingEventBus
 import java.time.LocalDateTime
+import kotlin.reflect.KMutableProperty1
 
 class KancolleAutoStatsTracker {
     var startingTime: LocalDateTime? = null
@@ -32,7 +33,7 @@ class KancolleAutoStatsTracker {
     init {
         with(LoggingEventBus) {
             // Track sorties conducted
-            subscribe(".*Combat done: (\\d+) / attempted: (\\d+).*".toRegex()) {
+            subscribe(Regex(".*Combat done: (\\d+) / attempted: (\\d+).*")) {
                 currentStats().apply {
                     sortiesDone = it.groupValues[1].toInt()
                     sortiesAttempted = it.groupValues[2].toInt()
@@ -40,20 +41,28 @@ class KancolleAutoStatsTracker {
             }
 
             // Track expeditions conducted
-            subscribe(".*Expeditions sent: (\\d+) / received: (\\d+).*".toRegex()) {
+            subscribe(Regex(".*Expeditions sent: (\\d+) / received: (\\d+).*")) {
                 currentStats().apply {
                     expeditionsSent = it.groupValues[1].toInt()
                     expeditionsReceived = it.groupValues[2].toInt()
                 }
             }
+            
+            // Track quests conducted
+            subscribe(Regex(".*Quests started: (\\d+) / finished: (\\d+).*")) {
+                currentStats().apply {
+                    questsStarted = it.groupValues[1].toInt()
+                    questsDone = it.groupValues[2].toInt()
+                }
+            }
 
             // Track pvp conducted
-            subscribe(".*PvPs done: (\\d+).*".toRegex()) {
+            subscribe(Regex(".*PvPs done: (\\d+).*")) {
                 currentStats().pvpsDone = it.groupValues[1].toInt()
             }
 
             // Track buckets used
-            subscribe(".*Resupplies: (\\d+) \\|\\| Repairs: (\\d+) \\|\\| Buckets: (\\d+).*".toRegex()) {
+            subscribe(Regex(".*Resupplies: (\\d+) \\|\\| Repairs: (\\d+) \\|\\| Buckets: (\\d+).*")) {
                 currentStats().apply {
                     resupplies = it.groupValues[1].toInt()
                     repairs = it.groupValues[2].toInt()
@@ -62,21 +71,26 @@ class KancolleAutoStatsTracker {
             }
 
             // Track submarines switched
-            subscribe(".*Swapping submarines!.*".toRegex()) {
-                currentStats().submarinesSwitched++
+            subscribe(Regex(".*Ships switched: (\\d+).*")) {
+                currentStats().shipsSwitched = it.groupValues[1].toInt()
             }
 
             // Track crashes occurred
-            subscribe(".*Kancolle Auto didn't terminate gracefully.*".toRegex()) {
+            subscribe(Regex(".*KCAuto-Kai didn't terminate gracefully.*")) {
                 crashes++
             }
 
+            // Track recoveries
+            subscribe(Regex(".*Recoveries done: (\\d+).*")) {
+                currentStats().recoveries = it.groupValues[1].toInt()
+            }
+
             // Track home
-            subscribe(".*Beginning PvP.*".toRegex()) { atPort = false }
-            subscribe(".*Navigating to combat screen.*".toRegex()) { atPort = false }
-            subscribe(".*Finished PvP sortie.*".toRegex()) { atPort = true }
-            subscribe(".*Sortie complete.*".toRegex()) { atPort = true }
-            subscribe(".*At Home.*".toRegex()) { atPort = true }
+            subscribe(Regex(".*Beginning PvP.*")) { atPort = false }
+            subscribe(Regex(".*Navigating to combat screen.*")) { atPort = false }
+            subscribe(Regex(".*Finished PvP sortie.*")) { atPort = true }
+            subscribe(Regex(".*Sortie complete.*")) { atPort = true }
+            subscribe(Regex(".*At Home.*")) { atPort = true }
         }
     }
 
@@ -90,23 +104,7 @@ class KancolleAutoStatsTracker {
 
     fun trackNewChild() = history.add(KancolleAutoStats())
 
-    fun sortiesDoneTotal() = history.sumBy { it.sortiesDone }
-
-    fun sortiesAttemptedTotal() = history.sumBy { it.sortiesAttempted }
-
-    fun expeditionsSentTotal() = history.sumBy { it.expeditionsSent }
-
-    fun expeditionsReceivedTotal() = history.sumBy { it.expeditionsReceived }
-
-    fun pvpsDoneTotal() = history.sumBy { it.pvpsDone }
-
-    fun resuppliesTotal() = history.sumBy { it.resupplies }
-
-    fun repairsTotal() = history.sumBy { it.repairs }
-
-    fun bucketsUsedTotal() = history.sumBy { it.bucketsUsed }
-
-    fun submarinesSwitchedTotal() = history.sumBy { it.submarinesSwitched }
+    operator fun get(stat: KMutableProperty1<KancolleAutoStats, Int>) = history.sumBy { stat.get(it) }
 
     private fun currentStats() = history.last()
 }
@@ -117,8 +115,11 @@ data class KancolleAutoStats(
         var expeditionsSent: Int = 0,
         var expeditionsReceived: Int = 0,
         var pvpsDone: Int = 0,
+        var questsDone: Int = 0,
+        var questsStarted: Int = 0,
         var resupplies: Int = 0,
         var repairs: Int = 0,
         var bucketsUsed: Int = 0,
-        var submarinesSwitched: Int = 0
+        var shipsSwitched: Int = 0,
+        var recoveries: Int = 0
 )

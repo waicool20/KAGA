@@ -21,6 +21,7 @@
 package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.kcauto.KancolleAutoStats
 import javafx.application.Platform
 import javafx.beans.value.ChangeListener
 import javafx.scene.control.Label
@@ -50,12 +51,17 @@ class StatsView : View() {
     private val expeditionsSentLabel: Label by fxid()
     private val expeditionsReceivedLabel: Label by fxid()
 
+    private val questsTitledPane: TitledPane by fxid()
+    private val questsDoneLabel: Label by fxid()
+    private val questsStartedLabel: Label by fxid()
+
     private val miscTitledPane: TitledPane by fxid()
     private val resuppliesLabel: Label by fxid()
     private val repairsLabel: Label by fxid()
     private val bucketsUsedLabel: Label by fxid()
-    private val submarinesSwitchedLabel: Label by fxid()
+    private val shipsSwitchedLabel: Label by fxid()
     private val crashesLabel: Label by fxid()
+    private val recoveriesLabel: Label by fxid()
 
     init {
         val listener = ChangeListener<Number> { _, _, newVal ->
@@ -63,8 +69,8 @@ class StatsView : View() {
         }
         sortiesTitledPane.heightProperty().addListener(listener)
         expeditionsTitledPane.heightProperty().addListener(listener)
+        questsTitledPane.heightProperty().addListener(listener)
         miscTitledPane.heightProperty().addListener(listener)
-
         fixedRateTimer(period = 1000L) {
             if (Kaga.KCAUTO_KAI.isRunning()) {
                 Platform.runLater { updateStats() }
@@ -76,20 +82,24 @@ class StatsView : View() {
         timeElapsedLabel.text = elapsedTimeSince(startingTime)
         startingTimeLabel.text = startingTime?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
 
-        sortiesDoneLabel.text = sortiesDoneTotal().toString()
-        sortiesAttemptedLabel.text = sortiesAttemptedTotal().toString()
-        sortiesPerHourLabel.text = formatDecimal(sortiesDoneTotal() / hoursSince(startingTime))
+        sortiesDoneLabel.text = get(KancolleAutoStats::sortiesDone).toString()
+        sortiesAttemptedLabel.text = get(KancolleAutoStats::sortiesAttempted).toString()
+        sortiesPerHourLabel.text = formatDecimal(get(KancolleAutoStats::sortiesDone) / hoursSince(startingTime))
 
-        expeditionsSentLabel.text = expeditionsSentTotal().toString()
-        expeditionsReceivedLabel.text = expeditionsReceivedTotal().toString()
+        expeditionsSentLabel.text = get(KancolleAutoStats::expeditionsSent).toString()
+        expeditionsReceivedLabel.text = get(KancolleAutoStats::sortiesDone).toString()
 
-        pvpsConductedLabel.text = pvpsDoneTotal().toString()
+        pvpsConductedLabel.text = get(KancolleAutoStats::pvpsDone).toString()
 
-        repairsLabel.text = repairsTotal().toString()
-        resuppliesLabel.text = resuppliesTotal().toString()
-        bucketsUsedLabel.text = bucketsUsedTotal().toString()
-        submarinesSwitchedLabel.text = submarinesSwitchedTotal().toString()
+        questsDoneLabel.text = get(KancolleAutoStats::questsDone).toString()
+        questsStartedLabel.text = get(KancolleAutoStats::questsStarted).toString()
+
+        repairsLabel.text = get(KancolleAutoStats::repairs).toString()
+        resuppliesLabel.text = get(KancolleAutoStats::resupplies).toString()
+        bucketsUsedLabel.text = get(KancolleAutoStats::bucketsUsed).toString()
+        shipsSwitchedLabel.text = get(KancolleAutoStats::shipsSwitched).toString()
         crashesLabel.text = crashes.toString()
+        recoveriesLabel.text = get(KancolleAutoStats::recoveries).toString()
     }
 
 
