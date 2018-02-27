@@ -62,8 +62,8 @@
                   </HBox>
             <VBox spacing="10.0" GridPane.columnIndex="1">
                <children>
-                  <PrefixSelectionComboBox fx:id="grp1choice1ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
-                  <PrefixSelectionComboBox fx:id="grp1choice2ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+                  <PrefixSelectionComboBox fx:id="grp1choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp1choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
@@ -107,8 +107,8 @@
             </HBox>
             <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <PrefixSelectionComboBox fx:id="grp2choice1ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
-                  <PrefixSelectionComboBox fx:id="grp2choice2ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+                  <PrefixSelectionComboBox fx:id="grp2choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp2choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
@@ -116,8 +116,8 @@
             </VBox>
             <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <PrefixSelectionComboBox fx:id="grp3choice1ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
-                  <PrefixSelectionComboBox fx:id="grp3choice2ComboBox" backSpaceAllowed="true" prefWidth="100.0" />
+                  <PrefixSelectionComboBox fx:id="grp3choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp3choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
