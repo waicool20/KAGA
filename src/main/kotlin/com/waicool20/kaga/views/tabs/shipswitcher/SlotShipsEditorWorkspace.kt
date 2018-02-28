@@ -24,8 +24,6 @@ import tornadofx.*
 
 
 class SlotShipsEditorWorkspace : Workspace() {
-    override val scope = super.scope as ShipSwitcherTabView.SlotShipsEditScope
-
     init {
         scope.workspace(this)
         dock<SlotShipsListView>()

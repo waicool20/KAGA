@@ -21,14 +21,13 @@
 package com.waicool20.kaga.views.tabs.shipswitcher
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.config.KancolleAutoProfile.ShipSwitcher
 import com.waicool20.kaga.config.KancolleAutoProfile.SwitchCriteria
 import com.waicool20.kaga.util.bind
-import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleListProperty
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.CheckBox
-import javafx.scene.control.Tooltip
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
@@ -36,9 +35,9 @@ import javafx.scene.paint.Color
 import javafx.util.StringConverter
 import org.controlsfx.control.CheckComboBox
 import tornadofx.*
-import java.util.concurrent.Callable
 import kotlin.concurrent.thread
 import kotlin.reflect.KProperty0
+import kotlin.reflect.KProperty1
 
 class ShipSwitcherTabView {
     @FXML private lateinit var enableButton: CheckBox
@@ -64,21 +63,18 @@ class ShipSwitcherTabView {
     @FXML private lateinit var slot6ShipsVBox: VBox
 
     @FXML private lateinit var content: GridPane
-    private var currentProperty: Pair<Button, KProperty0<SimpleListProperty<String>>>? = null
-
-    data class SlotShipsEditScope(val slot: KProperty0<SimpleListProperty<String>>) : Scope()
+    private var currentProperty: Pair<Button, SimpleListProperty<String>>? = null
+    data class SlotShipsEditScope(val slot: SimpleListProperty<String>) : Scope()
 
     private val buttonPropMap by lazy {
-        with(Kaga.PROFILE.shipSwitcher) {
-            mapOf(
-                    slot1ShipsButton to ::slot1ShipsProperty,
-                    slot2ShipsButton to ::slot2ShipsProperty,
-                    slot3ShipsButton to ::slot3ShipsProperty,
-                    slot4ShipsButton to ::slot4ShipsProperty,
-                    slot5ShipsButton to ::slot5ShipsProperty,
-                    slot6ShipsButton to ::slot6ShipsProperty
-            )
-        }
+        mapOf(
+                slot1ShipsButton to ShipSwitcher::slot1ShipsProperty,
+                slot2ShipsButton to ShipSwitcher::slot2ShipsProperty,
+                slot3ShipsButton to ShipSwitcher::slot3ShipsProperty,
+                slot4ShipsButton to ShipSwitcher::slot4ShipsProperty,
+                slot5ShipsButton to ShipSwitcher::slot5ShipsProperty,
+                slot6ShipsButton to ShipSwitcher::slot6ShipsProperty
+        )
     }
 
     @FXML
@@ -129,11 +125,11 @@ class ShipSwitcherTabView {
     }
 
     private fun setupButtons() {
-        buttonPropMap.forEach { button, slot ->
+        val switcher = Kaga.PROFILE.shipSwitcher
+        buttonPropMap.forEach { button, slotProp ->
+            val slot = slotProp.get(Kaga.PROFILE.shipSwitcher)
             button.tooltip {
-                textProperty().bind(slot.get().stringBinding {
-                    it?.joinToString("\n")
-                })
+                textProperty().bind(slot.stringBinding { it?.joinToString("\n") })
             }
             button.setOnAction { configureSlotShips(slot) }
             button.setOnMouseClicked { e ->
@@ -151,8 +147,8 @@ class ShipSwitcherTabView {
                     }
                     MouseButton.SECONDARY -> {
                         if (button != currentProperty?.first) {
-                            currentProperty?.second?.get()?.also { sourceProp ->
-                                buttonPropMap[button]?.get()?.setAll(sourceProp)
+                            currentProperty?.second?.also { sourceProp ->
+                                buttonPropMap[button]?.get(switcher)?.setAll(sourceProp)
                                 thread {
                                     button.style = "-fx-background-color: red"
                                     Thread.sleep(200)
@@ -167,7 +163,7 @@ class ShipSwitcherTabView {
         }
     }
 
-    private fun configureSlotShips(slot: KProperty0<SimpleListProperty<String>>) =
+    private fun configureSlotShips(slot: SimpleListProperty<String>) =
             find<SlotShipsEditorWorkspace>(SlotShipsEditScope(slot)).openModal(resizable = false)
 }
 

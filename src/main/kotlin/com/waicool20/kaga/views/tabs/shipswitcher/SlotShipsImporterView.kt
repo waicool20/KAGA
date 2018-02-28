@@ -74,7 +74,6 @@ class SlotShipsImporterView : View() {
                 }
             }
         }
-        super.onDock()
         workspace.currentStage?.sizeToScene()
     }
 
