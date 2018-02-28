@@ -64,6 +64,7 @@ class SlotShipsEditorView : Fragment() {
             currentEditView = view.root
             forwardWorkspaceActions(view)
         }
+
         specification?.let {
             shipSpecificationComboBox.items.addAll(it::class)
             shipSpecificationComboBox.selectionModel.select(it::class)

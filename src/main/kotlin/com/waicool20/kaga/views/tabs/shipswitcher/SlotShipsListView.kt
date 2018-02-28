@@ -20,13 +20,20 @@
 
 package com.waicool20.kaga.views.tabs.shipswitcher
 
+import com.waicool20.kaga.config.Kanmusu
 import com.waicool20.kaga.config.ShipSpecification
+import com.waicool20.kaga.config.ShipSpecificationByPosition
+import com.waicool20.kaga.util.AlertFactory
 import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
 import javafx.scene.control.ListView
+import javafx.scene.control.SelectionMode
 import javafx.scene.control.cell.TextFieldListCell
+import javafx.scene.input.KeyCode
 import javafx.scene.layout.HBox
+import javafx.stage.FileChooser
 import javafx.util.StringConverter
+import org.controlsfx.glyphfont.Glyph
 import tornadofx.*
 
 class SlotShipsListView : Fragment() {
@@ -40,14 +47,56 @@ class SlotShipsListView : Fragment() {
             override fun toString(specification: ShipSpecification) = specification.asConfigString()
             override fun fromString(string: String) = ShipSpecification.parse(string)
         }
-        slotShipsListView.setCellFactory {
-            TextFieldListCell<ShipSpecification>().apply { setConverter(converter) }
-        }
-        slotShipsListView.onUserSelect { spec ->
-            scope.set(SlotShipEditModel(slotShipsListView, slotShipsListView.items.indexOf(spec)))
-            workspace.dock<SlotShipsEditorView>()
+        with(slotShipsListView) {
+            selectionModel.selectionMode = SelectionMode.MULTIPLE
+            slotShipsListView.setCellFactory {
+                TextFieldListCell<ShipSpecification>().apply { setConverter(converter) }
+            }
+            slotShipsListView.onUserSelect { spec ->
+                scope.set(SlotShipEditModel(slotShipsListView, slotShipsListView.items.indexOf(spec)))
+                workspace.dock<SlotShipsEditorView>()
+            }
+            setOnKeyPressed {
+                if (it.code == KeyCode.DELETE) items.removeAll(selectionModel.selectedItems)
+            }
         }
         onRefresh()
+
+        val listener = ChangeListener<Number> { _, _, newVal ->
+            if (newVal.toInt() % 4 == 0) workspace.currentStage?.sizeToScene()
+        }
+
+        workspace.currentStage?.heightProperty()?.addListener(listener)
+        workspace.currentStage?.widthProperty()?.addListener(listener)
+    }
+
+    override fun onDock() {
+        super.onDock()
+        workspace.currentStage?.sizeToScene()
+        workspace.button("KC3 Import") {
+            graphic = Glyph("FontAwesome", "UPLOAD")
+            action {
+                FileChooser().apply { title = "Import KC3 Ship List..." }.showOpenDialog(null)?.also {
+                    val ships = Kanmusu.parseFromKc3ShipList(it.readText())
+                    if (ships.isNotEmpty()) {
+                        workspace.dock<SlotShipsImporterView>(Scope(workspace),
+                                "ships" to ships, "listView" to slotShipsListView)
+                    } else {
+                        AlertFactory.error(
+                                content = "Not a valid KC3 Ship List!"
+                        ).showAndWait()
+                    }
+                }
+            }
+            visibleWhen {
+                slotShipsListView.items.sizeProperty.booleanBinding(workspace.dockedComponentProperty) {
+                    val list = slotShipsListView.items
+                    val docked = workspace.dockedComponent == this@SlotShipsListView
+                    val listValid = list != null && (list.isEmpty() || list.firstOrNull() is ShipSpecificationByPosition)
+                    docked && listValid
+                }
+            }
+        }
     }
 
     override fun onCreate() {
@@ -63,7 +112,7 @@ class SlotShipsListView : Fragment() {
 
     override fun onDelete() {
         super.onDelete()
-        slotShipsListView.items.remove(slotShipsListView.selectedItem)
+        slotShipsListView.items.removeAll(slotShipsListView.selectionModel.selectedItems)
     }
 
     override fun onSave() {
