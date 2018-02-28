@@ -83,14 +83,14 @@ class SlotShipsImporterView : View() {
     }
 
     override fun onSave() {
-        val specs = kanmusuTable.items.sortedBy { it.first.dropId }
+        val specs = kanmusuTable.items
                 .mapIndexed { index, entry ->
                     ShipSpecificationByPosition(
                             order = ShipSpecificationByPosition.Order.END_OF_LIST,
                             offset = index + 1
                     ) to entry.second
                 }.filter { it.second.value }
-                .map { it.first }
+                .map { it.first }.sortedBy { it.offset }
         logger.info("Imported ${specs.size} entries!")
         listView.items.addAll(specs)
         workspace.navigateBack()
