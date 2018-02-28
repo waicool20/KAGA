@@ -83,7 +83,7 @@ class SlotShipsImporterView : View() {
     }
 
     override fun onSave() {
-        val specs = kanmusuTable.items
+        val specs = kanmusuTable.items.sortedBy { it.first.dropId }
                 .mapIndexed { index, entry ->
                     ShipSpecificationByPosition(
                             order = ShipSpecificationByPosition.Order.END_OF_LIST,
