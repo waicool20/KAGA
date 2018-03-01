@@ -46,8 +46,8 @@ import kotlin.streams.toList
 
 
 class KagaView {
-    private val runningText = "Kancolle Auto is running!"
-    private val notRunningText = "Kancolle Auto is not running!"
+    private val runningText = "KCAuto-Kai is running!"
+    private val notRunningText = "KCAuto-Kai is not running!"
 
     @FXML private lateinit var kagaStatus: Label
     @FXML private lateinit var startStopButton: SplitMenuButton
