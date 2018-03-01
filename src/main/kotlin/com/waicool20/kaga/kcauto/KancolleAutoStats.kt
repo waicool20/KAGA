@@ -47,6 +47,10 @@ class KancolleAutoStatsTracker {
                     expeditionsReceived = it.groupValues[2].toInt()
                 }
             }
+
+            subscribe(Regex(".*Expeditions received: (\\d+).*")) {
+                currentStats().expeditionsReceived = it.groupValues[1].toInt()
+            }
             
             // Track quests conducted
             subscribe(Regex(".*Quests started: (\\d+) / finished: (\\d+).*")) {

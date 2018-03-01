@@ -87,7 +87,7 @@ class StatsView : View() {
         sortiesPerHourLabel.text = formatDecimal(get(KancolleAutoStats::sortiesDone) / hoursSince(startingTime))
 
         expeditionsSentLabel.text = get(KancolleAutoStats::expeditionsSent).toString()
-        expeditionsReceivedLabel.text = get(KancolleAutoStats::sortiesDone).toString()
+        expeditionsReceivedLabel.text = get(KancolleAutoStats::expeditionsReceived).toString()
 
         pvpsConductedLabel.text = get(KancolleAutoStats::pvpsDone).toString()
 
