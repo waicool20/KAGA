@@ -37,7 +37,7 @@ import org.controlsfx.glyphfont.Glyph
 import tornadofx.*
 
 class SlotShipsListView : Fragment() {
-    override val root: HBox by fxml("/views/slotships/list.fxml")
+    override val root: HBox by fxml("/views/tabs/slotships/list.fxml")
     override val scope = super.scope as ShipSwitcherTabView.SlotShipsEditScope
 
     private val slotShipsListView: ListView<ShipSpecification> by fxid()

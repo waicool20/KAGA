@@ -31,7 +31,7 @@ import javafx.scene.layout.VBox
 import tornadofx.*
 
 class SlotShipsEditByPositionView : View() {
-    override val root: VBox by fxml("/views/slotships/editor-position.fxml")
+    override val root: VBox by fxml("/views/tabs/slotships/editor-position.fxml")
     private val sortByComboBox: ComboBox<ShipSpecificationByPosition.SortCriteria> by fxid()
     private val orderComboBox: ComboBox<ShipSpecificationByPosition.Order> by fxid()
     private val offsetSpinner: Spinner<Int> by fxid()

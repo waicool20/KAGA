@@ -39,7 +39,7 @@ class SlotShipEditModel(listView: ListView<ShipSpecification>, val index: Int = 
 }
 
 class SlotShipsEditorView : Fragment() {
-    override val root: BorderPane by fxml("/views/slotships/editor.fxml")
+    override val root: BorderPane by fxml("/views/tabs/slotships/editor.fxml")
     private val shipSpecificationComboBox: ComboBox<KClass<out ShipSpecification>> by fxid()
     private val content: HBox by fxid()
     private val editModel: SlotShipEditModel by inject()

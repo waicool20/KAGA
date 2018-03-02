@@ -30,7 +30,7 @@ import org.controlsfx.control.SegmentedButton
 import tornadofx.*
 
 abstract class SlotShipsEditByShipClassView<T> : View() {
-    override val root: VBox by fxml("/views/slotships/editor-ship-class.fxml")
+    override val root: VBox by fxml("/views/tabs/slotships/editor-ship-class.fxml")
     protected val commonLabel: Label by fxid()
     protected val commonComboBox: ComboBox<T> by fxid()
     protected val levelFilterButton: SegmentedButton by fxid()

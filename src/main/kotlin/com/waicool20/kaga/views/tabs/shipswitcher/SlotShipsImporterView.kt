@@ -35,7 +35,7 @@ import tornadofx.*
 private typealias Entry = Pair<Kanmusu, SimpleBooleanProperty>
 
 class SlotShipsImporterView : View() {
-    override val root: VBox by fxml("/views/slotships/importer.fxml")
+    override val root: VBox by fxml("/views/tabs/slotships/importer.fxml")
     private val kanmusuTable: TableView<Entry> by fxid()
     private val ships: List<Kanmusu> by param()
     private val listView: ListView<ShipSpecification> by param()
