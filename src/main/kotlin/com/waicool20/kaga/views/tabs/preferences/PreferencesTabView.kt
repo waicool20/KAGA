@@ -18,17 +18,17 @@
  *
  */
 
-package com.waicool20.kaga.views.tabs
+package com.waicool20.kaga.views.tabs.preferences
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
+import com.waicool20.kaga.kcauto.YuuBot
 import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.bind
+import javafx.animation.PauseTransition
 import javafx.fxml.FXML
-import javafx.scene.control.CheckBox
-import javafx.scene.control.Hyperlink
-import javafx.scene.control.Spinner
-import javafx.scene.control.SpinnerValueFactory
+import javafx.scene.control.*
+import javafx.util.Duration
 import java.awt.Desktop
 import java.nio.file.Path
 import kotlin.concurrent.thread
@@ -44,6 +44,7 @@ class PreferencesTabView {
     @FXML private lateinit var checkForUpdatesCheckBox: CheckBox
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
     @FXML private lateinit var kcaKaiRootPathLink: Hyperlink
+    @FXML private lateinit var apiKeyTextField: TextField
 
     @FXML fun initialize() {
         setValues()
@@ -57,6 +58,7 @@ class PreferencesTabView {
             sikulixJarPathLink.text = sikulixJarPath.toString()
             kcaKaiRootPathLink.text = kcaKaiRootDirPath.toString()
             maxRetriesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Int.MAX_VALUE)
+            apiKeyTextField.text = apiKey
         }
     }
 
@@ -77,8 +79,27 @@ class PreferencesTabView {
             showDebugCheckBox.selectedProperty().bindBidirectional(showDebugOnStartProperty)
             showStatsCheckBox.selectedProperty().bindBidirectional(showStatsOnStartProperty)
             checkForUpdatesCheckBox.selectedProperty().bindBidirectional(checkForUpdatesProperty)
+            val pause = PauseTransition(Duration.seconds(1.0))
+            val borderStyle = "-fx-border-width: 2px"
+            apiKeyTextField.textProperty().addListener { _, _, newVal ->
+                apiKeyTextField.style = "-fx-border-color: yellow;$borderStyle"
+                pause.setOnFinished {
+                    YuuBot.testApiKey(newVal) { ok ->
+                        if (ok) {
+                            apiKeyTextField.style = "-fx-border-color: lightgreen;$borderStyle"
+                            apiKey = newVal
+                        } else {
+                            apiKeyTextField.style = "-fx-border-color: red;$borderStyle"
+                            apiKey = ""
+                        }
+                    }
+                }
+                pause.playFromStart()
+            }
         }
     }
+
+
 
     @FXML private fun onSaveButton() {
         Kaga.CONFIG.save()

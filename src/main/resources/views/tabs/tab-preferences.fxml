@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -33,7 +34,7 @@
   ~
   -->
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.PreferencesTabView">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.preferences.PreferencesTabView">
     <children>
         <GridPane>
             <columnConstraints>
@@ -50,12 +51,14 @@
                 <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9">
+                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11">
                     <children>
                         <Label fx:id="sikuliScriptJarLabel" text="Sikuli Script Jar:" />
                         <Hyperlink fx:id="sikulixJarPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" HBox.hgrow="ALWAYS" />
@@ -64,7 +67,7 @@
                         <Insets left="10.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10">
+                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12">
                     <children>
                         <Label fx:id="kcaKaiRootLabel" text="KCAuto-Kai root:" />
                         <Hyperlink fx:id="kcaKaiRootPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" HBox.hgrow="ALWAYS" />
@@ -93,7 +96,7 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOTE: The options listed here are stored independently from your KCAuto-Kai profiles!&#10;Any changes to the options are applied immediately but are only persisted if saved." textAlignment="CENTER" wrappingWidth="330.0" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
-                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
+                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="13">
                     <children>
                         <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
                         <Button mnemonicParsing="false" onAction="#onResetButton" text="Reset" />
@@ -198,6 +201,25 @@
                </padding>
             </HBox>
             <CheckBox fx:id="checkForUpdatesCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="9">
+               <children>
+                  <Label fx:id="reportStatusLabel" text="Report script status via Discord:" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10">
+               <children>
+                  <TextField fx:id="apiKeyTextField" promptText="API KEY" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
             </children>
         </GridPane>
     </children>

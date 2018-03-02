@@ -51,18 +51,22 @@ class KagaConfig(currentProfile: String = "",
                  debugModeEnabled: Boolean = true,
                  showDebugOnStart: Boolean = true,
                  showStatsOnStart: Boolean = true,
-                 checkForUpdates: Boolean = true) {
+                 checkForUpdates: Boolean = true,
+                 apiKey: String = ""
+) {
     @JsonIgnore val currentProfileProperty = SimpleStringProperty(currentProfile)
     @JsonIgnore val sikulixJarPathProperty = SimpleObjectProperty<Path>(sikulixJarPath)
     @JsonIgnore val kcaKaiRootDirPathProperty = SimpleObjectProperty<Path>(kcaKaiRootDirPath)
     @JsonIgnore val preventLockProperty = SimpleBooleanProperty(preventLock)
     @JsonIgnore val clearConsoleOnStartProperty = SimpleBooleanProperty(clearConsoleOnStart)
-    @JsonIgnore val autoRestartOnKCAutoCrashProperty = SimpleBooleanProperty(autoRestartOnKCAutoCrash)
+    @JsonIgnore
+    val autoRestartOnKCAutoCrashProperty = SimpleBooleanProperty(autoRestartOnKCAutoCrash)
     @JsonIgnore val autoRestartMaxRetriesProperty = SimpleIntegerProperty(autoRestartMaxRetries)
     @JsonIgnore val debugModeEnabledProperty = SimpleBooleanProperty(debugModeEnabled)
     @JsonIgnore val showDebugOnStartProperty = SimpleBooleanProperty(showDebugOnStart)
     @JsonIgnore val showStatsOnStartProperty = SimpleBooleanProperty(showStatsOnStart)
     @JsonIgnore val checkForUpdatesProperty = SimpleBooleanProperty(checkForUpdates)
+    @JsonIgnore val apiKeyProperty = SimpleStringProperty(apiKey)
 
     @get:JsonProperty var currentProfile by currentProfileProperty
     @get:JsonProperty var sikulixJarPath by sikulixJarPathProperty
@@ -75,6 +79,7 @@ class KagaConfig(currentProfile: String = "",
     @get:JsonProperty var showDebugOnStart by showDebugOnStartProperty
     @get:JsonProperty var showStatsOnStart by showStatsOnStartProperty
     @get:JsonProperty var checkForUpdates by checkForUpdatesProperty
+    @get:JsonProperty var apiKey by apiKeyProperty
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -89,7 +94,8 @@ class KagaConfig(currentProfile: String = "",
         private val mapper = jacksonObjectMapper()
         private val loaderLogger = LoggerFactory.getLogger(KagaConfig.Loader::class.java)
         val CONFIG_FILE: Path = Kaga.CONFIG_DIR.resolve("kaga.json")
-        @JvmStatic fun load(): KagaConfig {
+        @JvmStatic
+        fun load(): KagaConfig {
             loaderLogger.info("Attempting to load KAGA configuration")
             loaderLogger.debug("Loading KAGA configuration from $CONFIG_FILE")
             if (Files.notExists(CONFIG_FILE)) {
@@ -122,7 +128,8 @@ class KagaConfig(currentProfile: String = "",
     fun kancolleAutoRootDirPathIsValid(): Boolean =
             Files.exists(kcaKaiRootDirPath.resolve("kcauto-kai.sikuli"))
 
-    @JsonIgnore fun isValid(): Boolean =
+    @JsonIgnore
+    fun isValid(): Boolean =
             sikulixJarIsValid() && kancolleAutoRootDirPathIsValid()
 
     fun logLevel() = if (debugModeEnabled) "DEBUG" else "INFO"

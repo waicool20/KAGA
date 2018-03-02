@@ -24,7 +24,9 @@ import com.waicool20.kaga.util.LoggingEventBus
 import java.time.LocalDateTime
 import kotlin.reflect.KMutableProperty1
 
-class KancolleAutoKaiStatsTracker {
+object KancolleAutoKaiStatsTracker {
+    private val reporter = YuuBot
+
     var startingTime: LocalDateTime? = null
     var crashes = 0
     var atPort = true
@@ -51,7 +53,7 @@ class KancolleAutoKaiStatsTracker {
             subscribe(Regex(".*Expeditions received: (\\d+).*")) {
                 currentStats().expeditionsReceived = it.groupValues[1].toInt()
             }
-            
+
             // Track quests conducted
             subscribe(Regex(".*Quests started: (\\d+) / finished: (\\d+).*")) {
                 currentStats().apply {
