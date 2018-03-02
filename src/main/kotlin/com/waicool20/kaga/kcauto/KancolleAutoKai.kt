@@ -40,7 +40,7 @@ class KancolleAutoKai {
     private var streamGobbler: StreamGobbler? = null
     private var shouldStop = false
 
-    var statsTracker = KancolleAutoStatsTracker()
+    var statsTracker = KancolleAutoKaiStatsTracker()
 
     val version by lazy {
         Files.readAllLines(Kaga.CONFIG.kcaKaiRootDirPath.resolve("CHANGELOG.md")).first().let {

@@ -21,7 +21,7 @@
 package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.kcauto.KancolleAutoStats
+import com.waicool20.kaga.kcauto.KancolleAutoKaiStats
 import javafx.application.Platform
 import javafx.beans.value.ChangeListener
 import javafx.scene.control.Label
@@ -82,24 +82,24 @@ class StatsView : View() {
         timeElapsedLabel.text = elapsedTimeSince(startingTime)
         startingTimeLabel.text = startingTime?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
 
-        sortiesDoneLabel.text = get(KancolleAutoStats::sortiesDone).toString()
-        sortiesAttemptedLabel.text = get(KancolleAutoStats::sortiesAttempted).toString()
-        sortiesPerHourLabel.text = formatDecimal(get(KancolleAutoStats::sortiesDone) / hoursSince(startingTime))
+        sortiesDoneLabel.text = get(KancolleAutoKaiStats::sortiesDone).toString()
+        sortiesAttemptedLabel.text = get(KancolleAutoKaiStats::sortiesAttempted).toString()
+        sortiesPerHourLabel.text = formatDecimal(get(KancolleAutoKaiStats::sortiesDone) / hoursSince(startingTime))
 
-        expeditionsSentLabel.text = get(KancolleAutoStats::expeditionsSent).toString()
-        expeditionsReceivedLabel.text = get(KancolleAutoStats::expeditionsReceived).toString()
+        expeditionsSentLabel.text = get(KancolleAutoKaiStats::expeditionsSent).toString()
+        expeditionsReceivedLabel.text = get(KancolleAutoKaiStats::expeditionsReceived).toString()
 
-        pvpsConductedLabel.text = get(KancolleAutoStats::pvpsDone).toString()
+        pvpsConductedLabel.text = get(KancolleAutoKaiStats::pvpsDone).toString()
 
-        questsDoneLabel.text = get(KancolleAutoStats::questsDone).toString()
-        questsStartedLabel.text = get(KancolleAutoStats::questsStarted).toString()
+        questsDoneLabel.text = get(KancolleAutoKaiStats::questsDone).toString()
+        questsStartedLabel.text = get(KancolleAutoKaiStats::questsStarted).toString()
 
-        repairsLabel.text = get(KancolleAutoStats::repairs).toString()
-        resuppliesLabel.text = get(KancolleAutoStats::resupplies).toString()
-        bucketsUsedLabel.text = get(KancolleAutoStats::bucketsUsed).toString()
-        shipsSwitchedLabel.text = get(KancolleAutoStats::shipsSwitched).toString()
+        repairsLabel.text = get(KancolleAutoKaiStats::repairs).toString()
+        resuppliesLabel.text = get(KancolleAutoKaiStats::resupplies).toString()
+        bucketsUsedLabel.text = get(KancolleAutoKaiStats::bucketsUsed).toString()
+        shipsSwitchedLabel.text = get(KancolleAutoKaiStats::shipsSwitched).toString()
         crashesLabel.text = crashes.toString()
-        recoveriesLabel.text = get(KancolleAutoStats::recoveries).toString()
+        recoveriesLabel.text = get(KancolleAutoKaiStats::recoveries).toString()
     }
 
 
