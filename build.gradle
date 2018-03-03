@@ -24,7 +24,7 @@ import java.nio.file.StandardOpenOption
  */
 
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.30'
     repositories {
         mavenCentral()
     }
@@ -41,7 +41,7 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 group 'com.waicool20'
-version 'v2.0.0-RC2.1'
+version 'v2.0.0-RC3'
 def kcAutoCompatibility = '0.3.0'
 
 sourceCompatibility = 1.8
