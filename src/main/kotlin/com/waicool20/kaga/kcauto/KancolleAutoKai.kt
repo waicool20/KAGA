@@ -82,6 +82,7 @@ class KancolleAutoKai {
                         break@KCAutoLoop
                     }
                     logger.info("KCAuto-Kai didn't terminate gracefully")
+                    YuuBot.reportStats()
                     saveCrashLog()
                     if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
                         if (statsTracker.crashes < Kaga.CONFIG.autoRestartMaxRetries) {
