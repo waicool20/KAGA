@@ -34,7 +34,7 @@
   ~
   -->
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.preferences.PreferencesTabView">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.PreferencesTabView">
     <children>
         <GridPane>
             <columnConstraints>

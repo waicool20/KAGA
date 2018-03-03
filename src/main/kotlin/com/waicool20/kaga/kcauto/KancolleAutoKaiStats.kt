@@ -25,8 +25,6 @@ import java.time.LocalDateTime
 import kotlin.reflect.KMutableProperty1
 
 object KancolleAutoKaiStatsTracker {
-    private val reporter = YuuBot
-
     var startingTime: LocalDateTime? = null
     var crashes = 0
     var atPort = true

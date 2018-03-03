@@ -26,6 +26,7 @@ import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.setSideWithHorizontalText
 import com.waicool20.kaga.views.tabs.*
 import com.waicool20.kaga.views.tabs.LbasTabView
+import com.waicool20.kaga.views.tabs.PreferencesTabView
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
@@ -63,6 +64,7 @@ class KagaView {
     @FXML private lateinit var lbasTabController: LbasTabView
     @FXML private lateinit var shipSwitcherTabController: ShipSwitcherTabView
     @FXML private lateinit var questsTabController: QuestsTabView
+    @FXML private lateinit var preferencesTabController: PreferencesTabView
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -72,6 +74,7 @@ class KagaView {
         tabpane.setSideWithHorizontalText(Side.LEFT)
         createBindings()
         checkStartStopButton()
+        preferencesTabController.testApiKey()
     }
 
     private fun createBindings() {

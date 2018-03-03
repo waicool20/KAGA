@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.views.tabs.preferences
+package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
@@ -46,7 +46,10 @@ class PreferencesTabView {
     @FXML private lateinit var kcaKaiRootPathLink: Hyperlink
     @FXML private lateinit var apiKeyTextField: TextField
 
-    @FXML fun initialize() {
+    private val borderStyle = "-fx-border-width: 2px"
+
+    @FXML
+    fun initialize() {
         setValues()
         createBindings()
     }
@@ -80,33 +83,36 @@ class PreferencesTabView {
             showStatsCheckBox.selectedProperty().bindBidirectional(showStatsOnStartProperty)
             checkForUpdatesCheckBox.selectedProperty().bindBidirectional(checkForUpdatesProperty)
             val pause = PauseTransition(Duration.seconds(1.0))
-            val borderStyle = "-fx-border-width: 2px"
+
             apiKeyTextField.textProperty().addListener { _, _, newVal ->
                 apiKeyTextField.style = "-fx-border-color: yellow;$borderStyle"
-                pause.setOnFinished {
-                    YuuBot.testApiKey(newVal) { ok ->
-                        if (ok) {
-                            apiKeyTextField.style = "-fx-border-color: lightgreen;$borderStyle"
-                            apiKey = newVal
-                        } else {
-                            apiKeyTextField.style = "-fx-border-color: red;$borderStyle"
-                            apiKey = ""
-                        }
-                    }
-                }
+                pause.setOnFinished { testApiKey(newVal) }
                 pause.playFromStart()
             }
         }
     }
 
+    fun testApiKey(apiKey: String = Kaga.CONFIG.apiKey) {
+        apiKeyTextField.style = "-fx-border-color: yellow;$borderStyle"
+        YuuBot.testApiKey(apiKey) { ok ->
+            Kaga.CONFIG.apiKey = if (ok) {
+                apiKeyTextField.style = "-fx-border-color: lightgreen;$borderStyle"
+                apiKey
+            } else {
+                apiKeyTextField.style = "-fx-border-color: red;$borderStyle"
+                ""
+            }
+        }
+    }
 
-
-    @FXML private fun onSaveButton() {
+    @FXML
+    private fun onSaveButton() {
         Kaga.CONFIG.save()
         AlertFactory.info(content = "Preferences were saved!").showAndWait()
     }
 
-    @FXML private fun onResetButton() {
+    @FXML
+    private fun onResetButton() {
         Kaga.CONFIG = KagaConfig.load()
         initialize()
         AlertFactory.info(content = "Preferences were reset!").showAndWait()

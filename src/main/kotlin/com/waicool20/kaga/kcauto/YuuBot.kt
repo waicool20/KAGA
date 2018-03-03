@@ -20,34 +20,84 @@
 
 package com.waicool20.kaga.kcauto
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.LoggingEventBus
 import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.ContentType
+import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
+import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 import kotlin.concurrent.thread
 
 object YuuBot {
     private val API_URL = "https://yuu.waicool20.com/api/user/"
+    private val mapper = jacksonObjectMapper().registerModule(JavaTimeModule())
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     init {
         with(LoggingEventBus) {
             // Listen to the end when kca-kai is done report stats
             subscribe(Regex(".*Recoveries done:.*")) {
+                if (Kaga.CONFIG.apiKey.isNotEmpty()) reportStats()
+            }
+        }
+    }
 
+    fun reportStats() {
+        logger.info("Reporting stats to YuuBot!")
+        thread {
+            val response = HttpClients.createDefault().use { client ->
+                val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, Resources())
+                HttpPost(API_URL + Kaga.CONFIG.apiKey + "/stats").apply {
+                    entity = StringEntity(mapper.writeValueAsString(stats), ContentType.APPLICATION_JSON)
+                }.let { client.execute(it) }.statusLine.statusCode
+            }
+            when (response) {
+                200 -> logger.debug("Stats reported to YuuBot! Response was: $response")
+                else -> logger.warn("Failed to report stats to YuuBot, response was: $response")
+            }
+        }
+    }
+
+    fun reportCrash(dto: CrashInfoDto) {
+        logger.info("Reporting crash to YuuBot")
+        thread {
+            val response = HttpClients.createDefault().use { client ->
+                HttpPost(API_URL + Kaga.CONFIG.apiKey + "/crashed").apply {
+                    entity = StringEntity(mapper.writeValueAsString(dto), ContentType.APPLICATION_JSON)
+                }.let { client.execute(it) }.statusLine.statusCode
+            }
+            when (response) {
+                200 -> logger.debug("Crash reported to YuuBot! Response was: $response")
+                else -> logger.warn("Failed to report crash to YuuBot, response was: $response")
             }
         }
     }
 
     fun testApiKey(apiKey: String, onComplete: (Boolean) -> Unit) {
+        logger.info("Testing API key: $apiKey")
         thread {
             HttpClients.createDefault().use { client ->
-                onComplete(client.execute(HttpGet(API_URL + apiKey)).statusLine.statusCode == 200)
+                val apiKeyOk = client.execute(HttpGet(API_URL + apiKey)).statusLine.statusCode == 200
+                onComplete(apiKeyOk)
+                if (apiKeyOk) {
+                    logger.info("API key was found valid")
+                } else {
+                    logger.warn("API key was found invalid")
+                }
             }
         }
     }
 }
 
+data class CrashInfoDto(val log: String)
+
 data class KCAutoKaiStatsDto(
+        val isRunning: Boolean,
         val startingTime: LocalDateTime,
         val crashes: Int,
         val sortiesDone: Int,
@@ -65,6 +115,7 @@ data class KCAutoKaiStatsDto(
         val resources: Resources
 ) {
     constructor(tracker: KancolleAutoKaiStatsTracker, resources: Resources) : this(
+            isRunning = Kaga.KCAUTO_KAI.isRunning(),
             startingTime = tracker.startingTime ?: LocalDateTime.now(),
             crashes = tracker.crashes,
             sortiesDone = tracker[KancolleAutoKaiStats::sortiesDone],

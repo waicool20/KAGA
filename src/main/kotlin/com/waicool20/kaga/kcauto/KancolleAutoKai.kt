@@ -65,13 +65,14 @@ class KancolleAutoKai {
             logger.debug("Launching with command: ${args.joinToString(" ")}")
             logger.debug("Session profile: ${jacksonObjectMapper().writeValueAsString(Kaga.PROFILE)}")
             kancolleAutoProcess = ProcessBuilder(args).start()
-            streamGobbler = StreamGobbler(kancolleAutoProcess)
-            streamGobbler?.run()
+            YuuBot.reportStats()
+            streamGobbler = StreamGobbler(kancolleAutoProcess).apply { run() }
             lockPreventer?.start()
             val exitVal = kancolleAutoProcess?.waitFor()
             logger.info("KCAuto-Kai session has terminated!")
             logger.debug("Exit Value was $exitVal")
             lockPreventer?.stop()
+            YuuBot.reportStats()
             when (exitVal) {
                 0, 143 -> break@KCAutoLoop
                 else -> {
@@ -125,5 +126,6 @@ class KancolleAutoKai {
                 .replace("<Config>", Kaga.PROFILE.asIniString())
                 .replace("<Log>", Kaga.LOG)
         Files.write(logFile, log.toByteArray(), StandardOpenOption.CREATE)
+        YuuBot.reportCrash(CrashInfoDto(Kaga.LOG))
     }
 }
