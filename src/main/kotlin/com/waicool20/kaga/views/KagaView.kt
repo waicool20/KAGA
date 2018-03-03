@@ -25,15 +25,16 @@ import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.setSideWithHorizontalText
 import com.waicool20.kaga.views.tabs.*
-import com.waicool20.kaga.views.tabs.LbasTabView
-import com.waicool20.kaga.views.tabs.PreferencesTabView
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.geometry.Side
-import javafx.scene.control.*
+import javafx.scene.control.ComboBox
+import javafx.scene.control.Label
+import javafx.scene.control.SplitMenuButton
+import javafx.scene.control.TabPane
 import javafx.scene.layout.HBox
 import javafx.stage.WindowEvent
 import org.slf4j.LoggerFactory
@@ -81,7 +82,8 @@ class KagaView {
         profileNameComboBox.bind(Kaga.PROFILE.nameProperty)
     }
 
-    @FXML private fun showProfiles() {
+    @FXML
+    private fun showProfiles() {
         val currentProfile = profileNameComboBox.value
         val profiles = Files.walk(Kaga.CONFIG_DIR).toList()
                 .filter { Files.isRegularFile(it) }
@@ -96,7 +98,8 @@ class KagaView {
         }
     }
 
-    @FXML private fun onSelectProfile() {
+    @FXML
+    private fun onSelectProfile() {
         val newProfile = profileNameComboBox.value
         val path = Kaga.CONFIG_DIR.resolve("$newProfile-config.ini")
         if (Files.exists(path)) {
@@ -127,7 +130,8 @@ class KagaView {
         }
     }
 
-    @FXML private fun onSaveButton() = Kaga.PROFILE.run {
+    @FXML
+    private fun onSaveButton() = Kaga.PROFILE.run {
         if (name == KancolleAutoProfile.DEFAULT_NAME) {
             val text = "Not a valid profile name, didn't save it..."
             logger.warn(text)
@@ -140,7 +144,8 @@ class KagaView {
         AlertFactory.info(content = "Profile $name was saved!").showAndWait()
     }
 
-    @FXML private fun onDeleteButton() = Kaga.PROFILE.run {
+    @FXML
+    private fun onDeleteButton() = Kaga.PROFILE.run {
         val warning = "Not a valid profile name, didn't delete it..."
         if (name == KancolleAutoProfile.DEFAULT_NAME) {
             logger.warn(warning)
@@ -156,7 +161,8 @@ class KagaView {
         }
     }
 
-    @FXML private fun onStartStopButton() {
+    @FXML
+    private fun onStartStopButton() {
         if (!Kaga.KCAUTO_KAI.isRunning()) {
             startKancolleAuto()
         } else {
@@ -164,11 +170,13 @@ class KagaView {
         }
     }
 
-    @FXML private fun startWithoutWritingConfig() {
+    @FXML
+    private fun startWithoutWritingConfig() {
         if (!Kaga.KCAUTO_KAI.isRunning()) startKancolleAuto(false)
     }
 
-    @FXML private fun stopAtPort() {
+    @FXML
+    private fun stopAtPort() {
         if (Kaga.KCAUTO_KAI.isRunning()) Kaga.KCAUTO_KAI.stopAtPort()
     }
 
@@ -204,7 +212,8 @@ class KagaView {
         }
     }
 
-    @FXML private fun clearCrashLogs() {
+    @FXML
+    private fun clearCrashLogs() {
         var count = 0
         Files.walk(Kaga.CONFIG.kcaKaiRootDirPath.resolve("crashes"))
                 .filter { Files.isRegularFile(it) }
@@ -217,7 +226,8 @@ class KagaView {
         ).showAndWait()
     }
 
-    @FXML private fun openLatestCrashLog() {
+    @FXML
+    private fun openLatestCrashLog() {
         val log = Files.walk(Kaga.CONFIG.kcaKaiRootDirPath.resolve("crashes"), 1)
                 .filter { Files.isRegularFile(it) }
                 .filter { it.fileName.toString().endsWith(".log") }
@@ -236,37 +246,43 @@ class KagaView {
         }
     }
 
-    @FXML private fun openHowto() {
+    @FXML
+    private fun openHowto() {
         AlertFactory.info(
                 title = "KAGA - How do I use KAGA?",
                 content = "Try pressing the Shift button while hovering over the label of an option to show a tooltip"
         ).showAndWait()
     }
 
-    @FXML private fun openRepo() {
+    @FXML
+    private fun openRepo() {
         if (Desktop.isDesktopSupported()) {
             thread { Desktop.getDesktop().browse(URI("https://github.com/waicool20/KAGA")) }
             Kaga.ROOT_STAGE.toBack()
         }
     }
 
-    @FXML private fun checkForUpdates() = Kaga.checkForUpdates(true)
+    @FXML
+    private fun checkForUpdates() = Kaga.checkForUpdates(true)
 
-    @FXML private fun openAbout() {
+    private val helpText by lazy { Kaga::class.java.classLoader.getResourceAsStream("help.txt").bufferedReader().readText() }
+
+    @FXML
+    private fun openAbout() {
         AlertFactory.info(
                 title = "KAGA - About",
-                content = """
-                        Kancolle Auto GUI App by waicool20
-
-                        Version: ${Kaga.VERSION_INFO.version}
-                        KCAuto Kai Compatibility: ${Kaga.VERSION_INFO.kcAutoCompatibility}
-                        """.trimIndent()
+                content = helpText.replace("<KAGA_VERSION>", Kaga.VERSION_INFO.version)
+                        .replace("<KCAUTO_KAI_COMPAT>", Kaga.VERSION_INFO.kcAutoCompatibility)
+                        .replace("<KCAUTO_KAI_VERSION>", Kaga.KCAUTO_KAI.version)
         ).showAndWait()
     }
 
-    @FXML private fun openConsole() = Kaga.CONSOLE_STAGE.show()
+    @FXML
+    private fun openConsole() = Kaga.CONSOLE_STAGE.show()
 
-    @FXML private fun openStats() = Kaga.STATS_STAGE.show()
+    @FXML
+    private fun openStats() = Kaga.STATS_STAGE.show()
 
-    @FXML private fun quit() = Kaga.exit()
+    @FXML
+    private fun quit() = Kaga.exit()
 }
