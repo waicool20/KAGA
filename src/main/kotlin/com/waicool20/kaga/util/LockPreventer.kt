@@ -34,21 +34,25 @@ class LockPreventer {
     private var task: ScheduledFuture<*>? = null
 
     fun start() {
-        if (!isRunning) {
-            isRunning = true
-            task = scheduler.scheduleAtFixedRate({
-                robot.keyPress(KeyEvent.VK_SHIFT)
-                TimeUnit.MILLISECONDS.sleep(10)
-                robot.keyRelease(KeyEvent.VK_SHIFT)
-            },0, 1, TimeUnit.MINUTES)
+        synchronized(this) {
+            if (!isRunning) {
+                isRunning = true
+                task = scheduler.scheduleAtFixedRate({
+                    robot.keyPress(KeyEvent.VK_SHIFT)
+                    TimeUnit.MILLISECONDS.sleep(10)
+                    robot.keyRelease(KeyEvent.VK_SHIFT)
+                }, 0, 1, TimeUnit.MINUTES)
+            }
         }
     }
 
     fun stop() {
-        if (isRunning) {
-            isRunning = false
-            task?.cancel(false)
-            scheduler.purge()
+        synchronized(this) {
+            if (isRunning) {
+                isRunning = false
+                task?.cancel(false)
+                scheduler.purge()
+            }
         }
     }
 }
