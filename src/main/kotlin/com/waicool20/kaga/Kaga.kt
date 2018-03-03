@@ -243,7 +243,7 @@ object Kaga {
                     logger.info("No updates so far....")
                 }
             } catch (e: Exception) {
-                logger.info("Could not check for updates, maybe your internet is down?")
+                logger.warn("Could not check for updates, maybe your internet is down?")
                 logger.error("Update check failed, reason: $e")
             }
         }

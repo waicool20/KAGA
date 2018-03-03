@@ -30,7 +30,6 @@ import org.apache.http.entity.ContentType
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
 import org.slf4j.LoggerFactory
-import java.net.InetAddress
 import java.time.LocalDateTime
 import kotlin.concurrent.thread
 
@@ -38,6 +37,10 @@ object YuuBot {
     private val API_URL = "https://yuu.waicool20.com/api/user/"
     private val mapper = jacksonObjectMapper().registerModule(JavaTimeModule())
     private val logger = LoggerFactory.getLogger(javaClass)
+
+    enum class ApiKeyStatus {
+        VALID, INVALID, UNKNOWN
+    }
 
     init {
         with(LoggingEventBus) {
@@ -50,15 +53,19 @@ object YuuBot {
         if (Kaga.CONFIG.apiKey.isEmpty()) return
         logger.info("Reporting stats to YuuBot!")
         thread {
-            val response = HttpClients.createDefault().use { client ->
-                val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, Resources())
-                HttpPost(API_URL + Kaga.CONFIG.apiKey + "/stats").apply {
-                    entity = StringEntity(mapper.writeValueAsString(stats), ContentType.APPLICATION_JSON)
-                }.let { client.execute(it) }.statusLine.statusCode
-            }
-            when (response) {
-                200 -> logger.debug("Stats reported to YuuBot! Response was: $response")
-                else -> logger.warn("Failed to report stats to YuuBot, response was: $response")
+            try {
+                val response = HttpClients.createDefault().use { client ->
+                    val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, Resources())
+                    HttpPost(API_URL + Kaga.CONFIG.apiKey + "/stats").apply {
+                        entity = StringEntity(mapper.writeValueAsString(stats), ContentType.APPLICATION_JSON)
+                    }.let { client.execute(it) }.statusLine.statusCode
+                }
+                when (response) {
+                    200 -> logger.debug("Stats reported to YuuBot! Response was: $response")
+                    else -> logger.warn("Failed to report stats to YuuBot, response was: $response")
+                }
+            } catch (e: Exception) {
+                logger.warn("Could not report stats, maybe your internet is down?")
             }
         }
     }
@@ -67,33 +74,43 @@ object YuuBot {
         if (Kaga.CONFIG.apiKey.isEmpty()) return
         logger.info("Reporting crash to YuuBot")
         thread {
-            val response = HttpClients.createDefault().use { client ->
-                HttpPost(API_URL + Kaga.CONFIG.apiKey + "/crashed").apply {
-                    entity = StringEntity(mapper.writeValueAsString(dto), ContentType.APPLICATION_JSON)
-                }.let { client.execute(it) }.statusLine.statusCode
-            }
-            when (response) {
-                200 -> logger.debug("Crash reported to YuuBot! Response was: $response")
-                else -> logger.warn("Failed to report crash to YuuBot, response was: $response")
+            try {
+                val response = HttpClients.createDefault().use { client ->
+                    HttpPost(API_URL + Kaga.CONFIG.apiKey + "/crashed").apply {
+                        entity = StringEntity(mapper.writeValueAsString(dto), ContentType.APPLICATION_JSON)
+                    }.let { client.execute(it) }.statusLine.statusCode
+                }
+                when (response) {
+                    200 -> logger.debug("Crash reported to YuuBot! Response was: $response")
+                    else -> logger.warn("Failed to report crash to YuuBot, response was: $response")
+                }
+            } catch (e: Exception) {
+                logger.warn("Could not report crash, maybe your internet is down?")
             }
         }
     }
 
-    fun testApiKey(apiKey: String, onComplete: (Boolean) -> Unit) {
+    fun testApiKey(apiKey: String, onComplete: (ApiKeyStatus) -> Unit) {
         if (Kaga.CONFIG.apiKey.isEmpty()) {
             logger.info("API key is empty, YuuBot reporting is disabled.")
-            onComplete(false)
+            onComplete(ApiKeyStatus.INVALID)
             return
         }
         logger.info("Testing API key: $apiKey")
         thread {
             HttpClients.createDefault().use { client ->
-                val apiKeyOk = client.execute(HttpGet(API_URL + apiKey)).statusLine.statusCode == 200
-                onComplete(apiKeyOk)
-                if (apiKeyOk) {
-                    logger.info("API key was found valid")
-                } else {
-                    logger.warn("API key was found invalid")
+                try {
+                    val apiKeyOk = client.execute(HttpGet(API_URL + apiKey)).statusLine.statusCode == 200
+                    if (apiKeyOk) {
+                        onComplete(ApiKeyStatus.VALID)
+                        logger.info("API key was found valid")
+                    } else {
+                        onComplete(ApiKeyStatus.INVALID)
+                        logger.warn("API key was found invalid")
+                    }
+                } catch (e: Exception) {
+                    logger.warn("Could not check if API key is valid, maybe your internet is down?")
+                    onComplete(ApiKeyStatus.UNKNOWN)
                 }
             }
         }

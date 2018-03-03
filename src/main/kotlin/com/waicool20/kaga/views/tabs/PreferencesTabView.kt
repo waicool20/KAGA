@@ -96,13 +96,17 @@ class PreferencesTabView {
 
     fun testApiKey(apiKey: String = Kaga.CONFIG.apiKey) {
         apiKeyTextField.style = "-fx-border-color: yellow;$borderStyle"
-        YuuBot.testApiKey(apiKey) { ok ->
-            Kaga.CONFIG.apiKey = if (ok) {
-                apiKeyTextField.style = "-fx-border-color: lightgreen;$borderStyle"
-                apiKey
-            } else {
-                apiKeyTextField.style = "-fx-border-color: red;$borderStyle"
-                ""
+        YuuBot.testApiKey(apiKey) { status ->
+            Kaga.CONFIG.apiKey = when(status) {
+                YuuBot.ApiKeyStatus.VALID -> {
+                    apiKeyTextField.style = "-fx-border-color: lightgreen;$borderStyle"
+                    apiKey
+                }
+                YuuBot.ApiKeyStatus.INVALID ->{
+                    apiKeyTextField.style = "-fx-border-color: red;$borderStyle"
+                    ""
+                }
+                YuuBot.ApiKeyStatus.UNKNOWN -> apiKey
             }
         }
     }
