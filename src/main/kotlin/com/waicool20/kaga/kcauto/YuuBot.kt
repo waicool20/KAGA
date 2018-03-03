@@ -91,7 +91,7 @@ object YuuBot {
     }
 
     fun testApiKey(apiKey: String, onComplete: (ApiKeyStatus) -> Unit) {
-        if (Kaga.CONFIG.apiKey.isEmpty()) {
+        if (apiKey.isEmpty()) {
             logger.info("API key is empty, YuuBot reporting is disabled.")
             onComplete(ApiKeyStatus.INVALID)
             return
@@ -100,13 +100,16 @@ object YuuBot {
         thread {
             HttpClients.createDefault().use { client ->
                 try {
-                    val apiKeyOk = client.execute(HttpGet(API_URL + apiKey)).statusLine.statusCode == 200
-                    if (apiKeyOk) {
-                        onComplete(ApiKeyStatus.VALID)
-                        logger.info("API key was found valid")
-                    } else {
-                        onComplete(ApiKeyStatus.INVALID)
-                        logger.warn("API key was found invalid")
+                    val response = client.execute(HttpGet(API_URL + apiKey)).statusLine.statusCode
+                    when (response) {
+                        200 -> {
+                            onComplete(ApiKeyStatus.VALID)
+                            logger.info("API key was found valid, response was: $response")
+                        }
+                        else -> {
+                            onComplete(ApiKeyStatus.INVALID)
+                            logger.warn("API key was found invalid, response was: $response")
+                        }
                     }
                 } catch (e: Exception) {
                     logger.warn("Could not check if API key is valid, maybe your internet is down?")
