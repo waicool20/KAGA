@@ -30,6 +30,7 @@ import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.util.Duration
 import java.awt.Desktop
+import java.net.URI
 import java.nio.file.Path
 import kotlin.concurrent.thread
 
@@ -45,6 +46,7 @@ class PreferencesTabView {
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
     @FXML private lateinit var kcaKaiRootPathLink: Hyperlink
     @FXML private lateinit var apiKeyTextField: TextField
+    @FXML private lateinit var reportStatusLink: Hyperlink
 
     private val borderStyle = "-fx-border-width: 2px"
 
@@ -116,5 +118,13 @@ class PreferencesTabView {
         Kaga.CONFIG = KagaConfig.load()
         initialize()
         AlertFactory.info(content = "Preferences were reset!").showAndWait()
+    }
+
+    @FXML
+    private fun openDiscordLink() {
+        if (Desktop.isDesktopSupported()) {
+            thread { Desktop.getDesktop().browse(URI("https://discord.gg/2tt5Der")) }
+            Kaga.ROOT_STAGE.toBack()
+        }
     }
 }

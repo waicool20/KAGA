@@ -212,6 +212,10 @@
     "description": "Path to kcauto-kai root directory"
   },
   {
+    "id": "Preferences-reportStatusLink",
+    "description": "Report status to YuuBot on discord, YuuBot provides commands to query the status of the script when you are away and also notifies you when your script has crashed.\n\nYour API key can be found using the \"!kaga --key\" command on discord. If this box turns green, then you're set! See KAGA Github Wiki for more information.\n\n Clicking link opens a Discord channel invite."
+  },
+  {
     "id": "ShipSwitcher-enableButton",
     "description": "Check this box if you want ships to be switched around"
   },
