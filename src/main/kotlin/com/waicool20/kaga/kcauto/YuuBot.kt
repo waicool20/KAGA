@@ -41,13 +41,12 @@ object YuuBot {
     init {
         with(LoggingEventBus) {
             // Listen to the end when kca-kai is done report stats
-            subscribe(Regex(".*Recoveries done:.*")) {
-                if (Kaga.CONFIG.apiKey.isNotEmpty()) reportStats()
-            }
+            subscribe(Regex(".*Recoveries done:.*")) { reportStats() }
         }
     }
 
     fun reportStats() {
+        if (Kaga.CONFIG.apiKey.isEmpty()) return
         logger.info("Reporting stats to YuuBot!")
         thread {
             val response = HttpClients.createDefault().use { client ->
@@ -64,6 +63,7 @@ object YuuBot {
     }
 
     fun reportCrash(dto: CrashInfoDto) {
+        if (Kaga.CONFIG.apiKey.isEmpty()) return
         logger.info("Reporting crash to YuuBot")
         thread {
             val response = HttpClients.createDefault().use { client ->
@@ -79,6 +79,11 @@ object YuuBot {
     }
 
     fun testApiKey(apiKey: String, onComplete: (Boolean) -> Unit) {
+        if (Kaga.CONFIG.apiKey.isEmpty()) {
+            logger.info("API key is empty, YuuBot reporting is disabled.")
+            onComplete(false)
+            return
+        }
         logger.info("Testing API key: $apiKey")
         thread {
             HttpClients.createDefault().use { client ->
