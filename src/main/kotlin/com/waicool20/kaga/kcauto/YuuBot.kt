@@ -38,6 +38,8 @@ object YuuBot {
     private val mapper = jacksonObjectMapper().registerModule(JavaTimeModule())
     private val logger = LoggerFactory.getLogger(javaClass)
 
+
+    // TODO send offsetdatetime or zoneddatetime
     enum class ApiKeyStatus {
         VALID, INVALID, UNKNOWN
     }

@@ -46,7 +46,6 @@ class PreferencesTabView {
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
     @FXML private lateinit var kcaKaiRootPathLink: Hyperlink
     @FXML private lateinit var apiKeyTextField: TextField
-    @FXML private lateinit var reportStatusLink: Hyperlink
 
     private val borderStyle = "-fx-border-width: 2px"
 

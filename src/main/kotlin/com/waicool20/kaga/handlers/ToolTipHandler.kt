@@ -20,6 +20,8 @@
 
 package com.waicool20.kaga.handlers
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonInclude.Include
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.getParentTabPane
@@ -31,7 +33,8 @@ import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
 
-class LabelTip(val id: String, val description: String)
+@JsonInclude(Include.NON_NULL)
+data class LabelTip(val id: String, val description: String, val ignoreShift: Boolean = false)
 
 class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
     val tooltips: List<LabelTip> = run {
@@ -54,10 +57,8 @@ class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
             if (node is Node) {
                 if (nodeUnderMouse == node) return@addEventFilter
                 nodeUnderMouse = node
-                if (isKeyPressed) {
-                    showingTooltip.hide()
-                    updateTooltip()
-                }
+                showingTooltip.hide()
+                updateTooltip()
             } else {
                 nodeUnderMouse = null
             }
@@ -75,17 +76,18 @@ class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
 
     private fun updateTooltip() = nodeUnderMouse?.run {
         val tab = getParentTabPane()?.selectionModel?.selectedItem
-        val labeltip = if (tab == null) {
+        if (tab == null) {
             tooltips.find { it.id == nodeUnderMouse?.parent?.id }
         } else {
             tooltips.find { it.id == "${if (tab.text != "") tab.text else tab.properties["text"]}-${nodeUnderMouse?.parent?.id}" }
-        }
-        if (labeltip != null) {
-            showingTooltip = Tooltip(labeltip.description)
-            showingTooltip.isWrapText = true
-            showingTooltip.maxWidth = 500.0
-            val bounds = localToScene(boundsInLocal)
-            showingTooltip.show(nodeUnderMouse, bounds.maxX + scene.window.x, bounds.minY + scene.window.y)
+        }?.let { labelTip ->
+            if (isKeyPressed || labelTip.ignoreShift) {
+                showingTooltip = Tooltip(labelTip.description)
+                showingTooltip.isWrapText = true
+                showingTooltip.maxWidth = 500.0
+                val bounds = localToScene(boundsInLocal)
+                showingTooltip.show(nodeUnderMouse, bounds.maxX + scene.window.x, bounds.minY + scene.window.y)
+            }
         }
     }
 }

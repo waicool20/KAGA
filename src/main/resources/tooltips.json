@@ -216,6 +216,11 @@
     "description": "Report status to YuuBot on discord, YuuBot provides commands to query the status of the script when you are away and also notifies you when your script has crashed.\n\nYour API key can be found using the \"!kaga --key\" command on discord. If this box turns green, then you're set! See KAGA Github Wiki for more information.\n\n Clicking link opens a Discord channel invite."
   },
   {
+    "id": "Preferences-apiKeyTextField",
+    "description": "Status reports occur at the start of the script, end of the script and every time it finishes one cycle. Crashes are reported after the crash log has been saved.\n\nStatus may include all the data you see in the Session Stats window and current profile name, crash reports may include a copy of the last 1000 lines of log.\n\nPlease be advised of using this feature if you want to keep privacy, as other users will be able to query your script status. No other data is send or received otherwise.",
+    "ignoreShift": true
+  },
+  {
     "id": "ShipSwitcher-enableButton",
     "description": "Check this box if you want ships to be switched around"
   },
