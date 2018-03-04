@@ -102,18 +102,14 @@ class StatsView : View() {
         recoveriesLabel.text = get(KancolleAutoKaiStats::recoveries).toString()
     }
 
-
-    private fun elapsedTimeSince(time: ZonedDateTime?): String {
-        if (time == null) return "0:00:00"
-        with(Duration.between(time, ZonedDateTime.now()).seconds) {
-            return String.format("%d:%02d:%02d", this / 3600, (this % 3600) / 60, this % 60)
+    private fun elapsedTimeSince(time: ZonedDateTime?) = time?.let { t ->
+        Duration.between(t, ZonedDateTime.now()).seconds.let {
+            String.format("%d:%02d:%02d", it / 3600, (it % 3600) / 60, it % 60)
         }
-    }
+    } ?: "0:00:00"
 
-    private fun hoursSince(time: ZonedDateTime?): Double {
-        if (time == null) return 0.0
-        return (Duration.between(time, ZonedDateTime.now()).seconds / 3600.0)
-    }
+    private fun hoursSince(time: ZonedDateTime?) =
+            time?.let { Duration.between(it, ZonedDateTime.now()).seconds / 3600.0 } ?: 0.0
 
     private fun formatDecimal(d: Double) = DecimalFormat("0.00").format(d).replace("\uFFFD", "0.00")
 }
