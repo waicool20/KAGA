@@ -31,6 +31,7 @@ import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import kotlin.concurrent.thread
 
 object YuuBot {
@@ -38,8 +39,6 @@ object YuuBot {
     private val mapper = jacksonObjectMapper().registerModule(JavaTimeModule())
     private val logger = LoggerFactory.getLogger(javaClass)
 
-
-    // TODO send offsetdatetime or zoneddatetime
     enum class ApiKeyStatus {
         VALID, INVALID, UNKNOWN
     }
@@ -125,8 +124,9 @@ object YuuBot {
 data class CrashInfoDto(val log: String)
 
 data class KCAutoKaiStatsDto(
+        val profileName: String,
         val isRunning: Boolean,
-        val startingTime: LocalDateTime,
+        val startingTime: ZonedDateTime,
         val crashes: Int,
         val sortiesDone: Int,
         val sortiesAttempted: Int,
@@ -143,8 +143,9 @@ data class KCAutoKaiStatsDto(
         val resources: Resources
 ) {
     constructor(tracker: KancolleAutoKaiStatsTracker, resources: Resources) : this(
+            profileName = Kaga.PROFILE.name,
             isRunning = Kaga.KCAUTO_KAI.isRunning(),
-            startingTime = tracker.startingTime ?: LocalDateTime.now(),
+            startingTime = tracker.startingTime ?: ZonedDateTime.now(),
             crashes = tracker.crashes,
             sortiesDone = tracker[KancolleAutoKaiStats::sortiesDone],
             sortiesAttempted = tracker[KancolleAutoKaiStats::sortiesAttempted],
