@@ -32,6 +32,7 @@ import javafx.scene.control.cell.TextFieldListCell
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.HBox
 import javafx.stage.FileChooser
+import javafx.stage.FileChooser.ExtensionFilter
 import javafx.util.StringConverter
 import org.controlsfx.glyphfont.Glyph
 import tornadofx.*
@@ -76,7 +77,11 @@ class SlotShipsListView : Fragment() {
         workspace.button("KC3 Import") {
             graphic = Glyph("FontAwesome", "UPLOAD")
             action {
-                FileChooser().apply { title = "Import KC3 Ship List..." }.showOpenDialog(null)?.also {
+                FileChooser().apply {
+                    title = "Import KC3 Ship List..."
+                    extensionFilters += ExtensionFilter("KC3 Ship List","*.html")
+                    extensionFilters += ExtensionFilter("All Files", "*.*")
+                }.showOpenDialog(null)?.also {
                     val ships = Kanmusu.parseFromKc3ShipList(it.readText())
                     if (ships.isNotEmpty()) {
                         workspace.dock<SlotShipsImporterView>(Scope(workspace),
