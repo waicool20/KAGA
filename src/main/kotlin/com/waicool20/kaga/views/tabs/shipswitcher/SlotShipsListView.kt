@@ -79,8 +79,8 @@ class SlotShipsListView : Fragment() {
             action {
                 FileChooser().apply {
                     title = "Import KC3 Ship List..."
-                    extensionFilters += ExtensionFilter("KC3 Ship List","*.html")
-                    extensionFilters += ExtensionFilter("All Files", "*.*")
+                    extensionFilters += ExtensionFilter("KC3 Ship List (*.html)", "*.html")
+                    extensionFilters += ExtensionFilter("All Files (*.*)", "*.*")
                 }.showOpenDialog(null)?.also {
                     val ships = Kanmusu.parseFromKc3ShipList(it.readText())
                     if (ships.isNotEmpty()) {

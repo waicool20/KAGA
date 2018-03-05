@@ -21,14 +21,14 @@
 package com.waicool20.kaga.handlers
 
 import org.jnativehook.GlobalScreen
-import org.jnativehook.keyboard.NativeKeyAdapter
 import org.jnativehook.keyboard.NativeKeyEvent
+import org.jnativehook.keyboard.NativeKeyListener
 import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 
-object GlobalShortcutHandler : NativeKeyAdapter() {
+object GlobalShortcutHandler : NativeKeyListener {
     private val logger = LoggerFactory.getLogger(javaClass)
     private val modifiersPressed = mutableMapOf(
             NativeKeyEvent.CTRL_MASK to false,
@@ -52,7 +52,9 @@ object GlobalShortcutHandler : NativeKeyAdapter() {
 
     init {
         try {
-            Logger.getLogger(GlobalScreen::class.java.`package`.name).level = Level.WARNING
+            Logger.getLogger(GlobalScreen::class.java.`package`.name).apply {
+                level = Level.WARNING
+            }
             GlobalScreen.registerNativeHook()
             GlobalScreen.addNativeKeyListener(this)
         } catch (e: Exception) {
@@ -60,7 +62,10 @@ object GlobalShortcutHandler : NativeKeyAdapter() {
         }
     }
 
-    override fun nativeKeyTyped(event: NativeKeyEvent) {
+    fun registerShortcut(name: String = UUID.randomUUID().toString(), shortcut: String, action: () -> Unit) =
+            shortcuts.put(name, shortcut.split("+") to action)
+
+    override fun nativeKeyPressed(event: NativeKeyEvent) {
         modifiersPressed.forEach { key, _ ->
             modifiersPressed[key] = event.modifiers and key != 0
         }
@@ -74,9 +79,8 @@ object GlobalShortcutHandler : NativeKeyAdapter() {
             if (pressed) action()
         }
     }
-
-    fun registerShortcut(name: String = UUID.randomUUID().toString(), shortcut: String, action: () -> Unit) =
-            shortcuts.put(name, shortcut.split("+") to action)
+    override fun nativeKeyReleased(event: NativeKeyEvent) = Unit
+    override fun nativeKeyTyped(event: NativeKeyEvent) = Unit
 
     private fun NativeKeyEvent.charPressed(char: Char) = rawCode.toChar().equals(char, true)
 }
