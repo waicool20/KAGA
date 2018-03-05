@@ -29,9 +29,9 @@ import javafx.animation.PauseTransition
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.util.Duration
+import tornadofx.*
 import java.awt.Desktop
 import java.net.URI
-import java.nio.file.Path
 import kotlin.concurrent.thread
 
 class PreferencesTabView {
@@ -44,6 +44,7 @@ class PreferencesTabView {
     @FXML private lateinit var showStatsCheckBox: CheckBox
     @FXML private lateinit var checkForUpdatesCheckBox: CheckBox
     @FXML private lateinit var apiKeyTextField: TextField
+    @FXML private lateinit var startStopShortcutTextField: TextField
 
     private val borderStyle = "-fx-border-width: 2px"
 
@@ -56,6 +57,7 @@ class PreferencesTabView {
     fun setValues() {
         with(Kaga.CONFIG) {
             maxRetriesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Int.MAX_VALUE)
+            startStopShortcutTextField.textFormatter = TextFormatter<String> { it.apply { text = text.toUpperCase() } }
             apiKeyTextField.text = apiKey
         }
     }
@@ -70,6 +72,7 @@ class PreferencesTabView {
             showDebugCheckBox.selectedProperty().bindBidirectional(showDebugOnStartProperty)
             showStatsCheckBox.selectedProperty().bindBidirectional(showStatsOnStartProperty)
             checkForUpdatesCheckBox.selectedProperty().bindBidirectional(checkForUpdatesProperty)
+            startStopShortcutTextField.bind(startStopScriptShortcutProperty)
             val pause = PauseTransition(Duration.seconds(1.0))
 
             apiKeyTextField.textProperty().addListener { _, _, newVal ->
@@ -83,12 +86,12 @@ class PreferencesTabView {
     fun testApiKey(apiKey: String = Kaga.CONFIG.apiKey) {
         apiKeyTextField.style = "-fx-border-color: yellow;$borderStyle"
         YuuBot.testApiKey(apiKey) { status ->
-            Kaga.CONFIG.apiKey = when(status) {
+            Kaga.CONFIG.apiKey = when (status) {
                 YuuBot.ApiKeyStatus.VALID -> {
                     apiKeyTextField.style = "-fx-border-color: lightgreen;$borderStyle"
                     apiKey
                 }
-                YuuBot.ApiKeyStatus.INVALID ->{
+                YuuBot.ApiKeyStatus.INVALID -> {
                     apiKeyTextField.style = "-fx-border-color: red;$borderStyle"
                     ""
                 }

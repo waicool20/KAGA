@@ -24,6 +24,7 @@ import org.jnativehook.GlobalScreen
 import org.jnativehook.keyboard.NativeKeyAdapter
 import org.jnativehook.keyboard.NativeKeyEvent
 import org.slf4j.LoggerFactory
+import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -47,7 +48,7 @@ object GlobalShortcutHandler : NativeKeyAdapter() {
             "ENTER" to '－'
     )
 
-    private val shortcuts = mutableMapOf<List<String>, () -> Unit>()
+    private val shortcuts = mutableMapOf<String, Pair<List<String>, () -> Unit>>()
 
     init {
         try {
@@ -63,7 +64,7 @@ object GlobalShortcutHandler : NativeKeyAdapter() {
         modifiersPressed.forEach { key, _ ->
             modifiersPressed[key] = event.modifiers and key != 0
         }
-        shortcuts.forEach { keys, action ->
+        shortcuts.forEach { _, (keys, action) ->
             val pressed = keys.partition { modifiers.containsKey(it) }.let { (modifiers, key) ->
                 modifiers.all { modifiersPressed[this.modifiers[it]] ?: false } &&
                         key.firstOrNull()?.let {
@@ -74,7 +75,8 @@ object GlobalShortcutHandler : NativeKeyAdapter() {
         }
     }
 
-    fun registerShortcut(shortcut: String, action: () -> Unit) = shortcuts.put(shortcut.split("+"), action)
+    fun registerShortcut(name: String = UUID.randomUUID().toString(), shortcut: String, action: () -> Unit) =
+            shortcuts.put(name, shortcut.split("+") to action)
 
     private fun NativeKeyEvent.charPressed(char: Char) = rawCode.toChar().equals(char, true)
 }

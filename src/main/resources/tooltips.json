@@ -213,6 +213,10 @@
     "ignoreShift": true
   },
   {
+    "id": "Preferences-startStopShortcutLabel",
+    "description": "Shortcut for starting and stopping the script, this should be a + delimited list of keys and modifiers (CTRL, SHIFT, ALT, META)"
+  },
+  {
     "id": "ShipSwitcher-enableButton",
     "description": "Check this box if you want ships to be switched around"
   },

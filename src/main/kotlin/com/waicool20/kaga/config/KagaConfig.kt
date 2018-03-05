@@ -52,7 +52,8 @@ class KagaConfig(currentProfile: String = "",
                  showDebugOnStart: Boolean = true,
                  showStatsOnStart: Boolean = true,
                  checkForUpdates: Boolean = true,
-                 apiKey: String = ""
+                 apiKey: String = "",
+                 startStopScriptShortcut: String = "CTRL+SHIFT+ENTER"
 ) {
     @JsonIgnore val currentProfileProperty = SimpleStringProperty(currentProfile)
     @JsonIgnore val sikulixJarPathProperty = SimpleObjectProperty<Path>(sikulixJarPath)
@@ -67,6 +68,7 @@ class KagaConfig(currentProfile: String = "",
     @JsonIgnore val showStatsOnStartProperty = SimpleBooleanProperty(showStatsOnStart)
     @JsonIgnore val checkForUpdatesProperty = SimpleBooleanProperty(checkForUpdates)
     @JsonIgnore val apiKeyProperty = SimpleStringProperty(apiKey)
+    @JsonIgnore val startStopScriptShortcutProperty = SimpleStringProperty(startStopScriptShortcut)
 
     @get:JsonProperty var currentProfile by currentProfileProperty
     @get:JsonProperty var sikulixJarPath by sikulixJarPathProperty
@@ -80,6 +82,7 @@ class KagaConfig(currentProfile: String = "",
     @get:JsonProperty var showStatsOnStart by showStatsOnStartProperty
     @get:JsonProperty var checkForUpdates by checkForUpdatesProperty
     @get:JsonProperty var apiKey by apiKeyProperty
+    @get:JsonProperty var startStopScriptShortcut by startStopScriptShortcutProperty
 
     private val logger = LoggerFactory.getLogger(javaClass)
 

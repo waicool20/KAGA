@@ -29,7 +29,6 @@ import com.waicool20.kaga.views.tabs.*
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
-import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.geometry.Side
 import javafx.scene.control.ComboBox
@@ -81,7 +80,13 @@ class KagaView {
     }
 
     private fun registerShortcuts() {
-        GlobalShortcutHandler.registerShortcut("CTRL+SHIFT+ENTER", ::onStartStopButton)
+        with(Kaga.CONFIG) {
+            val listener = { shortcut: String ->
+                GlobalShortcutHandler.registerShortcut("StartStopScript", shortcut, ::onStartStopButton)
+            }
+            listener(startStopScriptShortcut)
+            startStopScriptShortcutProperty.addListener { _, _, newVal -> listener(newVal) }
+        }
     }
 
     private fun createBindings() {
