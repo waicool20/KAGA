@@ -20,10 +20,9 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 - Prevents lockscreen(configurable) in case you're too lazy to turn off your screensaver
 - Tooltips to help you configure KCAuto-Kai, press Shift Key while hovering over an option to see what it does
 - Statistics to help you know what the script is doing! eg. Buckets used, sorties per hour etc. (See screenshots)
-
-Currently under development:
-- UI renewal in certain submenus
-- Discord integration for notifications on crashes and resource queries using YuuBot, remember to join our [Discord Server](#want-to-chat)
+- Discord integration, basic crash notification and script status queries via YuuBot, a sassy bot that resides in our server.
+- Global shortcut key that can be rebinded to start and stop the script even when your mouse is out of control.
+- KC3 Ship list importer for convenience when configuring the ShipSwitcher module.
 
 # Installation and Usage
 
