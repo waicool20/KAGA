@@ -152,6 +152,11 @@
                         <fx:include fx:id="preferencesTab" source="tabs/tab-preferences.fxml" />
                     </content>
                 </Tab>
+                <Tab text="Paths">
+                    <content>
+                        <fx:include fx:id="pathsTab" source="tabs/tab-paths.fxml" />
+                    </content>
+                </Tab>
             </tabs>
         </TabPane>
         <HBox alignment="CENTER_LEFT" fillHeight="false" style="-fx-border-width: 1 0 0 0; -fx-border-color: black;" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">

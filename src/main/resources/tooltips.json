@@ -204,14 +204,6 @@
     "description": "Checks for KAGA updates on startup if enabled"
   },
   {
-    "id": "Preferences-sikuliScriptJarLabel",
-    "description": "Path to the sikuli script Jar"
-  },
-  {
-    "id": "Preferences-kcaKaiRootLabel",
-    "description": "Path to kcauto-kai root directory"
-  },
-  {
     "id": "Preferences-reportStatusLink",
     "description": "Report status to YuuBot on discord, YuuBot provides commands to query the status of the script when you are away and also notifies you when your script has crashed.\n\nYour API key can be found using the \"!kaga --key\" command on discord. If this box turns green, then you're set! See KAGA Github Wiki for more information.\n\n Clicking link opens a Discord channel invite."
   },
@@ -271,5 +263,13 @@
   {
     "id": "ShipSwitcher-slot6ShipsLabel",
     "description": "Criteria for what kind of ships are eligible to be switched into slot 6"
+  },
+  {
+    "id": "Paths-sikuliScriptJarLabel",
+    "description": "Path to the sikuli script Jar"
+  },
+  {
+    "id": "Paths-kcaKaiRootLabel",
+    "description": "Path to kcauto-kai root directory"
   }
 ]

@@ -43,8 +43,6 @@ class PreferencesTabView {
     @FXML private lateinit var showDebugCheckBox: CheckBox
     @FXML private lateinit var showStatsCheckBox: CheckBox
     @FXML private lateinit var checkForUpdatesCheckBox: CheckBox
-    @FXML private lateinit var sikulixJarPathLink: Hyperlink
-    @FXML private lateinit var kcaKaiRootPathLink: Hyperlink
     @FXML private lateinit var apiKeyTextField: TextField
 
     private val borderStyle = "-fx-border-width: 2px"
@@ -57,19 +55,8 @@ class PreferencesTabView {
 
     fun setValues() {
         with(Kaga.CONFIG) {
-            sikulixJarPathLink.setOnAction { openFile(sikulixJarPath.parent) }
-            kcaKaiRootPathLink.setOnAction { openFile(kcaKaiRootDirPath) }
-            sikulixJarPathLink.text = sikulixJarPath.toString()
-            kcaKaiRootPathLink.text = kcaKaiRootDirPath.toString()
             maxRetriesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Int.MAX_VALUE)
             apiKeyTextField.text = apiKey
-        }
-    }
-
-    private fun openFile(path: Path) {
-        if (Desktop.isDesktopSupported()) {
-            thread { Desktop.getDesktop().open(path.toFile()) }
-            Kaga.ROOT_STAGE.toBack()
         }
     }
 

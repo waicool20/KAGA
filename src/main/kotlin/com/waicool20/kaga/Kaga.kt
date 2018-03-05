@@ -26,10 +26,12 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.config.KancolleAutoProfile
+import com.waicool20.kaga.handlers.GlobalShortcutHandler
 import com.waicool20.kaga.handlers.KeyboardIncrementHandler
 import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
 import com.waicool20.kaga.kcauto.KancolleAutoKai
+import com.waicool20.kaga.kcauto.YuuBot
 import com.waicool20.kaga.util.AlertFactory
 import com.waicool20.kaga.util.LineListenerOutputStream
 import com.waicool20.kaga.util.TeeOutputStream
@@ -64,11 +66,15 @@ import kotlin.math.abs
 class KagaApp : Application() {
     private val logger = LoggerFactory.getLogger(javaClass)
     override fun start(stage: Stage) {
-        val logLevel = parameters.named.getOrElse("log", { "" })
+        val logLevel = parameters.named.getOrElse("log") { "" }
         if (logLevel != "") {
             val level = Level.toLevel(logLevel)
             logger.info("Logging level was passed as argument, setting logging level to ${level.levelStr}")
             Kaga.setLogLevel(level)
+        }
+        if (parameters.unnamed.contains("--use-local-server")) {
+            logger.info("Using local server for API endpoint!")
+            YuuBot.useLocalServer = true
         }
         logger.info("Starting KAGA")
         FX.registerApplication(application = this, primaryStage = stage)

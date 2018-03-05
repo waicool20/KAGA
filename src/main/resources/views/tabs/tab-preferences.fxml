@@ -58,24 +58,6 @@
                 <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11">
-                    <children>
-                        <Label fx:id="sikuliScriptJarLabel" text="Sikuli Script Jar:" />
-                        <Hyperlink fx:id="sikulixJarPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" HBox.hgrow="ALWAYS" />
-                    </children>
-                    <padding>
-                        <Insets left="10.0" />
-                    </padding>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12">
-                    <children>
-                        <Label fx:id="kcaKaiRootLabel" text="KCAuto-Kai root:" />
-                        <Hyperlink fx:id="kcaKaiRootPathLink" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" HBox.hgrow="ALWAYS" />
-                    </children>
-                    <padding>
-                        <Insets left="10.0" />
-                    </padding>
-                </HBox>
                 <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
                     <children>
                         <Label fx:id="preventLockLabel" text="Prevent Lockscreen:" />
@@ -203,7 +185,7 @@
             <CheckBox fx:id="checkForUpdatesCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="9">
                <children>
-                  <Hyperlink fx:id="reportStatusLink" text="Report script status via Discord:" onAction="#openDiscordLink"/>
+                  <Hyperlink fx:id="reportStatusLink" onAction="#openDiscordLink" text="Report script status via Discord:" />
                </children>
                <opaqueInsets>
                   <Insets />

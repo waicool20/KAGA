@@ -81,6 +81,7 @@ dependencies {
     compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.14'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
+    compile 'com.1stleg:jnativehook:2.1.0'
 }
 
 shadowJar {
