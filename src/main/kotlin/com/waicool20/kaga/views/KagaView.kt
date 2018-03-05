@@ -29,6 +29,7 @@ import com.waicool20.kaga.views.tabs.*
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
+import javafx.animation.PauseTransition
 import javafx.fxml.FXML
 import javafx.geometry.Side
 import javafx.scene.control.ComboBox
@@ -37,6 +38,7 @@ import javafx.scene.control.SplitMenuButton
 import javafx.scene.control.TabPane
 import javafx.scene.layout.HBox
 import javafx.stage.WindowEvent
+import javafx.util.Duration
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.awt.Desktop
@@ -81,12 +83,16 @@ class KagaView {
 
     private fun registerShortcuts() {
         with(Kaga.CONFIG) {
+            val pause = PauseTransition(Duration.seconds(1.5))
             val listener = { shortcut: String ->
                 if (shortcut.length > 1)
                     GlobalShortcutHandler.registerShortcut("StartStopScript", shortcut, ::onStartStopButton)
             }
             listener(startStopScriptShortcut)
-            startStopScriptShortcutProperty.addListener { _, _, newVal -> listener(newVal) }
+            startStopScriptShortcutProperty.addListener { _, _, newVal ->
+                pause.setOnFinished { listener(newVal) }
+                pause.playFromStart()
+            }
         }
     }
 

@@ -71,6 +71,7 @@ object GlobalShortcutHandler : NativeKeyListener {
         shortcuts.forEach { _, (keys, action) ->
             val pressed = keys.partition { modifiers.containsKey(it) }.let { (modifiers, key) ->
                 modifiers.all { modifiersPressed[this.modifiers[it]] ?: false } &&
+                        key.isNotEmpty() &&
                         key.all { NativeKeyEvent.getKeyText(event.keyCode).equals(it, true) }
             }
             if (pressed) action()
