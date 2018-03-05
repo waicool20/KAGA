@@ -61,6 +61,8 @@ object GlobalShortcutHandler : NativeKeyListener {
     fun registerShortcut(name: String = UUID.randomUUID().toString(), shortcut: String, action: () -> Unit) =
             shortcuts.put(name, shortcut.split("+") to action)
 
+    fun deregisterShortcut(name: String) = shortcuts.remove(name)
+
     override fun nativeKeyPressed(event: NativeKeyEvent) {
         modifiersPressed.forEach { key, _ ->
             modifiersPressed[key] = event.modifiers and key != 0
