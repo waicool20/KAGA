@@ -35,9 +35,15 @@ import java.time.ZonedDateTime
 import kotlin.concurrent.thread
 
 object YuuBot {
-    private val API_URL = "https://yuu.waicool20.com/api/user/"
+    private val endpoint
+        get() = if (useLocalServer) {
+            "http://localhost:8080/api/user/"
+        } else {
+            "https://yuu.waicool20.com/api/user/"
+        }
     private val mapper = jacksonObjectMapper().registerModule(JavaTimeModule())
     private val logger = LoggerFactory.getLogger(javaClass)
+    var useLocalServer = false
 
     enum class ApiKeyStatus {
         VALID, INVALID, UNKNOWN
@@ -56,7 +62,7 @@ object YuuBot {
         httpClient { client ->
             try {
                 val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, Resources())
-                val response = HttpPost(API_URL + Kaga.CONFIG.apiKey + "/stats").apply {
+                val response = HttpPost(endpoint + Kaga.CONFIG.apiKey + "/stats").apply {
                     entity = StringEntity(mapper.writeValueAsString(stats), ContentType.APPLICATION_JSON)
                 }.let { client.execute(it) }.statusLine.statusCode
                 when (response) {
@@ -74,7 +80,7 @@ object YuuBot {
         logger.info("Reporting crash to YuuBot")
         httpClient { client ->
             try {
-                val response = HttpPost(API_URL + Kaga.CONFIG.apiKey + "/crashed").apply {
+                val response = HttpPost(endpoint + Kaga.CONFIG.apiKey + "/crashed").apply {
                     entity = StringEntity(mapper.writeValueAsString(dto), ContentType.APPLICATION_JSON)
                 }.let { client.execute(it) }.statusLine.statusCode
                 when (response) {
@@ -96,7 +102,7 @@ object YuuBot {
         logger.info("Testing API key: $apiKey")
         httpClient { client ->
             try {
-                val response = client.execute(HttpGet(API_URL + apiKey)).statusLine.statusCode
+                val response = client.execute(HttpGet(endpoint + apiKey)).statusLine.statusCode
                 when (response) {
                     200 -> {
                         onComplete(ApiKeyStatus.VALID)
