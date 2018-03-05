@@ -78,7 +78,6 @@ class KagaApp : Application() {
         FX.registerApplication(application = this, primaryStage = stage)
         Kaga.ROOT_STAGE = stage
         stage.setOnHidden { Kaga.exit() }
-
         if (Kaga.CONFIG.isValid()) {
             parameters.named["log"]?.let {
                 val level = Level.toLevel(it)
@@ -213,7 +212,7 @@ object Kaga {
                 val json = mapper.readTree(URL("https://api.github.com/repos/waicool20/Kaga/releases/latest"))
                 val latestVersion = VersionInfo(json.at("/tag_name").asText())
                 if (latestVersion > VERSION_INFO) {
-                    Platform.runLater {
+                    runLater {
                         Alert(Alert.AlertType.INFORMATION, "KAGA - Update").apply {
                             headerText = null
                             val pane = FlowPane()
@@ -238,7 +237,7 @@ object Kaga {
                     }
                 } else {
                     if (showNoUpdatesDialog) {
-                        Platform.runLater {
+                        runLater {
                             AlertFactory.info(
                                     content = """
                                     No updates so far...

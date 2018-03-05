@@ -82,7 +82,8 @@ class KagaView {
     private fun registerShortcuts() {
         with(Kaga.CONFIG) {
             val listener = { shortcut: String ->
-                GlobalShortcutHandler.registerShortcut("StartStopScript", shortcut, ::onStartStopButton)
+                if (shortcut.length > 1)
+                    GlobalShortcutHandler.registerShortcut("StartStopScript", shortcut, ::onStartStopButton)
             }
             listener(startStopScriptShortcut)
             startStopScriptShortcutProperty.addListener { _, _, newVal -> listener(newVal) }
