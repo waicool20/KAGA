@@ -23,6 +23,7 @@ package com.waicool20.kaga.util
 import com.sun.javafx.scene.control.ReadOnlyUnbackedObservableList
 import com.sun.javafx.scene.control.skin.TableHeaderRow
 import com.waicool20.kaga.Kaga
+import javafx.application.Platform
 import javafx.beans.property.ReadOnlyObjectProperty
 import javafx.beans.property.SimpleListProperty
 import javafx.beans.value.ObservableValue

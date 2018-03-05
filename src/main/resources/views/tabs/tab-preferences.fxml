@@ -202,6 +202,25 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
+            <HBox alignment="CENTER_LEFT" GridPane.rowIndex="11">
+               <children>
+                  <Label fx:id="startStopShortcutLabel" text="Start-Stop Shortcut:" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox GridPane.columnSpan="2" GridPane.rowIndex="12">
+               <children>
+                  <TextField fx:id="startStopShortcutTextField" promptText="Shortcut Key eg. CTRL+SHIFT+ENTER" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
             </children>
         </GridPane>
     </children>
