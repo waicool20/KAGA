@@ -43,8 +43,8 @@ object GlobalShortcutHandler : NativeKeyListener {
             "ALT" to NativeKeyEvent.ALT_MASK,
             "META" to NativeKeyEvent.META_MASK
     )
-
     private val shortcuts = mutableMapOf<String, Pair<List<String>, () -> Unit>>()
+    var logKeys = false
 
     init {
         try {
@@ -65,7 +65,9 @@ object GlobalShortcutHandler : NativeKeyListener {
         modifiersPressed.forEach { key, _ ->
             modifiersPressed[key] = event.modifiers and key != 0
         }
-        println("Rawcode: ${event.rawCode}, Keycode: ${event.keyCode}, Keytext: ${NativeKeyEvent.getKeyText(event.keyCode)}, Char: ${event.rawCode.toChar()}, Modifiers: ${event.modifiers}")
+        if (logKeys) {
+            logger.debug("Rawcode: ${event.rawCode}, Keycode: ${event.keyCode}, Keytext: ${NativeKeyEvent.getKeyText(event.keyCode)}, Char: ${event.rawCode.toChar()}, Modifiers: ${event.modifiers}")
+        }
         shortcuts.forEach { _, (keys, action) ->
             val pressed = keys.partition { modifiers.containsKey(it) }.let { (modifiers, key) ->
                 modifiers.all { modifiersPressed[this.modifiers[it]] ?: false } &&

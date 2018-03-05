@@ -66,15 +66,13 @@ import kotlin.math.abs
 class KagaApp : Application() {
     private val logger = LoggerFactory.getLogger(javaClass)
     override fun start(stage: Stage) {
-        val logLevel = parameters.named.getOrElse("log") { "" }
-        if (logLevel != "") {
-            val level = Level.toLevel(logLevel)
-            logger.info("Logging level was passed as argument, setting logging level to ${level.levelStr}")
-            Kaga.setLogLevel(level)
-        }
         if (parameters.unnamed.contains("--use-local-server")) {
             logger.info("Using local server for API endpoint!")
             YuuBot.useLocalServer = true
+        }
+        if (parameters.unnamed.contains("--log-keys")) {
+            logger.info("Logging key presses to console")
+            GlobalShortcutHandler.logKeys = true
         }
         logger.info("Starting KAGA")
         FX.registerApplication(application = this, primaryStage = stage)
@@ -82,7 +80,11 @@ class KagaApp : Application() {
         stage.setOnHidden { Kaga.exit() }
 
         if (Kaga.CONFIG.isValid()) {
-            if (logLevel.isEmpty()) {
+            parameters.named["log"]?.let {
+                val level = Level.toLevel(it)
+                logger.info("Logging level was passed as argument, setting logging level to ${level.levelStr}")
+                Kaga.setLogLevel(level)
+            } ?: run {
                 logger.info("No logging level was found in the arguments...using the config level of ${Kaga.CONFIG.logLevel()}")
                 Kaga.setLogLevel(Level.toLevel(Kaga.CONFIG.logLevel()))
             }
