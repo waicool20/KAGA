@@ -2,11 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.PrefixSelectionComboBox?>
@@ -31,99 +27,67 @@
   ~
   -->
 
-<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.LbasTabView">
-    <children>
-          <GridPane fx:id="lbasContent">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="125.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="45.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-              <children>
-                  <HBox alignment="CENTER">
-                      <children>
-                          <Label fx:id="lbasGroup1Label" text="LBAS Group 1:" />
-                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.rowIndex="1">
-                      <children>
-                          <Label fx:id="lbasGroup2Label" text="LBAS Group 2:" />
-                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.rowIndex="2">
-                      <children>
-                          <Label fx:id="lbasGroup3Label" text="LBAS Group 3:" />
-                      </children>
-                  </HBox>
-            <VBox spacing="10.0" GridPane.columnIndex="1">
+<VBox spacing="5.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.LbasTabView">
+   <children>
+      <Label fx:id="lbasGroup1Label" text="LBAS Group 1:" />
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <VBox spacing="10.0">
                <children>
-                  <PrefixSelectionComboBox fx:id="grp1choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
-                  <PrefixSelectionComboBox fx:id="grp1choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp1choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="150.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp1choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="150.0" typingDelay="200" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
                </padding>
             </VBox>
-            <HBox alignment="CENTER" GridPane.columnIndex="2">
+            <Label fx:id="grp1NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 1 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="lbasGroup2Label" text="LBAS Group 2:" />
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <VBox spacing="10.0">
                <children>
-                  <Label fx:id="grp1NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 1 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <children>
-                  <Label fx:id="grp2NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 2 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <children>
-                  <Label fx:id="grp3NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 3 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </HBox>
-            <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <PrefixSelectionComboBox fx:id="grp2choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
-                  <PrefixSelectionComboBox fx:id="grp2choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp2choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="150.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp2choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="150.0" typingDelay="200" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="grp2NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 2 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="lbasGroup3Label" text="LBAS Group 3:" />
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <VBox spacing="10.0">
                <children>
-                  <PrefixSelectionComboBox fx:id="grp3choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
-                  <PrefixSelectionComboBox fx:id="grp3choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="100.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp3choice1ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="150.0" typingDelay="200" />
+                  <PrefixSelectionComboBox fx:id="grp3choice2ComboBox" backSpaceAllowed="true" displayOnFocusedEnabled="true" prefWidth="150.0" typingDelay="200" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
                </padding>
             </VBox>
-              </children>
-          </GridPane>
-    </children>
-</AnchorPane>
+            <Label fx:id="grp3NodesWarnLabel" text="2 nodes required!&#10;LBAS Group 3 disabled." textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

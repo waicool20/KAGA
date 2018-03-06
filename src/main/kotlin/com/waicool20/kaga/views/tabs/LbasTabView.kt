@@ -22,14 +22,10 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
-import com.waicool20.kaga.util.bind
-import com.waicool20.kaga.util.persist
 import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.Label
-import org.controlsfx.control.CheckComboBox
-import org.controlsfx.control.PrefixSelectionChoiceBox
 import org.controlsfx.control.PrefixSelectionComboBox
 import tornadofx.*
 import kotlin.reflect.KMutableProperty0
@@ -38,7 +34,7 @@ class LbasTabView {
 
     private val VALID_NODES = KancolleAutoProfile.VALID_NODES
             .filterNot { it.matches("^\\d+".toRegex()) }
-            .let { FXCollections.observableList(listOf("") + it) }
+            .let { FXCollections.observableList(listOf("", "Defense") + it) }
 
     @FXML private lateinit var grp1choice1ComboBox: PrefixSelectionComboBox<String>
     @FXML private lateinit var grp1choice2ComboBox: PrefixSelectionComboBox<String>
@@ -89,15 +85,15 @@ class LbasTabView {
 
         val update: (Boolean) -> Unit = { updateList ->
             val items = listOf(box1.selectedItem, box2.selectedItem).filterNot { it.isNullOrBlank() }
-            val sizeIsOk = items.size == 2
-            label.isVisible = !sizeIsOk
+            val isOk = items.size == 2 && items.count { it == "Defense" } != 1
+            label.isVisible = !isOk
             val group = choice1Prop.name.first { it.isDigit() }.toString()
-            if (sizeIsOk) {
+            if (isOk) {
                 Kaga.PROFILE.sortie.lbasGroups.add(group)
             } else {
                 Kaga.PROFILE.sortie.lbasGroups.remove(group)
             }
-            if (updateList) list.setAll(items)
+            if (updateList && isOk) list.setAll(items.filterNot { it == "Defense" })
         }
 
         box1.selectionModel.selectedItemProperty().addListener { _, _, _ ->
