@@ -44,7 +44,7 @@ abstract class SingleListView<T>(showControlButtons: Boolean = false) : Fragment
     @FXML protected open fun onCancelButton() = closeWindow()
     @FXML protected open fun onAddButton() = Unit
     @FXML protected open fun onRemoveButton() {
-        tableView().selectedItem?.let { tableView().items.remove(it) }
+        tableView().selectedItem?.let { tableView().items.remove(it) } ?: tableView().items.remove(tableView().items.last())
     }
 
     protected open fun tableView(): TableView<T> = tableView
