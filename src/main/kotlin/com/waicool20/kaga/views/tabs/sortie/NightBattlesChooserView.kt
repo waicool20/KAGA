@@ -32,6 +32,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.CheckBoxTableCell
 import javafx.scene.control.cell.ComboBoxTableCell
+import javafx.scene.input.KeyCode
 
 data class NightBattleEntry(val node: SimpleStringProperty, val nightBattle: SimpleBooleanProperty) {
     fun isValid() = node.isNotNull.value
@@ -66,12 +67,20 @@ class NightBattlesChooserView : SingleListView<NightBattleEntry>(showControlButt
                 NightBattleEntry(SimpleStringProperty(str.takeWhile { it != ':' }), SimpleBooleanProperty(it))
             }
         }
+
+        tableView().setOnKeyPressed {
+            if (it.code == KeyCode.SPACE) {
+                tableView().selectionModel.selectedItems.forEach { it.nightBattle.set(!it.nightBattle.get()) }
+            }
+        }
         tableView().items.addAll(items)
     }
 
     override fun onAddButton() {
-        if (tableView().items.let { it.isEmpty() || it.last().isValid() }) {
-            tableView().items.add(NightBattleEntry(SimpleStringProperty(), SimpleBooleanProperty()))
+        with(tableView().items) {
+            if (isEmpty() || last().isValid()) {
+                add(NightBattleEntry(SimpleStringProperty("${size + 1}"), SimpleBooleanProperty()))
+            }
         }
     }
 

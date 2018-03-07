@@ -79,8 +79,10 @@ class FormationChooserView : SingleListView<FormationEntry>(showControlButtons =
     }
 
     override fun onAddButton() {
-        if (tableView().items.let { it.isEmpty() || it.last().isValid() }) {
-            tableView().items.add(FormationEntry(SimpleStringProperty(), SimpleObjectProperty()))
+        with(tableView().items) {
+            if (isEmpty() || last().isValid()) {
+                add(FormationEntry(SimpleStringProperty("${size + 1}"), SimpleObjectProperty()))
+            }
         }
     }
 
