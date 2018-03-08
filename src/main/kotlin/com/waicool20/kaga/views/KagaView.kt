@@ -122,31 +122,36 @@ class KagaView {
     @FXML
     private fun onSelectProfile() {
         val newProfile = profileNameComboBox.value
-        val path = Kaga.CONFIG_DIR.resolve("$newProfile-config.ini")
-        if (Files.exists(path)) {
+        val path = Kaga.CONFIG_DIR.resolve("$newProfile-config.ini").takeIf { Files.exists(it) }
+                ?: return
+        thread {
             try {
                 val profile = KancolleAutoProfile.load(path)
                 Kaga.PROFILE = profile
                 Kaga.CONFIG.currentProfile = profile.name
                 Kaga.CONFIG.save()
-                createBindings()
-                generalTabController.initialize()
-                schedulingTabController.initialize()
-                expeditionsTabController.initialize()
-                pvpTabController.initialize()
-                sortieTabController.initialize()
-                lbasTabController.initialize()
-                questsTabController.initialize()
-                shipSwitcherTabController.initialize()
-                AlertFactory.info(
-                        content = "Profile ${profile.name} has been loaded!"
-                ).showAndWait()
+                runLater {
+                    createBindings()
+                    generalTabController.initialize()
+                    schedulingTabController.initialize()
+                    expeditionsTabController.initialize()
+                    pvpTabController.initialize()
+                    sortieTabController.initialize()
+                    lbasTabController.initialize()
+                    questsTabController.initialize()
+                    shipSwitcherTabController.initialize()
+                    AlertFactory.info(
+                            content = "Profile ${profile.name} has been loaded!"
+                    ).showAndWait()
+                }
             } catch (e: Exception) {
                 val warning = "Failed to parse profile $newProfile, reason: ${e.message}"
                 logger.error(warning)
-                AlertFactory.error(
-                        content = warning
-                ).showAndWait()
+                runLater {
+                    AlertFactory.error(
+                            content = warning
+                    ).showAndWait()
+                }
             }
         }
     }
