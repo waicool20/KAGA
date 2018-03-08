@@ -1,7 +1,7 @@
 [
   {
     "id": "startStopButton",
-    "description": "This button starts and stops kancolle auto and brings the console to front if it's open"
+    "description": "This button starts and stops the script and brings the console to front if it's open"
   },
   {
     "id": "profileLabel",
@@ -17,7 +17,7 @@
   },
   {
     "id": "General-basicRecoveryLabel",
-    "description": "Check this box if your viewer sometimes throws a popup that must be cleared (DMM popup, KC3Kai navigation warning popup due to KC3Kai updates, etc). Setting this to True will try hitting the Esc key to clear the popup before re-initializing kancolle-auto from the beginning. Unfortunately does not work if the game is mid-sortie/combat"
+    "description": "Check this box if your viewer sometimes throws a popup that must be cleared (DMM popup, KC3Kai navigation warning popup due to KC3Kai updates, etc). Setting this to True will try hitting the Esc key to clear the popup before re-initializing the script from the beginning. Unfortunately does not work if the game is mid-sortie/combat"
   },
   {
     "id": "General-paranoiaLabel",
@@ -25,7 +25,7 @@
   },
   {
     "id": "General-sleepCycleLabel",
-    "description": "How often kancolle-auto should run its loop, specified in full seconds. A lower value will make kancolle-auto be quicker to respond to timers, while a higher value will make it slower, but perhaps guard against bot-detection"
+    "description": "How often the script should run its loop, specified in full seconds. A lower value will make the script be quicker to respond to timers, while a higher value will make it slower, but perhaps guard against bot-detection"
   },
   {
     "id": "General-sleepModifierLabel",
@@ -33,7 +33,7 @@
   },
   {
     "id": "Scheduling-enableSleepButton",
-    "description": "Check this box if you want kancolle-auto to automatically sleep/pause at set times. Highly recommended that you check this box if you run kancolle-auto for a long period of time"
+    "description": "Check this box if you want the script to automatically sleep/pause at set times. Highly recommended that you check this box if you run the script for a long period of time"
   },
   {
     "id": "Scheduling-startTimeLabel",
@@ -45,7 +45,7 @@
   },
   {
     "id": "Scheduling-enableAutoStopButton",
-    "description": "Set to True if you want kancolle-auto to automatically stop and exit after a set number of hours, expeditions, sorties, or PvPs. You will have to manually restart kancolle-auto after this"
+    "description": "Set to True if you want the script to automatically stop and exit after a set number of hours, expeditions, sorties, or PvPs. You will have to manually restart the script after this"
   },
   {
     "id": "Scheduling-modeLabel",
@@ -53,7 +53,7 @@
   },
   {
     "id": "Scheduling-countLabel",
-    "description": "Define how many of the above kancolle-auto should perform before automatically stopping"
+    "description": "Define how many of the above the script should perform before automatically stopping"
   },
   {
     "id": "Sortie-enableButton",
@@ -97,7 +97,7 @@
   },
   {
     "id": "Sortie-repairTimeLimitLabel",
-    "description": "Set the repair time limit for repairs. kancolle-auto will automatically use a bucket to repair a ship if its repair time is above this # of hours"
+    "description": "Set the repair time limit for repairs. The script will automatically use a bucket to repair a ship if its repair time is above this # of hours"
   },
   {
     "id": "Sortie-checksLabel",
@@ -116,8 +116,8 @@
     "description": "Whether or not to sortie when the port (ship slots) is full. Check this box if you do not want sorties to occur when your port is full. Port checking is automatically done when sortieing to Event maps, since sortieing is prohibited when you do not have 5 free ship slots"
   },
   {
-    "id": "Sortie-medalStopCheckBox",
-    "description": "Set this to True if you want kancolle-auto to stop sortieing to the specified map once the medal has been obtained. Only applicable to the monthly EOs (1-5, 2-5, 3-5, 4-5, 5-5)"
+    "id": "Sortie-clearStopCheckBox",
+    "description": "Check this box if you want the script to stop sortieing to the specified map once the map has been cleared. Only applicable to the monthly EOs (1-5, 2-5, 3-5, 4-5, 5-5)"
   },
   {
     "id": "Sortie-lastNodePushLabel",
@@ -149,11 +149,11 @@
   },
   {
     "id": "Quests-enableButton",
-    "description": "Check this box if you want kancolle auto to manage quests"
+    "description": "Check this box if you want the script to manage quests"
   },
   {
     "id": "Quests-questsLabel",
-    "description": "Quests to check for, only the shown quests are supported. Kancolle-auto will ignore quests if they are not completable as specified by your config (if PvP is disabled, PvP quests will not be activated, and so on)"
+    "description": "Quests to check for, only the shown quests are supported. The script will ignore quests if they are not completable as specified by your config (if PvP is disabled, PvP quests will not be activated, and so on)"
   },
   {
     "id": "Quests-checkScheduleLabel",
@@ -173,7 +173,7 @@
   },
   {
     "id": "Preferences-preventLockLabel",
-    "description": "Prevent computer from activating lockscreen when kancolle auto is active, useful when you set kancolle auto to only expeditions and it idles longer than your lockscreen activation time, otherwise kancolle auto crashes when your computer locks itself"
+    "description": "Prevent computer from activating lockscreen when the script is active, useful when you set the script to only expeditions and it idles longer than your lockscreen activation time, otherwise the script crashes when your computer locks itself"
   },
   {
     "id": "Preferences-clearConsoleLabel",
@@ -181,7 +181,7 @@
   },
   {
     "id": "Preferences-restartSessionLabel",
-    "description": "If enabled and Kancolle Auto crashes for some reason, KAGA will automatically spawn a new session"
+    "description": "If enabled and the script crashes for some reason, KAGA will automatically spawn a new session"
   },
   {
     "id": "Preferences-maxRetriesLabel",

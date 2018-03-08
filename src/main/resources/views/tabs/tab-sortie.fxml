@@ -194,7 +194,7 @@
                             <children>
                                 <CheckBox fx:id="checkFatigueCheckBox" mnemonicParsing="false" text="Fatigue" />
                                 <CheckBox fx:id="checkPortCheckBox" mnemonicParsing="false" text="Port" />
-                                <CheckBox fx:id="medalStopCheckBox" mnemonicParsing="false" text="Medal" />
+                                <CheckBox fx:id="clearStopCheckBox" mnemonicParsing="false" text="Clear" />
                             </children>
                         </HBox>
                   <HBox alignment="CENTER" GridPane.rowIndex="2">

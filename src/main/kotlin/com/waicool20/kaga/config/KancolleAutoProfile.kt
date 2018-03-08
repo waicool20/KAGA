@@ -214,7 +214,7 @@ class KancolleAutoProfile(
         CHECK_FATIGUE("CheckFatigue"),
         RESERVE_DOCKS("ReserveDocks"),
         PORT_CHECK("PortCheck"),
-        MEDAL_STOP("MedalStop");
+        CLEAR_STOP("ClearStop");
 
         override fun toString() = value
     }

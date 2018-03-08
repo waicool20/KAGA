@@ -47,7 +47,7 @@ class SortieTabView {
     @FXML private lateinit var reserveDocksCheckBox: CheckBox
     @FXML private lateinit var checkFatigueCheckBox: CheckBox
     @FXML private lateinit var checkPortCheckBox: CheckBox
-    @FXML private lateinit var medalStopCheckBox: CheckBox
+    @FXML private lateinit var clearStopCheckBox: CheckBox
 
     @FXML private lateinit var nodeSelectsButton: Button
     @FXML private lateinit var formationsButton: Button
@@ -120,7 +120,7 @@ class SortieTabView {
             reserveDocksCheckBox.isSelected = contains(SortieOptions.RESERVE_DOCKS)
             checkFatigueCheckBox.isSelected = contains(SortieOptions.CHECK_FATIGUE)
             checkPortCheckBox.isSelected = contains(SortieOptions.PORT_CHECK)
-            medalStopCheckBox.isSelected = contains(SortieOptions.MEDAL_STOP)
+            clearStopCheckBox.isSelected = contains(SortieOptions.CLEAR_STOP)
         }
     }
 
@@ -152,8 +152,8 @@ class SortieTabView {
             checkPortCheckBox.selectedProperty().addListener { _, _, newVal ->
                 if (newVal) add(SortieOptions.PORT_CHECK) else remove(SortieOptions.PORT_CHECK)
             }
-            medalStopCheckBox.selectedProperty().addListener { _, _, newVal ->
-                if (newVal) add(SortieOptions.MEDAL_STOP) else remove(SortieOptions.MEDAL_STOP)
+            clearStopCheckBox.selectedProperty().addListener { _, _, newVal ->
+                if (newVal) add(SortieOptions.CLEAR_STOP) else remove(SortieOptions.CLEAR_STOP)
             }
         }
 
