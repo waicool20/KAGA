@@ -36,7 +36,7 @@
   ~
   -->
 
-<GridPane fx:id="root" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.KagaView">
+<GridPane fx:id="root" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.KagaView">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
     </columnConstraints>
@@ -89,8 +89,8 @@
                 <HBox fx:id="profileSelectionHBox" alignment="CENTER_LEFT" spacing="4.0">
                     <children>
                         <Label fx:id="profileLabel" text="Profile:" />
-                        <ComboBox fx:id="profileNameComboBox" editable="true" onAction="#onSelectProfile" onShowing="#showProfiles" prefHeight="28.0" prefWidth="200.0" />
-                        <Button mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
+                        <ComboBox fx:id="profileNameComboBox" editable="true" onAction="#onSelectProfile" onShowing="#updateProfileItems" prefHeight="28.0" prefWidth="200.0" />
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
                         <Button mnemonicParsing="false" onAction="#onDeleteButton" text="Delete" />
                     </children>
                     <padding>

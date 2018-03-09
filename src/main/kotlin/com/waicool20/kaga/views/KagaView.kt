@@ -23,8 +23,7 @@ package com.waicool20.kaga.views
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.handlers.GlobalShortcutHandler
-import com.waicool20.kaga.util.AlertFactory
-import com.waicool20.kaga.util.setSideWithHorizontalText
+import com.waicool20.kaga.util.*
 import com.waicool20.kaga.views.tabs.*
 import com.waicool20.kaga.views.tabs.quests.QuestsTabView
 import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
@@ -32,10 +31,7 @@ import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.animation.PauseTransition
 import javafx.fxml.FXML
 import javafx.geometry.Side
-import javafx.scene.control.ComboBox
-import javafx.scene.control.Label
-import javafx.scene.control.SplitMenuButton
-import javafx.scene.control.TabPane
+import javafx.scene.control.*
 import javafx.scene.layout.HBox
 import javafx.stage.WindowEvent
 import javafx.util.Duration
@@ -97,6 +93,27 @@ class KagaView {
                 pause.playFromStart()
             }
         }
+        GlobalShortcutHandler.registerShortcut("ProfileDown", "CTRL+SHIFT+DOWN") {
+            runLater {
+                updateProfileItems()
+                profileNameComboBox.apply {
+                    val list = (items + value).sorted()
+                    val index = (list.indexOf(value) + 1).takeIf { it < list.size } ?: 0
+                    value = list[index]
+                }
+            }
+        }
+
+        GlobalShortcutHandler.registerShortcut("ProfileUp", "CTRL+SHIFT+UP") {
+            runLater {
+                updateProfileItems()
+                profileNameComboBox.apply {
+                    val list = (items + value).sorted()
+                    val index = (list.indexOf(value) - 1).takeIf { it >= 0 } ?: list.size-1
+                    value = list[index]
+                }
+            }
+        }
     }
 
     private fun createBindings() {
@@ -104,13 +121,13 @@ class KagaView {
     }
 
     @FXML
-    private fun showProfiles() {
+    private fun updateProfileItems() {
         val currentProfile = profileNameComboBox.value
         val profiles = Files.walk(Kaga.CONFIG_DIR).toList()
                 .filter { Files.isRegularFile(it) }
                 .map { it.fileName.toString() }
                 .mapNotNull {
-                    "(.+?)-config\\.ini".toRegex().matchEntire(it)?.groupValues?.get(1)
+                    Regex("(.+?)-config\\.ini").matchEntire(it)?.groupValues?.get(1)
                 }
                 .filter { it != currentProfile }
                 .sorted()
@@ -122,8 +139,8 @@ class KagaView {
     @FXML
     private fun onSelectProfile() {
         val newProfile = profileNameComboBox.value
-        val path = Kaga.CONFIG_DIR.resolve("$newProfile-config.ini").takeIf { Files.exists(it) }
-                ?: return
+        val path = Kaga.CONFIG_DIR.resolve("$newProfile-config.ini")
+                .takeIf { Files.exists(it) } ?: return
         thread {
             try {
                 val profile = KancolleAutoProfile.load(path)
@@ -140,17 +157,19 @@ class KagaView {
                     lbasTabController.initialize()
                     questsTabController.initialize()
                     shipSwitcherTabController.initialize()
-                    AlertFactory.info(
-                            content = "Profile ${profile.name} has been loaded!"
-                    ).showAndWait()
+                    Tooltip("Profile ${profile.name} has been loaded!").apply {
+                        fadeAfter(700)
+                        showAt(profileNameComboBox, TooltipSide.TOP_LEFT)
+                    }
                 }
             } catch (e: Exception) {
                 val warning = "Failed to parse profile $newProfile, reason: ${e.message}"
                 logger.error(warning)
                 runLater {
-                    AlertFactory.error(
-                            content = warning
-                    ).showAndWait()
+                    Tooltip("XX $warning").apply {
+                        fadeAfter(700)
+                        showAt(profileNameComboBox, TooltipSide.TOP_LEFT)
+                    }
                 }
             }
         }
