@@ -307,19 +307,17 @@ class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
 }
 
 class NoneSelectableCellFactory(val regex: Regex) : Callback<ListView<String>, ListCell<String>> {
-
     override fun call(p0: ListView<String>?): ListCell<String> {
         return object : ListCell<String>() {
             override fun updateItem(item: String?, empty: Boolean) {
                 super.updateItem(item, empty)
+                if (empty) {
+                    text = null
+                    isDisabled = false
+                }
                 if (item != null) {
-                    if (empty) {
-                        text = null
-                        isDisable = false
-                    } else {
-                        text = item
-                        isDisable = item.matches(regex)
-                    }
+                    text = item
+                    isDisable = item.matches(regex)
                 }
             }
         }

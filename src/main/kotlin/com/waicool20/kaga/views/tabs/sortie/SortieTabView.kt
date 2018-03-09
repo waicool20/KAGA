@@ -90,6 +90,7 @@ class SortieTabView {
 
         mapComboBox.cellFactory = NoneSelectableCellFactory(Regex("--.+?--"))
         mapComboBox.items.setAll(maps)
+        mapComboBox.value = Kaga.PROFILE.sortie.map
 
         nodesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12)
 
@@ -128,10 +129,7 @@ class SortieTabView {
         with(Kaga.PROFILE.sortie) {
             enableButton.bind(enabledProperty)
             engineComboBox.bind(engineProperty)
-            // Possible fix for NPE when mapComboBox is rebinded is to clear its
-            // currently held value first.
-            mapComboBox.valueProperty().set(null)
-            mapComboBox.bind(mapProperty)
+            mapComboBox.valueProperty().addListener { _, _, newVal -> map = newVal }
             nodesSpinner.bind(nodesProperty)
             fleetModeComboBox.bind(fleetModeProperty)
 
