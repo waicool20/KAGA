@@ -49,12 +49,15 @@ import tornadofx.*
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
+//<editor-fold desc="Extension functions">
+
+fun ObservableValue<*>.listen(unit: () -> Unit) = addListener { _ -> unit() }
+
+//<editor-fold desc="Node Size Utils">
 
 fun Parent.setInitialSceneSizeAsMin() = sceneProperty().setInitialSizeAsMin()
 fun ReadOnlyObjectProperty<Scene>.setInitialSizeAsMin() = setInitialSize(null, null, true)
 fun Parent.setInitialSceneSize(width: Double, height: Double, asMinimum: Boolean) = sceneProperty().setInitialSize(width, height, asMinimum)
-
-fun ObservableValue<*>.listen(unit: () -> Unit) = addListener { _ -> unit() }
 
 fun ReadOnlyObjectProperty<Scene>.setInitialSize(width: Double?, height: Double?, asMinimum: Boolean) {
     addListener { _, _, newVal ->
@@ -75,24 +78,81 @@ fun ReadOnlyObjectProperty<Scene>.setInitialSize(width: Double?, height: Double?
     }
 }
 
+//</editor-fold>
+
+//<editor-fold desc="Table Utils">
+
 fun TableView<*>.lockColumnWidths() {
     columns.addListener(ListChangeListener<TableColumn<*, *>> {
         while (it.next()) {
-            it.addedSubList.forEach { column -> column.isResizable = false }
+            it.addedSubList.forEach { it.isResizable = false }
         }
     })
-    columns.forEach { column -> column.isResizable = false }
+    columns.forEach { it.isResizable = false }
 }
 
 fun TableView<*>.disableHeaderMoving() {
     widthProperty().listen {
         val row = lookup("TableHeaderRow") as TableHeaderRow
-        row.reorderingProperty().listen { -> row.isReordering = false }
+        row.reorderingProperty().listen { row.isReordering = false }
     }
 }
 
 fun TableColumn<*, *>.setWidthRatio(tableView: TableView<*>, ratio: Double) =
         prefWidthProperty().bind(tableView.widthProperty().subtract(20).multiply(ratio))
+
+//</editor-fold>
+
+//<editor-fold desc="Spinner Utils">
+
+private val spinnerWraps = mutableMapOf<Spinner<*>, Boolean>()
+fun <T> Spinner<T>.updateOtherSpinnerOnWrap(spinner: Spinner<T>, min: T, max: T) {
+    spinnerWraps.putIfAbsent(this, false)
+    addEventHandler(MouseEvent.ANY, { event ->
+        if (event.eventType == MouseEvent.MOUSE_PRESSED ||
+                event.eventType == MouseEvent.MOUSE_RELEASED) {
+            if (event.button == MouseButton.PRIMARY) {
+                val node = event.target as Node
+                if (node is StackPane && node.getParent() is Spinner<*>) {
+                    if (node.styleClass.contains("increment-arrow-button") ||
+                            node.styleClass.contains("decrement-arrow-button")) {
+                        spinnerWraps[this] = event.eventType == MouseEvent.MOUSE_PRESSED
+                    }
+                }
+            }
+        }
+    })
+    valueProperty().addListener { _, oldVal, newVal ->
+        if (spinnerWraps[this] == true) {
+            if (oldVal == max && newVal == min) {
+                spinner.increment()
+            } else if (oldVal == min && newVal == max) {
+                spinner.decrement()
+            }
+        }
+    }
+}
+
+fun Spinner<Int>.asTimeSpinner(unit: TimeUnit) {
+    val formatter = object : StringConverter<Int>() {
+        override fun toString(integer: Int?): String =
+                if (integer == null) "00" else String.format("%02d", integer)
+
+        override fun fromString(s: String): Int = s.toInt()
+    }
+    editor.textFormatter = TextFormatter(formatter)
+    editor.alignment = Pos.CENTER
+    valueFactory = when (unit) {
+        TimeUnit.DAYS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 31)
+        TimeUnit.HOURS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23)
+        TimeUnit.MINUTES -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
+        TimeUnit.SECONDS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
+        else -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 0)
+    }
+    valueFactory.isWrapAround = true
+}
+
+//</editor-fold>
 
 fun Node.getParentTabPane(): TabPane? {
     var parentNode = parent
@@ -129,54 +189,32 @@ fun TabPane.setSideWithHorizontalText(side: Side, width: Double = 100.0) {
     isRotateGraphic = true
 }
 
-private val spinnerWraps = mutableMapOf<Spinner<*>, Boolean>()
-fun <T> Spinner<T>.updateOtherSpinnerOnWrap(spinner: Spinner<T>, min: T, max: T) {
-    spinnerWraps.putIfAbsent(this, false)
-    addEventHandler(MouseEvent.ANY, { event ->
-        if (event.eventType == MouseEvent.MOUSE_PRESSED ||
-                event.eventType == MouseEvent.MOUSE_RELEASED) {
-            if (event.button == MouseButton.PRIMARY) {
-                val node = event.target as Node
-                if (node is StackPane && node.getParent() is Spinner<*>) {
-                    if (node.styleClass.contains("increment-arrow-button") ||
-                            node.styleClass.contains("decrement-arrow-button")) {
-                        spinnerWraps.put(this, event.eventType == MouseEvent.MOUSE_PRESSED)
-                    }
-                }
-            }
-        }
-    })
-    valueProperty().addListener { _, oldVal, newVal ->
-        if (spinnerWraps[this] ?: false) {
-            if (oldVal == max && newVal == min) {
-                spinner.increment()
-            } else if (oldVal == min && newVal == max) {
-                spinner.decrement()
+fun Tooltip.fadeAfter(millis: Long) {
+    setOnShown {
+        opacity = 1.0
+        thread {
+            TimeUnit.MILLISECONDS.sleep(millis)
+            runLater {
+                Timeline().apply {
+                    keyFrames.add(KeyFrame(Duration.millis(500.0), KeyValue(opacityProperty(), 0)))
+                    setOnFinished { hide() }
+                }.play()
             }
         }
     }
 }
 
-fun Spinner<Int>.asTimeSpinner(unit: TimeUnit) {
-    val formatter = object : StringConverter<Int>() {
-        override fun toString(integer: Int?): String =
-                if (integer == null) "00" else String.format("%02d", integer)
-
-        override fun fromString(s: String): Int = s.toInt()
-    }
-    editor.textFormatter = TextFormatter(formatter)
-    editor.alignment = Pos.CENTER
-    valueFactory = when (unit) {
-        TimeUnit.DAYS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 31)
-        TimeUnit.HOURS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23)
-        TimeUnit.MINUTES -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
-        TimeUnit.SECONDS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
-        else -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 0)
-    }
-    valueFactory.isWrapAround = true
+fun <T> CheckModel<T>.checkAll(items: List<T>) {
+    clearChecks()
+    if (items.isNotEmpty()) items.forEach { check(it) }
 }
+
+//</editor-fold>
+
+//<editor-fold desc="Utility classes">
 
 object AlertFactory {
+
     private fun alert(type: Alert.AlertType, stage: Stage? = Kaga.ROOT_STAGE,
                       title: String = "KAGA - Info", header: String? = null,
                       content: String) = Alert(type).apply {
@@ -205,7 +243,15 @@ object AlertFactory {
             alert(Alert.AlertType.ERROR, stage, title, header, content)
 }
 
+class EnumCapitalizedNameConverter<T : Enum<*>> : StringConverter<T>() {
+    override fun toString(e: T) = e.toString().replace("_", " ").toLowerCase().capitalize()
+    override fun fromString(string: String): T? = null
+}
+
+//<editor-fold desc="Cell Factories">
+
 class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
+
     override fun call(viewList: ListView<T>): ListCell<T> {
         val cell = object : ListCell<T>() {
             override fun updateItem(item: T, empty: Boolean) {
@@ -234,6 +280,7 @@ class DeselectableCellFactory<T> : Callback<ListView<T>, ListCell<T>> {
 }
 
 class NoneSelectableCellFactory(val regex: Regex) : Callback<ListView<String>, ListCell<String>> {
+
     override fun call(p0: ListView<String>?): ListCell<String> {
         return object : ListCell<String>() {
             override fun updateItem(item: String?, empty: Boolean) {
@@ -252,7 +299,12 @@ class NoneSelectableCellFactory(val regex: Regex) : Callback<ListView<String>, L
     }
 }
 
+//</editor-fold>
+
+//<editor-fold desc="Table Columns">
+
 class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>(text) {
+
     init {
         isSortable = false
         setCellFactory {
@@ -268,6 +320,7 @@ class IndexColumn<T>(text: String = "", start: Int = 0) : TableColumn<T, String>
 class OptionsColumn(text: String = "", var options: List<String>, table: TableView<String>,
                     var filter: (cell: TableCell<String, String>, string: String) -> Boolean = { _, _ -> true },
                     var maxRows: Int = Integer.MAX_VALUE) : TableColumn<String, String>(text) {
+
     init {
         val addText = "<Add Item>"
         setCellFactory {
@@ -320,37 +373,9 @@ class OptionsColumn(text: String = "", var options: List<String>, table: TableVi
             }
         }
     }
+
 }
 
-fun <T> CheckModel<T>.checkAll(items: List<T>) {
-    clearChecks()
-    if (items.isNotEmpty()) items.forEach { check(it) }
-}
+//</editor-fold>
 
-inline fun <reified T : UIComponent> Workspace.dockAndReplace(
-        transition: ViewTransition? = null,
-        scope: Scope = this.scope,
-        params: Map<*, Any?>? = null) {
-    dockedComponent?.root?.replaceWith(find<T>().root, transition)
-    dock<T>(scope, params)
-}
-
-class EnumCapitalizedNameConverter<T : Enum<*>> : StringConverter<T>() {
-    override fun toString(e: T) = e.toString().replace("_", " ").toLowerCase().capitalize()
-    override fun fromString(string: String): T? = null
-}
-
-fun Tooltip.fadeAfter(millis: Long) {
-    setOnShown {
-        opacity = 1.0
-        thread {
-            TimeUnit.MILLISECONDS.sleep(millis)
-            runLater {
-                Timeline().apply {
-                    keyFrames.add(KeyFrame(Duration.millis(500.0), KeyValue(opacityProperty(), 0)))
-                    setOnFinished { hide() }
-                }.play()
-            }
-        }
-    }
-}
+//</editor-fold>
