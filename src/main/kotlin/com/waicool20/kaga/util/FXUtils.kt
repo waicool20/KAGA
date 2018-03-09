@@ -154,6 +154,48 @@ fun Spinner<Int>.asTimeSpinner(unit: TimeUnit) {
 
 //</editor-fold>
 
+//<editor-fold desc="Tooltip Utils">
+
+enum class TooltipSide {
+    TOP_LEFT, TOP, TOP_RIGHT,
+    CENTER_LEFT, CENTER, CENTER_RIGHT,
+    BOTTOM_LEFT, BOTTOM, BOTTOM_RIGHT
+}
+
+fun Tooltip.showAt(node: Node, side: TooltipSide = TooltipSide.TOP_RIGHT) {
+    with(node) {
+        val bounds = localToScene(boundsInLocal)
+        val x = when (side) {
+            TooltipSide.TOP_LEFT, TooltipSide.CENTER_LEFT, TooltipSide.BOTTOM_LEFT -> bounds.minX
+            TooltipSide.TOP, TooltipSide.CENTER, TooltipSide.BOTTOM -> (bounds.minX + bounds.maxX) / 2
+            TooltipSide.TOP_RIGHT, TooltipSide.CENTER_RIGHT, TooltipSide.BOTTOM_RIGHT -> bounds.maxX
+        }
+        val y = when (side) {
+            TooltipSide.TOP_LEFT, TooltipSide.TOP, TooltipSide.TOP_RIGHT -> bounds.minY
+            TooltipSide.CENTER_LEFT, TooltipSide.CENTER, TooltipSide.CENTER_RIGHT -> (bounds.minY + bounds.maxY) / 2
+            TooltipSide.BOTTOM_LEFT, TooltipSide.BOTTOM, TooltipSide.BOTTOM_RIGHT -> bounds.maxY
+        }
+        show(node, x + scene.window.x, y + scene.window.y)
+    }
+}
+
+fun Tooltip.fadeAfter(millis: Long) {
+    setOnShown {
+        opacity = 1.0
+        thread {
+            TimeUnit.MILLISECONDS.sleep(millis)
+            runLater {
+                Timeline().apply {
+                    keyFrames.add(KeyFrame(Duration.millis(500.0), KeyValue(opacityProperty(), 0)))
+                    setOnFinished { hide() }
+                }.play()
+            }
+        }
+    }
+}
+
+//</editor-fold>
+
 fun Node.getParentTabPane(): TabPane? {
     var parentNode = parent
     while (parentNode != null) {
@@ -187,21 +229,6 @@ fun TabPane.setSideWithHorizontalText(side: Side, width: Double = 100.0) {
         tab.text = ""
     }
     isRotateGraphic = true
-}
-
-fun Tooltip.fadeAfter(millis: Long) {
-    setOnShown {
-        opacity = 1.0
-        thread {
-            TimeUnit.MILLISECONDS.sleep(millis)
-            runLater {
-                Timeline().apply {
-                    keyFrames.add(KeyFrame(Duration.millis(500.0), KeyValue(opacityProperty(), 0)))
-                    setOnFinished { hide() }
-                }.play()
-            }
-        }
-    }
 }
 
 fun <T> CheckModel<T>.checkAll(items: List<T>) {
