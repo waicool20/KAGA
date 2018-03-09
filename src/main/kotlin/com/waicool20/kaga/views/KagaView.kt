@@ -94,23 +94,27 @@ class KagaView {
             }
         }
         GlobalShortcutHandler.registerShortcut("ProfileDown", "CTRL+SHIFT+DOWN") {
-            runLater {
-                updateProfileItems()
-                profileNameComboBox.apply {
-                    val list = (items + value).sorted()
-                    val index = (list.indexOf(value) + 1).takeIf { it < list.size } ?: 0
-                    value = list[index]
+            if (!Kaga.KCAUTO_KAI.isRunning()) {
+                runLater {
+                    updateProfileItems()
+                    profileNameComboBox.apply {
+                        val list = (items + value).sorted()
+                        val index = (list.indexOf(value) + 1).takeIf { it < list.size } ?: 0
+                        value = list[index]
+                    }
                 }
             }
         }
 
         GlobalShortcutHandler.registerShortcut("ProfileUp", "CTRL+SHIFT+UP") {
-            runLater {
-                updateProfileItems()
-                profileNameComboBox.apply {
-                    val list = (items + value).sorted()
-                    val index = (list.indexOf(value) - 1).takeIf { it >= 0 } ?: list.size-1
-                    value = list[index]
+            if (!Kaga.KCAUTO_KAI.isRunning()) {
+                runLater {
+                    updateProfileItems()
+                    profileNameComboBox.apply {
+                        val list = (items + value).sorted()
+                        val index = (list.indexOf(value) - 1).takeIf { it >= 0 } ?: list.size-1
+                        value = list[index]
+                    }
                 }
             }
         }
