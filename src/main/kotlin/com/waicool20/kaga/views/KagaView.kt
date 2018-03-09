@@ -41,6 +41,8 @@ import java.awt.Desktop
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 import kotlin.streams.toList
 
@@ -77,6 +79,8 @@ class KagaView {
         registerShortcuts()
     }
 
+    private val canSwitch = AtomicBoolean(true)
+
     private fun registerShortcuts() {
         with(Kaga.CONFIG) {
             val pause = PauseTransition(Duration.seconds(1.5))
@@ -93,30 +97,33 @@ class KagaView {
                 pause.playFromStart()
             }
         }
-        GlobalShortcutHandler.registerShortcut("ProfileDown", "CTRL+SHIFT+DOWN") {
-            if (!Kaga.KCAUTO_KAI.isRunning()) {
+
+        val profileListener: (Boolean) -> Unit = { switchDown ->
+            if (!Kaga.KCAUTO_KAI.isRunning() && canSwitch.get()) {
                 runLater {
+                    canSwitch.set(false)
                     updateProfileItems()
                     profileNameComboBox.apply {
                         val list = (items + value).sorted()
-                        val index = (list.indexOf(value) + 1).takeIf { it < list.size } ?: 0
+                        val index = if (switchDown) {
+                            (list.indexOf(value) + 1).takeIf { it < list.size } ?: 0
+                        } else {
+                            (list.indexOf(value) - 1).takeIf { it >= 0 } ?: list.size-1
+                        }
                         value = list[index]
+                    }
+                    thread {
+                        TimeUnit.MILLISECONDS.sleep(300)
+                        canSwitch.set(true)
                     }
                 }
             }
         }
-
+        GlobalShortcutHandler.registerShortcut("ProfileDown", "CTRL+SHIFT+DOWN") {
+            profileListener(true)
+        }
         GlobalShortcutHandler.registerShortcut("ProfileUp", "CTRL+SHIFT+UP") {
-            if (!Kaga.KCAUTO_KAI.isRunning()) {
-                runLater {
-                    updateProfileItems()
-                    profileNameComboBox.apply {
-                        val list = (items + value).sorted()
-                        val index = (list.indexOf(value) - 1).takeIf { it >= 0 } ?: list.size-1
-                        value = list[index]
-                    }
-                }
-            }
+            profileListener(false)
         }
     }
 
