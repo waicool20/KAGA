@@ -20,14 +20,13 @@
 
 package com.waicool20.kaga.util
 
-import com.sun.javafx.scene.control.ReadOnlyUnbackedObservableList
 import com.sun.javafx.scene.control.skin.TableHeaderRow
 import com.waicool20.kaga.Kaga
-import javafx.application.Platform
+import javafx.animation.KeyFrame
+import javafx.animation.KeyValue
+import javafx.animation.Timeline
 import javafx.beans.property.ReadOnlyObjectProperty
-import javafx.beans.property.SimpleListProperty
 import javafx.beans.value.ObservableValue
-import javafx.collections.FXCollections
 import javafx.collections.ListChangeListener
 import javafx.geometry.Pos
 import javafx.geometry.Side
@@ -43,11 +42,12 @@ import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 import javafx.stage.WindowEvent
 import javafx.util.Callback
+import javafx.util.Duration
 import javafx.util.StringConverter
 import org.controlsfx.control.CheckModel
-import org.controlsfx.control.IndexedCheckModel
 import tornadofx.*
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 
 fun Parent.setInitialSceneSizeAsMin() = sceneProperty().setInitialSizeAsMin()
@@ -327,7 +327,7 @@ fun <T> CheckModel<T>.checkAll(items: List<T>) {
     if (items.isNotEmpty()) items.forEach { check(it) }
 }
 
-inline fun <reified T: UIComponent> Workspace.dockAndReplace(
+inline fun <reified T : UIComponent> Workspace.dockAndReplace(
         transition: ViewTransition? = null,
         scope: Scope = this.scope,
         params: Map<*, Any?>? = null) {
@@ -335,7 +335,22 @@ inline fun <reified T: UIComponent> Workspace.dockAndReplace(
     dock<T>(scope, params)
 }
 
-class EnumCapitalizedNameConverter<T: Enum<*>>: StringConverter<T>() {
+class EnumCapitalizedNameConverter<T : Enum<*>> : StringConverter<T>() {
     override fun toString(e: T) = e.toString().replace("_", " ").toLowerCase().capitalize()
     override fun fromString(string: String): T? = null
+}
+
+fun Tooltip.fadeAfter(millis: Long) {
+    setOnShown {
+        opacity = 1.0
+        thread {
+            TimeUnit.MILLISECONDS.sleep(millis)
+            runLater {
+                Timeline().apply {
+                    keyFrames.add(KeyFrame(Duration.millis(500.0), KeyValue(opacityProperty(), 0)))
+                    setOnFinished { hide() }
+                }.play()
+            }
+        }
+    }
 }
