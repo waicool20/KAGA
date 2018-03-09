@@ -29,7 +29,7 @@ import org.controlsfx.control.CheckComboBox
 
 private object Bindings {
     val objectBindings = mutableMapOf<ObjectProperty<*>, MutableList<ObjectProperty<*>>>()
-    val checkComboBoxBindings = mutableListOf<CheckComboBoxBinding<*>>()
+    val checkComboBoxBindings = mutableMapOf<String, CheckComboBoxBinding<*>>()
     val anyBinding = mutableListOf<Binding<*>>()
 }
 
@@ -62,8 +62,9 @@ fun <T> CheckComboBox<T>.bind(
         readOnly: Boolean = false,
         onChange: (ListChangeListener.Change<out T>) -> Unit = {}) {
     with(Bindings.checkComboBoxBindings) {
-        find { it.checkComboBox == this }?.also { it.unbind() }.also { remove(it) }
-        add(CheckComboBoxBinding(this@bind, listProperty, readOnly, onChange))
+        get(id)?.unbind()
+        remove(id)
+        put(id, CheckComboBoxBinding(this@bind, listProperty, readOnly, onChange))
     }
 }
 
@@ -106,8 +107,10 @@ class CheckComboBoxBinding<T>(
     }
 
     fun unbind() {
-        checkComboBox.checkModel.checkedItems.removeListener(toListener)
-        listProperty.removeListener(fromListener)
+        synchronized(this) {
+            checkComboBox.checkModel.checkedItems.removeListener(toListener)
+            listProperty.removeListener(fromListener)
+        }
     }
 }
 
