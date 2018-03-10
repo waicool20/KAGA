@@ -91,7 +91,7 @@ class SlotShipsImporterView : View() {
                 }.filter { it.second.value }
                 .map { it.first }.sortedBy { it.offset }
         logger.info("Imported ${specs.size} entries!")
-        listView.items.addAll(specs)
+        listView.items.setAll(specs)
         workspace.navigateBack()
     }
 }
