@@ -38,6 +38,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.util.*
+import kotlin.concurrent.thread
 
 data class KancolleAutoProfile(
         val general: General = General(),
@@ -65,13 +66,10 @@ data class KancolleAutoProfile(
 
     init {
         general.pauseProperty.addListener { _, _, newVal ->
-            if (newVal) {
-                logger.info("Script will pause on next cycle.")
-            } else {
-                logger.info("Script will resume shortly.")
+            thread {
+                val text = path().toFile().readText().replace(Regex("Pause.+"), "Pause = ${newVal.toString().capitalize()}").toByteArray()
+                Files.write(path(), text, StandardOpenOption.TRUNCATE_EXISTING)
             }
-            val text = path().toFile().readText().replace(Regex("Pause.+"), "Pause = ${newVal.toString().capitalize()}").toByteArray()
-            Files.write(path(), text, StandardOpenOption.TRUNCATE_EXISTING)
         }
     }
 
