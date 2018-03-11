@@ -35,6 +35,7 @@ import javafx.scene.control.*
 import javafx.scene.layout.HBox
 import javafx.stage.WindowEvent
 import javafx.util.Duration
+import org.controlsfx.glyphfont.Glyph
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.awt.Desktop
@@ -53,6 +54,9 @@ class KagaView {
 
     @FXML private lateinit var kagaStatus: Label
     @FXML private lateinit var startStopButton: SplitMenuButton
+    @FXML private lateinit var saveButton: Button
+    @FXML private lateinit var deleteButton: Button
+    @FXML private lateinit var pauseButton: ToggleButton
     @FXML private lateinit var profileNameComboBox: ComboBox<String>
     @FXML private lateinit var profileSelectionHBox: HBox
     @FXML private lateinit var tabpane: TabPane
@@ -77,6 +81,9 @@ class KagaView {
         checkStartStopButton()
         preferencesTabController.testApiKey()
         registerShortcuts()
+        saveButton.graphic = Glyph("FontAwesome", "SAVE")
+        deleteButton.graphic = Glyph("FontAwesome", "TRASH")
+        pauseButton.graphic = Glyph("FontAwesome", "PAUSE")
     }
 
     private val canSwitch = AtomicBoolean(true)
@@ -129,6 +136,7 @@ class KagaView {
 
     private fun createBindings() {
         profileNameComboBox.bind(Kaga.PROFILE.nameProperty)
+        pauseButton.selectedProperty().bindBidirectional(Kaga.PROFILE.general.pauseProperty)
     }
 
     @FXML
@@ -241,6 +249,7 @@ class KagaView {
             runLater {
                 kagaStatus.text = runningText
                 startStopButton.text = "Stop"
+                pauseButton.isDisable = false
                 checkStartStopButton()
                 profileSelectionHBox.isDisable = true
             }
@@ -248,6 +257,7 @@ class KagaView {
             runLater {
                 kagaStatus.text = notRunningText
                 startStopButton.text = "Start"
+                pauseButton.isDisable = true
                 checkStartStopButton()
                 profileSelectionHBox.isDisable = false
             }

@@ -39,8 +39,7 @@ import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.util.*
 
-class KancolleAutoProfile(
-        name: String = KancolleAutoProfile.Loader.DEFAULT_NAME,
+data class KancolleAutoProfile(
         val general: General = General(),
         val scheduledSleep: ScheduledSleep = ScheduledSleep(),
         /* TODO Disabled temporarily till kcauto-kai is finalized
@@ -51,8 +50,33 @@ class KancolleAutoProfile(
         val shipSwitcher: ShipSwitcher = ShipSwitcher(),
         val quests: Quests = Quests()
 ) {
+    constructor(
+            name: String,
+            general: General = General(),
+            scheduledSleep: ScheduledSleep = ScheduledSleep(),
+            expeditions: Expeditions = Expeditions(),
+            pvp: Pvp = Pvp(),
+            sortie: Sortie = Sortie(),
+            shipSwitcher: ShipSwitcher = ShipSwitcher(),
+            quests: Quests = Quests()
+    ): this(general, scheduledSleep, expeditions, pvp, sortie, shipSwitcher, quests) {
+        this.name = name
+    }
+
+    init {
+        general.pauseProperty.addListener { _, _, newVal ->
+            if (newVal) {
+                logger.info("Script will pause on next cycle.")
+            } else {
+                logger.info("Script will resume shortly.")
+            }
+            val text = path().toFile().readText().replace(Regex("Pause.+"), "Pause = ${newVal.toString().capitalize()}").toByteArray()
+            Files.write(path(), text, StandardOpenOption.TRUNCATE_EXISTING)
+        }
+    }
+
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
-    @JsonIgnore var nameProperty = name.toProperty()
+    @JsonIgnore var nameProperty = KancolleAutoProfile.Loader.DEFAULT_NAME.toProperty()
     @get:JsonProperty var name by nameProperty
 
     fun path(): Path = Kaga.CONFIG_DIR.resolve("$name-config.ini")
