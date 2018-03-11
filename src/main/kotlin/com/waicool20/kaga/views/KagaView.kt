@@ -84,6 +84,13 @@ class KagaView {
         saveButton.graphic = Glyph("FontAwesome", "SAVE")
         deleteButton.graphic = Glyph("FontAwesome", "TRASH")
         pauseButton.graphic = Glyph("FontAwesome", "PAUSE")
+        pauseButton.selectedProperty().addListener { _, _, newVal ->
+            if (newVal) {
+                logger.info("Script will be paused on the next cycle.")
+            } else {
+                logger.info("Script will resume shortly.")
+            }
+        }
     }
 
     private val canSwitch = AtomicBoolean(true)
