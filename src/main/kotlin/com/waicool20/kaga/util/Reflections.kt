@@ -22,6 +22,12 @@ package com.waicool20.kaga.util
 
 import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
+import kotlin.reflect.KType
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.starProjectedType
+import kotlin.reflect.jvm.jvmErasure
 
 fun String.toObject(clazz: Class<*>): Any {
     return when (clazz) {
@@ -35,6 +41,10 @@ fun String.toObject(clazz: Class<*>): Any {
         else -> this
     }
 }
+
+fun String.toObject(clazz: KClass<*>) = toObject(clazz.java)
+
+//<editor-fold desc="JVM Reflection">
 
 fun Class<*>.toPrimitive(): Class<*> {
     return when (this) {
@@ -51,10 +61,10 @@ fun Class<*>.toPrimitive(): Class<*> {
 
 fun Field.hasGenericType() = genericType is ParameterizedType
 
-fun Field.getGenericClass(level: Int): Class<*> {
+fun Field.getGenericClass(level: Int = 0): Class<*> {
     var paramType = genericType as ParameterizedType
     var objType = paramType.actualTypeArguments[0]
-    for (i in level downTo 1) {
+    for (i in level downTo 0) {
         if (objType is ParameterizedType) {
             paramType = objType
             objType = paramType.actualTypeArguments[0]
@@ -62,3 +72,27 @@ fun Field.getGenericClass(level: Int): Class<*> {
     }
     return objType as Class<*>
 }
+
+//</editor-fold>
+
+//<editor-fold desc="Kotlin Reflection">
+fun KProperty<*>.hasGenericType() = returnType.jvmErasure.typeParameters.isNotEmpty()
+
+fun KProperty<*>.getGenericType(level: Int = 0): KType {
+    var type = returnType
+    for (i in level downTo 0) {
+        type.arguments.firstOrNull()?.type?.let { type = it }
+    }
+    return type
+}
+
+fun KProperty<*>.getGenericClass(level: Int = 0) = getGenericType(level).jvmErasure
+
+fun KClass<*>.isEnum() = starProjectedType.isEnum()
+fun KType.isEnum() = isSubtypeOf(Enum::class.starProjectedType)
+
+fun KClass<*>.enumValueOf(string: String): Any? = java.enumConstants.find {
+    it.toString().equals(string, true) ||
+            it.toString().equals(string.replace("_", "-"), true)
+}
+//</editor-fold>

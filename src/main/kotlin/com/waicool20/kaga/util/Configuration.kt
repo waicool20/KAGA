@@ -20,72 +20,85 @@
 
 package com.waicool20.kaga.util
 
+import javafx.beans.value.WritableListValue
+import javafx.beans.value.WritableSetValue
+import javafx.beans.value.WritableValue
 import org.ini4j.Profile
-import java.util.*
+import kotlin.reflect.KProperty1
+import kotlin.reflect.full.declaredMembers
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.starProjectedType
 
-@Target(AnnotationTarget.FIELD)
+@Target(AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class IniConfig(val key: String, val shouldRead: Boolean = true)
 
-inline fun <reified T> Profile.Section.toObject(): T? = toObject(T::class.java)
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T> Profile.Section.toObject(): T {
+    val targetObjectClass = T::class
+    val targetObjectInstance = T::class.java.newInstance()
+    targetObjectClass.declaredMembers.filter { it.returnType.isSubtypeOf(WritableValue::class.starProjectedType) }
+            .mapNotNull { it as? KProperty1<T, WritableValue<*>> }
+            .forEach { kProperty ->
+                val property = kProperty.get(targetObjectInstance)
+                val iniConfig = kProperty.findAnnotation<IniConfig>().takeIf { it != null && it.shouldRead }
+                        ?: return@forEach
+                if (kProperty.hasGenericType()) {
+                    val isList = kProperty.returnType.isSubtypeOf(List::class.starProjectedType)
+                    val isSet = kProperty.returnType.isSubtypeOf(Set::class.starProjectedType)
 
-fun <T> Profile.Section.toObject(obj: Class<T>): T? {
-    val args = mutableListOf<Any>()
-    val argClasses = mutableListOf<Class<*>>()
-    obj.declaredFields.forEach { field ->
-        val config = field.annotations.filterIsInstance<IniConfig>().firstOrNull()
-        if (config != null && config.shouldRead) {
-            val fieldObject = field.type.getMethod("getValue").returnType.toPrimitive()
-            if (field.hasGenericType()) {
-                val genericClass = field.getGenericClass(0)
-                val isList = List::class.java.isAssignableFrom(field.type)
-                if (isList || Set::class.java.isAssignableFrom(field.type)) {
-                    val collection: MutableCollection<Any> = if (isList) ArrayList() else LinkedHashSet()
-                    this[config.key]?.split("\\s?,\\s?".toRegex())
-                            ?.filter { it.isNotEmpty() }
-                            ?.forEach { value ->
-                                if (genericClass.isEnum) {
-                                    genericClass.enumConstants.find {
-                                        it.toString().equals(value, true) ||
-                                                it.toString().equals(value.replace("_", "-"), true)
-                                    }?.let { collection.add(it) }
-                                } else {
-                                    collection.add(value.toObject(genericClass))
-                                }
+                    val genericKClass = kProperty.getGenericClass()
+
+                    when {
+                        isList || isSet -> {
+                            val items = this[iniConfig.key]?.split("\\s?,\\s?".toRegex())
+                                    ?.filter { it.isNotBlank() }
+                                    ?.map { value ->
+                                        if (genericKClass.isEnum()) {
+                                            genericKClass.enumValueOf(value)
+                                        } else {
+                                            value.toObject(genericKClass)
+                                        }
+                                    }?.toList() ?: mutableListOf()
+                            (property as? WritableListValue<Any>)?.apply {
+                                clear()
+                                items.forEach { add(it) }
                             }
-                    argClasses.add(if (isList) List::class.java else Set::class.java)
-                    args.add(collection)
-                } else {
-                    if (genericClass.isEnum) {
-                        val enumName = this[config.key]?.replace("-", "_")?.toUpperCase() ?: ""
-                        genericClass.enumConstants.find { it.toString().equals(enumName, true) }?.let {
-                            argClasses.add(genericClass)
-                            args.add(it)
+                            (property as? WritableSetValue<Any>)?.apply {
+                                clear()
+                                items.forEach { add(it) }
+                            }
+                        }
+                        genericKClass.isEnum() -> {
+                            val enumName = this[iniConfig.key]?.replace("-", "_")?.toUpperCase()
+                                    ?: ""
+                            genericKClass.enumValueOf(enumName)?.let { property.value = it }
                         }
                     }
-                }
-            } else {
-                val value = try {
-                    this.get(config.key, fieldObject)
-                } catch (e: Exception) {
-                    when (e.cause) {
-                        is NumberFormatException -> 0
-                        else -> throw e
+                } else {
+                    val value = try {
+                        this.get(iniConfig.key, property::class.java.getMethod("getValue").returnType.toPrimitive())
+                    } catch (e: Exception) {
+                        when (e.cause) {
+                            is NumberFormatException -> 0
+                            else -> throw e
+                        }
                     }
+                    value?.let { property.value = it }
                 }
-                argClasses.add(fieldObject)
-                args.add(value)
             }
-        }
-    }
-    return obj.getConstructor(*argClasses.toTypedArray()).newInstance(*args.toTypedArray())
+    return targetObjectInstance
 }
 
-fun Profile.Section.fromObject(obj: Any) = obj.javaClass.declaredFields.forEach { field ->
-    field.annotations.filterIsInstance<IniConfig>().firstOrNull()?.let {
-        field.isAccessible = true
-        val prop = field.get(obj)
-        this.add(it.key, prop.javaClass.getMethod("get").invoke(prop).toString().replace("\\[|]".toRegex(), ""))
-    }
+@Suppress("UNCHECKED_CAST")
+fun Profile.Section.fromObject(obj: Any) {
+    obj::class.declaredMembers.filter { it.returnType.isSubtypeOf(WritableValue::class.starProjectedType) }
+            .mapNotNull { it as? KProperty1<Any, WritableValue<*>> }
+            .forEach { kProperty ->
+                val property = kProperty.get(obj)
+                val iniConfig = kProperty.findAnnotation<IniConfig>().takeIf { it != null } ?: return@forEach
+                add(iniConfig.key, property.value.toString().replace("\\[|]".toRegex(), ""))
+            }
 }
 
