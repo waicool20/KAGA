@@ -97,7 +97,7 @@
                         <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                     </padding>
                 </HBox>
-            <SplitMenuButton fx:id="startStopButton" mnemonicParsing="false" onAction="#onStartStopButton" stylesheets="@../styles/greenstyle.css" text="Start">
+            <SplitMenuButton fx:id="startStopButton" mnemonicParsing="false" onAction="#onStartStopButton" styleClass="green-split-menu" stylesheets="@../styles/split-menu.css" text="Start">
               <items>
                   <MenuItem fx:id="startButtonItem1" mnemonicParsing="false" onAction="#startWithoutWritingConfig" text="Start w/o writing config" />
                   <MenuItem fx:id="stopButtonItem1" mnemonicParsing="false" onAction="#stopAtPort" text="Stop at port" />

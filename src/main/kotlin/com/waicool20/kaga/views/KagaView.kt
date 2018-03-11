@@ -261,8 +261,8 @@ class KagaView {
     private fun checkStartStopButton() {
         startStopButton.apply {
             val color = if (text == "Start") "green" else "red"
-            stylesheets.clear()
-            stylesheets.add("styles/${color}style.css")
+            styleClass.removeAll { it.endsWith("-split-menu") }
+            styleClass.add("$color-split-menu")
             items.partition { it.id.contains(text, true) }.let {
                 it.first.forEach { it.isVisible = true }
                 it.second.forEach { it.isVisible = false }

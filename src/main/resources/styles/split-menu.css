@@ -18,10 +18,26 @@
  *
  */
 
-.split-menu-button > .arrow-button {
+.green-split-menu.split-menu-button > .arrow-button {
+    -fx-background-color: limegreen;
+}
+
+.green-split-menu.split-menu-button > .label {
+    -fx-background-color: lightgreen;
+}
+
+.yellow-split-menu.split-menu-button > .arrow-button {
+    -fx-background-color: yellow;
+}
+
+.yellow-split-menu.split-menu-button > .label {
+    -fx-background-color: yellow;
+}
+
+.red-split-menu.split-menu-button > .arrow-button {
     -fx-background-color: darkred;
 }
 
-.split-menu-button > .label {
-    -fx-background-color: red ;
+.red-split-menu.split-menu-button > .label {
+    -fx-background-color: red;
 }
