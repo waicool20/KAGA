@@ -178,7 +178,7 @@ class KagaView {
                 logger.error(warning)
                 runLater {
                     Tooltip("XX $warning").apply {
-                        fadeAfter(700)
+                        fadeAfter(5000)
                         showAt(profileNameComboBox, TooltipSide.TOP_LEFT)
                     }
                 }
