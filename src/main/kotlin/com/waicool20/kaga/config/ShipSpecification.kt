@@ -117,7 +117,8 @@ data class ShipSpecificationByShip(
         I_19("I-19", false), I_19_KAI("I-19 Kai", true),
         I_26("I-26", false), I_26_KAI("I-26 Kai", true),
         I_58("I-58", false), I_58_KAI("I-58 Kai", true),
-        I_168("I-168", false), I_401("I-401", true),
+        I_168("I-168", false),
+        I_400("I-400", true), I_401("I-401", true),
         MARUYU("Maruyu", false), RO_500("Ro-500", false),
         U_511("U-511", false), LUIGI("Luigi", false),
         UIT_25("UIT-25", false), I_504("I-504", false);
@@ -125,7 +126,8 @@ data class ShipSpecificationByShip(
         override fun toString() = prettyString.toLowerCase().replace(" ", "-")
     }
 
-    override fun asConfigString() = "S:$ship:${levelCriteria.value}${level ?: ""}:${lockCriteria.value}:${ringCriteria.value}"
+    override fun asConfigString() = "S:$ship:${levelCriteria.value}${level
+            ?: ""}:${lockCriteria.value}:${ringCriteria.value}"
 }
 
 data class ShipSpecificationByClass(
@@ -142,7 +144,8 @@ data class ShipSpecificationByClass(
         DE, LHA, SS, SSV
     }
 
-    override fun asConfigString() = "C:$shipClass:${levelCriteria.value}${level ?: ""}:${lockCriteria.value}:${ringCriteria.value}"
+    override fun asConfigString() = "C:$shipClass:${levelCriteria.value}${level
+            ?: ""}:${lockCriteria.value}:${ringCriteria.value}"
 }
 
 
