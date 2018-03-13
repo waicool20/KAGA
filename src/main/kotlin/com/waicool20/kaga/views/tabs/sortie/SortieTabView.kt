@@ -23,6 +23,7 @@ package com.waicool20.kaga.views.tabs.sortie
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile.*
 import com.waicool20.kaga.util.NoneSelectableCellFactory
+import com.waicool20.kaga.util.addListener
 import com.waicool20.kaga.util.asTimeSpinner
 import com.waicool20.kaga.util.bind
 import javafx.beans.binding.Bindings
@@ -129,7 +130,7 @@ class SortieTabView {
         with(Kaga.PROFILE.sortie) {
             enableButton.bind(enabledProperty)
             engineComboBox.bind(engineProperty)
-            mapComboBox.valueProperty().addListener { _, _, newVal -> map = newVal }
+            mapComboBox.valueProperty().addListener("SortieMap") { newVal -> map = newVal }
             nodesSpinner.bind(nodesProperty)
             fleetModeComboBox.bind(fleetModeProperty)
 
@@ -141,16 +142,16 @@ class SortieTabView {
         }
 
         with(Kaga.PROFILE.sortie.miscOptions) {
-            reserveDocksCheckBox.selectedProperty().addListener { _, _, newVal ->
+            reserveDocksCheckBox.selectedProperty().addListener("ReserveDocksCheckBox") { newVal ->
                 if (newVal) add(SortieOptions.RESERVE_DOCKS) else remove(SortieOptions.RESERVE_DOCKS)
             }
-            checkFatigueCheckBox.selectedProperty().addListener { _, _, newVal ->
+            checkFatigueCheckBox.selectedProperty().addListener("CheckFatigueCheckBox") { newVal ->
                 if (newVal) add(SortieOptions.CHECK_FATIGUE) else remove(SortieOptions.CHECK_FATIGUE)
             }
-            checkPortCheckBox.selectedProperty().addListener { _, _, newVal ->
+            checkPortCheckBox.selectedProperty().addListener("CheckPortCheckBox") { newVal ->
                 if (newVal) add(SortieOptions.PORT_CHECK) else remove(SortieOptions.PORT_CHECK)
             }
-            clearStopCheckBox.selectedProperty().addListener { _, _, newVal ->
+            clearStopCheckBox.selectedProperty().addListener("ClearStopCheckBox") { newVal ->
                 if (newVal) add(SortieOptions.CLEAR_STOP) else remove(SortieOptions.CLEAR_STOP)
             }
         }

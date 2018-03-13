@@ -72,6 +72,6 @@ class ExpeditionsTabView {
             fleet3CheckComboBox.bind(fleet3Property)
             fleet4CheckComboBox.bind(fleet4Property)
         }
-        content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
+        content.disableProperty().bind(enableButton.selectedProperty().not())
     }
 }

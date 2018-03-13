@@ -84,13 +84,6 @@ class KagaView {
         saveButton.graphic = Glyph("FontAwesome", "SAVE")
         deleteButton.graphic = Glyph("FontAwesome", "TRASH")
         pauseButton.graphic = Glyph("FontAwesome", "PAUSE")
-        pauseButton.selectedProperty().addListener { _, _, newVal ->
-            if (newVal) {
-                logger.info("Script will be paused on the next cycle.")
-            } else {
-                logger.info("Script will resume shortly.")
-            }
-        }
     }
 
     private val canSwitch = AtomicBoolean(true)
@@ -106,7 +99,7 @@ class KagaView {
                 }
             }
             listener(startStopScriptShortcut)
-            startStopScriptShortcutProperty.addListener { _, _, newVal ->
+            startStopScriptShortcutProperty.addListener("StartStopScriptShortcutProperty") { newVal ->
                 pause.setOnFinished { listener(newVal) }
                 pause.playFromStart()
             }
@@ -144,6 +137,13 @@ class KagaView {
     private fun createBindings() {
         profileNameComboBox.bind(Kaga.PROFILE.nameProperty)
         pauseButton.selectedProperty().bindBidirectional(Kaga.PROFILE.general.pauseProperty)
+        pauseButton.selectedProperty().addListener("PauseButtonListener") { newVal ->
+            if (newVal) {
+                logger.info("Script will be paused on the next cycle.")
+            } else {
+                logger.info("Script will resume shortly.")
+            }
+        }
     }
 
     @FXML

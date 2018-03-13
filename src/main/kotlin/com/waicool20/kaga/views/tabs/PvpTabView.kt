@@ -52,6 +52,6 @@ class PvpTabView {
             /* TODO Disabled temporarily till kcauto-kai is finalized
             fleetCompComboBox.bind(fleetCompProperty)*/
         }
-        content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
+        content.disableProperty().bind(enableButton.selectedProperty().not())
     }
 }

@@ -21,6 +21,7 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.util.addListener
 import javafx.beans.property.DoubleProperty
 import javafx.beans.property.StringProperty
 import javafx.fxml.FXML
@@ -70,8 +71,8 @@ class SchedulingTabView {
             slider.lowValue = sTime.hour + (sTime.minute / 60.0)
             slider.highValue = endTime.hour + (endTime.minute / 60.0)
             updateTime()
-            slider.lowValueProperty().addListener { _ -> updateTime() }
-            slider.highValueProperty().addListener { _ -> updateTime() }
+            slider.lowValueProperty().addListener("${slider.id}_LOW") { _ -> updateTime() }
+            slider.highValueProperty().addListener("${slider.id}_HIGH") { _ -> updateTime() }
         }
 
         fun updateTime() {

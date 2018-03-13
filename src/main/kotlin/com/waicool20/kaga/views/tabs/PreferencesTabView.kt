@@ -24,6 +24,7 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.kcauto.YuuBot
 import com.waicool20.kaga.util.AlertFactory
+import com.waicool20.kaga.util.addListener
 import com.waicool20.kaga.util.bind
 import javafx.animation.PauseTransition
 import javafx.fxml.FXML
@@ -75,7 +76,7 @@ class PreferencesTabView {
             startStopShortcutTextField.bind(startStopScriptShortcutProperty)
             val pause = PauseTransition(Duration.seconds(1.0))
 
-            apiKeyTextField.textProperty().addListener { _, _, newVal ->
+            apiKeyTextField.textProperty().addListener("ApiKeyTextFieldProperty") { newVal ->
                 apiKeyTextField.style = "-fx-border-color: yellow;$borderStyle"
                 pause.setOnFinished { testApiKey(newVal) }
                 pause.playFromStart()

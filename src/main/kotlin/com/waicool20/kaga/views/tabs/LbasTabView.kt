@@ -22,6 +22,7 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
+import com.waicool20.kaga.util.addListener
 import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
@@ -104,11 +105,11 @@ class LbasTabView {
             }
         }
 
-        box1.selectionModel.selectedItemProperty().addListener { _, _, _ ->
+        box1.selectionModel.selectedItemProperty().addListener("LBAS${group}Box1") { _ ->
             update(true)
         }
 
-        box2.selectionModel.selectedItemProperty().addListener { _, _, _ ->
+        box2.selectionModel.selectedItemProperty().addListener("LBAS${group}Box2") { _ ->
             update(true)
         }
         update(false)
