@@ -26,6 +26,7 @@ import javafx.animation.KeyFrame
 import javafx.animation.KeyValue
 import javafx.animation.Timeline
 import javafx.beans.property.ReadOnlyObjectProperty
+import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.collections.ListChangeListener
 import javafx.geometry.Pos
@@ -51,7 +52,41 @@ import kotlin.concurrent.thread
 
 //<editor-fold desc="Extension functions">
 
-fun ObservableValue<*>.listen(unit: () -> Unit) = addListener { _ -> unit() }
+private object ListenerTracker {
+    val listeners = mutableMapOf<String, ChangeListener<*>>()
+}
+
+/**
+ * Extension function for adding listener with a given name, guaranteed to have only one listener
+ * per name.
+ *
+ * @param name Unique name of listener
+ * @param listener Listener, receives (ObservableValue, Old Value, New Value)
+ */
+@Suppress("UNCHECKED_CAST")
+fun <T> ObservableValue<T>.addListener(name: String, listener: (ObservableValue<out T>, T, T) -> Unit) {
+    (ListenerTracker.listeners[name] as? ChangeListener<T>)?.let { removeListener(it) }
+    val changeListener = ChangeListener(listener)
+    ListenerTracker.listeners[name] = changeListener
+    addListener(changeListener)
+}
+
+/**
+ * Extension function for adding listener with a given name, guaranteed to have only one listener
+ * per name.
+ *
+ * @param name Unique name of listener
+ * @param listener Listener, receives (New Value)
+ */
+fun <T> ObservableValue<T>.addListener(name: String, listener: (T) -> Unit) =
+        addListener(name) { _, _, newVal -> listener(newVal) }
+
+/**
+ * Extension function for adding listener that receives no parameters.
+ *
+ * @param listener Listener
+ */
+fun ObservableValue<*>.listen(listener: () -> Unit) = addListener { _, _, _ -> listener() }
 
 //<editor-fold desc="Node Size Utils">
 
