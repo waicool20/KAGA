@@ -238,6 +238,8 @@ class KagaView {
             startKancolleAuto()
         } else {
             Kaga.KCAUTO_KAI.stop()
+            pauseButton.isDisable = true
+            pauseButton.isSelected = false
         }
     }
 
@@ -265,6 +267,7 @@ class KagaView {
                 kagaStatus.text = notRunningText
                 startStopButton.text = "Start"
                 pauseButton.isDisable = true
+                pauseButton.isSelected = false
                 checkStartStopButton()
                 profileSelectionHBox.isDisable = false
             }
