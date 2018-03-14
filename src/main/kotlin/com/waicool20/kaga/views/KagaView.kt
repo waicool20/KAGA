@@ -25,7 +25,7 @@ import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.handlers.GlobalShortcutHandler
 import com.waicool20.kaga.util.*
 import com.waicool20.kaga.views.tabs.*
-import com.waicool20.kaga.views.tabs.quests.QuestsTabView
+import com.waicool20.kaga.views.tabs.QuestsTabView
 import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
 import javafx.animation.PauseTransition

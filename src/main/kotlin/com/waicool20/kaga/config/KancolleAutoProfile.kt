@@ -60,7 +60,7 @@ data class KancolleAutoProfile(
             sortie: Sortie = Sortie(),
             shipSwitcher: ShipSwitcher = ShipSwitcher(),
             quests: Quests = Quests()
-    ): this(general, scheduledSleep, expeditions, pvp, sortie, shipSwitcher, quests) {
+    ) : this(general, scheduledSleep, expeditions, pvp, sortie, shipSwitcher, quests) {
         this.name = name
     }
 
@@ -127,7 +127,7 @@ data class KancolleAutoProfile(
 
     companion object Loader {
         private val loaderLogger = LoggerFactory.getLogger(KancolleAutoProfile.Loader::class.java)
-        val DEFAULT_NAME = "[Current Profile]"
+        const val DEFAULT_NAME = "[Current Profile]"
         val VALID_NODES = (1..12).map { it.toString() }
                 .plus("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter { it.isNotEmpty() })
                 .plus(listOf("Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZZ1", "ZZ2", "ZZ3"))

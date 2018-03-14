@@ -25,7 +25,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="0.0" minWidth="0.0"
             xmlns="http://javafx.com/javafx/8.0.121"
-            fx:controller="com.waicool20.kaga.views.tabs.quests.QuestsTabView">
+            fx:controller="com.waicool20.kaga.views.tabs.QuestsTabView">
     <children>
         <GridPane layoutY="-6.0">
             <columnConstraints>

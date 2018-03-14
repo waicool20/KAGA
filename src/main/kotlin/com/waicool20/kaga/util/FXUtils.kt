@@ -253,7 +253,7 @@ fun TabPane.setSideWithHorizontalText(side: Side, width: Double = 100.0) {
         if (text == "" && tab.properties.containsKey("text")) {
             text = tab.properties["text"].toString()
         } else {
-            tab.properties.put("text", tab.text)
+            tab.properties["text"] = tab.text
         }
         val rotation = if (side == Side.LEFT) 90.0 else -90.0
         val label = Label(text)

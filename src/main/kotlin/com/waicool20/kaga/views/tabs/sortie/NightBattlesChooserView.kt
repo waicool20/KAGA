@@ -35,7 +35,7 @@ import javafx.scene.control.cell.ComboBoxTableCell
 import javafx.scene.input.KeyCode
 
 data class NightBattleEntry(val node: SimpleStringProperty, val nightBattle: SimpleBooleanProperty) {
-    fun isValid() = node.isNotNull.value
+    fun isValid(): Boolean = node.isNotNull.value
 }
 
 class NightBattlesChooserView : SingleListView<NightBattleEntry>(showControlButtons = true) {

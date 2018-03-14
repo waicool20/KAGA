@@ -37,7 +37,7 @@ abstract class SlotShipsEditByShipClassView<T> : View() {
     protected val levelSpinner: Spinner<Int> by fxid()
     protected val lockComboBox: ComboBox<ShipSpecification.LockCriteria> by fxid()
     protected val ringComboBox: ComboBox<ShipSpecification.RingCriteria> by fxid()
-    open protected val spec: ShipSpecification by param()
+    protected open val spec: ShipSpecification by param()
     protected val editModel: SlotShipEditModel by inject()
 
     protected val toggleMap = mapOf(

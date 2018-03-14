@@ -31,7 +31,6 @@ data class Kanmusu(
         val fleet: FLEET
 ) {
     companion object {
-        // TODO shiplist import
         fun parseFromKc3ShipList(string: String) = Jsoup.parse(string)
                 .selectFirst(".ship_list")?.select(".ship_item")?.map {
             val nameNode = it.selectFirst(".ship_name")
