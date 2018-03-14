@@ -22,17 +22,14 @@ package com.waicool20.kaga.kcauto
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.util.LockPreventer
 import com.waicool20.kaga.util.StreamGobbler
-import javafx.beans.property.SimpleBooleanProperty
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
 
@@ -132,5 +129,6 @@ class KancolleAutoKai {
                 .replace("<Log>", Kaga.LOG)
         Files.write(logFile, log.toByteArray(), StandardOpenOption.CREATE)
         YuuBot.reportCrash(CrashInfoDto(Kaga.LOG))
+        logger.info("Saved crash log to $logFile")
     }
 }

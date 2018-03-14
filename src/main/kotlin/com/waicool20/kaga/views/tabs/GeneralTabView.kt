@@ -21,10 +21,8 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.config.KancolleAutoProfile
-import com.waicool20.kaga.util.bind
 import javafx.fxml.FXML
-import javafx.scene.control.*
+import javafx.scene.control.TextField
 import tornadofx.*
 
 class GeneralTabView {
@@ -36,7 +34,8 @@ class GeneralTabView {
     @FXML private lateinit var sleepCycleSpinner: Spinner<Int>
     @FXML private lateinit var sleepModifierSpinner: Spinner<Int>*/
 
-    @FXML fun initialize() {
+    @FXML
+    fun initialize() {
         setValues()
         createBindings()
     }

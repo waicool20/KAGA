@@ -44,16 +44,16 @@ class PathChooserView : View() {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     init {
-        pathChooserFlavorText.text =
-                "Hello there Admiral! " +
-                        "This might be your first time starting up this application " +
-                        "or there was a problem finding the files below! " +
-                        "Either way before you begin your adventures, " +
-                        "please configure the paths first!"
+        pathChooserFlavorText.text = "Hello there Admiral! " +
+                "This might be your first time starting up this application " +
+                "or there was a problem finding the files below! " +
+                "Either way before you begin your adventures, " +
+                "please configure the paths first!"
         checkErrors()
     }
 
-    @FXML private fun openSikulixJarChooser() = FileChooser().run {
+    @FXML
+    private fun openSikulixJarChooser() = FileChooser().run {
         title = "Path to Sikulix Jar File..."
         extensionFilters.add(FileChooser.ExtensionFilter("JAR files (*.jar)", "*.jar"))
         showOpenDialog(null)?.let {
@@ -63,7 +63,8 @@ class PathChooserView : View() {
         }
     }
 
-    @FXML private fun openKCAutoKaiRootChooser() = DirectoryChooser().run {
+    @FXML
+    private fun openKCAutoKaiRootChooser() = DirectoryChooser().run {
         title = "Path to KCAuto Kai root directory..."
         showDialog(null)?.let {
             Kaga.CONFIG.kcaKaiRootDirPath = it.toPath()
@@ -72,7 +73,8 @@ class PathChooserView : View() {
         }
     }
 
-    @FXML private fun onSaveButtonPressed() {
+    @FXML
+    private fun onSaveButtonPressed() {
         if (Kaga.CONFIG.isValid()) {
             logger.info("Configuration was found valid! Starting main application...")
             Kaga.CONFIG.save()

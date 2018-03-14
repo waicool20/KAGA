@@ -21,7 +21,7 @@
 package com.waicool20.kaga.util
 
 import com.waicool20.kaga.Kaga
-import javafx.application.Platform
+import javafx.application.Platform.runLater
 import javafx.scene.control.TextArea
 import java.io.OutputStream
 
@@ -47,14 +47,14 @@ abstract class LineBufferedOutputStream : OutputStream() {
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int = 1000) : LineBufferedOutputStream() {
     init {
         console.textProperty().listen {
-            Platform.runLater {
+            runLater {
                 console.scrollTop = Double.MAX_VALUE
             }
         }
     }
 
     override fun writeLine(line: String) {
-        Platform.runLater {
+        runLater {
             if (line.contains("\u001b[2J\u001b[H")) {
                 console.clear()
                 return@runLater

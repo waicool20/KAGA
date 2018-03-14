@@ -56,6 +56,7 @@ private object ListenerTracker {
     val listeners = mutableMapOf<String, ChangeListener<*>>()
 }
 
+
 /**
  * Extension function for adding listener with a given name, guaranteed to have only one listener
  * per name.
@@ -71,6 +72,7 @@ fun <T> ObservableValue<T>.addListener(name: String, listener: (ObservableValue<
     addListener(changeListener)
 }
 
+
 /**
  * Extension function for adding listener with a given name, guaranteed to have only one listener
  * per name.
@@ -80,6 +82,7 @@ fun <T> ObservableValue<T>.addListener(name: String, listener: (ObservableValue<
  */
 fun <T> ObservableValue<T>.addListener(name: String, listener: (T) -> Unit) =
         addListener(name) { _, _, newVal -> listener(newVal) }
+
 
 /**
  * Extension function for adding listener that receives no parameters.

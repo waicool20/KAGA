@@ -106,7 +106,7 @@ class SchedulingTabView {
     }
 
     private fun createBindings() {
-        with (Kaga.PROFILE.scheduledSleep) {
+        with(Kaga.PROFILE.scheduledSleep) {
             enableSleepButton.bind(sleepEnabledProperty)
             enableExpSleepButton.bind(expSleepEnabledProperty)
             enableSortieSleepButton.bind(sortieSleepEnabledProperty)

@@ -36,8 +36,6 @@ import javafx.util.StringConverter
 import org.controlsfx.control.CheckComboBox
 import tornadofx.*
 import kotlin.concurrent.thread
-import kotlin.reflect.KProperty0
-import kotlin.reflect.KProperty1
 
 class ShipSwitcherTabView {
     @FXML private lateinit var enableButton: CheckBox
@@ -64,6 +62,7 @@ class ShipSwitcherTabView {
 
     @FXML private lateinit var content: GridPane
     private var currentProperty: Pair<Button, SimpleListProperty<String>>? = null
+
     data class SlotShipsEditScope(val slot: SimpleListProperty<String>) : Scope()
 
     private val buttonPropMap by lazy {

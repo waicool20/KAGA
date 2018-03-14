@@ -20,15 +20,6 @@
 
 package com.waicool20.kaga.views.tabs.sortie
 
-import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.disableHeaderMoving
-import com.waicool20.kaga.util.lockColumnWidths
-import com.waicool20.kaga.util.setWidthRatio
-import com.waicool20.kaga.views.SingleListView
-import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleStringProperty
-import javafx.scene.control.TableColumn
-import javafx.scene.control.cell.CheckBoxTableCell
 /* TODO Disabled temporarily till kcauto-kai is finalized
 data class FleetComp(val number: Int) {
     val enabledProperty = SimpleBooleanProperty(Kaga.PROFILE.sortie.fleetComps.contains(number))

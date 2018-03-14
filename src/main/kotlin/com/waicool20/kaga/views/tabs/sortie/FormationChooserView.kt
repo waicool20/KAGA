@@ -72,8 +72,8 @@ class FormationChooserView : SingleListView<FormationEntry>(showControlButtons =
             CombatFormation.values().find {
                 it.toString().equals(str.takeLastWhile { c -> c != ':' }, true)
             }?.let { formation ->
-                        FormationEntry(SimpleStringProperty(str.takeWhile { it != ':' }), SimpleObjectProperty(formation))
-                    }
+                FormationEntry(SimpleStringProperty(str.takeWhile { it != ':' }), SimpleObjectProperty(formation))
+            }
         }
         tableView().items.addAll(items)
     }

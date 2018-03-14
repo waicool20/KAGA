@@ -22,7 +22,6 @@ package com.waicool20.kaga.views.tabs.shipswitcher
 
 import com.waicool20.kaga.config.ShipSpecification
 import com.waicool20.kaga.config.ShipSpecificationByShip
-import com.waicool20.kaga.util.EnumCapitalizedNameConverter
 import tornadofx.*
 
 class SlotShipsEditByShipView : SlotShipsEditByShipClassView<String>() {

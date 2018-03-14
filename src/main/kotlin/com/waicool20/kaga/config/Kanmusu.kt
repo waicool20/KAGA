@@ -33,14 +33,14 @@ data class Kanmusu(
     companion object {
         fun parseFromKc3ShipList(string: String) = Jsoup.parse(string)
                 .selectFirst(".ship_list")?.select(".ship_item")?.map {
-            val nameNode = it.selectFirst(".ship_name")
-            val dropId = it.selectFirst(".ship_id").text().toInt()
-            val name = nameNode.text()
-            val level = it.selectFirst(".ship_lv").selectFirst(".value").text().toInt()
-            val shipClass = it.selectFirst(".ship_type").text()
-            val fleet = determineFleet(nameNode)
-            Kanmusu(dropId, name, level, shipClass, fleet)
-        }?.sortedBy { it.dropId }?.toList() ?: emptyList()
+                    val nameNode = it.selectFirst(".ship_name")
+                    val dropId = it.selectFirst(".ship_id").text().toInt()
+                    val name = nameNode.text()
+                    val level = it.selectFirst(".ship_lv").selectFirst(".value").text().toInt()
+                    val shipClass = it.selectFirst(".ship_type").text()
+                    val fleet = determineFleet(nameNode)
+                    Kanmusu(dropId, name, level, shipClass, fleet)
+                }?.sortedBy { it.dropId }?.toList() ?: emptyList()
 
         private fun determineFleet(element: Element) = when {
             element.hasClass("ship_onfleet-color1") -> Kanmusu.FLEET.FLEET1

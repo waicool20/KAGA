@@ -97,7 +97,8 @@ fun Profile.Section.fromObject(obj: Any) {
             .mapNotNull { it as? KProperty1<Any, WritableValue<*>> }
             .forEach { kProperty ->
                 val property = kProperty.get(obj)
-                val iniConfig = kProperty.findAnnotation<IniConfig>().takeIf { it != null } ?: return@forEach
+                val iniConfig = kProperty.findAnnotation<IniConfig>().takeIf { it != null }
+                        ?: return@forEach
                 add(iniConfig.key, property.value.toString().replace("[\\[\\]]".toRegex(), ""))
             }
 }
