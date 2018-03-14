@@ -29,23 +29,47 @@ import kotlin.reflect.full.isSubtypeOf
 import kotlin.reflect.full.starProjectedType
 import kotlin.reflect.jvm.jvmErasure
 
-fun String.toObject(clazz: Class<*>): Any {
+
+/**
+ * Tries to convert the string to the corresponding data type specified by clazz.
+ *
+ * @param clazz Target data type as [java.lang.Class]
+ *
+ * @return Converted data type object, null if it failed or the original string if the target
+ * data type is not supported.
+ */
+fun String.toObject(clazz: Class<*>): Any? {
     return when (clazz) {
         Boolean::class.javaObjectType -> toBoolean()
-        Byte::class.javaObjectType -> toByte()
-        Short::class.javaObjectType -> toShort()
-        Int::class.javaObjectType -> toInt()
-        Long::class.javaObjectType -> toLong()
-        Float::class.javaObjectType -> toFloat()
-        Double::class.javaObjectType -> toDouble()
+        Byte::class.javaObjectType -> toByteOrNull()
+        Short::class.javaObjectType -> toShortOrNull()
+        Int::class.javaObjectType -> toIntOrNull()
+        Long::class.javaObjectType -> toLongOrNull()
+        Float::class.javaObjectType -> toFloatOrNull()
+        Double::class.javaObjectType -> toDoubleOrNull()
         else -> this
     }
 }
 
+
+/**
+ * Tries to convert the string to the corresponding data type specified by clazz.
+ *
+ * @param clazz Target data type as [kotlin.reflect.KClass]
+ *
+ * @return Converted data type object, null if it failed or the original string if the target
+ * data type is not supported.
+ */
 fun String.toObject(clazz: KClass<*>) = toObject(clazz.java)
 
 //<editor-fold desc="JVM Reflection">
 
+
+/**
+ * Tries to convert the given [java.lang.Class] from its wrapper form into primitive class form.
+ *
+ * @return The converted class if the primitive class for it exists else returns the original class.
+ */
 fun Class<*>.toPrimitive(): Class<*> {
     return when (this) {
         Boolean::class.javaObjectType -> Boolean::class.java
@@ -59,8 +83,24 @@ fun Class<*>.toPrimitive(): Class<*> {
     }
 }
 
+
+/**
+ * Checks if a [java.lang.reflect.Field] is a generic typed field.
+ *
+ * @return True if it field is generic.
+ */
 fun Field.hasGenericType() = genericType is ParameterizedType
 
+
+/**
+ * Attempts to retrieve the [java.lang.Class] of generic type of a [java.lang.reflect.Field]
+ *
+ * @param level Specifies which generic class should be retrieved, as retrieved classes may also
+ * have their own generics. Eg. Level 0 will retrieve List from List<List<String>>, but 1 will
+ * retrieve String. Defaults to 0.
+ *
+ * @return The generic class.
+ */
 fun Field.getGenericClass(level: Int = 0): Class<*> {
     var paramType = genericType as ParameterizedType
     var objType = paramType.actualTypeArguments[0]
@@ -76,8 +116,24 @@ fun Field.getGenericClass(level: Int = 0): Class<*> {
 //</editor-fold>
 
 //<editor-fold desc="Kotlin Reflection">
+
+/**
+ * Checks if a [kotlin.reflect.KProperty] is a generic typed field.
+ *
+ * @return True if it property is generic.
+ */
 fun KProperty<*>.hasGenericType() = returnType.jvmErasure.typeParameters.isNotEmpty()
 
+
+/**
+ * Attempts to retrieve the [kotlin.reflect.KType] of generic class of a [kotlin.reflect.KProperty]
+ *
+ * @param level Specifies which generic class should be retrieved, as retrieved classes may also
+ * have their own generics. Eg. Level 0 will retrieve List from List<List<String>>, but 1 will
+ * retrieve String. Defaults to 0.
+ *
+ * @return The generic type.
+ */
 fun KProperty<*>.getGenericType(level: Int = 0): KType {
     var type = returnType
     for (i in level downTo 0) {
@@ -86,13 +142,45 @@ fun KProperty<*>.getGenericType(level: Int = 0): KType {
     return type
 }
 
+/**
+ * Attempts to retrieve the [kotlin.reflect.KClass] of generic class of a [kotlin.reflect.KProperty]
+ *
+ * @param level Specifies which generic class should be retrieved, as retrieved classes may also
+ * have their own generics. Eg. Level 0 will retrieve List from List<List<String>>, but 1 will
+ * retrieve String. Defaults to 0.
+ *
+ * @return The generic class.
+ */
 fun KProperty<*>.getGenericClass(level: Int = 0) = getGenericType(level).jvmErasure
 
+
+/**
+ * Checks if the [kotlin.reflect.KClass] represents an enum value.
+ *
+ * @return True if the [kotlin.reflect.KClass] represents an enum value.
+ */
 fun KClass<*>.isEnum() = starProjectedType.isEnum()
+
+
+/**
+ * Checks if the [kotlin.reflect.KType] represents an enum value.
+ *
+ * @return True if the [kotlin.reflect.KType] represents an enum value.
+ */
 fun KType.isEnum() = isSubtypeOf(Enum::class.starProjectedType)
 
+
+/**
+ * Attempts to find the enum instance from the given string of the same underlying type that
+ * this class represents.
+ *
+ * @param string Name of enum value
+ *
+ * @return The enum instance if it was found else null
+ */
 fun KClass<*>.enumValueOf(string: String): Any? = java.enumConstants.find {
     it.toString().equals(string, true) ||
             it.toString().equals(string.replace("_", "-"), true)
 }
+
 //</editor-fold>
