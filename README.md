@@ -33,6 +33,13 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 After you install the dependencies, you may run the JAR executable directly, after which you will be presented a screen to configure paths to the Sikuli Script Jar file and the KCAuto-Kai Root directory.
 After that the main application will start and you may begin configuring and saving profiles for KCAuto-Kai, it's pretty straight forward with Kaga as your secretary!
 
+# Help
+
+Refer to the [wiki](https://github.com/waicool20/kaga/wiki) on how to use some features like on how to import ships from KC3 for the ship switcher module
+or how to bind shortcut keys.
+
+If you have any further questions, you're welcome to contact me on Discord (Invite below)
+
 # Build Instructions
 
 Prerequisites: 
