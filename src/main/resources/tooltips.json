@@ -33,15 +33,27 @@
   },
   {
     "id": "Scheduling-enableSleepButton",
-    "description": "Check this box if you want the script to automatically sleep/pause at set times. Highly recommended that you check this box if you run the script for a long period of time"
+    "description": "Check this box if you want the script to automatically sleep/pause at set times. Highly recommended that you check this box if you run the script for a long period of time\n\nThis overrides the other sleep options"
   },
   {
-    "id": "Scheduling-startTimeLabel",
-    "description": "Define around when you would like scheduled sleep to start. (Based on computer local time)"
+    "id": "Scheduling-sleepTimeLabel",
+    "description": "The script will sleep during the highlighted time, just move the range around to adjust your sleep time"
   },
   {
-    "id": "Scheduling-sleepLengthLabel",
-    "description": "How long you want the sleep to last, in hours. Anywhere between 0 to 10 minutes are added randomly to the actual timer"
+    "id": "Scheduling-enableExpSleepButton",
+    "description": "Check this box if you only want expeditions to automatically pause at set times. Highly recommended that you check this box if you run the script for a long period of time"
+  },
+  {
+    "id": "Scheduling-expSleepTimeLabel",
+    "description": "Expeditions will be paused during the highlighted time, just move the range around to adjust your sleep time"
+  },
+  {
+    "id": "Scheduling-enableSortieSleepButton",
+    "description": "Check this box if you only want sorties to automatically pause at set times. Highly recommended that you check this box if you run the script for a long period of time"
+  },
+  {
+    "id": "Scheduling-sortieSleepTimeLabel",
+    "description": "Sorties will be paused during the highlighted time, just move the range around to adjust your sleep time"
   },
   {
     "id": "Scheduling-enableAutoStopButton",
