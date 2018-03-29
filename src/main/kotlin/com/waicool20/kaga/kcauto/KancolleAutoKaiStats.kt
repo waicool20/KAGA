@@ -31,9 +31,10 @@ object KancolleAutoKaiStatsTracker {
     val history = mutableListOf<KancolleAutoKaiStats>()
 
     init {
+        val stat = Regex("(\\d+)(?: \\(.+?\\))?")
         with(LoggingEventBus) {
             // Track sorties conducted
-            subscribe(Regex(".*Combat done: (\\d+) / attempted: (\\d+).*")) {
+            subscribe(Regex(".*Combat done: $stat / attempted: $stat.*")) {
                 currentStats().apply {
                     sortiesDone = it.groupValues[1].toInt()
                     sortiesAttempted = it.groupValues[2].toInt()
@@ -41,7 +42,7 @@ object KancolleAutoKaiStatsTracker {
             }
 
             // Track expeditions conducted
-            subscribe(Regex(".*Expeditions sent: (\\d+) / received: (\\d+).*")) {
+            subscribe(Regex(".*Expeditions sent: $stat / received: $stat.*")) {
                 currentStats().apply {
                     expeditionsSent = it.groupValues[1].toInt()
                     expeditionsReceived = it.groupValues[2].toInt()
@@ -53,7 +54,7 @@ object KancolleAutoKaiStatsTracker {
             }
 
             // Track quests conducted
-            subscribe(Regex(".*Quests started: (\\d+) / finished: (\\d+).*")) {
+            subscribe(Regex(".*Quests started: $stat / finished: $stat.*")) {
                 currentStats().apply {
                     questsStarted = it.groupValues[1].toInt()
                     questsDone = it.groupValues[2].toInt()
@@ -61,12 +62,12 @@ object KancolleAutoKaiStatsTracker {
             }
 
             // Track pvp conducted
-            subscribe(Regex(".*PvPs done: (\\d+).*")) {
+            subscribe(Regex(".*PvPs done: $stat.*")) {
                 currentStats().pvpsDone = it.groupValues[1].toInt()
             }
 
             // Track buckets used
-            subscribe(Regex(".*Resupplies: (\\d+) \\|\\| Repairs: (\\d+) \\|\\| Buckets: (\\d+).*")) {
+            subscribe(Regex(".*Resupplies: $stat \\|\\| Repairs: $stat \\|\\| Buckets: $stat.*")) {
                 currentStats().apply {
                     resupplies = it.groupValues[1].toInt()
                     repairs = it.groupValues[2].toInt()
@@ -75,7 +76,7 @@ object KancolleAutoKaiStatsTracker {
             }
 
             // Track submarines switched
-            subscribe(Regex(".*Ships switched: (\\d+).*")) {
+            subscribe(Regex(".*Ships switched: $stat.*")) {
                 currentStats().shipsSwitched = it.groupValues[1].toInt()
             }
 
