@@ -46,6 +46,8 @@ object YuuBot {
     private val logger = LoggerFactory.getLogger(javaClass)
     var useLocalServer = false
 
+    private var resources = Resources()
+
     enum class ApiKeyStatus {
         VALID, INVALID, UNKNOWN
     }
@@ -59,10 +61,11 @@ object YuuBot {
 
     fun reportStats() {
         if (Kaga.CONFIG.apiKey.isEmpty()) return
+        readResources()
         logger.info("Reporting stats to YuuBot!")
         httpClient { client ->
             try {
-                val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, Resources.readResources())
+                val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, resources)
                 val response = HttpPost(endpoint + Kaga.CONFIG.apiKey + "/stats").apply {
                     entity = StringEntity(mapper.writeValueAsString(stats), ContentType.APPLICATION_JSON)
                 }.let { client.execute(it) }.statusLine.statusCode
@@ -124,7 +127,17 @@ object YuuBot {
 
     private fun httpClient(action: (CloseableHttpClient) -> Unit) = thread { HttpClients.createDefault().use(action) }
 
-    private val screen by lazy { Screen() }
+    private fun readResources() {
+        val rsc = Resources.readResources()
+        resources = Resources(
+                rsc.fuel.takeIf { it >= 0 } ?: resources.fuel,
+                rsc.ammo.takeIf { it >= 0 } ?: resources.ammo,
+                rsc.steel.takeIf { it >= 0 } ?: resources.steel,
+                rsc.bauxite.takeIf { it >= 0 } ?: resources.bauxite,
+                rsc.buckets.takeIf { it >= 0 } ?: resources.buckets,
+                rsc.devmats.takeIf { it >= 0 } ?: resources.devmats
+        )
+    }
 }
 
 data class CrashInfoDto(val log: String)

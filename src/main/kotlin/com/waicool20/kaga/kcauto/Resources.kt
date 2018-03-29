@@ -37,10 +37,10 @@ data class Resources(
         var devmats: Int = 0
 ) {
     companion object {
-        private val logger = LoggerFactory.getLogger(javaClass)
+        private val logger = LoggerFactory.getLogger(Resources::class.java)
         fun readResources(): Resources {
             if (Kaga.SIKULI_WORKING) {
-                Screen().exists("fuel.png").apply {
+                Screen().exists("fuel.png")?.apply {
                     val fuelCountRegion = Region(x + 25, y, 44, 17)
                     val ammoCountRegion = Region(x + 25, y + 19, 44, 17)
                     val steelCountRegion = Region(x + 95, y, 44, 17)
@@ -57,8 +57,9 @@ data class Resources(
                     logger.info("Fuel: $fuel | Ammo: $ammo | Steel: $steel | Bauxite: $bauxite | Buckets: $buckets | DevMats: $devmats")
                     return Resources(fuel, ammo, steel, bauxite, buckets, devmats)
                 }
+                logger.warn("Resources unreadable, maybe something is blocking it.")
             }
-            return Resources(-1)
+            return Resources(-1, -1, -1 ,-1, -1, -1)
         }
 
         private val numberReplacements = mapOf(
@@ -77,7 +78,7 @@ data class Resources(
             }
             return text.toIntOrNull() ?: run {
                 logger.error("Could not read number from text: $text")
-                0
+                -1
             }
         }
     }
