@@ -41,7 +41,7 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 group 'com.waicool20'
-version 'v2.0.0'
+version 'v2.0.1'
 def kcAutoCompatibility = '0.4.5'
 
 sourceCompatibility = 1.8
