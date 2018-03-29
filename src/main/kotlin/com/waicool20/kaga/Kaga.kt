@@ -52,16 +52,20 @@ import javafx.scene.input.MouseEvent.MOUSE_RELEASED
 import javafx.scene.layout.FlowPane
 import javafx.stage.Modality
 import javafx.stage.Stage
+import org.sikuli.script.ImagePath
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.awt.Desktop
 import java.io.PrintStream
 import java.net.URI
 import java.net.URL
+import java.net.URLClassLoader
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.concurrent.thread
 import kotlin.math.abs
+import kotlin.reflect.full.declaredMemberFunctions
+import kotlin.reflect.jvm.isAccessible
 
 class KagaApp : Application() {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -161,8 +165,21 @@ object Kaga {
 
     var LOG = ""
     val KCAUTO_KAI by lazy { KancolleAutoKai() }
+    var SIKULI_WORKING = false
+        private set
 
     fun startMainApplication() {
+        thread {
+            loadSikuliX()
+            try {
+                logger.info("Testing SikuliX")
+                ImagePath.add(ClassLoader.getSystemClassLoader().getResource("images"))
+                logger.info("SikuliX is working!")
+                SIKULI_WORKING = true
+            } catch (e: NoClassDefFoundError) {
+                logger.warn("SikuliX isn't working, functionality disabled!")
+            }
+        }
         CONFIG.currentProfile = PROFILE.name
         CONFIG.save()
         with(ROOT_STAGE) {
@@ -253,6 +270,14 @@ object Kaga {
                 logger.warn("Could not check for updates, maybe your internet is down?")
                 logger.error("Update check failed, reason: $e")
             }
+        }
+    }
+
+    private fun loadSikuliX() {
+        val cl = ClassLoader.getSystemClassLoader()
+        URLClassLoader::class.declaredMemberFunctions.find { it.name == "addURL" }?.apply {
+            isAccessible = true
+            call(cl, CONFIG.sikulixJarPath.toUri().toURL())
         }
     }
 

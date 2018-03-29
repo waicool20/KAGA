@@ -30,6 +30,7 @@ import org.apache.http.entity.ContentType
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
+import org.sikuli.script.Screen
 import org.slf4j.LoggerFactory
 import java.time.ZonedDateTime
 import kotlin.concurrent.thread
@@ -61,7 +62,7 @@ object YuuBot {
         logger.info("Reporting stats to YuuBot!")
         httpClient { client ->
             try {
-                val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, Resources())
+                val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, Resources.readResources())
                 val response = HttpPost(endpoint + Kaga.CONFIG.apiKey + "/stats").apply {
                     entity = StringEntity(mapper.writeValueAsString(stats), ContentType.APPLICATION_JSON)
                 }.let { client.execute(it) }.statusLine.statusCode
@@ -122,6 +123,8 @@ object YuuBot {
     }
 
     private fun httpClient(action: (CloseableHttpClient) -> Unit) = thread { HttpClients.createDefault().use(action) }
+
+    private val screen by lazy { Screen() }
 }
 
 data class CrashInfoDto(val log: String)
