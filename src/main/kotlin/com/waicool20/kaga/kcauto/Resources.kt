@@ -70,16 +70,20 @@ data class Resources(
         )
 
         private fun Region.readNumber(scaleFactor: Double = 3.0, threshold: Double = 0.4): Int {
-            val image = screen.capture(this).image
-                    .scale(scaleFactor).binarizeImage(threshold)
-            var text = TextRecognizer.getInstance().recognizeWord(image)
-            numberReplacements.forEach { r, num ->
-                text = text.replace(Regex("[$r]"), num)
+            val stringList = mutableListOf<String>()
+            repeat(3) { i ->
+                val image = screen.capture(this).image
+                        .scale(scaleFactor + i).binarizeImage(threshold)
+                var text = TextRecognizer.getInstance().recognizeWord(image)
+                numberReplacements.forEach { r, num ->
+                    text = text.replace(Regex("[$r]"), num)
+                }
+                text.toIntOrNull()?.let {
+                    return it
+                } ?: stringList.add(text)
             }
-            return text.toIntOrNull() ?: run {
-                logger.error("Could not read number from text: $text")
-                -1
-            }
+            logger.error("Could not read number from text: $stringList")
+            return -1
         }
     }
 }
