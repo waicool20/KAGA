@@ -24,13 +24,24 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.concurrent.thread
 
+class StreamGobbler(val process: Process?, autorun: Boolean = true) {
+    init {
+        if (autorun) run()
+    }
 
-class StreamGobbler(val process: Process?) {
     fun run() {
         val handler = Thread.UncaughtExceptionHandler { _, throwable ->
             if (throwable.message != "Stream closed") throw throwable // Ignore stream closed errors
         }
-        thread { BufferedReader(InputStreamReader(process?.inputStream)).forEachLine(::println) }.uncaughtExceptionHandler = handler
-        thread { BufferedReader(InputStreamReader(process?.errorStream)).forEachLine(::println) }.uncaughtExceptionHandler = handler
+        process?.apply {
+            thread(isDaemon = true) {
+                BufferedReader(InputStreamReader(inputStream)).forEachLine(::println)
+            }.uncaughtExceptionHandler = handler
+            thread(isDaemon = true) {
+                BufferedReader(InputStreamReader(errorStream)).forEachLine(::println)
+            }.uncaughtExceptionHandler = handler
+        }
     }
 }
+
+fun Process.gobbleStream() = this.apply { StreamGobbler(this, true) }

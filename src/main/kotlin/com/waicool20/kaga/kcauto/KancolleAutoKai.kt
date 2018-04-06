@@ -24,6 +24,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.LockPreventer
 import com.waicool20.kaga.util.StreamGobbler
+import com.waicool20.kaga.util.gobbleStream
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
@@ -38,7 +39,6 @@ class KancolleAutoKai {
     private val template by lazy { Kaga::class.java.classLoader.getResourceAsStream("crashlog_template.md").bufferedReader().readText() }
     private val logger = LoggerFactory.getLogger(javaClass)
     private var kancolleAutoProcess: Process? = null
-    private var streamGobbler: StreamGobbler? = null
     private val shouldStop = AtomicBoolean(false)
 
     val statsTracker = KancolleAutoKaiStatsTracker
@@ -57,7 +57,7 @@ class KancolleAutoKai {
                 "${Kaga.CONFIG.kcaKaiRootDirPath.resolve("kcauto-kai.sikuli")}",
                 "--", "cfg", "${Kaga.PROFILE.path()}"
         )
-        val lockPreventer = if (Kaga.CONFIG.preventLock) LockPreventer() else null
+        val lockPreventer = LockPreventer().takeIf { Kaga.CONFIG.preventLock }
         statsTracker.startNewSession()
         shouldStop.set(false)
         KCAutoLoop@ while (true) {
@@ -65,9 +65,8 @@ class KancolleAutoKai {
             logger.info("Starting new KCAuto-Kai session (Version: $version)")
             logger.debug("Launching with command: ${args.joinToString(" ")}")
             logger.debug("Session profile: ${jacksonObjectMapper().writeValueAsString(Kaga.PROFILE)}")
-            kancolleAutoProcess = ProcessBuilder(args).start()
+            kancolleAutoProcess = ProcessBuilder(args).start().gobbleStream()
             YuuBot.reportStats()
-            streamGobbler = StreamGobbler(kancolleAutoProcess).apply {  }
             lockPreventer?.start()
             val exitVal = kancolleAutoProcess?.waitFor()
             logger.info("KCAuto-Kai session has terminated!")
