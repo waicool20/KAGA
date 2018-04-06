@@ -61,9 +61,9 @@ object YuuBot {
 
     fun reportStats() {
         if (Kaga.CONFIG.apiKey.isEmpty()) return
-        readResources()
-        logger.info("Reporting stats to YuuBot!")
         httpClient { client ->
+            readResources()
+            logger.info("Reporting stats to YuuBot!")
             try {
                 val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, resources)
                 val response = HttpPost(endpoint + Kaga.CONFIG.apiKey + "/stats").apply {
@@ -121,7 +121,6 @@ object YuuBot {
                 logger.warn("Could not check if API key is valid, maybe your internet is down?")
                 onComplete(ApiKeyStatus.UNKNOWN)
             }
-
         }
     }
 
