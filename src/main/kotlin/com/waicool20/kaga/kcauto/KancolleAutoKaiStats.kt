@@ -81,7 +81,7 @@ object KancolleAutoKaiStatsTracker {
             }
 
             // Track crashes occurred
-            subscribe(Regex(".*KCAuto-Kai didn't terminate gracefully.*")) {
+            subscribe(Regex(".*KCAuto-Kai crashed!.*")) {
                 crashes++
             }
 
