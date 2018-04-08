@@ -32,24 +32,36 @@
     "description": "If you have a slow computer/network connection, you may encounter frequent FindFailed errors. Increase this value by whole numbers (seconds) to increase the length of all sleep/wait timers to avoid this"
   },
   {
-    "id": "Scheduling-enableSleepButton",
+    "id": "Scheduling-enableSleepCheckBox",
     "description": "Check this box if you want the script to automatically sleep/pause at set times. Highly recommended that you check this box if you run the script for a long period of time\n\nThis overrides the other sleep options"
+  },
+  {
+    "id": "Scheduling-invertSleepCheckBox",
+    "description": "Check this box if you want to invert the sleep times"
   },
   {
     "id": "Scheduling-sleepTimeLabel",
     "description": "The script will sleep during the highlighted time, just move the range around to adjust your sleep time"
   },
   {
-    "id": "Scheduling-enableExpSleepButton",
+    "id": "Scheduling-enableExpSleepCheckBox",
     "description": "Check this box if you only want expeditions to automatically pause at set times. Highly recommended that you check this box if you run the script for a long period of time"
+  },
+  {
+    "id": "Scheduling-invertExpSleepCheckBox",
+    "description": "Check this box if you want to invert the expedition sleep times"
   },
   {
     "id": "Scheduling-expSleepTimeLabel",
     "description": "Expeditions will be paused during the highlighted time, just move the range around to adjust your sleep time"
   },
   {
-    "id": "Scheduling-enableSortieSleepButton",
+    "id": "Scheduling-enableSortieSleepCheckBox",
     "description": "Check this box if you only want sorties to automatically pause at set times. Highly recommended that you check this box if you run the script for a long period of time"
+  },
+  {
+    "id": "Scheduling-invertSortieSleepCheckBox",
+    "description": "Check this box if you want to invert the sortie sleep times"
   },
   {
     "id": "Scheduling-sortieSleepTimeLabel",

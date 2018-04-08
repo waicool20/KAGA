@@ -22,6 +22,7 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.addListener
+import javafx.beans.property.BooleanProperty
 import javafx.beans.property.DoubleProperty
 import javafx.beans.property.StringProperty
 import javafx.fxml.FXML
@@ -35,15 +36,18 @@ import kotlin.math.roundToInt
 
 
 class SchedulingTabView {
-    @FXML private lateinit var enableSleepButton: CheckBox
+    @FXML private lateinit var enableSleepCheckBox: CheckBox
+    @FXML private lateinit var invertSleepCheckBox: CheckBox
     @FXML private lateinit var sleepRangeSlider: RangeSlider
     @FXML private lateinit var sleepTimeLabel: Label
 
-    @FXML private lateinit var enableExpSleepButton: CheckBox
+    @FXML private lateinit var enableExpSleepCheckBox: CheckBox
+    @FXML private lateinit var invertExpSleepCheckBox: CheckBox
     @FXML private lateinit var expSleepRangeSlider: RangeSlider
     @FXML private lateinit var expSleepTimeLabel: Label
 
-    @FXML private lateinit var enableSortieSleepButton: CheckBox
+    @FXML private lateinit var enableSortieSleepCheckBox: CheckBox
+    @FXML private lateinit var invertSortieSleepCheckBox: CheckBox
     @FXML private lateinit var sortieSleepRangeSlider: RangeSlider
     @FXML private lateinit var sortieSleepTimeLabel: Label
 
@@ -60,22 +64,38 @@ class SchedulingTabView {
     private class SleepContainer(
             val slider: RangeSlider,
             val label: Label,
+            val invertProperty: BooleanProperty,
             val startTime: StringProperty,
             val length: DoubleProperty
     ) {
-        fun setup() {
-            val sTime = String.format("%04d", startTime.get().toInt()).let {
+        init {
+            val sTime = startTime.get().padStart(4, '0').let {
                 LocalTime.of(it.substring(0, 2).toInt(), it.substring(2, 4).toInt())
             }
-            val endTime = sTime.plusMinutes((length.get() * 60).toLong())
-            slider.lowValue = sTime.hour + (sTime.minute / 60.0)
-            slider.highValue = endTime.hour + (endTime.minute / 60.0)
+            val eTime = sTime.plusMinutes((length.get() * 60).toLong())
+
+            if (sTime < eTime) {
+                invertProperty.set(false)
+                slider.highValue = eTime.hour + (eTime.minute / 60.0)
+                slider.lowValue = sTime.hour + (sTime.minute / 60.0)
+            } else {
+                invertProperty.set(true)
+                slider.highValue = sTime.hour + (sTime.minute / 60.0)
+                slider.lowValue = eTime.hour + (eTime.minute / 60.0)
+            }
+
             updateTime()
             slider.lowValueProperty().addListener("${slider.id}_LOW") { _ -> updateTime() }
             slider.highValueProperty().addListener("${slider.id}_HIGH") { _ -> updateTime() }
+            invertProperty.addListener("${slider.id}_invert") { _ -> updateTime() }
         }
 
         fun updateTime() {
+            if (invertProperty.get()) {
+                slider.styleClass.add("inverted-range-slider")
+            } else {
+                slider.styleClass.removeAll { it.contains("inverted") }
+            }
             with(slider) {
                 val startHour = lowValue.toInt()
                 val startMinute = ((lowValue - startHour) * 60).toInt()
@@ -83,12 +103,18 @@ class SchedulingTabView {
 
                 val endHour = highValue.toInt()
                 val endMinute = ((highValue - endHour) * 60).toInt()
-                val endTime = formatTime(endHour, endMinute)
+                val eTime = formatTime(endHour, endMinute)
 
-                label.text = "$sTime - $endTime"
+                label.text = "$sTime - $eTime"
 
-                startTime.set(sTime.replace(":", ""))
-                length.set(((highValue - lowValue) * 100).roundToInt() / 100.0)
+                val sleepLength = ((highValue - lowValue) * 100).roundToInt() / 100.0
+                if (invertProperty.get()) {
+                    startTime.set(eTime.replace(":", ""))
+                    length.set(24 - sleepLength)
+                } else {
+                    startTime.set(sTime.replace(":", ""))
+                    length.set(sleepLength)
+                }
             }
         }
 
@@ -97,22 +123,41 @@ class SchedulingTabView {
 
     private fun setValues() {
         with(Kaga.PROFILE.scheduledSleep) {
-            listOf(
-                    SleepContainer(sleepRangeSlider, sleepTimeLabel, sleepStartTimeProperty, sleepLengthProperty),
-                    SleepContainer(expSleepRangeSlider, expSleepTimeLabel, expSleepStartTimeProperty, expSleepLengthProperty),
-                    SleepContainer(sortieSleepRangeSlider, sortieSleepTimeLabel, sortieSleepStartTimeProperty, sortieSleepLengthProperty)
-            ).forEach { it.setup() }
+            SleepContainer(
+                    sleepRangeSlider,
+                    sleepTimeLabel,
+                    invertSleepCheckBox.selectedProperty(),
+                    sleepStartTimeProperty,
+                    sleepLengthProperty
+            )
+            SleepContainer(
+                    expSleepRangeSlider,
+                    expSleepTimeLabel,
+                    invertExpSleepCheckBox.selectedProperty(),
+                    expSleepStartTimeProperty,
+                    expSleepLengthProperty
+            )
+            SleepContainer(
+                    sortieSleepRangeSlider,
+                    sortieSleepTimeLabel,
+                    invertSortieSleepCheckBox.selectedProperty(),
+                    sortieSleepStartTimeProperty,
+                    sortieSleepLengthProperty
+            )
         }
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.scheduledSleep) {
-            enableSleepButton.bind(sleepEnabledProperty)
-            enableExpSleepButton.bind(expSleepEnabledProperty)
-            enableSortieSleepButton.bind(sortieSleepEnabledProperty)
+            enableSleepCheckBox.bind(sleepEnabledProperty)
+            enableExpSleepCheckBox.bind(expSleepEnabledProperty)
+            enableSortieSleepCheckBox.bind(sortieSleepEnabledProperty)
         }
-        sleepContent.disableProperty().bind(enableSleepButton.selectedProperty().not())
-        expSleepContent.disableProperty().bind(enableExpSleepButton.selectedProperty().not())
-        sortieSleepContent.disableProperty().bind(enableSortieSleepButton.selectedProperty().not())
+        sleepContent.disableProperty().bind(enableSleepCheckBox.selectedProperty().not())
+        expSleepContent.disableProperty().bind(enableExpSleepCheckBox.selectedProperty().not())
+        sortieSleepContent.disableProperty().bind(enableSortieSleepCheckBox.selectedProperty().not())
+        invertSleepCheckBox.disableProperty().bind(sleepContent.disableProperty())
+        invertExpSleepCheckBox.disableProperty().bind(expSleepContent.disableProperty())
+        invertSortieSleepCheckBox.disableProperty().bind(sortieSleepContent.disableProperty())
     }
 }

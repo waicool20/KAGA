@@ -1,0 +1,40 @@
+/*
+ * GPLv3 License
+ *
+ *  Copyright (c) KAGA by waicool20
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+.inverted-range-slider.range-slider .range-bar {
+    -fx-background-color: linear-gradient(
+            to bottom,
+            derive(-fx-control-inner-background, -15%),
+            -fx-control-inner-background,
+            derive(-fx-control-inner-background, -15%)
+    );
+}
+
+.inverted-range-slider.range-slider .track {
+    -fx-background-color:
+            -fx-shadow-highlight-color,
+            linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+            linear-gradient(to bottom,
+            derive(-fx-focus-color, -9%),
+            derive(-fx-focus-color, 0%),
+            derive(-fx-focus-color, -5%),
+            derive(-fx-focus-color, -12%)
+            );
+}

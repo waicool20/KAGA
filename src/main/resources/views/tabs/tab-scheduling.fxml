@@ -31,7 +31,8 @@
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
          <children>
-            <CheckBox fx:id="enableSleepButton" mnemonicParsing="false" text="Enable KCAuto-Kai Sleep" />
+            <CheckBox fx:id="enableSleepCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable KCAuto-Kai Sleep" />
+            <CheckBox fx:id="invertSleepCheckBox" mnemonicParsing="false" text="Invert" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -42,7 +43,7 @@
       </HBox>
       <VBox fx:id="sleepContent" alignment="CENTER">
          <children>
-            <RangeSlider fx:id="sleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" />
+            <RangeSlider fx:id="sleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" stylesheets="@../../styles/rangeslider.css" />
             <Label fx:id="sleepTimeLabel" alignment="CENTER" contentDisplay="CENTER" text="00:00 - 23:00" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
@@ -51,7 +52,8 @@
       </VBox>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
          <children>
-            <CheckBox fx:id="enableExpSleepButton" mnemonicParsing="false" text="Enable Expedition Sleep" />
+            <CheckBox fx:id="enableExpSleepCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable Expedition Sleep" />
+            <CheckBox fx:id="invertExpSleepCheckBox" mnemonicParsing="false" text="Invert" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -62,16 +64,17 @@
       </HBox>
       <VBox fx:id="expSleepContent" alignment="CENTER">
          <children>
-            <RangeSlider fx:id="expSleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" />
+            <RangeSlider fx:id="expSleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" stylesheets="@../../styles/rangeslider.css" />
             <Label fx:id="expSleepTimeLabel" alignment="CENTER" contentDisplay="CENTER" text="00:00 - 23:00" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </VBox>
-      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
          <children>
-            <CheckBox fx:id="enableSortieSleepButton" mnemonicParsing="false" text="Enable Sortie Sleep" />
+            <CheckBox fx:id="enableSortieSleepCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable Sortie Sleep" />
+            <CheckBox fx:id="invertSortieSleepCheckBox" mnemonicParsing="false" text="Invert" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -82,7 +85,7 @@
       </HBox>
       <VBox fx:id="sortieSleepContent" alignment="CENTER">
          <children>
-            <RangeSlider fx:id="sortieSleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" />
+            <RangeSlider fx:id="sortieSleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" stylesheets="@../../styles/rangeslider.css" />
             <Label fx:id="sortieSleepTimeLabel" alignment="CENTER" contentDisplay="CENTER" text="00:00 - 23:00" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
