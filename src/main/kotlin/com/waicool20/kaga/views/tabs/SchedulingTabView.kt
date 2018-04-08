@@ -105,13 +105,13 @@ class SchedulingTabView {
                 val endMinute = ((highValue - endHour) * 60).toInt()
                 val eTime = formatTime(endHour, endMinute)
 
-                label.text = "$sTime - $eTime"
-
                 val sleepLength = ((highValue - lowValue) * 100).roundToInt() / 100.0
                 if (invertProperty.get()) {
+                    label.text = "$eTime - $sTime"
                     startTime.set(eTime.replace(":", ""))
                     length.set(24 - sleepLength)
                 } else {
+                    label.text = "$sTime - $eTime"
                     startTime.set(sTime.replace(":", ""))
                     length.set(sleepLength)
                 }
