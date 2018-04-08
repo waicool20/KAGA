@@ -74,7 +74,7 @@ class SchedulingTabView {
             }
             val eTime = sTime.plusMinutes((length.get() * 60).toLong())
 
-            if (sTime < eTime) {
+            if (sTime <= eTime) {
                 invertProperty.set(false)
                 slider.highValue = eTime.hour + (eTime.minute / 60.0)
                 slider.lowValue = sTime.hour + (sTime.minute / 60.0)
