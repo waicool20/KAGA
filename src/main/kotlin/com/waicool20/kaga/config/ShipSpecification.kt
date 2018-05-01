@@ -41,8 +41,8 @@ sealed class ShipSpecification {
 
     companion object {
         private val positionRegex = Regex("P:([NCL]):([SE]):(\\d{1,3})")
-        private val shipRegex = Regex("S:(.+?):([><_])(\\d{0,2}):([_LN]):([_RN])")
-        private val classRegex = Regex("C:(.+?):([><_])(\\d{0,2}):([_LN]):([_RN])")
+        private val shipRegex = Regex("S:(.+?):([><_])(\\d{0,3}):([_LN]):([_RN])")
+        private val classRegex = Regex("C:(.+?):([><_])(\\d{0,3}):([_LN]):([_RN])")
         val values = mapOf(
                 ShipSpecificationByPosition::class to "Position",
                 ShipSpecificationByShip::class to "Ship/Custom",
