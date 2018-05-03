@@ -23,7 +23,6 @@ package com.waicool20.kaga.kcauto
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.LockPreventer
-import com.waicool20.kaga.util.StreamGobbler
 import com.waicool20.kaga.util.gobbleStream
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
@@ -65,15 +64,23 @@ class KancolleAutoKai {
             logger.info("Starting new KCAuto-Kai session (Version: $version)")
             logger.debug("Launching with command: ${args.joinToString(" ")}")
             logger.debug("Session profile: ${jacksonObjectMapper().writeValueAsString(Kaga.PROFILE)}")
-            kancolleAutoProcess = ProcessBuilder(args).start().gobbleStream()
-            YuuBot.reportStats()
+            // Start Processes
+            kancolleAutoProcess = ProcessBuilder(args).start()
             lockPreventer?.start()
+            val streamGobbler = kancolleAutoProcess?.gobbleStream()
+
+            YuuBot.reportStats()
+
+            // Wait for Termination
             val exitVal = kancolleAutoProcess?.waitFor()
+            streamGobbler?.waitFor()
+
             logger.info("KCAuto-Kai session has terminated!")
             logger.debug("Exit value was $exitVal")
             lockPreventer?.stop()
             Kaga.PROFILE.general.pause = false
 
+            // Detect Crash
             val scriptCrashed = exitVal !in listOf(0, 143)
             if (scriptCrashed) logger.info("KCAuto-Kai crashed!")
 
@@ -88,7 +95,8 @@ class KancolleAutoKai {
                 saveCrashLog()
                 if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
                     if (statsTracker.crashes < Kaga.CONFIG.autoRestartMaxRetries) {
-                        logger.info("Auto Restart enabled...attempting restart")
+                        logger.info("Auto Restart enabled...attempting restart in 3s")
+                        TimeUnit.SECONDS.sleep(3)
                         statsTracker.trackNewChild()
                         continue@KCAutoLoop
                     } else {
@@ -109,9 +117,7 @@ class KancolleAutoKai {
     fun stopAtPort() {
         logger.info("Will wait for any ongoing battle to finish first before terminating current KCAuto-Kai session!")
         thread {
-            while (!statsTracker.atPort) {
-                TimeUnit.MILLISECONDS.sleep(10)
-            }
+            while (!statsTracker.atPort) TimeUnit.MILLISECONDS.sleep(10)
             stop()
         }
     }

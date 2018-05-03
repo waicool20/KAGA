@@ -22,26 +22,35 @@ package com.waicool20.kaga.util
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.concurrent.CountDownLatch
 import kotlin.concurrent.thread
 
 class StreamGobbler(val process: Process?, autorun: Boolean = true) {
+    private val latch = CountDownLatch(2)
+
     init {
         if (autorun) run()
     }
 
     fun run() {
         val handler = Thread.UncaughtExceptionHandler { _, throwable ->
-            if (throwable.message != "Stream closed") throw throwable // Ignore stream closed errors
+            if (throwable.message == "Stream closed") {
+                latch.countDown()
+            } else throw throwable
         }
         process?.apply {
             thread(isDaemon = true) {
                 BufferedReader(InputStreamReader(inputStream)).forEachLine(::println)
+                latch.countDown()
             }.uncaughtExceptionHandler = handler
             thread(isDaemon = true) {
                 BufferedReader(InputStreamReader(errorStream)).forEachLine(::println)
+                latch.countDown()
             }.uncaughtExceptionHandler = handler
         }
     }
+
+    fun waitFor() = latch.await()
 }
 
-fun Process.gobbleStream() = this.apply { StreamGobbler(this, true) }
+fun Process.gobbleStream() = this.let { StreamGobbler(this, true) }
