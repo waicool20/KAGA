@@ -49,6 +49,8 @@ class ConsoleView : View() {
         System.setErr(errStream)
     }
 
+    fun logs() = consoleTextArea.text
+
     @FXML
     private fun onClear() = consoleTextArea.clear()
 

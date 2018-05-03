@@ -140,7 +140,7 @@ object Kaga {
             title = "KAGA - Debug"
             minHeight = 300.0
             minWidth = 600.0
-            scene = Scene(find(ConsoleView::class).root)
+            scene = Scene(find<ConsoleView>().root)
         }
     }
 
@@ -149,7 +149,7 @@ object Kaga {
             initOwner(ROOT_STAGE.owner)
             initModality(Modality.WINDOW_MODAL)
             title = "KAGA - Session Stats"
-            scene = Scene(find(StatsView::class).root)
+            scene = Scene(find<StatsView>().root)
             isResizable = false
         }
     }
@@ -163,7 +163,6 @@ object Kaga {
         KancolleAutoProfile()
     }
 
-    var LOG = ""
     val KCAUTO_KAI by lazy { KancolleAutoKai() }
     var SIKULI_WORKING = false
         private set

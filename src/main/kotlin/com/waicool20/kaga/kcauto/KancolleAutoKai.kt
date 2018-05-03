@@ -24,7 +24,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.LockPreventer
 import com.waicool20.kaga.util.gobbleStream
+import com.waicool20.kaga.views.ConsoleView
 import org.slf4j.LoggerFactory
+import tornadofx.*
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
 import java.time.LocalDateTime
@@ -125,17 +127,18 @@ class KancolleAutoKai {
 
     private fun saveCrashLog() {
         val template = Kaga::class.java.classLoader.getResourceAsStream("crashlog_template.md").bufferedReader().readText()
+        val logs = find<ConsoleView>().logs()
         val crashTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss"))
         val logFile = Kaga.CONFIG.kcaKaiRootDirPath.resolve("crashes/$crashTime.log")
         if (Files.notExists(logFile)) Files.createDirectories(logFile.parent)
-        val log = template.replace("<DateTime>", crashTime)
+        val logSection = template.replace("<DateTime>", crashTime)
                 .replace("<Version>", version)
                 .replace("<Viewer>", Kaga.PROFILE.general.program)
                 .replace("<OS>", "${System.getProperty("os.name")} ${System.getProperty("os.version")} ${System.getProperty("os.arch")}")
                 .replace("<Config>", Kaga.PROFILE.asIniString())
-                .replace("<Log>", Kaga.LOG)
-        Files.write(logFile, log.toByteArray(), StandardOpenOption.CREATE)
-        YuuBot.reportCrash(CrashInfoDto(Kaga.LOG))
+                .replace("<Log>", logs)
+        Files.write(logFile, logSection.toByteArray(), StandardOpenOption.CREATE)
+        YuuBot.reportCrash(CrashInfoDto(logs))
         logger.info("Saved crash log to $logFile")
     }
 }
