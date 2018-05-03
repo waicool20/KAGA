@@ -35,7 +35,6 @@ import kotlin.concurrent.thread
 
 
 class KancolleAutoKai {
-    private val template by lazy { Kaga::class.java.classLoader.getResourceAsStream("crashlog_template.md").bufferedReader().readText() }
     private val logger = LoggerFactory.getLogger(javaClass)
     private var kancolleAutoProcess: Process? = null
     private val shouldStop = AtomicBoolean(false)
@@ -125,6 +124,7 @@ class KancolleAutoKai {
     fun isRunning() = kancolleAutoProcess != null && kancolleAutoProcess?.isAlive ?: false
 
     private fun saveCrashLog() {
+        val template = Kaga::class.java.classLoader.getResourceAsStream("crashlog_template.md").bufferedReader().readText()
         val crashTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss"))
         val logFile = Kaga.CONFIG.kcaKaiRootDirPath.resolve("crashes/$crashTime.log")
         if (Files.notExists(logFile)) Files.createDirectories(logFile.parent)
