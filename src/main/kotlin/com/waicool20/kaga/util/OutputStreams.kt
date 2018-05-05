@@ -25,49 +25,42 @@ import javafx.scene.control.TextArea
 import java.io.OutputStream
 
 abstract class LineBufferedOutputStream : OutputStream() {
-    var buffer = mutableListOf<Char>()
+    private val buffer = StringBuffer()
 
     override fun write(byte: Int) {
         val char = byte.toChar()
-        buffer.add(char)
+        buffer.append(char)
         if (char == '\n') {
             flush()
         }
     }
 
     override fun flush() {
-        writeLine(buffer.joinToString(separator = ""))
-        buffer.clear()
+        writeLine(buffer.toString())
+        buffer.setLength(0)
     }
 
     abstract fun writeLine(line: String)
 }
 
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int = 1000) : LineBufferedOutputStream() {
-    init {
-        console.textProperty().listen {
-            runLater {
-                console.scrollTop = Double.MAX_VALUE
-            }
-        }
-    }
-
     override fun writeLine(line: String) {
         runLater {
             if (line.contains("\u001b[2J\u001b[H")) {
                 console.clear()
                 return@runLater
             }
-            console.text = appendLineWithLimit(console.text, line, maxLines)
-                    .replace("\\u001b\\[.+?m".toRegex(), "")
-            console.appendText("")
+            if (console.text.count { it == '\n' } >= maxLines) {
+                console.deleteText(0, console.text.indexOf('\n') + 1)
+            }
+            console.appendText(line.replace(Regex("\\u001b\\[.+?m"), ""))
         }
     }
 }
 
 class LineListenerOutputStream : LineBufferedOutputStream() {
     override fun writeLine(line: String) {
-        LoggingEventBus.publish(line.replaceFirst("\\r?\\n".toRegex(), ""))
+        LoggingEventBus.publish(line.trim())
     }
 }
 
@@ -88,12 +81,4 @@ class TeeOutputStream(val main: OutputStream, val branch: OutputStream) : Output
         main.close()
         branch.close()
     }
-}
-
-private fun appendLineWithLimit(target: String, line: String, maxLines: Int = 1000): String {
-    var string = target
-    if (string.count { it == '\n' } >= maxLines) {
-        string = string.replaceFirst(".+?\n".toRegex(), "")
-    }
-    return string.plus(line)
 }

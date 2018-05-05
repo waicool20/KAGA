@@ -23,6 +23,7 @@ package com.waicool20.kaga.handlers
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.getParentTabPane
 import javafx.event.EventHandler
@@ -40,7 +41,7 @@ class ToolTipHandler(stage: Stage) : EventHandler<KeyEvent> {
     val tooltips: List<LabelTip> = run {
         val stream = Kaga::class.java.classLoader.getResourceAsStream("tooltips.json")
         val mapper = jacksonObjectMapper()
-        mapper.readValue<List<LabelTip>>(stream, mapper.typeFactory.constructCollectionType(List::class.java, LabelTip::class.java))
+        mapper.readValue(stream)
     }
     private var showingTooltip = Tooltip()
     private var nodeUnderMouse: Node? = null
