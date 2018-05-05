@@ -20,7 +20,6 @@
 
 package com.waicool20.kaga.util
 
-import com.waicool20.kaga.Kaga
 import javafx.application.Platform.runLater
 import javafx.scene.control.TextArea
 import java.io.OutputStream

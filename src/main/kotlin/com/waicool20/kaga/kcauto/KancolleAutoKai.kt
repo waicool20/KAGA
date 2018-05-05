@@ -96,8 +96,11 @@ class KancolleAutoKai {
                 saveCrashLog()
                 if (Kaga.CONFIG.autoRestartOnKCAutoCrash) {
                     if (statsTracker.crashes < Kaga.CONFIG.autoRestartMaxRetries) {
-                        logger.info("Auto Restart enabled...attempting restart in 3s")
-                        TimeUnit.SECONDS.sleep(3)
+                        logger.info("Auto restart is enabled...attempting restart in 3s")
+                        for (s in 3 downTo 1) {
+                            logger.info("Restart in ${s}s")
+                            TimeUnit.SECONDS.sleep(1)
+                        }
                         statsTracker.trackNewChild()
                         continue@KCAutoLoop
                     } else {
