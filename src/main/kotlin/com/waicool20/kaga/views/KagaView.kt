@@ -220,11 +220,16 @@ class KagaView {
             return@run
         }
         val toDelete = name
-        if (delete()) {
-            profileNameComboBox.value = ""
-            AlertFactory.info(content = "Profile $toDelete was deleted").showAndWait()
-        } else {
-            AlertFactory.warn(content = warning).showAndWait()
+        confirm(
+                header = "Delete profile [$toDelete]?",
+                title = "Kaga - Profile Deletion Confirmation"
+        ) {
+            if (delete()) {
+                profileNameComboBox.value = ""
+                AlertFactory.info(content = "Profile $toDelete was deleted").showAndWait()
+            } else {
+                AlertFactory.warn(content = warning).showAndWait()
+            }
         }
     }
 
