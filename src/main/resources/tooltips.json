@@ -80,6 +80,42 @@
     "description": "Define how many of the above the script should perform before automatically stopping"
   },
   {
+    "id": "Stop-enableScriptStopCheckBox",
+    "description": "Check this box if you want the script to stop after meeting the conditions below"
+  },
+  {
+    "id": "Stop-scriptStopCountLabel",
+    "description": "Defines the amount of hours the script should run, after the running time exceeds this limit the script will stop, set to 0 to disable this condition"
+  },
+  {
+    "id": "Stop-scriptStopTimeLabel",
+    "description": "Defines a specific time when the script will stop, set hour or minute to -1 to disable this condition"
+  },
+  {
+    "id": "Stop-enableExpStopCheckBox",
+    "description": "Check this box if you want the script or only this module to stop after meeting the expedition conditions below, you can set the mode with the box adjacent to this checkbox\n\nRemember to set the mode to \"Module\" if you just want to stop this module!"
+  },
+  {
+    "id": "Stop-expStopCountLabel",
+    "description": "Defines the amount of expeditions the script/module should run, after the expedition count exceeds this limit the script/module will stop, set to 0 to disable this condition"
+  },
+  {
+    "id": "Stop-expStopTimeLabel",
+    "description": "Defines a specific time when the script/module will stop, set hour or minute to -1 to disable this condition"
+  },
+  {
+    "id": "Stop-enableSortieStopCheckBox",
+    "description": "Check this box if you want the script or only this module to stop after meeting the sortie conditions below, you can set the mode with the box adjacent to this checkbox\n\nRemember to set the mode to \"Module\" if you just want to stop this module!"
+  },
+  {
+    "id": "Stop-sortieStopCountLabel",
+    "description": "Defines the amount of sorties the script/module should run, after the sortie count exceeds this limit the script/module will stop, set to 0 to disable this condition"
+  },
+  {
+    "id": "Stop-sortieStopTimeLabel",
+    "description": "Defines a specific time when the script/module will stop, set hour or minute to -1 to disable this condition"
+  },
+  {
     "id": "Sortie-enableButton",
     "description": "Check this box if you want to enable sorties"
   },

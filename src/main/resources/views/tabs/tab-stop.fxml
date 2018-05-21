@@ -44,12 +44,12 @@
       </HBox>
       <HBox fx:id="scriptStopContent" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0">
          <children>
-            <Label text="Count:" />
+            <Label fx:id="scriptStopCountLabel" text="Count:" />
             <Spinner fx:id="scriptStopCountSpinner" editable="true" prefWidth="100.0">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin></Spinner>
-            <Label text="Time:">
+            <Label fx:id="scriptStopTimeLabel" text="Time:">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin></Label>
@@ -83,13 +83,13 @@
       </HBox>
       <HBox fx:id="expStopContent" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0">
          <children>
-            <Label text="Count:" />
+            <Label fx:id="expStopCountLabel" text="Count:" />
             <Spinner fx:id="expStopCountSpinner" editable="true" prefWidth="100.0">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Spinner>
-            <Label text="Time:">
+            <Label fx:id="expStopTimeLabel" text="Time:">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
@@ -125,13 +125,13 @@
       </HBox>
       <HBox fx:id="sortieStopContent" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0">
          <children>
-            <Label text="Count:" />
+            <Label fx:id="sortieStopCountLabel" text="Count:" />
             <Spinner fx:id="sortieStopCountSpinner" editable="true" prefWidth="100.0">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Spinner>
-            <Label text="Time:">
+            <Label fx:id="sortieStopTimeLabel" text="Time:">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
