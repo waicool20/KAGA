@@ -172,7 +172,7 @@ data class KancolleAutoProfile(
         private inline fun <reified T> loadSection(ini: Wini, section: String? = null): T {
             val name = T::class.simpleName
             return ini[section ?: name]?.toObject() ?: run {
-                error("Could not parse $name section! Using defaults for it!")
+                runLater { error("Could not parse $name section! Using defaults for it!") }
             }.let { T::class.java.newInstance() }
         }
     }
