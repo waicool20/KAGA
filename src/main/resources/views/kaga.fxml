@@ -114,9 +114,9 @@
                         <fx:include fx:id="generalTab" source="tabs/tab-general.fxml" />
                     </content>
                 </Tab>
-                <Tab text="Scheduling">
+                <Tab text="Sleep">
                     <content>
-                        <fx:include fx:id="schedulingTab" source="tabs/tab-scheduling.fxml" />
+                        <fx:include fx:id="sleepTab" source="tabs/tab-sleep.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Sortie">

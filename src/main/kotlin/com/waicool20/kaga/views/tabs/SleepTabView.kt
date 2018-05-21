@@ -35,11 +35,11 @@ import java.time.LocalTime
 import kotlin.math.roundToInt
 
 
-class SchedulingTabView {
-    @FXML private lateinit var enableSleepCheckBox: CheckBox
-    @FXML private lateinit var invertSleepCheckBox: CheckBox
-    @FXML private lateinit var sleepRangeSlider: RangeSlider
-    @FXML private lateinit var sleepTimeLabel: Label
+class SleepTabView {
+    @FXML private lateinit var enableScriptSleepCheckBox: CheckBox
+    @FXML private lateinit var invertScriptSleepCheckBox: CheckBox
+    @FXML private lateinit var scriptSleepRangeSlider: RangeSlider
+    @FXML private lateinit var scriptSleepTimeLabel: Label
 
     @FXML private lateinit var enableExpSleepCheckBox: CheckBox
     @FXML private lateinit var invertExpSleepCheckBox: CheckBox
@@ -51,7 +51,7 @@ class SchedulingTabView {
     @FXML private lateinit var sortieSleepRangeSlider: RangeSlider
     @FXML private lateinit var sortieSleepTimeLabel: Label
 
-    @FXML private lateinit var sleepContent: VBox
+    @FXML private lateinit var scriptSleepContent: VBox
     @FXML private lateinit var expSleepContent: VBox
     @FXML private lateinit var sortieSleepContent: VBox
 
@@ -124,11 +124,11 @@ class SchedulingTabView {
     private fun setValues() {
         with(Kaga.PROFILE.scheduledSleep) {
             SleepContainer(
-                    sleepRangeSlider,
-                    sleepTimeLabel,
-                    invertSleepCheckBox.selectedProperty(),
-                    sleepStartTimeProperty,
-                    sleepLengthProperty
+                    scriptSleepRangeSlider,
+                    scriptSleepTimeLabel,
+                    invertScriptSleepCheckBox.selectedProperty(),
+                    scriptSleepStartTimeProperty,
+                    scriptSleepLengthProperty
             )
             SleepContainer(
                     expSleepRangeSlider,
@@ -149,14 +149,14 @@ class SchedulingTabView {
 
     private fun createBindings() {
         with(Kaga.PROFILE.scheduledSleep) {
-            enableSleepCheckBox.bind(sleepEnabledProperty)
+            enableScriptSleepCheckBox.bind(scriptSleepEnabledProperty)
             enableExpSleepCheckBox.bind(expSleepEnabledProperty)
             enableSortieSleepCheckBox.bind(sortieSleepEnabledProperty)
         }
-        sleepContent.disableProperty().bind(enableSleepCheckBox.selectedProperty().not())
+        scriptSleepContent.disableProperty().bind(enableScriptSleepCheckBox.selectedProperty().not())
         expSleepContent.disableProperty().bind(enableExpSleepCheckBox.selectedProperty().not())
         sortieSleepContent.disableProperty().bind(enableSortieSleepCheckBox.selectedProperty().not())
-        invertSleepCheckBox.disableProperty().bind(sleepContent.disableProperty())
+        invertScriptSleepCheckBox.disableProperty().bind(scriptSleepContent.disableProperty())
         invertExpSleepCheckBox.disableProperty().bind(expSleepContent.disableProperty())
         invertSortieSleepCheckBox.disableProperty().bind(sortieSleepContent.disableProperty())
     }

@@ -288,9 +288,9 @@ data class KancolleAutoProfile(
     }
 
     class ScheduledSleep(
-            sleepEnabled: Boolean = false,
-            sleepStartTime: String = "0030",
-            sleepLength: Double = 3.5,
+            scriptSleepEnabled: Boolean = false,
+            scriptSleepStartTime: String = "0030",
+            scriptSleepLength: Double = 3.5,
             expSleepEnabled: Boolean = false,
             expSleepStartTime: String = "0030",
             expSleepLength: Double = 3.5,
@@ -298,12 +298,12 @@ data class KancolleAutoProfile(
             sortieSleepStartTime: String = "0030",
             sortieSleepLength: Double = 3.5
     ) {
-        @JsonIgnore @IniConfig(key = "SleepEnabled")
-        val sleepEnabledProperty = sleepEnabled.toProperty()
-        @JsonIgnore @IniConfig(key = "SleepStartTime")
-        val sleepStartTimeProperty = sleepStartTime.toProperty()
-        @JsonIgnore @IniConfig(key = "SleepLength")
-        val sleepLengthProperty = sleepLength.toProperty()
+        @JsonIgnore @IniConfig(key = "ScriptSleepEnabled")
+        val scriptSleepEnabledProperty = scriptSleepEnabled.toProperty()
+        @JsonIgnore @IniConfig(key = "ScriptSleepStartTime")
+        val scriptSleepStartTimeProperty = scriptSleepStartTime.toProperty()
+        @JsonIgnore @IniConfig(key = "ScriptSleepLength")
+        val scriptSleepLengthProperty = scriptSleepLength.toProperty()
 
         @JsonIgnore @IniConfig(key = "ExpeditionSleepEnabled")
         val expSleepEnabledProperty = expSleepEnabled.toProperty()
@@ -319,9 +319,9 @@ data class KancolleAutoProfile(
         @JsonIgnore @IniConfig(key = "CombatSleepLength")
         val sortieSleepLengthProperty = sortieSleepLength.toProperty()
 
-        @get:JsonProperty var sleepEnabled by sleepEnabledProperty
-        @get:JsonProperty var sleepStartTime by sleepStartTimeProperty
-        @get:JsonProperty var sleepLength by sleepLengthProperty
+        @get:JsonProperty var scriptSleepEnabled by scriptSleepEnabledProperty
+        @get:JsonProperty var scriptSleepStartTime by scriptSleepStartTimeProperty
+        @get:JsonProperty var scriptSleepLength by scriptSleepLengthProperty
 
         @get:JsonProperty var expSleepEnabled by expSleepEnabledProperty
         @get:JsonProperty var expSleepStartTime by expSleepStartTimeProperty

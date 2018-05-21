@@ -32,51 +32,51 @@
     "description": "If you have a slow computer/network connection, you may encounter frequent FindFailed errors. Increase this value by whole numbers (seconds) to increase the length of all sleep/wait timers to avoid this"
   },
   {
-    "id": "Scheduling-enableSleepCheckBox",
+    "id": "Sleep-enableScriptSleepCheckBox",
     "description": "Check this box if you want the script to automatically sleep/pause at set times. Highly recommended that you check this box if you run the script for a long period of time\n\nThis overrides the other sleep options"
   },
   {
-    "id": "Scheduling-invertSleepCheckBox",
+    "id": "Sleep-invertScriptSleepCheckBox",
     "description": "Check this box if you want to invert the sleep times"
   },
   {
-    "id": "Scheduling-sleepTimeLabel",
+    "id": "Sleep-scriptSleepTimeLabel",
     "description": "The script will sleep during the highlighted time, just move the range around to adjust your sleep time"
   },
   {
-    "id": "Scheduling-enableExpSleepCheckBox",
+    "id": "Sleep-enableExpSleepCheckBox",
     "description": "Check this box if you only want expeditions to automatically pause at set times. Highly recommended that you check this box if you run the script for a long period of time"
   },
   {
-    "id": "Scheduling-invertExpSleepCheckBox",
+    "id": "Sleep-invertExpSleepCheckBox",
     "description": "Check this box if you want to invert the expedition sleep times"
   },
   {
-    "id": "Scheduling-expSleepTimeLabel",
+    "id": "Sleep-expSleepTimeLabel",
     "description": "Expeditions will be paused during the highlighted time, just move the range around to adjust your sleep time"
   },
   {
-    "id": "Scheduling-enableSortieSleepCheckBox",
+    "id": "Sleep-enableSortieSleepCheckBox",
     "description": "Check this box if you only want sorties to automatically pause at set times. Highly recommended that you check this box if you run the script for a long period of time"
   },
   {
-    "id": "Scheduling-invertSortieSleepCheckBox",
+    "id": "Sleep-invertSortieSleepCheckBox",
     "description": "Check this box if you want to invert the sortie sleep times"
   },
   {
-    "id": "Scheduling-sortieSleepTimeLabel",
+    "id": "Sleep-sortieSleepTimeLabel",
     "description": "Sorties will be paused during the highlighted time, just move the range around to adjust your sleep time"
   },
   {
-    "id": "Scheduling-enableAutoStopButton",
+    "id": "Sleep-enableAutoStopButton",
     "description": "Set to True if you want the script to automatically stop and exit after a set number of hours, expeditions, sorties, or PvPs. You will have to manually restart the script after this"
   },
   {
-    "id": "Scheduling-modeLabel",
+    "id": "Sleep-modeLabel",
     "description": "Define what you want to base the stop count on"
   },
   {
-    "id": "Scheduling-countLabel",
+    "id": "Sleep-countLabel",
     "description": "Define how many of the above the script should perform before automatically stopping"
   },
   {

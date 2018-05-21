@@ -58,7 +58,7 @@ class KagaView {
     @FXML private lateinit var tabpane: TabPane
 
     @FXML private lateinit var generalTabController: GeneralTabView
-    @FXML private lateinit var schedulingTabController: SchedulingTabView
+    @FXML private lateinit var sleepTabController: SleepTabView
     @FXML private lateinit var expeditionsTabController: ExpeditionsTabView
     @FXML private lateinit var pvpTabController: PvpTabView
     @FXML private lateinit var sortieTabController: SortieTabView
@@ -172,7 +172,7 @@ class KagaView {
                 runLater {
                     createBindings()
                     generalTabController.initialize()
-                    schedulingTabController.initialize()
+                    sleepTabController.initialize()
                     expeditionsTabController.initialize()
                     pvpTabController.initialize()
                     sortieTabController.initialize()

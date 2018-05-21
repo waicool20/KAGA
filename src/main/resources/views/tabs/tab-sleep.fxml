@@ -27,12 +27,12 @@
   ~
   -->
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.SchedulingTabView">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.SleepTabView">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
          <children>
-            <CheckBox fx:id="enableSleepCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable KCAuto-Kai Sleep" />
-            <CheckBox fx:id="invertSleepCheckBox" mnemonicParsing="false" text="Invert" />
+            <CheckBox fx:id="enableScriptSleepCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable Script Sleep" />
+            <CheckBox fx:id="invertScriptSleepCheckBox" mnemonicParsing="false" text="Invert" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -41,10 +41,10 @@
             <Insets left="20.0" />
          </padding>
       </HBox>
-      <VBox fx:id="sleepContent" alignment="CENTER">
+      <VBox fx:id="scriptSleepContent" alignment="CENTER">
          <children>
-            <RangeSlider fx:id="sleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" stylesheets="@../../styles/rangeslider.css" />
-            <Label fx:id="sleepTimeLabel" alignment="CENTER" contentDisplay="CENTER" text="00:00 - 23:00" VBox.vgrow="ALWAYS" />
+            <RangeSlider fx:id="scriptSleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" stylesheets="@../../styles/rangeslider.css" />
+            <Label fx:id="scriptSleepTimeLabel" alignment="CENTER" contentDisplay="CENTER" text="00:00 - 23:00" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
