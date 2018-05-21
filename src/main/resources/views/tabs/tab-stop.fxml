@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  ~ GPLv3 License
+  ~
+  ~  Copyright (c) KAGA by waicool20
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  ~
+  -->
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.StopTabView">
+   <children>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
+         <children>
+            <CheckBox fx:id="enableScriptStopCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable Script Stop" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+      <HBox fx:id="scriptStopContent" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0">
+         <children>
+            <Label text="Count:" />
+            <Spinner fx:id="scriptStopCountSpinner" editable="true" prefWidth="100.0">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Spinner>
+            <Label text="Time:">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Label>
+            <Spinner fx:id="scriptStopTimeHourSpinner" editable="true" prefHeight="56.0" prefWidth="50.0" styleClass="split-arrows-vertical">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Spinner>
+            <Label text=":" />
+            <Spinner fx:id="scriptStopTimeMinSpinner" editable="true" prefHeight="56.0" prefWidth="50.0" styleClass="split-arrows-vertical" />
+         </children>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+      <Separator prefWidth="200.0">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </Separator>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
+         <children>
+            <CheckBox fx:id="enableExpStopCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable Expedition Stop" />
+            <ComboBox fx:id="expStopModeComboBox" prefWidth="125.0" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+      <HBox fx:id="expStopContent" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0">
+         <children>
+            <Label text="Count:" />
+            <Spinner fx:id="expStopCountSpinner" editable="true" prefWidth="100.0">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Spinner>
+            <Label text="Time:">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+            <Spinner fx:id="expStopTimeHourSpinner" editable="true" prefHeight="56.0" prefWidth="50.0" styleClass="split-arrows-vertical">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Spinner>
+            <Label text=":" />
+            <Spinner fx:id="expStopTimeMinSpinner" editable="true" prefHeight="56.0" prefWidth="50.0" styleClass="split-arrows-vertical" />
+         </children>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+      <Separator prefWidth="200.0">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </Separator>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
+         <children>
+            <CheckBox fx:id="enableSortieStopCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable Sortie Stop" />
+            <ComboBox fx:id="sortieStopModeComboBox" prefWidth="125.0" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+      <HBox fx:id="sortieStopContent" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0">
+         <children>
+            <Label text="Count:" />
+            <Spinner fx:id="sortieStopCountSpinner" editable="true" prefWidth="100.0">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Spinner>
+            <Label text="Time:">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+            <Spinner fx:id="sortieStopTimeHourSpinner" editable="true" prefHeight="56.0" prefWidth="50.0" styleClass="split-arrows-vertical">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Spinner>
+            <Label text=":" />
+            <Spinner fx:id="sortieStopTimeMinSpinner" editable="true" prefHeight="56.0" prefWidth="50.0" styleClass="split-arrows-vertical" />
+         </children>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+      <Separator prefWidth="200.0">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </Separator>
+   </children>
+</VBox>

@@ -119,6 +119,11 @@
                         <fx:include fx:id="sleepTab" source="tabs/tab-sleep.fxml" />
                     </content>
                 </Tab>
+                <Tab text="Stop">
+                    <content>
+                        <fx:include fx:id="stopTab" source="tabs/tab-stop.fxml" />
+                    </content>
+                </Tab>
                 <Tab text="Sortie">
                     <content>
                         <fx:include fx:id="sortieTab" source="tabs/tab-sortie.fxml" />

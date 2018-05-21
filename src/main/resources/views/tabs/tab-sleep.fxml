@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.RangeSlider?>
@@ -50,6 +51,11 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </VBox>
+      <Separator>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </Separator>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
          <children>
             <CheckBox fx:id="enableExpSleepCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable Expedition Sleep" />
@@ -71,6 +77,11 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </VBox>
+      <Separator>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </Separator>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0">
          <children>
             <CheckBox fx:id="enableSortieSleepCheckBox" mnemonicParsing="false" prefWidth="200.0" text="Enable Sortie Sleep" />
