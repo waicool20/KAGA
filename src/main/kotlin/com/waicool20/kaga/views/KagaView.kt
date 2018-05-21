@@ -59,6 +59,7 @@ class KagaView {
 
     @FXML private lateinit var generalTabController: GeneralTabView
     @FXML private lateinit var sleepTabController: SleepTabView
+    @FXML private lateinit var stopTabController: StopTabView
     @FXML private lateinit var expeditionsTabController: ExpeditionsTabView
     @FXML private lateinit var pvpTabController: PvpTabView
     @FXML private lateinit var sortieTabController: SortieTabView
@@ -173,6 +174,7 @@ class KagaView {
                     createBindings()
                     generalTabController.initialize()
                     sleepTabController.initialize()
+                    stopTabController.initialize()
                     expeditionsTabController.initialize()
                     pvpTabController.initialize()
                     sortieTabController.initialize()

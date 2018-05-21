@@ -179,8 +179,12 @@ data class KancolleAutoProfile(
 
     enum class RecoveryMethod { BROWSER, KC3, KCV, KCT, EO, NONE }
 
-    enum class ScheduledStopMode {
-        MODULE, SCRIPT;
+    enum class ScheduledStopMode(val prettyString: String) {
+        MODULE("Module"), SCRIPT("Script");
+
+        companion object {
+            fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
+        }
 
         override fun toString(): String = name.toLowerCase()
     }
