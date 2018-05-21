@@ -43,8 +43,7 @@ import kotlin.concurrent.thread
 data class KancolleAutoProfile(
         val general: General = General(),
         val scheduledSleep: ScheduledSleep = ScheduledSleep(),
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        val scheduledStop: ScheduledStop = ScheduledStop(),*/
+        val scheduledStop: ScheduledStop = ScheduledStop(),
         val expeditions: Expeditions = Expeditions(),
         val pvp: Pvp = Pvp(),
         val sortie: Sortie = Sortie(),
@@ -55,12 +54,13 @@ data class KancolleAutoProfile(
             name: String,
             general: General = General(),
             scheduledSleep: ScheduledSleep = ScheduledSleep(),
+            scheduledStop: ScheduledStop = ScheduledStop(),
             expeditions: Expeditions = Expeditions(),
             pvp: Pvp = Pvp(),
             sortie: Sortie = Sortie(),
             shipSwitcher: ShipSwitcher = ShipSwitcher(),
             quests: Quests = Quests()
-    ) : this(general, scheduledSleep, expeditions, pvp, sortie, shipSwitcher, quests) {
+    ) : this(general, scheduledSleep, scheduledStop, expeditions, pvp, sortie, shipSwitcher, quests) {
         this.name = name
     }
 
@@ -74,7 +74,7 @@ data class KancolleAutoProfile(
     }
 
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
-    @JsonIgnore var nameProperty = KancolleAutoProfile.Loader.DEFAULT_NAME.toProperty()
+    @JsonIgnore var nameProperty = KancolleAutoProfile.DEFAULT_NAME.toProperty()
     @get:JsonProperty var name by nameProperty
 
     fun path(): Path = Kaga.CONFIG_DIR.resolve("$name-config.ini")
@@ -99,8 +99,7 @@ data class KancolleAutoProfile(
     private fun getIni() = Wini().apply {
         add("General").fromObject(general)
         add("ScheduledSleep").fromObject(scheduledSleep)
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        add("ScheduledStop").fromObject(scheduledStop)*/
+        add("ScheduledStop").fromObject(scheduledStop)
         add("Expeditions").fromObject(expeditions)
         add("PvP").fromObject(pvp)
         add("Combat").fromObject(sortie)
@@ -153,8 +152,7 @@ data class KancolleAutoProfile(
                         name,
                         general = loadSection(ini),
                         scheduledSleep = loadSection(ini),
-                        /* TODO Disabled temporarily till kcauto-kai is finalized
-                        scheduledStop,*/
+                        scheduledStop = loadSection(ini),
                         expeditions = loadSection(ini),
                         pvp = loadSection(ini, "PvP"),
                         sortie = loadSection(ini, "Combat"),
@@ -181,7 +179,11 @@ data class KancolleAutoProfile(
 
     enum class RecoveryMethod { BROWSER, KC3, KCV, KCT, EO, NONE }
 
-    enum class ScheduledStopMode { TIME, EXPEDITION, SORTIE, PVP }
+    enum class ScheduledStopMode {
+        MODULE, SCRIPT;
+
+        override fun toString(): String = name.toLowerCase()
+    }
 
     enum class CombatFormation(val prettyString: String) {
         LINE_AHEAD("Line Ahead"), DOUBLE_LINE("Double Line"), DIAMOND("Diamond"),
@@ -332,20 +334,58 @@ data class KancolleAutoProfile(
         @get:JsonProperty var sortieSleepLength by sortieSleepLengthProperty
     }
 
-    /* TODO Disabled temporarily till kcauto-kai is finalized
     class ScheduledStop(
-            enabled: Boolean = false,
-            mode: ScheduledStopMode = ScheduledStopMode.TIME,
-            count: Int = 5
+            scriptStopEnabled: Boolean = false,
+            scriptStopCount: String = "",
+            scriptStopTime: String = "",
+            expStopEnabled: Boolean = false,
+            expStopMode: ScheduledStopMode = ScheduledStopMode.MODULE,
+            expStopCount: String = "",
+            expStopTime: String = "",
+            sortieStopEnabled: Boolean = false,
+            sortieStopMode: ScheduledStopMode = ScheduledStopMode.MODULE,
+            sortieStopCount: String = "",
+            sortieStopTime: String = ""
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled") val enabledProperty = enabled.toProperty()
-        @JsonIgnore @IniConfig(key = "Mode") val modeProperty = mode.toProperty()
-        @JsonIgnore @IniConfig(key = "Count") val countProperty = count.toProperty()
+        @JsonIgnore @IniConfig(key = "ScriptStopEnabled")
+        val scriptStopEnabledProperty = scriptStopEnabled.toProperty()
+        @JsonIgnore @IniConfig(key = "ScriptStopCount")
+        val scriptStopCountProperty = scriptStopCount.toProperty()
+        @JsonIgnore @IniConfig(key = "ScriptStopTime")
+        val scriptStopTimeProperty = scriptStopTime.toProperty()
 
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var mode by modeProperty
-        @get:JsonProperty var count by countProperty
-    }*/
+        @JsonIgnore @IniConfig(key = "ExpeditionStopEnabled")
+        val expStopEnabledProperty = expStopEnabled.toProperty()
+        @JsonIgnore @IniConfig(key = "ExpeditionStopMode")
+        val expStopModeProperty = expStopMode.toProperty()
+        @JsonIgnore @IniConfig(key = "ExpeditionStopCount")
+        val expStopCountProperty = expStopCount.toProperty()
+        @JsonIgnore @IniConfig(key = "ExpeditionStopTime")
+        val expStopTimeProperty = expStopTime.toProperty()
+
+        @JsonIgnore @IniConfig(key = "CombatStopEnabled")
+        val sortieStopEnabledProperty = sortieStopEnabled.toProperty()
+        @JsonIgnore @IniConfig(key = "CombatStopMode")
+        val sortieStopModeProperty = sortieStopMode.toProperty()
+        @JsonIgnore @IniConfig(key = "CombatStopCount")
+        val sortieStopCountProperty = sortieStopCount.toProperty()
+        @JsonIgnore @IniConfig(key = "CombatStopTime")
+        val sortieStopTimeProperty = sortieStopTime.toProperty()
+
+        @get:JsonProperty var scriptStopEnabled by scriptStopEnabledProperty
+        @get:JsonProperty var scriptStopCount by scriptStopCountProperty
+        @get:JsonProperty var scriptStopTime by scriptStopTimeProperty
+
+        @get:JsonProperty var expStopEnabled by expStopEnabledProperty
+        @get:JsonProperty var expStopMode by expStopModeProperty
+        @get:JsonProperty var expStopCount by expStopCountProperty
+        @get:JsonProperty var expStopTime by expStopTimeProperty
+
+        @get:JsonProperty var sortieStopEnabled by sortieStopEnabledProperty
+        @get:JsonProperty var sortieStopMode by sortieStopModeProperty
+        @get:JsonProperty var sortieStopCount by sortieStopCountProperty
+        @get:JsonProperty var sortieStopTime by sortieStopTimeProperty
+    }
 
     class Expeditions(
             enabled: Boolean = true,
