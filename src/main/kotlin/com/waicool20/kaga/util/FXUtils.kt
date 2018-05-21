@@ -49,6 +49,7 @@ import org.controlsfx.control.CheckModel
 import tornadofx.*
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
+import kotlin.math.abs
 
 //<editor-fold desc="Extension functions">
 
@@ -171,21 +172,33 @@ fun <T> Spinner<T>.updateOtherSpinnerOnWrap(spinner: Spinner<T>, min: T, max: T)
     }
 }
 
-fun Spinner<Int>.asTimeSpinner(unit: TimeUnit) {
+/**
+ * Bounds the spinners values based on a given time unit and sets it to wrap around
+ *
+ * @param unit Time unit to bind the spinner value, eg. [TimeUnit.HOURS] binds it to 0-23
+ * @param allowInvalid Allows -1 to be a value
+ *
+ * @throws IllegalStateException if the time unit is not supported
+ */
+fun Spinner<Int>.asTimeSpinner(unit: TimeUnit, allowInvalid: Boolean = false) {
     val formatter = object : StringConverter<Int>() {
-        override fun toString(integer: Int?): String =
-                if (integer == null) "00" else String.format("%02d", integer)
+        override fun toString(i: Int?): String = if (i == null) {
+            if (allowInvalid) "-01" else "00"
+        } else {
+            "${if (i < 0) "-" else ""}${String.format("%02d", abs(i))}"
+        }
 
         override fun fromString(s: String): Int = s.toInt()
     }
     editor.textFormatter = TextFormatter(formatter)
     editor.alignment = Pos.CENTER
+    val lowBound = if (allowInvalid) -1 else 0
     valueFactory = when (unit) {
-        TimeUnit.DAYS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 31)
-        TimeUnit.HOURS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23)
-        TimeUnit.MINUTES -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
-        TimeUnit.SECONDS -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59)
-        else -> SpinnerValueFactory.IntegerSpinnerValueFactory(0, 0)
+        TimeUnit.DAYS -> SpinnerValueFactory.IntegerSpinnerValueFactory(lowBound, 31)
+        TimeUnit.HOURS -> SpinnerValueFactory.IntegerSpinnerValueFactory(lowBound, 23)
+        TimeUnit.MINUTES -> SpinnerValueFactory.IntegerSpinnerValueFactory(lowBound, 59)
+        TimeUnit.SECONDS -> SpinnerValueFactory.IntegerSpinnerValueFactory(lowBound, 59)
+        else -> kotlin.error("TimeUnit $unit is not supported")
     }
     valueFactory.isWrapAround = true
 }
