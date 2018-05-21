@@ -74,7 +74,7 @@ Statistics window for some of you nerds:
 ![Statistics window](screenshots/Main_and_Stats_window.png?raw=true)
 
 Discord integration available via YuuBot on our discord server. Crash notifications and queries can be executed to check on your scripts status. For more information [go check out the wiki page on Discord integration.](https://github.com/waicool20/KAGA/wiki/KAGA-Discord-Integration)
-![Discord integration](https://camo.githubusercontent.com/67060cb4367408a5cf70613cac2cc9f8492ac9b5/68747470733a2f2f692e696d6775722e636f6d2f3639636d6175452e706e673f7261773d74727565)
+![Discord integration](screenshots/Discord_Integration.png?raw=true)
 
 # Troubleshooting
 
