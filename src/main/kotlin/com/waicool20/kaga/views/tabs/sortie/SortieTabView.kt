@@ -22,10 +22,10 @@ package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile.*
-import com.waicool20.kaga.util.NoneSelectableCellFactory
-import com.waicool20.kaga.util.addListener
-import com.waicool20.kaga.util.asTimeSpinner
-import com.waicool20.kaga.util.bind
+import com.waicool20.kaga.util.javafx.NoneSelectableCellFactory
+import com.waicool20.kaga.util.javafx.addListener
+import com.waicool20.kaga.util.javafx.asTimeSpinner
+import com.waicool20.kaga.util.javafx.bind
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.*

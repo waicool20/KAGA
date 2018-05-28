@@ -33,6 +33,7 @@ import com.waicool20.kaga.handlers.ToolTipHandler
 import com.waicool20.kaga.kcauto.KancolleAutoKai
 import com.waicool20.kaga.kcauto.YuuBot
 import com.waicool20.kaga.util.*
+import com.waicool20.kaga.util.javafx.AlertFactory
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
 import com.waicool20.kaga.views.StatsView

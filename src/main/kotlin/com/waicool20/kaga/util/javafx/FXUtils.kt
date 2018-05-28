@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.util
+package com.waicool20.kaga.util.javafx
 
 import com.sun.javafx.scene.control.skin.TableHeaderRow
 import com.waicool20.kaga.Kaga

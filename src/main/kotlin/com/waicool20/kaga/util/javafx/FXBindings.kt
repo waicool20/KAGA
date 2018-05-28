@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.util
+package com.waicool20.kaga.util.javafx
 
 import javafx.beans.binding.*
 import javafx.beans.property.*

@@ -23,7 +23,7 @@ package com.waicool20.kaga.views
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.handlers.GlobalShortcutHandler
-import com.waicool20.kaga.util.*
+import com.waicool20.kaga.util.javafx.*
 import com.waicool20.kaga.views.tabs.*
 import com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView
 import com.waicool20.kaga.views.tabs.sortie.SortieTabView
