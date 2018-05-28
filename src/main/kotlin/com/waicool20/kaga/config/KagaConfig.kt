@@ -23,16 +23,11 @@ package com.waicool20.kaga.config
 import ch.qos.logback.classic.Level
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonMappingException
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.listen
-import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleIntegerProperty
-import javafx.beans.property.SimpleObjectProperty
-import javafx.beans.property.SimpleStringProperty
+import com.waicool20.kaga.util.javafx.fxJacksonObjectMapper
+import com.waicool20.kaga.util.javafx.listen
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.nio.file.Files
@@ -55,34 +50,33 @@ class KagaConfig(currentProfile: String = "",
                  apiKey: String = "",
                  startStopScriptShortcut: String = "CTRL+SHIFT+ENTER"
 ) {
-    @JsonIgnore val currentProfileProperty = SimpleStringProperty(currentProfile)
-    @JsonIgnore val sikulixJarPathProperty = SimpleObjectProperty<Path>(sikulixJarPath)
-    @JsonIgnore val kcaKaiRootDirPathProperty = SimpleObjectProperty<Path>(kcaKaiRootDirPath)
-    @JsonIgnore val preventLockProperty = SimpleBooleanProperty(preventLock)
-    @JsonIgnore val clearConsoleOnStartProperty = SimpleBooleanProperty(clearConsoleOnStart)
-    @JsonIgnore
-    val autoRestartOnKCAutoCrashProperty = SimpleBooleanProperty(autoRestartOnKCAutoCrash)
-    @JsonIgnore val autoRestartMaxRetriesProperty = SimpleIntegerProperty(autoRestartMaxRetries)
-    @JsonIgnore val debugModeEnabledProperty = SimpleBooleanProperty(debugModeEnabled)
-    @JsonIgnore val showDebugOnStartProperty = SimpleBooleanProperty(showDebugOnStart)
-    @JsonIgnore val showStatsOnStartProperty = SimpleBooleanProperty(showStatsOnStart)
-    @JsonIgnore val checkForUpdatesProperty = SimpleBooleanProperty(checkForUpdates)
-    @JsonIgnore val apiKeyProperty = SimpleStringProperty(apiKey)
-    @JsonIgnore val startStopScriptShortcutProperty = SimpleStringProperty(startStopScriptShortcut)
+    val currentProfileProperty = currentProfile.toProperty()
+    val sikulixJarPathProperty = sikulixJarPath.toProperty()
+    val kcaKaiRootDirPathProperty = kcaKaiRootDirPath.toProperty()
+    val preventLockProperty = preventLock.toProperty()
+    val clearConsoleOnStartProperty = clearConsoleOnStart.toProperty()
+    val autoRestartOnKCAutoCrashProperty = autoRestartOnKCAutoCrash.toProperty()
+    val autoRestartMaxRetriesProperty = autoRestartMaxRetries.toProperty()
+    val debugModeEnabledProperty = debugModeEnabled.toProperty()
+    val showDebugOnStartProperty = showDebugOnStart.toProperty()
+    val showStatsOnStartProperty = showStatsOnStart.toProperty()
+    val checkForUpdatesProperty = checkForUpdates.toProperty()
+    val apiKeyProperty = apiKey.toProperty()
+    val startStopScriptShortcutProperty = startStopScriptShortcut.toProperty()
 
-    @get:JsonProperty var currentProfile by currentProfileProperty
-    @get:JsonProperty var sikulixJarPath by sikulixJarPathProperty
-    @get:JsonProperty var kcaKaiRootDirPath by kcaKaiRootDirPathProperty
-    @get:JsonProperty var preventLock by preventLockProperty
-    @get:JsonProperty var clearConsoleOnStart by clearConsoleOnStartProperty
-    @get:JsonProperty var autoRestartOnKCAutoCrash by autoRestartOnKCAutoCrashProperty
-    @get:JsonProperty var autoRestartMaxRetries by autoRestartMaxRetriesProperty
-    @get:JsonProperty var debugModeEnabled by debugModeEnabledProperty
-    @get:JsonProperty var showDebugOnStart by showDebugOnStartProperty
-    @get:JsonProperty var showStatsOnStart by showStatsOnStartProperty
-    @get:JsonProperty var checkForUpdates by checkForUpdatesProperty
-    @get:JsonProperty var apiKey by apiKeyProperty
-    @get:JsonProperty var startStopScriptShortcut by startStopScriptShortcutProperty
+    var currentProfile by currentProfileProperty
+    var sikulixJarPath by sikulixJarPathProperty
+    var kcaKaiRootDirPath by kcaKaiRootDirPathProperty
+    var preventLock by preventLockProperty
+    var clearConsoleOnStart by clearConsoleOnStartProperty
+    var autoRestartOnKCAutoCrash by autoRestartOnKCAutoCrashProperty
+    var autoRestartMaxRetries by autoRestartMaxRetriesProperty
+    var debugModeEnabled by debugModeEnabledProperty
+    var showDebugOnStart by showDebugOnStartProperty
+    var showStatsOnStart by showStatsOnStartProperty
+    var checkForUpdates by checkForUpdatesProperty
+    var apiKey by apiKeyProperty
+    var startStopScriptShortcut by startStopScriptShortcutProperty
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -94,7 +88,7 @@ class KagaConfig(currentProfile: String = "",
     }
 
     companion object Loader {
-        private val mapper = jacksonObjectMapper()
+        private val mapper = fxJacksonObjectMapper()
         private val loaderLogger = LoggerFactory.getLogger(KagaConfig.Loader::class.java)
         val CONFIG_FILE: Path = Kaga.CONFIG_DIR.resolve("kaga.json")
         @JvmStatic
@@ -107,7 +101,7 @@ class KagaConfig(currentProfile: String = "",
                 Files.createFile(CONFIG_FILE)
             }
             try {
-                with(jacksonObjectMapper().readValue<KagaConfig>(CONFIG_FILE.toFile())) {
+                with(mapper.readValue<KagaConfig>(CONFIG_FILE.toFile())) {
                     loaderLogger.info("Loading KAGA configuration was successful")
                     loaderLogger.debug("Loaded $this")
                     return this
@@ -139,8 +133,8 @@ class KagaConfig(currentProfile: String = "",
 
     fun save() {
         logger.info("Saving KAGA configuration file")
-        logger.debug("Saved $this to ${Loader.CONFIG_FILE}")
-        mapper.writerWithDefaultPrettyPrinter().writeValue(Loader.CONFIG_FILE.toFile(), this)
+        logger.debug("Saved $this to $CONFIG_FILE")
+        mapper.writerWithDefaultPrettyPrinter().writeValue(CONFIG_FILE.toFile(), this)
         logger.info("Saving KAGA configuration was successful")
     }
 

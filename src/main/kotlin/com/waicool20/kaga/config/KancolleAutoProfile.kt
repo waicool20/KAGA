@@ -20,16 +20,10 @@
 
 package com.waicool20.kaga.config
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.IniConfig
-import com.waicool20.kaga.util.fromObject
-import com.waicool20.kaga.util.toObject
-import javafx.beans.property.SimpleListProperty
-import javafx.beans.property.SimpleSetProperty
-import javafx.collections.FXCollections
+import com.waicool20.kaga.util.*
+import com.waicool20.kaga.util.javafx.fxJacksonObjectMapper
+import com.waicool20.kaga.util.javafx.toProperty
 import org.ini4j.Wini
 import org.slf4j.LoggerFactory
 import tornadofx.*
@@ -74,8 +68,8 @@ data class KancolleAutoProfile(
     }
 
     private val logger = LoggerFactory.getLogger(KancolleAutoProfile::class.java)
-    @JsonIgnore var nameProperty = KancolleAutoProfile.DEFAULT_NAME.toProperty()
-    @get:JsonProperty var name by nameProperty
+    var nameProperty = KancolleAutoProfile.DEFAULT_NAME.toProperty()
+    var name by nameProperty
 
     fun path(): Path = Kaga.CONFIG_DIR.resolve("$name-config.ini")
 
@@ -130,7 +124,7 @@ data class KancolleAutoProfile(
         val VALID_NODES = (1..12).map { it.toString() }
                 .plus("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter { it.isNotEmpty() })
                 .plus(listOf("Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZZ1", "ZZ2", "ZZ3"))
-                .let { FXCollections.observableList(it) }
+                .toProperty()
 
         fun load(path: Path = Kaga.CONFIG.kcaKaiRootDirPath.resolve("config.ini")): KancolleAutoProfile {
             if (Files.exists(path)) {
@@ -269,28 +263,28 @@ data class KancolleAutoProfile(
             paranoia: Int = 1,
             sleepModifier: Int = 0*/
     ) {
-        @JsonIgnore @IniConfig(key = "Program")
+        @IniConfig(key = "Program")
         val programProperty = program.toProperty()
-        @JsonIgnore @IniConfig(key = "JSTOffset", shouldRead = false)
+        @IniConfig(key = "JSTOffset", shouldRead = false)
         val jstOffsetProperty = ((TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan").rawOffset) / 3600000).toProperty()
-        @JsonIgnore @IniConfig(key = "Pause")
+        @IniConfig(key = "Pause")
         val pauseProperty = pause.toProperty()
         /* TODO Disabled temporarily till kcauto-kai is finalized
-        @JsonIgnore @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
-        @JsonIgnore @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = basicRecovery.toProperty()
-        @JsonIgnore @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = sleepCycle.toProperty()
-        @JsonIgnore @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = paranoia.toProperty()
-        @JsonIgnore @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = sleepModifier.toProperty()*/
+        @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
+        @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = basicRecovery.toProperty()
+        @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = sleepCycle.toProperty()
+        @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = paranoia.toProperty()
+        @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = sleepModifier.toProperty()*/
 
-        @get:JsonProperty var program by programProperty
-        @get:JsonProperty var jstOffset by jstOffsetProperty
-        @get:JsonProperty var pause by pauseProperty
+        var program by programProperty
+        var jstOffset by jstOffsetProperty
+        var pause by pauseProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
-        @get:JsonProperty var recoveryMethod by recoveryMethodProperty
-        @get:JsonProperty var basicRecovery by basicRecoveryProperty
-        @get:JsonProperty var sleepCycle by sleepCycleProperty
-        @get:JsonProperty var paranoia by paranoiaProperty
-        @get:JsonProperty var sleepModifier by sleepModifierProperty*/
+        var recoveryMethod by recoveryMethodProperty
+        var basicRecovery by basicRecoveryProperty
+        var sleepCycle by sleepCycleProperty
+        var paranoia by paranoiaProperty
+        var sleepModifier by sleepModifierProperty*/
     }
 
     class ScheduledSleep(
@@ -304,38 +298,38 @@ data class KancolleAutoProfile(
             sortieSleepStartTime: String = "0030",
             sortieSleepLength: Double = 3.5
     ) {
-        @JsonIgnore @IniConfig(key = "ScriptSleepEnabled")
+        @IniConfig(key = "ScriptSleepEnabled")
         val scriptSleepEnabledProperty = scriptSleepEnabled.toProperty()
-        @JsonIgnore @IniConfig(key = "ScriptSleepStartTime")
+        @IniConfig(key = "ScriptSleepStartTime")
         val scriptSleepStartTimeProperty = scriptSleepStartTime.toProperty()
-        @JsonIgnore @IniConfig(key = "ScriptSleepLength")
+        @IniConfig(key = "ScriptSleepLength")
         val scriptSleepLengthProperty = scriptSleepLength.toProperty()
 
-        @JsonIgnore @IniConfig(key = "ExpeditionSleepEnabled")
+        @IniConfig(key = "ExpeditionSleepEnabled")
         val expSleepEnabledProperty = expSleepEnabled.toProperty()
-        @JsonIgnore @IniConfig(key = "ExpeditionSleepStartTime")
+        @IniConfig(key = "ExpeditionSleepStartTime")
         val expSleepStartTimeProperty = expSleepStartTime.toProperty()
-        @JsonIgnore @IniConfig(key = "ExpeditionSleepLength")
+        @IniConfig(key = "ExpeditionSleepLength")
         val expSleepLengthProperty = expSleepLength.toProperty()
 
-        @JsonIgnore @IniConfig(key = "CombatSleepEnabled")
+        @IniConfig(key = "CombatSleepEnabled")
         val sortieSleepEnabledProperty = sortieSleepEnabled.toProperty()
-        @JsonIgnore @IniConfig(key = "CombatSleepStartTime")
+        @IniConfig(key = "CombatSleepStartTime")
         val sortieSleepStartTimeProperty = sortieSleepStartTime.toProperty()
-        @JsonIgnore @IniConfig(key = "CombatSleepLength")
+        @IniConfig(key = "CombatSleepLength")
         val sortieSleepLengthProperty = sortieSleepLength.toProperty()
 
-        @get:JsonProperty var scriptSleepEnabled by scriptSleepEnabledProperty
-        @get:JsonProperty var scriptSleepStartTime by scriptSleepStartTimeProperty
-        @get:JsonProperty var scriptSleepLength by scriptSleepLengthProperty
+        var scriptSleepEnabled by scriptSleepEnabledProperty
+        var scriptSleepStartTime by scriptSleepStartTimeProperty
+        var scriptSleepLength by scriptSleepLengthProperty
 
-        @get:JsonProperty var expSleepEnabled by expSleepEnabledProperty
-        @get:JsonProperty var expSleepStartTime by expSleepStartTimeProperty
-        @get:JsonProperty var expSleepLength by expSleepLengthProperty
+        var expSleepEnabled by expSleepEnabledProperty
+        var expSleepStartTime by expSleepStartTimeProperty
+        var expSleepLength by expSleepLengthProperty
 
-        @get:JsonProperty var sortieSleepEnabled by sortieSleepEnabledProperty
-        @get:JsonProperty var sortieSleepStartTime by sortieSleepStartTimeProperty
-        @get:JsonProperty var sortieSleepLength by sortieSleepLengthProperty
+        var sortieSleepEnabled by sortieSleepEnabledProperty
+        var sortieSleepStartTime by sortieSleepStartTimeProperty
+        var sortieSleepLength by sortieSleepLengthProperty
     }
 
     class ScheduledStop(
@@ -351,44 +345,44 @@ data class KancolleAutoProfile(
             sortieStopCount: String = "",
             sortieStopTime: String = ""
     ) {
-        @JsonIgnore @IniConfig(key = "ScriptStopEnabled")
+        @IniConfig(key = "ScriptStopEnabled")
         val scriptStopEnabledProperty = scriptStopEnabled.toProperty()
-        @JsonIgnore @IniConfig(key = "ScriptStopCount")
+        @IniConfig(key = "ScriptStopCount")
         val scriptStopCountProperty = scriptStopCount.toProperty()
-        @JsonIgnore @IniConfig(key = "ScriptStopTime")
+        @IniConfig(key = "ScriptStopTime")
         val scriptStopTimeProperty = scriptStopTime.toProperty()
 
-        @JsonIgnore @IniConfig(key = "ExpeditionStopEnabled")
+        @IniConfig(key = "ExpeditionStopEnabled")
         val expStopEnabledProperty = expStopEnabled.toProperty()
-        @JsonIgnore @IniConfig(key = "ExpeditionStopMode")
+        @IniConfig(key = "ExpeditionStopMode")
         val expStopModeProperty = expStopMode.toProperty()
-        @JsonIgnore @IniConfig(key = "ExpeditionStopCount")
+        @IniConfig(key = "ExpeditionStopCount")
         val expStopCountProperty = expStopCount.toProperty()
-        @JsonIgnore @IniConfig(key = "ExpeditionStopTime")
+        @IniConfig(key = "ExpeditionStopTime")
         val expStopTimeProperty = expStopTime.toProperty()
 
-        @JsonIgnore @IniConfig(key = "CombatStopEnabled")
+        @IniConfig(key = "CombatStopEnabled")
         val sortieStopEnabledProperty = sortieStopEnabled.toProperty()
-        @JsonIgnore @IniConfig(key = "CombatStopMode")
+        @IniConfig(key = "CombatStopMode")
         val sortieStopModeProperty = sortieStopMode.toProperty()
-        @JsonIgnore @IniConfig(key = "CombatStopCount")
+        @IniConfig(key = "CombatStopCount")
         val sortieStopCountProperty = sortieStopCount.toProperty()
-        @JsonIgnore @IniConfig(key = "CombatStopTime")
+        @IniConfig(key = "CombatStopTime")
         val sortieStopTimeProperty = sortieStopTime.toProperty()
 
-        @get:JsonProperty var scriptStopEnabled by scriptStopEnabledProperty
-        @get:JsonProperty var scriptStopCount by scriptStopCountProperty
-        @get:JsonProperty var scriptStopTime by scriptStopTimeProperty
+        var scriptStopEnabled by scriptStopEnabledProperty
+        var scriptStopCount by scriptStopCountProperty
+        var scriptStopTime by scriptStopTimeProperty
 
-        @get:JsonProperty var expStopEnabled by expStopEnabledProperty
-        @get:JsonProperty var expStopMode by expStopModeProperty
-        @get:JsonProperty var expStopCount by expStopCountProperty
-        @get:JsonProperty var expStopTime by expStopTimeProperty
+        var expStopEnabled by expStopEnabledProperty
+        var expStopMode by expStopModeProperty
+        var expStopCount by expStopCountProperty
+        var expStopTime by expStopTimeProperty
 
-        @get:JsonProperty var sortieStopEnabled by sortieStopEnabledProperty
-        @get:JsonProperty var sortieStopMode by sortieStopModeProperty
-        @get:JsonProperty var sortieStopCount by sortieStopCountProperty
-        @get:JsonProperty var sortieStopTime by sortieStopTimeProperty
+        var sortieStopEnabled by sortieStopEnabledProperty
+        var sortieStopMode by sortieStopModeProperty
+        var sortieStopCount by sortieStopCountProperty
+        var sortieStopTime by sortieStopTimeProperty
     }
 
     class Expeditions(
@@ -397,19 +391,19 @@ data class KancolleAutoProfile(
             fleet3: List<String> = mutableListOf("5"),
             fleet4: List<String> = mutableListOf("21")
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled")
+        @IniConfig(key = "Enabled")
         val enabledProperty = enabled.toProperty()
-        @JsonIgnore @IniConfig(key = "Fleet2")
-        val fleet2Property = SimpleListProperty(FXCollections.observableList(fleet2))
-        @JsonIgnore @IniConfig(key = "Fleet3")
-        val fleet3Property = SimpleListProperty(FXCollections.observableList(fleet3))
-        @JsonIgnore @IniConfig(key = "Fleet4")
-        val fleet4Property = SimpleListProperty(FXCollections.observableList(fleet4))
+        @IniConfig(key = "Fleet2")
+        val fleet2Property = fleet2.toProperty()
+        @IniConfig(key = "Fleet3")
+        val fleet3Property = fleet3.toProperty()
+        @IniConfig(key = "Fleet4")
+        val fleet4Property = fleet4.toProperty()
 
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var fleet2 by fleet2Property
-        @get:JsonProperty var fleet3 by fleet3Property
-        @get:JsonProperty var fleet4 by fleet4Property
+        var enabled by enabledProperty
+        var fleet2 by fleet2Property
+        var fleet3 by fleet3Property
+        var fleet4 by fleet4Property
     }
 
     class Pvp(
@@ -417,14 +411,14 @@ data class KancolleAutoProfile(
             /* TODO Disabled temporarily till kcauto-kai is finalized
             fleetComp: Int = 1*/
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled")
+        @IniConfig(key = "Enabled")
         val enabledProperty = enabled.toProperty()
         /* TODO Disabled temporarily till kcauto-kai is finalized
-        @JsonIgnore @IniConfig(key = "FleetComp") val fleetCompProperty = fleetComp.toProperty()*/
+        @IniConfig(key = "FleetComp") val fleetCompProperty = fleetComp.toProperty()*/
 
-        @get:JsonProperty var enabled by enabledProperty
+        var enabled by enabledProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
-        @get:JsonProperty var fleetComp by fleetCompProperty*/
+        var fleetComp by fleetCompProperty*/
     }
 
     class Sortie(
@@ -445,55 +439,55 @@ data class KancolleAutoProfile(
             lbasGroup3Nodes: List<String> = mutableListOf(),
             miscOptions: Set<SortieOptions> = mutableSetOf()
     ) {
-        @JsonIgnore @IniConfig(key = "Enabled")
+        @IniConfig(key = "Enabled")
         val enabledProperty = enabled.toProperty()
-        @JsonIgnore @IniConfig(key = "Engine")
+        @IniConfig(key = "Engine")
         val engineProperty = engine.toProperty()
-        @JsonIgnore @IniConfig(key = "Map")
+        @IniConfig(key = "Map")
         val mapProperty = map.toProperty()
-        @JsonIgnore @IniConfig(key = "CombatNodes")
+        @IniConfig(key = "CombatNodes")
         val nodesProperty = nodes.toProperty()
-        @JsonIgnore @IniConfig(key = "FleetMode")
+        @IniConfig(key = "FleetMode")
         val fleetModeProperty = fleetMode.toProperty()
-        @JsonIgnore @IniConfig(key = "NodeSelects")
-        val nodeSelectsProperty = SimpleListProperty(FXCollections.observableList(nodeSelects))
-        @JsonIgnore @IniConfig(key = "Formations")
-        val formationsProperty = SimpleListProperty(FXCollections.observableList(formations))
-        @JsonIgnore @IniConfig(key = "NightBattles")
-        val nightBattlesProperty = SimpleListProperty(FXCollections.observableList(nightBattles))
-        @JsonIgnore @IniConfig(key = "RetreatLimit")
+        @IniConfig(key = "NodeSelects")
+        val nodeSelectsProperty = nodeSelects.toProperty()
+        @IniConfig(key = "Formations")
+        val formationsProperty = formations.toProperty()
+        @IniConfig(key = "NightBattles")
+        val nightBattlesProperty = nightBattles.toProperty()
+        @IniConfig(key = "RetreatLimit")
         val retreatLimitProperty = retreatLimit.toProperty()
-        @JsonIgnore @IniConfig(key = "RepairLimit")
+        @IniConfig(key = "RepairLimit")
         val repairLimitProperty = repairLimit.toProperty()
-        @JsonIgnore @IniConfig(key = "RepairTimeLimit")
+        @IniConfig(key = "RepairTimeLimit")
         val repairTimeLimitProperty = repairTimeLimit.toProperty()
-        @JsonIgnore @IniConfig(key = "LBASGroups")
-        val lbasGroupsProperty = SimpleSetProperty(FXCollections.observableSet(lbasGroups))
-        @JsonIgnore @IniConfig(key = "LBASGroup1Nodes")
-        val lbasGroup1NodesProperty = SimpleListProperty(FXCollections.observableList(lbasGroup1Nodes))
-        @JsonIgnore @IniConfig(key = "LBASGroup2Nodes")
-        val lbasGroup2NodesProperty = SimpleListProperty(FXCollections.observableList(lbasGroup2Nodes))
-        @JsonIgnore @IniConfig(key = "LBASGroup3Nodes")
-        val lbasGroup3NodesProperty = SimpleListProperty(FXCollections.observableList(lbasGroup3Nodes))
-        @JsonIgnore @IniConfig(key = "MiscOptions")
-        val miscOptionsProperty = SimpleSetProperty(FXCollections.observableSet(miscOptions))
+        @IniConfig(key = "LBASGroups")
+        val lbasGroupsProperty = lbasGroups.toProperty()
+        @IniConfig(key = "LBASGroup1Nodes")
+        val lbasGroup1NodesProperty = lbasGroup1Nodes.toProperty()
+        @IniConfig(key = "LBASGroup2Nodes")
+        val lbasGroup2NodesProperty = lbasGroup2Nodes.toProperty()
+        @IniConfig(key = "LBASGroup3Nodes")
+        val lbasGroup3NodesProperty = lbasGroup3Nodes.toProperty()
+        @IniConfig(key = "MiscOptions")
+        val miscOptionsProperty = miscOptions.toProperty()
 
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var engine by engineProperty
-        @get:JsonProperty var map by mapProperty
-        @get:JsonProperty var nodes by nodesProperty
-        @get:JsonProperty var fleetMode by fleetModeProperty
-        @get:JsonProperty var nodeSelects by nodeSelectsProperty
-        @get:JsonProperty var formations by formationsProperty
-        @get:JsonProperty var nightBattles by nightBattlesProperty
-        @get:JsonProperty var retreatLimit by retreatLimitProperty
-        @get:JsonProperty var repairLimit by repairLimitProperty
-        @get:JsonProperty var repairTimeLimit by repairTimeLimitProperty
-        @get:JsonProperty var lbasGroups by lbasGroupsProperty
-        @get:JsonProperty var lbasGroup1Nodes by lbasGroup1NodesProperty
-        @get:JsonProperty var lbasGroup2Nodes by lbasGroup2NodesProperty
-        @get:JsonProperty var lbasGroup3Nodes by lbasGroup3NodesProperty
-        @get:JsonProperty var miscOptions by miscOptionsProperty
+        var enabled by enabledProperty
+        var engine by engineProperty
+        var map by mapProperty
+        var nodes by nodesProperty
+        var fleetMode by fleetModeProperty
+        var nodeSelects by nodeSelectsProperty
+        var formations by formationsProperty
+        var nightBattles by nightBattlesProperty
+        var retreatLimit by retreatLimitProperty
+        var repairLimit by repairLimitProperty
+        var repairTimeLimit by repairTimeLimitProperty
+        var lbasGroups by lbasGroupsProperty
+        var lbasGroup1Nodes by lbasGroup1NodesProperty
+        var lbasGroup2Nodes by lbasGroup2NodesProperty
+        var lbasGroup3Nodes by lbasGroup3NodesProperty
+        var miscOptions by miscOptionsProperty
     }
 
     class ShipSwitcher(
@@ -511,46 +505,46 @@ data class KancolleAutoProfile(
             slot6Criteria: List<SwitchCriteria> = mutableListOf(),
             slot6Ships: List<String> = mutableListOf()
     ) {
-        @JsonIgnore @IniConfig("Enabled")
+        @IniConfig("Enabled")
         val enabledProperty = enabled.toProperty()
-        @JsonIgnore @IniConfig("Slot1Criteria")
-        val slot1CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot1Criteria))
-        @JsonIgnore @IniConfig("Slot1Ships")
-        val slot1ShipsProperty = SimpleListProperty(FXCollections.observableList(slot1Ships))
-        @JsonIgnore @IniConfig("Slot2Criteria")
-        val slot2CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot2Criteria))
-        @JsonIgnore @IniConfig("Slot2Ships")
-        val slot2ShipsProperty = SimpleListProperty(FXCollections.observableList(slot2Ships))
-        @JsonIgnore @IniConfig("Slot3Criteria")
-        val slot3CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot3Criteria))
-        @JsonIgnore @IniConfig("Slot3Ships")
-        val slot3ShipsProperty = SimpleListProperty(FXCollections.observableList(slot3Ships))
-        @JsonIgnore @IniConfig("Slot4Criteria")
-        val slot4CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot4Criteria))
-        @JsonIgnore @IniConfig("Slot4Ships")
-        val slot4ShipsProperty = SimpleListProperty(FXCollections.observableList(slot4Ships))
-        @JsonIgnore @IniConfig("Slot5Criteria")
-        val slot5CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot5Criteria))
-        @JsonIgnore @IniConfig("Slot5Ships")
-        val slot5ShipsProperty = SimpleListProperty(FXCollections.observableList(slot5Ships))
-        @JsonIgnore @IniConfig("Slot6Criteria")
-        val slot6CriteriaProperty = SimpleListProperty(FXCollections.observableList(slot6Criteria))
-        @JsonIgnore @IniConfig("Slot6Ships")
-        val slot6ShipsProperty = SimpleListProperty(FXCollections.observableList(slot6Ships))
+        @IniConfig("Slot1Criteria")
+        val slot1CriteriaProperty = slot1Criteria.toProperty()
+        @IniConfig("Slot1Ships")
+        val slot1ShipsProperty = slot1Ships.toProperty()
+        @IniConfig("Slot2Criteria")
+        val slot2CriteriaProperty = slot2Criteria.toProperty()
+        @IniConfig("Slot2Ships")
+        val slot2ShipsProperty = slot2Ships.toProperty()
+        @IniConfig("Slot3Criteria")
+        val slot3CriteriaProperty = slot3Criteria.toProperty()
+        @IniConfig("Slot3Ships")
+        val slot3ShipsProperty = slot3Ships.toProperty()
+        @IniConfig("Slot4Criteria")
+        val slot4CriteriaProperty = slot4Criteria.toProperty()
+        @IniConfig("Slot4Ships")
+        val slot4ShipsProperty = slot4Ships.toProperty()
+        @IniConfig("Slot5Criteria")
+        val slot5CriteriaProperty = slot5Criteria.toProperty()
+        @IniConfig("Slot5Ships")
+        val slot5ShipsProperty = slot5Ships.toProperty()
+        @IniConfig("Slot6Criteria")
+        val slot6CriteriaProperty = slot6Criteria.toProperty()
+        @IniConfig("Slot6Ships")
+        val slot6ShipsProperty = slot6Ships.toProperty()
 
-        @get:JsonProperty var enabled by enabledProperty
-        @get:JsonProperty var slot1Criteria by slot1CriteriaProperty
-        @get:JsonProperty var slot1Ships by slot1ShipsProperty
-        @get:JsonProperty var slot2Criteria by slot2CriteriaProperty
-        @get:JsonProperty var slot2Ships by slot2ShipsProperty
-        @get:JsonProperty var slot3Criteria by slot3CriteriaProperty
-        @get:JsonProperty var slot3Ships by slot3ShipsProperty
-        @get:JsonProperty var slot4Criteria by slot4CriteriaProperty
-        @get:JsonProperty var slot4Ships by slot4ShipsProperty
-        @get:JsonProperty var slot5Criteria by slot5CriteriaProperty
-        @get:JsonProperty var slot5Ships by slot5ShipsProperty
-        @get:JsonProperty var slot6Criteria by slot6CriteriaProperty
-        @get:JsonProperty var slot6Ships by slot6ShipsProperty
+        var enabled by enabledProperty
+        var slot1Criteria by slot1CriteriaProperty
+        var slot1Ships by slot1ShipsProperty
+        var slot2Criteria by slot2CriteriaProperty
+        var slot2Ships by slot2ShipsProperty
+        var slot3Criteria by slot3CriteriaProperty
+        var slot3Ships by slot3ShipsProperty
+        var slot4Criteria by slot4CriteriaProperty
+        var slot4Ships by slot4ShipsProperty
+        var slot5Criteria by slot5CriteriaProperty
+        var slot5Ships by slot5ShipsProperty
+        var slot6Criteria by slot6CriteriaProperty
+        var slot6Ships by slot6ShipsProperty
     }
 
     class Quests(
@@ -559,19 +553,17 @@ data class KancolleAutoProfile(
             quests: List<String> = listOf("bd1", "bd2", "bd3", "bd4", "bd5", "bd6", "bd7", "bd8", "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "bw7", "bw8", "bw9", "bw10", "c2", "c3", "c4", "c8", "d2", "d3", "d4", "d9", "d11", "e3", "e4"),
             checkSchedule: Int = 5*/
     ) {
-        @JsonIgnore
         @IniConfig(key = "Enabled")
         val enabledProperty = enabled.toProperty()
         /* TODO Disabled temporarily till kcauto-kai is finalized
-        @JsonIgnore @IniConfig(key = "Quests") val questsProperty = SimpleListProperty(FXCollections.observableArrayList(quests))
-        @JsonIgnore @IniConfig(key = "CheckSchedule") val checkScheduleProperty = checkSchedule.toProperty()*/
+        @IniConfig(key = "Quests") val questsProperty = quests.toProperty()
+        @IniConfig(key = "CheckSchedule") val checkScheduleProperty = checkSchedule.toProperty()*/
 
-        @get:JsonProperty
         var enabled by enabledProperty
         /* TODO Disabled temporarily till kcauto-kai is finalized
-        @get:JsonProperty var quests by questsProperty
-        @get:JsonProperty var checkSchedule by checkScheduleProperty*/
+        var quests by questsProperty
+        var checkSchedule by checkScheduleProperty*/
     }
 
-    override fun toString(): String = jacksonObjectMapper().writeValueAsString(this)
+    override fun toString(): String = fxJacksonObjectMapper().writeValueAsString(this)
 }
