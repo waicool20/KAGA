@@ -24,12 +24,11 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.kcauto.YuuBot
 import com.waicool20.util.javafx.AlertFactory
-import com.waicool20.util.javafx.addListener
 import com.waicool20.util.javafx.bind
-import javafx.animation.PauseTransition
+import com.waicool20.util.javafx.listen
+import com.waicool20.util.javafx.listenDebounced
 import javafx.fxml.FXML
 import javafx.scene.control.*
-import javafx.util.Duration
 import tornadofx.*
 import java.awt.Desktop
 import java.net.URI
@@ -74,12 +73,12 @@ class PreferencesTabView {
             showStatsCheckBox.selectedProperty().bindBidirectional(showStatsOnStartProperty)
             checkForUpdatesCheckBox.selectedProperty().bindBidirectional(checkForUpdatesProperty)
             startStopShortcutTextField.bind(startStopScriptShortcutProperty)
-            val pause = PauseTransition(Duration.seconds(1.0))
 
-            apiKeyTextField.textProperty().addListener("ApiKeyTextFieldProperty") { newVal ->
-                apiKeyTextField.style = "-fx-border-color: yellow;$borderStyle"
-                pause.setOnFinished { testApiKey(newVal) }
-                pause.playFromStart()
+            apiKeyTextField.textProperty().run {
+                listen { apiKeyTextField.style = "-fx-border-color: yellow;$borderStyle" }
+                listenDebounced(1000, "ApiKeyTextFieldProperty") { newVal ->
+                    testApiKey(newVal)
+                }
             }
         }
     }

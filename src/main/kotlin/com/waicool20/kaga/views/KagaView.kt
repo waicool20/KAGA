@@ -87,7 +87,6 @@ class KagaView {
 
     private fun registerShortcuts() {
         with(Kaga.CONFIG) {
-            val pause = PauseTransition(Duration.seconds(1.5))
             val listener: (String) -> Unit = { shortcut ->
                 if (shortcut.length > 1) {
                     GlobalShortcutHandler.registerShortcut("StartStopScript", shortcut, ::onStartStopButton)
@@ -96,9 +95,8 @@ class KagaView {
                 }
             }
             listener(startStopScriptShortcut)
-            startStopScriptShortcutProperty.addListener("StartStopScriptShortcutProperty") { newVal ->
-                pause.setOnFinished { listener(newVal) }
-                pause.playFromStart()
+            startStopScriptShortcutProperty.listenDebounced(1500, "StartStopScriptShortcutProperty") { newVal ->
+                listener(newVal)
             }
         }
 
