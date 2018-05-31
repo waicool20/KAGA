@@ -20,10 +20,10 @@
 
 package com.waicool20.kaga.views
 
-import com.waicool20.kaga.util.TeeOutputStream
-import com.waicool20.kaga.util.TextAreaOutputStream
-import com.waicool20.kaga.util.javafx.fadeAfter
-import com.waicool20.kaga.util.javafx.showAt
+import com.waicool20.util.javafx.fadeAfter
+import com.waicool20.util.javafx.showAt
+import com.waicool20.util.streams.TeeOutputStream
+import com.waicool20.util.streams.TextAreaOutputStream
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.TextArea

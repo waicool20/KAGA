@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.util
+package com.waicool20.util
 
 import java.awt.Color
 import java.awt.Graphics2D

@@ -21,8 +21,8 @@
 package com.waicool20.kaga.kcauto
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.binarizeImage
-import com.waicool20.kaga.util.scale
+import com.waicool20.util.binarizeImage
+import com.waicool20.util.scale
 import org.sikuli.script.Region
 import org.sikuli.script.Screen
 import org.sikuli.script.TextRecognizer

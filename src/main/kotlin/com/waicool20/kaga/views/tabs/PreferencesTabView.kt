@@ -23,9 +23,9 @@ package com.waicool20.kaga.views.tabs
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.kcauto.YuuBot
-import com.waicool20.kaga.util.javafx.AlertFactory
-import com.waicool20.kaga.util.javafx.addListener
-import com.waicool20.kaga.util.javafx.bind
+import com.waicool20.util.javafx.AlertFactory
+import com.waicool20.util.javafx.addListener
+import com.waicool20.util.javafx.bind
 import javafx.animation.PauseTransition
 import javafx.fxml.FXML
 import javafx.scene.control.*

@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.util.javafx
+package com.waicool20.util.javafx
 
 import com.fasterxml.jackson.annotation.JsonFilter
 import com.fasterxml.jackson.core.JsonGenerator

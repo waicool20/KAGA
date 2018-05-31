@@ -20,6 +20,7 @@
 
 package com.waicool20.kaga.util
 
+import com.waicool20.util.*
 import javafx.beans.value.WritableListValue
 import javafx.beans.value.WritableSetValue
 import javafx.beans.value.WritableValue

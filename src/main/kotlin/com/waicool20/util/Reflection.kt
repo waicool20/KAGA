@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.util
+package com.waicool20.util
 
 import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType

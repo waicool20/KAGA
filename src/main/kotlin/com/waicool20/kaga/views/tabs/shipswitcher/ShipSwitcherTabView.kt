@@ -23,7 +23,7 @@ package com.waicool20.kaga.views.tabs.shipswitcher
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile.ShipSwitcher
 import com.waicool20.kaga.config.KancolleAutoProfile.SwitchCriteria
-import com.waicool20.kaga.util.javafx.bind
+import com.waicool20.util.javafx.bind
 import javafx.beans.property.SimpleListProperty
 import javafx.fxml.FXML
 import javafx.scene.control.Button

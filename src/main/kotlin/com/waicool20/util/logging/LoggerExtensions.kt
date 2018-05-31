@@ -18,15 +18,12 @@
  *
  */
 
-package com.waicool20.kaga.util
+package com.waicool20.util.logging
 
-object LoggingEventBus {
-    private val listeners = mutableMapOf<Regex, (match: MatchResult) -> Unit>()
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-    fun subscribe(regex: Regex, listener: (match: MatchResult) -> Unit) =
-            listeners.put(regex, listener)
-
-    fun publish(string: String) = listeners.forEach { (pattern, listener) ->
-        pattern.matchEntire(string)?.let { listener(it) }
-    }
-}
+/**
+ * Gets a logger for a class
+ */
+inline fun <reified T> loggerFor(): Logger = LoggerFactory.getLogger(T::class.java)

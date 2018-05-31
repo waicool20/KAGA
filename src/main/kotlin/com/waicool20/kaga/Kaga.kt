@@ -32,11 +32,13 @@ import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
 import com.waicool20.kaga.kcauto.KancolleAutoKai
 import com.waicool20.kaga.kcauto.YuuBot
-import com.waicool20.kaga.util.*
-import com.waicool20.kaga.util.javafx.AlertFactory
+import com.waicool20.util.javafx.AlertFactory
+import com.waicool20.util.logging.LoggingEventBus
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
 import com.waicool20.kaga.views.StatsView
+import com.waicool20.util.IllegalExitException
+import com.waicool20.util.preventSystemExit
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.fxml.FXMLLoader
@@ -56,7 +58,6 @@ import org.sikuli.script.Screen
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.awt.Desktop
-import java.io.PrintStream
 import java.net.URI
 import java.net.URL
 import java.net.URLClassLoader
@@ -183,7 +184,7 @@ object Kaga {
             addEventFilter(MOUSE_RELEASED, handler)
         }
         if (CONFIG.showDebugOnStart) CONSOLE_STAGE.show()
-        startKCAutoListener()
+        LoggingEventBus.initialize()
         checkForUpdates()
         testSikuliX()
         if (CONFIG.showStatsOnStart) STATS_STAGE.show()
@@ -299,10 +300,5 @@ object Kaga {
                 }
             }
         }
-    }
-
-    private fun startKCAutoListener() = LineListenerOutputStream().let {
-        System.setOut(PrintStream(TeeOutputStream(System.out, it)))
-        System.setErr(PrintStream(TeeOutputStream(System.err, it)))
     }
 }

@@ -22,10 +22,10 @@ package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
-import com.waicool20.kaga.util.javafx.IndexColumn
-import com.waicool20.kaga.util.javafx.disableHeaderMoving
-import com.waicool20.kaga.util.javafx.lockColumnWidths
-import com.waicool20.kaga.util.javafx.setWidthRatio
+import com.waicool20.util.javafx.IndexColumn
+import com.waicool20.util.javafx.disableHeaderMoving
+import com.waicool20.util.javafx.lockColumnWidths
+import com.waicool20.util.javafx.setWidthRatio
 import com.waicool20.kaga.views.SingleListView
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty

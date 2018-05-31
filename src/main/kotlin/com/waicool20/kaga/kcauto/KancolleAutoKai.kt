@@ -22,7 +22,7 @@ package com.waicool20.kaga.kcauto
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.LockPreventer
-import com.waicool20.kaga.util.gobbleStream
+import com.waicool20.util.streams.gobbleStream
 import com.waicool20.kaga.views.ConsoleView
 import org.slf4j.LoggerFactory
 import tornadofx.*

@@ -23,14 +23,13 @@ package com.waicool20.kaga.kcauto
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.LoggingEventBus
+import com.waicool20.util.logging.LoggingEventBus
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
-import org.sikuli.script.Screen
 import org.slf4j.LoggerFactory
 import java.time.ZonedDateTime
 import kotlin.concurrent.thread

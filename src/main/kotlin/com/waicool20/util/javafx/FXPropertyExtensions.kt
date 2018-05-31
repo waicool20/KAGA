@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.util.javafx
+package com.waicool20.util.javafx
 
 import javafx.beans.property.SimpleListProperty
 import javafx.beans.property.SimpleMapProperty

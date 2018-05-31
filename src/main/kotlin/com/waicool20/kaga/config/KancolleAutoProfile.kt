@@ -22,8 +22,8 @@ package com.waicool20.kaga.config
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.util.*
-import com.waicool20.kaga.util.javafx.fxJacksonObjectMapper
-import com.waicool20.kaga.util.javafx.toProperty
+import com.waicool20.util.javafx.fxJacksonObjectMapper
+import com.waicool20.util.javafx.toProperty
 import org.ini4j.Wini
 import org.slf4j.LoggerFactory
 import tornadofx.*

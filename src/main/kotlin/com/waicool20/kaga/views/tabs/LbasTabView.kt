@@ -22,7 +22,7 @@ package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile
-import com.waicool20.kaga.util.javafx.addListener
+import com.waicool20.util.javafx.addListener
 import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
 import javafx.fxml.FXML

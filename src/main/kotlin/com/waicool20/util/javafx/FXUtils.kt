@@ -18,10 +18,9 @@
  *
  */
 
-package com.waicool20.kaga.util.javafx
+package com.waicool20.util.javafx
 
 import com.sun.javafx.scene.control.skin.TableHeaderRow
-import com.waicool20.kaga.Kaga
 import javafx.animation.KeyFrame
 import javafx.animation.KeyValue
 import javafx.animation.Timeline
@@ -292,30 +291,33 @@ fun <T> CheckModel<T>.checkAll(items: List<T>) {
 //<editor-fold desc="Utility classes">
 
 object AlertFactory {
-
-    private fun alert(type: Alert.AlertType, stage: Stage? = Kaga.ROOT_STAGE,
-                      title: String = "KAGA - Info", header: String? = null,
-                      content: String) = Alert(type).apply {
+    private fun alert(
+            type: Alert.AlertType,
+            stage: Stage?,
+            title: String,
+            header: String?,
+            content: String
+    ) = Alert(type).apply {
         this.title = title
         this.headerText = header
         this.contentText = content
         setOnHidden { stage?.toFront() }
     }
 
-    fun info(stage: Stage? = Kaga.ROOT_STAGE,
-             title: String = "KAGA - Info",
+    fun info(stage: Stage? = null,
+             title: String = "Info",
              header: String? = null,
              content: String) =
             alert(Alert.AlertType.INFORMATION, stage, title, header, content)
 
-    fun warn(stage: Stage? = Kaga.ROOT_STAGE,
-             title: String = "KAGA - Warning",
+    fun warn(stage: Stage? = null,
+             title: String = "Warning",
              header: String? = null,
              content: String) =
             alert(Alert.AlertType.WARNING, stage, title, header, content)
 
-    fun error(stage: Stage? = Kaga.ROOT_STAGE,
-              title: String = "KAGA - Warning",
+    fun error(stage: Stage? = null,
+              title: String = "Error",
               header: String? = null,
               content: String) =
             alert(Alert.AlertType.ERROR, stage, title, header, content)

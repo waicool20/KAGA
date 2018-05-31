@@ -26,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.javafx.fxJacksonObjectMapper
-import com.waicool20.kaga.util.javafx.listen
+import com.waicool20.util.javafx.fxJacksonObjectMapper
+import com.waicool20.util.javafx.listen
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.nio.file.Files

@@ -18,7 +18,7 @@
  *
  */
 
-package com.waicool20.kaga.util
+package com.waicool20.util.streams
 
 import java.io.BufferedReader
 import java.io.InputStreamReader

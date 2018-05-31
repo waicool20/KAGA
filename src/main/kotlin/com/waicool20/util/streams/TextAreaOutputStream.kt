@@ -18,30 +18,10 @@
  *
  */
 
-package com.waicool20.kaga.util
+package com.waicool20.util.streams
 
-import javafx.application.Platform.runLater
 import javafx.scene.control.TextArea
-import java.io.OutputStream
-
-abstract class LineBufferedOutputStream : OutputStream() {
-    private val buffer = StringBuffer()
-
-    override fun write(byte: Int) {
-        val char = byte.toChar()
-        buffer.append(char)
-        if (char == '\n') {
-            flush()
-        }
-    }
-
-    override fun flush() {
-        writeLine(buffer.toString())
-        buffer.setLength(0)
-    }
-
-    abstract fun writeLine(line: String)
-}
+import tornadofx.*
 
 class TextAreaOutputStream(private val console: TextArea, private val maxLines: Int = 1000) : LineBufferedOutputStream() {
     override fun writeLine(line: String) {
@@ -55,30 +35,5 @@ class TextAreaOutputStream(private val console: TextArea, private val maxLines: 
             }
             console.appendText(line.replace(Regex("\\u001b\\[.+?m"), ""))
         }
-    }
-}
-
-class LineListenerOutputStream : LineBufferedOutputStream() {
-    override fun writeLine(line: String) {
-        LoggingEventBus.publish(line.trim())
-    }
-}
-
-class TeeOutputStream(val main: OutputStream, val branch: OutputStream) : OutputStream() {
-    override fun write(int: Int) {
-        main.write(int)
-        branch.write(int)
-    }
-
-    override fun flush() {
-        super.flush()
-        main.flush()
-        branch.flush()
-    }
-
-    override fun close() {
-        super.close()
-        main.close()
-        branch.close()
     }
 }
