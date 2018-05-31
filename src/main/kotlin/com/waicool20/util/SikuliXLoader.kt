@@ -23,6 +23,7 @@ package com.waicool20.util
 import com.waicool20.util.logging.loggerFor
 import org.sikuli.script.ImagePath
 import org.sikuli.script.Screen
+import java.nio.file.Files
 import java.nio.file.Path
 import java.util.concurrent.TimeUnit
 
@@ -51,9 +52,12 @@ object SikuliXLoader {
                 TimeUnit.MILLISECONDS.sleep(100)
                 logger.info("Testing screen: ${Screen()}")
                 logger.info("Test image loading")
-                val testPath = ClassLoader.getSystemClassLoader().getResource("images")
-                ImagePath.add(testPath)
-                ImagePath.remove("$testPath")
+                Files.createTempDirectory("sikulix-test-temp").also { temp ->
+                    ImagePath.add(temp.toUri().toURL())
+                    ImagePath.remove("$temp")
+                    Files.deleteIfExists(temp)
+                }
+                logger.info("Image loading passed")
                 _working = true
             }
         } catch (e: NoClassDefFoundError) {
@@ -61,11 +65,6 @@ object SikuliXLoader {
         } catch (e: IllegalExitException) {
             logger.warn("SikuliX ran into a fatal error and tried to exit the program")
             logger.warn("SikuliX installation might be broken! Go reinstall!")
-        }
-        if (SIKULI_WORKING) {
-            logger.info("SikuliX is working!")
-        } else {
-            logger.warn("SikuliX isn't working, functionality disabled!")
         }
     }
 }
