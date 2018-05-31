@@ -38,6 +38,8 @@ import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
 import com.waicool20.kaga.views.StatsView
 import com.waicool20.util.IllegalExitException
+import com.waicool20.util.SikuliXLoader
+import com.waicool20.util.logging.LoggerUtils
 import com.waicool20.util.preventSystemExit
 import javafx.application.Application
 import javafx.application.Platform
@@ -87,10 +89,10 @@ class KagaApp : Application() {
             parameters.named["log"]?.let {
                 val level = Level.toLevel(it)
                 logger.info("Logging level was passed as argument, setting logging level to ${level.levelStr}")
-                Kaga.setLogLevel(level)
+                LoggerUtils.setLogLevel(level)
             } ?: run {
                 logger.info("No logging level was found in the arguments...using the config level of ${Kaga.CONFIG.logLevel()}")
-                Kaga.setLogLevel(Level.toLevel(Kaga.CONFIG.logLevel()))
+                LoggerUtils.setLogLevel(Level.toLevel(Kaga.CONFIG.logLevel()))
             }
             logger.info("KAGA config is valid, starting main application")
             Kaga.startMainApplication()
@@ -165,11 +167,9 @@ object Kaga {
     }
 
     val KCAUTO_KAI by lazy { KancolleAutoKai() }
-    var SIKULI_WORKING = false
-        private set
 
     fun startMainApplication() {
-        loadSikuliX()
+        SikuliXLoader.loadAndTest(CONFIG.sikulixJarPath)
         CONFIG.currentProfile = PROFILE.name
         CONFIG.save()
         with(ROOT_STAGE) {
@@ -186,7 +186,7 @@ object Kaga {
         if (CONFIG.showDebugOnStart) CONSOLE_STAGE.show()
         LoggingEventBus.initialize()
         checkForUpdates()
-        testSikuliX()
+        reportSikuliXTestResults()
         if (CONFIG.showStatsOnStart) STATS_STAGE.show()
     }
 
@@ -195,10 +195,6 @@ object Kaga {
         isResizable = false
         scene = Scene(find(PathChooserView::class).root)
         show()
-    }
-
-    fun setLogLevel(level: Level) {
-        (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = level
     }
 
     fun exit() {
@@ -265,39 +261,15 @@ object Kaga {
         }
     }
 
-    private fun loadSikuliX() {
-        val cl = ClassLoader.getSystemClassLoader()
-        URLClassLoader::class.declaredMemberFunctions.find { it.name == "addURL" }?.apply {
-            isAccessible = true
-            call(cl, CONFIG.sikulixJarPath.toUri().toURL())
-        }
-    }
-
-    private fun testSikuliX() {
-        thread {
-            try {
-                preventSystemExit {
-                    logger.info("Testing SikuliX")
-                    logger.info("Testing screen: ${Screen()}")
-                    logger.info("Loading images")
-                    ImagePath.add(ClassLoader.getSystemClassLoader().getResource("images"))
-                    SIKULI_WORKING = true
-                }
-            } catch (e: NoClassDefFoundError) {
-                logger.warn("SikuliX classes not found")
-            } catch (e: IllegalExitException) {
-                logger.warn("SikuliX ran into a fatal error and tried to exit the program")
-                logger.warn("SikuliX installation might be broken! Go reinstall!")
-            }
-            if (SIKULI_WORKING) {
-                logger.info("SikuliX is working!")
-            } else {
-                logger.warn("SikuliX isn't working, functionality disabled!")
-                runLater {
-                    AlertFactory.warn(
-                            content = "SikuliX isn't working, check logs for more details..."
-                    ).showAndWait()
-                }
+    private fun reportSikuliXTestResults() {
+        if (SikuliXLoader.SIKULI_WORKING) {
+            logger.info("SikuliX is working!")
+        } else {
+            logger.warn("SikuliX isn't working, functionality disabled!")
+            runLater {
+                AlertFactory.warn(
+                        content = "SikuliX isn't working, check logs for more details..."
+                ).showAndWait()
             }
         }
     }

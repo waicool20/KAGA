@@ -28,6 +28,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.Kaga
 import com.waicool20.util.javafx.fxJacksonObjectMapper
 import com.waicool20.util.javafx.listen
+import com.waicool20.util.logging.LoggerUtils
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.nio.file.Files
@@ -83,7 +84,7 @@ class KagaConfig(currentProfile: String = "",
 
     init {
         debugModeEnabledProperty.listen {
-            Kaga.setLogLevel(Level.toLevel(logLevel()))
+            LoggerUtils.setLogLevel(Level.toLevel(logLevel()))
         }
     }
 

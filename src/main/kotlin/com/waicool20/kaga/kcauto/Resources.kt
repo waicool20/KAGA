@@ -21,6 +21,7 @@
 package com.waicool20.kaga.kcauto
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.util.SikuliXLoader
 import com.waicool20.util.binarizeImage
 import com.waicool20.util.scale
 import org.sikuli.script.Region
@@ -39,7 +40,7 @@ data class Resources(
     companion object {
         private val logger = LoggerFactory.getLogger(Resources::class.java)
         fun readResources(): Resources {
-            if (Kaga.SIKULI_WORKING) {
+            if (SikuliXLoader.SIKULI_WORKING) {
                 Screen().exists("fuel.png")?.apply {
                     val fuelCountRegion = Region(x + 25, y, 44, 17)
                     val ammoCountRegion = Region(x + 25, y + 19, 44, 17)

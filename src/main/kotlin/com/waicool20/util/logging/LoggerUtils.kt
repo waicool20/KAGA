@@ -20,6 +20,7 @@
 
 package com.waicool20.util.logging
 
+import ch.qos.logback.classic.Level
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -27,3 +28,14 @@ import org.slf4j.LoggerFactory
  * Gets a logger for a class
  */
 inline fun <reified T> loggerFor(): Logger = LoggerFactory.getLogger(T::class.java)
+
+object LoggerUtils {
+    /**
+     * Sets the current log level
+     *
+     * @param level Log level to set
+     */
+    fun setLogLevel(level: Level) {
+        (LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger).level = level
+    }
+}
