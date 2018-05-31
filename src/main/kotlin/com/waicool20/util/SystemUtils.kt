@@ -217,3 +217,15 @@ fun <T> preventSystemExit(action: () -> T): T {
         throw e
     }
 }
+
+/**
+ * Prevents logging to system out
+ *
+ * @param action Lambda to be executed that should be silent
+ * @return Lambda result
+ */
+fun <T> disableSystemOut(action: () -> T): T {
+    val out = System.out
+    System.setOut(null)
+    return action().also { System.setOut(out) }
+}

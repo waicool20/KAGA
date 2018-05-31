@@ -20,6 +20,7 @@
 
 package com.waicool20.kaga.handlers
 
+import com.waicool20.util.disableSystemOut
 import org.jnativehook.GlobalScreen
 import org.jnativehook.keyboard.NativeKeyEvent
 import org.jnativehook.keyboard.NativeKeyListener
@@ -51,8 +52,10 @@ object GlobalShortcutHandler : NativeKeyListener {
             Logger.getLogger(GlobalScreen::class.java.`package`.name).apply {
                 level = Level.WARNING
             }
-            GlobalScreen.registerNativeHook()
-            GlobalScreen.addNativeKeyListener(this)
+            disableSystemOut {
+                GlobalScreen.registerNativeHook()
+                GlobalScreen.addNativeKeyListener(this)
+            }
         } catch (e: Exception) {
             logger.info("There was a problem registering global shortcuts, they will not work!")
         }
