@@ -264,6 +264,7 @@ object Kaga {
     private fun reportSikuliXTestResults() {
         if (SikuliXLoader.SIKULI_WORKING) {
             logger.info("SikuliX is working!")
+            SikuliXLoader.loadImagePath(ClassLoader.getSystemClassLoader().getResource("images"))
         } else {
             logger.warn("SikuliX isn't working, functionality disabled!")
             runLater {
