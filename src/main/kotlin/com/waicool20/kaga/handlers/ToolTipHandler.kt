@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.Kaga
-import com.waicool20.util.javafx.getParentTabPane
+import com.waicool20.waicoolutils.javafx.getParentTabPane
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.control.Tooltip

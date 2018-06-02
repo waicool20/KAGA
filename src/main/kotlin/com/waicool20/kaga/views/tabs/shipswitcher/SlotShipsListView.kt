@@ -24,7 +24,7 @@ import com.waicool20.kaga.config.Kanmusu
 import com.waicool20.kaga.config.ShipSpecification
 import com.waicool20.kaga.config.ShipSpecification.Companion.parse
 import com.waicool20.kaga.config.ShipSpecificationByPosition
-import com.waicool20.util.javafx.AlertFactory
+import com.waicool20.waicoolutils.javafx.AlertFactory
 import javafx.beans.property.SimpleListProperty
 import javafx.scene.control.ListView
 import javafx.scene.control.SelectionMode

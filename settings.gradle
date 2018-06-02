@@ -20,3 +20,4 @@
 
 rootProject.name = 'KAGA'
 
+include(':waicoolUtils')

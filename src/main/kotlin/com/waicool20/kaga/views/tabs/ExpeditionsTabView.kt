@@ -21,7 +21,7 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.util.javafx.bind
+import com.waicool20.waicoolutils.controlsfx.bind
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
 import javafx.scene.layout.GridPane

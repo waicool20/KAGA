@@ -21,7 +21,6 @@
 package com.waicool20.kaga
 
 import ch.qos.logback.classic.Level
-import ch.qos.logback.classic.Logger
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.waicool20.kaga.config.KagaConfig
@@ -32,15 +31,13 @@ import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
 import com.waicool20.kaga.kcauto.KancolleAutoKai
 import com.waicool20.kaga.kcauto.YuuBot
-import com.waicool20.util.javafx.AlertFactory
-import com.waicool20.util.logging.LoggingEventBus
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
 import com.waicool20.kaga.views.StatsView
-import com.waicool20.util.IllegalExitException
-import com.waicool20.util.SikuliXLoader
-import com.waicool20.util.logging.LoggerUtils
-import com.waicool20.util.preventSystemExit
+import com.waicool20.waicoolutils.SikuliXLoader
+import com.waicool20.waicoolutils.javafx.AlertFactory
+import com.waicool20.waicoolutils.logging.LoggerUtils
+import com.waicool20.waicoolutils.logging.LoggingEventBus
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.fxml.FXMLLoader
@@ -55,20 +52,15 @@ import javafx.scene.input.MouseEvent.MOUSE_RELEASED
 import javafx.scene.layout.FlowPane
 import javafx.stage.Modality
 import javafx.stage.Stage
-import org.sikuli.script.ImagePath
-import org.sikuli.script.Screen
 import org.slf4j.LoggerFactory
 import tornadofx.*
 import java.awt.Desktop
 import java.net.URI
 import java.net.URL
-import java.net.URLClassLoader
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.concurrent.thread
 import kotlin.math.abs
-import kotlin.reflect.full.declaredMemberFunctions
-import kotlin.reflect.jvm.isAccessible
 
 class KagaApp : Application() {
     private val logger = LoggerFactory.getLogger(javaClass)

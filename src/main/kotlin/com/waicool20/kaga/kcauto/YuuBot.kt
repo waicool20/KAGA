@@ -23,7 +23,7 @@ package com.waicool20.kaga.kcauto
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.waicool20.kaga.Kaga
-import com.waicool20.util.logging.LoggingEventBus
+import com.waicool20.waicoolutils.logging.LoggingEventBus
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.ContentType

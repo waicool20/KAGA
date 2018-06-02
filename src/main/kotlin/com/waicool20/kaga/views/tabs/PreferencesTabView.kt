@@ -23,10 +23,10 @@ package com.waicool20.kaga.views.tabs
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KagaConfig
 import com.waicool20.kaga.kcauto.YuuBot
-import com.waicool20.util.javafx.AlertFactory
-import com.waicool20.util.javafx.bind
-import com.waicool20.util.javafx.listen
-import com.waicool20.util.javafx.listenDebounced
+import com.waicool20.waicoolutils.javafx.AlertFactory
+import com.waicool20.waicoolutils.javafx.bind
+import com.waicool20.waicoolutils.javafx.listen
+import com.waicool20.waicoolutils.javafx.listenDebounced
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import tornadofx.*

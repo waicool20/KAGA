@@ -8,6 +8,8 @@
       <module name="kancolle-auto-gui-app_test" target="1.8" />
       <module name="kancolle-auto-gui_main" target="1.8" />
       <module name="kancolle-auto-gui_test" target="1.8" />
+      <module name="waicoolUtils_main" target="1.8" />
+      <module name="waicoolUtils_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

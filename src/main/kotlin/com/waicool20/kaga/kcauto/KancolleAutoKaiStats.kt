@@ -20,7 +20,7 @@
 
 package com.waicool20.kaga.kcauto
 
-import com.waicool20.util.logging.LoggingEventBus
+import com.waicool20.waicoolutils.logging.LoggingEventBus
 import java.time.ZonedDateTime
 import kotlin.reflect.KMutableProperty1
 

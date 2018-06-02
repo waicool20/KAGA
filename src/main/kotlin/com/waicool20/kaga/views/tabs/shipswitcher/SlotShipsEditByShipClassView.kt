@@ -22,7 +22,7 @@ package com.waicool20.kaga.views.tabs.shipswitcher
 
 import com.waicool20.kaga.config.ShipSpecification
 import com.waicool20.kaga.handlers.MouseIncrementHandler
-import com.waicool20.util.javafx.EnumCapitalizedNameConverter
+import com.waicool20.waicoolutils.javafx.converters.EnumCapitalizedNameConverter
 import javafx.scene.control.*
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.VBox

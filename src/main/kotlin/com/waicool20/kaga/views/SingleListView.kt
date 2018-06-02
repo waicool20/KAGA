@@ -21,7 +21,7 @@
 package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.util.javafx.setInitialSceneSizeAsMin
+import com.waicool20.waicoolutils.javafx.setInitialSceneSizeAsMin
 import javafx.fxml.FXML
 import javafx.scene.Parent
 import javafx.scene.control.ButtonBar

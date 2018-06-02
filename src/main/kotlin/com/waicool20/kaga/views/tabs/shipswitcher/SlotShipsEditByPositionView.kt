@@ -22,7 +22,7 @@ package com.waicool20.kaga.views.tabs.shipswitcher
 
 import com.waicool20.kaga.config.ShipSpecificationByPosition
 import com.waicool20.kaga.handlers.MouseIncrementHandler
-import com.waicool20.util.javafx.EnumCapitalizedNameConverter
+import com.waicool20.waicoolutils.javafx.converters.EnumCapitalizedNameConverter
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory

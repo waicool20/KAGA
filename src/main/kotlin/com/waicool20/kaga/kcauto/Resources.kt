@@ -20,10 +20,9 @@
 
 package com.waicool20.kaga.kcauto
 
-import com.waicool20.kaga.Kaga
-import com.waicool20.util.SikuliXLoader
-import com.waicool20.util.binarizeImage
-import com.waicool20.util.scale
+import com.waicool20.waicoolutils.SikuliXLoader
+import com.waicool20.waicoolutils.binarizeImage
+import com.waicool20.waicoolutils.scale
 import org.sikuli.script.Region
 import org.sikuli.script.Screen
 import org.sikuli.script.TextRecognizer
@@ -60,7 +59,7 @@ data class Resources(
                 }
                 logger.warn("Resources unreadable, maybe something is blocking it.")
             }
-            return Resources(-1, -1, -1 ,-1, -1, -1)
+            return Resources(-1, -1, -1, -1, -1, -1)
         }
 
         private val numberReplacements = mapOf(

@@ -20,7 +20,7 @@
 
 package com.waicool20.kaga.handlers
 
-import com.waicool20.util.disableSystemOut
+import com.waicool20.waicoolutils.disableSystemOut
 import org.jnativehook.GlobalScreen
 import org.jnativehook.keyboard.NativeKeyEvent
 import org.jnativehook.keyboard.NativeKeyListener
