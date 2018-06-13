@@ -31,7 +31,7 @@ import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import org.slf4j.LoggerFactory
-import java.time.ZonedDateTime
+import java.time.Instant
 import kotlin.concurrent.thread
 
 object YuuBot {
@@ -143,7 +143,7 @@ data class CrashInfoDto(val log: String)
 data class KCAutoKaiStatsDto(
         val profileName: String,
         val isRunning: Boolean,
-        val startingTime: ZonedDateTime,
+        val startingTime: Instant,
         val crashes: Int,
         val sortiesDone: Int,
         val sortiesAttempted: Int,
@@ -162,7 +162,7 @@ data class KCAutoKaiStatsDto(
     constructor(tracker: KancolleAutoKaiStatsTracker, resources: Resources) : this(
             profileName = Kaga.PROFILE.name,
             isRunning = Kaga.KCAUTO_KAI.isRunning(),
-            startingTime = tracker.startingTime ?: ZonedDateTime.now(),
+            startingTime = tracker.startingTime ?: Instant.now(),
             crashes = tracker.crashes,
             sortiesDone = tracker[KancolleAutoKaiStats::sortiesDone],
             sortiesAttempted = tracker[KancolleAutoKaiStats::sortiesAttempted],

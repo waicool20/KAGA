@@ -30,7 +30,8 @@ import javafx.scene.layout.VBox
 import tornadofx.*
 import java.text.DecimalFormat
 import java.time.Duration
-import java.time.ZonedDateTime
+import java.time.Instant
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.concurrent.fixedRateTimer
 
@@ -79,8 +80,9 @@ class StatsView : View() {
     }
 
     private fun updateStats() = Kaga.KCAUTO_KAI.statsTracker.run {
-        timeElapsedLabel.text = elapsedTimeSince(startingTime)
-        startingTimeLabel.text = startingTime?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
+        timeElapsedLabel.text = timeDelta(startingTime)
+        startingTimeLabel.text = startingTime?.atZone(ZoneId.systemDefault())
+                ?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
 
         sortiesDoneLabel.text = get(KancolleAutoKaiStats::sortiesDone).toString()
         sortiesAttemptedLabel.text = get(KancolleAutoKaiStats::sortiesAttempted).toString()
@@ -102,14 +104,18 @@ class StatsView : View() {
         recoveriesLabel.text = get(KancolleAutoKaiStats::recoveries).toString()
     }
 
-    private fun elapsedTimeSince(time: ZonedDateTime?) = time?.let { t ->
-        Duration.between(t, ZonedDateTime.now()).seconds.let {
-            String.format("%d:%02d:%02d", it / 3600, (it % 3600) / 60, it % 60)
-        }
-    } ?: "0:00:00"
+    private fun timeDelta(time: Instant?): String {
+        val duration = time?.let { Duration.between(it, Instant.now()).abs() }
+                ?: return "00:00:00"
+        return formatDuration(duration) ?: "00:00:00"
+    }
 
-    private fun hoursSince(time: ZonedDateTime?) =
-            time?.let { Duration.between(it, ZonedDateTime.now()).seconds / 3600.0 } ?: 0.0
+    private fun formatDuration(duration: Duration?) = duration?.seconds?.let {
+        String.format("%02d:%02d:%02d", it / 3600, (it % 3600) / 60, it % 60)
+    }
+
+    private fun hoursSince(time: Instant?) =
+            time?.let { Duration.between(it, Instant.now()).seconds / 3600.0 } ?: 0.0
 
     private fun formatDecimal(d: Double) = DecimalFormat("0.00").format(d).replace("\uFFFD", "0.00")
 }

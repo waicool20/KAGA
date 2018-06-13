@@ -21,11 +21,11 @@
 package com.waicool20.kaga.kcauto
 
 import com.waicool20.waicoolutils.logging.LoggingEventBus
-import java.time.ZonedDateTime
+import java.time.Instant
 import kotlin.reflect.KMutableProperty1
 
 object KancolleAutoKaiStatsTracker {
-    var startingTime: ZonedDateTime? = null
+    var startingTime: Instant? = null
     var crashes = 0
     var atPort = true
     val history = mutableListOf<KancolleAutoKaiStats>()
@@ -101,7 +101,7 @@ object KancolleAutoKaiStatsTracker {
 
     fun startNewSession() {
         history.clear()
-        startingTime = ZonedDateTime.now()
+        startingTime = Instant.now()
         crashes = 0
         atPort = true
         trackNewChild()
