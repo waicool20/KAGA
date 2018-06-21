@@ -136,6 +136,10 @@
     "description": "Maximum number of combat nodes to run. Resource/hazard nodes do not count"
   },
   {
+    "id": "Sortie-retreatNodesLabel",
+    "description": "Forces the script to retreat at the specified nodes"
+  },
+  {
     "id": "Sortie-nodeSelectsLabel",
     "description": "Specify which nodes to choose when the script arrives at a branch"
   },
@@ -188,7 +192,7 @@
     "description": "Check this box if you want to enable pvp"
   },
   {
-    "id": "PvP-fleetCompLabel",
+    "id": "PvP-fleetLabel",
     "description": "Specify which saved fleet composition should be used for pvp, with the first saved fleet being 1.\n\nNOTE: this value is only relevant if both PvP and Combat modules are enabled with different fleets assigned to them!"
   },
   {
@@ -212,8 +216,8 @@
     "description": "Check this box if you want the script to manage quests"
   },
   {
-    "id": "Quests-questsLabel",
-    "description": "Quests to check for, only the shown quests are supported. The script will ignore quests if they are not completable as specified by your config (if PvP is disabled, PvP quests will not be activated, and so on)"
+    "id": "Quests-questGroupsLabel",
+    "description": "Script will check the following quest groups for valid quests and try to complete them.\nThis module is context aware and will only for example try to complete PvP quests only if PvP module is enabled."
   },
   {
     "id": "Quests-checkScheduleLabel",
