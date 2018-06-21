@@ -24,7 +24,7 @@ import com.waicool20.kaga.Kaga
 import com.waicool20.waicoolutils.controlsfx.bind
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
-import javafx.scene.layout.GridPane
+import javafx.scene.layout.VBox
 import javafx.util.StringConverter
 import org.controlsfx.control.CheckComboBox
 import tornadofx.*
@@ -36,7 +36,7 @@ class ExpeditionsTabView {
     @FXML private lateinit var fleet3CheckComboBox: CheckComboBox<String>
     @FXML private lateinit var fleet4CheckComboBox: CheckComboBox<String>
 
-    @FXML private lateinit var content: GridPane
+    @FXML private lateinit var content: VBox
 
     private val specialExpediions = mapOf(
             "9998" to "Pre-Boss Node Support",

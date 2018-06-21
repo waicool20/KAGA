@@ -21,18 +21,21 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.config.KancolleAutoProfile.QuestGroups
+import com.waicool20.waicoolutils.controlsfx.bind
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
-import javafx.scene.layout.GridPane
+import javafx.scene.layout.VBox
+import javafx.util.StringConverter
+import org.controlsfx.control.CheckComboBox
 import tornadofx.*
 
 
 class QuestsTabView {
     @FXML private lateinit var enableButton: CheckBox
-    /* TODO Disabled temporarily till kcauto-kai is finalized
-    @FXML private lateinit var checkScheduleSpinner: Spinner<Int>*/
-    @FXML private lateinit var content: GridPane
+    @FXML private lateinit var content: VBox
+    @FXML private lateinit var questBox: CheckComboBox<QuestGroups>
 
     @FXML
     fun initialize() {
@@ -41,20 +44,18 @@ class QuestsTabView {
     }
 
     private fun setValues() {
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        checkScheduleSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE)*/
+        questBox.items.setAll(QuestGroups.values().toList())
+        questBox.converter = object : StringConverter<QuestGroups>() {
+            override fun toString(engine: QuestGroups) = engine.prettyString
+            override fun fromString(string: String) = QuestGroups.fromPrettyString(string)
+        }
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.quests) {
             enableButton.bind(enabledProperty)
-            /* TODO Disabled temporarily till kcauto-kai is finalized
-            checkScheduleSpinner.bind(checkScheduleProperty)*/
+            questBox.bind(questGroupsProperty)
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
-
-    /* TODO Disabled temporarily till kcauto-kai is finalized
-    @FXML private fun onConfigureQuestsButton() =
-        find(QuestsChooserView::class).openModal(owner = Kaga.ROOT_STAGE.owner)*/
 }

@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -32,186 +31,188 @@
   ~
   -->
 
-<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      spacing="10.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.waicool20.kaga.views.tabs.shipswitcher.ShipSwitcherTabView">
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+   </padding>
    <children>
-      <GridPane layoutX="10.0" layoutY="10.0">
+      <CheckBox fx:id="enableButton" mnemonicParsing="false" text="Enable"/>
+      <GridPane fx:id="content">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity"/>
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="30.0" vgrow="ALWAYS"/>
+            <RowConstraints minHeight="30.0" vgrow="ALWAYS"/>
+            <RowConstraints minHeight="30.0" vgrow="ALWAYS"/>
+            <RowConstraints minHeight="30.0" vgrow="ALWAYS"/>
+            <RowConstraints minHeight="30.0" vgrow="ALWAYS"/>
+            <RowConstraints minHeight="30.0" vgrow="ALWAYS"/>
          </rowConstraints>
          <children>
-            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="45.0">
+            <HBox alignment="CENTER" spacing="5.0">
                <children>
-                  <CheckBox fx:id="enableButton" mnemonicParsing="false" text="Enable" />
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot1CriteriaLabel" text="Slot 1 Criteria:"/>
+                        <CheckComboBox fx:id="slot1CriteriaComboBox" maxHeight="-Infinity"
+                                       maxWidth="-Infinity" minHeight="-Infinity"
+                                       minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="slot1ShipsVBox" minHeight="-Infinity" minWidth="-Infinity"
+                        HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot1ShipsLabel" text="Slot 1 Ships:">
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                        </Label>
+                        <Button fx:id="slot1ShipsButton" mnemonicParsing="false" text="Configure"/>
+                     </children>
+                  </VBox>
                </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets/>
+               </GridPane.margin>
                <padding>
-                  <Insets left="20.0" />
+                  <Insets bottom="5.0" left="10.0" top="5.0"/>
                </padding>
             </HBox>
-            <GridPane fx:id="content" GridPane.rowIndex="1">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="30.0" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="30.0" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="30.0" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="30.0" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="30.0" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="30.0" vgrow="ALWAYS" />
-               </rowConstraints>
+            <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="1">
                <children>
-                  <HBox alignment="CENTER" spacing="5.0">
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                      <children>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot1CriteriaLabel" text="Slot 1 Criteria:" />
-                              <CheckComboBox fx:id="slot1CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <VBox fx:id="slot1ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot1ShipsLabel" text="Slot 1 Ships:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Button fx:id="slot1ShipsButton" mnemonicParsing="false" text="Configure" />
-                           </children>
-                        </VBox>
+                        <Label fx:id="slot2CriteriaLabel" text="Slot 2 Criteria:"/>
+                        <CheckComboBox fx:id="slot2CriteriaComboBox" maxHeight="-Infinity"
+                                       maxWidth="-Infinity" minHeight="-Infinity"
+                                       minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS"/>
                      </children>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="1">
+                  </VBox>
+                  <VBox fx:id="slot2ShipsVBox" minHeight="-Infinity" minWidth="-Infinity"
+                        HBox.hgrow="ALWAYS">
                      <children>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot2CriteriaLabel" text="Slot 2 Criteria:" />
-                              <CheckComboBox fx:id="slot2CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <VBox fx:id="slot2ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot2ShipsLabel" text="Slot 2 Ships:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Button fx:id="slot2ShipsButton" mnemonicParsing="false" text="Configure" />
-                           </children>
-                        </VBox>
+                        <Label fx:id="slot2ShipsLabel" text="Slot 2 Ships:">
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                        </Label>
+                        <Button fx:id="slot2ShipsButton" mnemonicParsing="false" text="Configure"/>
                      </children>
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="2">
-                     <children>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot3CriteriaLabel" text="Slot 3 Criteria:" />
-                              <CheckComboBox fx:id="slot3CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <VBox fx:id="slot3ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot3ShipsLabel" text="Slot 3 Ships:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Button fx:id="slot3ShipsButton" mnemonicParsing="false" text="Configure" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="3">
-                     <children>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot4CriteriaLabel" text="Slot 4 Criteria:" />
-                              <CheckComboBox fx:id="slot4CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <VBox fx:id="slot4ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot4ShipsLabel" text="Slot 4 Ships:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Button fx:id="slot4ShipsButton" mnemonicParsing="false" text="Configure" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="4">
-                     <children>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot5CriteriaLabel" text="Slot 5 Criteria:" />
-                              <CheckComboBox fx:id="slot5CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <VBox fx:id="slot5ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot5ShipsLabel" text="Slot 5 Ships:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Button fx:id="slot5ShipsButton" mnemonicParsing="false" text="Configure" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="5">
-                     <children>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot6CriteriaLabel" text="Slot 6 Criteria:" />
-                              <CheckComboBox fx:id="slot6CriteriaComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <VBox fx:id="slot6ShipsVBox" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="slot6ShipsLabel" text="Slot 6 Ships:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Button fx:id="slot6ShipsButton" mnemonicParsing="false" text="Configure" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
-                     </padding>
-                  </HBox>
+                  </VBox>
                </children>
-            </GridPane>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" top="5.0"/>
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="2">
+               <children>
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot3CriteriaLabel" text="Slot 3 Criteria:"/>
+                        <CheckComboBox fx:id="slot3CriteriaComboBox" maxHeight="-Infinity"
+                                       maxWidth="-Infinity" minHeight="-Infinity"
+                                       minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="slot3ShipsVBox" minHeight="-Infinity" minWidth="-Infinity"
+                        HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot3ShipsLabel" text="Slot 3 Ships:">
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                        </Label>
+                        <Button fx:id="slot3ShipsButton" mnemonicParsing="false" text="Configure"/>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" top="5.0"/>
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="3">
+               <children>
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot4CriteriaLabel" text="Slot 4 Criteria:"/>
+                        <CheckComboBox fx:id="slot4CriteriaComboBox" maxHeight="-Infinity"
+                                       maxWidth="-Infinity" minHeight="-Infinity"
+                                       minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="slot4ShipsVBox" minHeight="-Infinity" minWidth="-Infinity"
+                        HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot4ShipsLabel" text="Slot 4 Ships:">
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                        </Label>
+                        <Button fx:id="slot4ShipsButton" mnemonicParsing="false" text="Configure"/>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" top="5.0"/>
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="4">
+               <children>
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot5CriteriaLabel" text="Slot 5 Criteria:"/>
+                        <CheckComboBox fx:id="slot5CriteriaComboBox" maxHeight="-Infinity"
+                                       maxWidth="-Infinity" minHeight="-Infinity"
+                                       minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="slot5ShipsVBox" minHeight="-Infinity" minWidth="-Infinity"
+                        HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot5ShipsLabel" text="Slot 5 Ships:">
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                        </Label>
+                        <Button fx:id="slot5ShipsButton" mnemonicParsing="false" text="Configure"/>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" top="5.0"/>
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="5">
+               <children>
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot6CriteriaLabel" text="Slot 6 Criteria:"/>
+                        <CheckComboBox fx:id="slot6CriteriaComboBox" maxHeight="-Infinity"
+                                       maxWidth="-Infinity" minHeight="-Infinity"
+                                       minWidth="-Infinity" prefWidth="225.0" VBox.vgrow="ALWAYS"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="slot6ShipsVBox" minHeight="-Infinity" minWidth="-Infinity"
+                        HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="slot6ShipsLabel" text="Slot 6 Ships:">
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                        </Label>
+                        <Button fx:id="slot6ShipsButton" mnemonicParsing="false" text="Configure"/>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" top="5.0"/>
+               </padding>
+            </HBox>
          </children>
       </GridPane>
    </children>
-</AnchorPane>
+</VBox>

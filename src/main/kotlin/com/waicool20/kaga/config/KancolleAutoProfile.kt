@@ -253,6 +253,18 @@ data class KancolleAutoProfile(
         override fun toString() = value
     }
 
+    enum class QuestGroups(val prettyString: String, val value: String) {
+        DAILY("Daily", "daily"),
+        WEEKLY("Weekly", "weekly"),
+        MONTHLY("Monthly", "monthly");
+
+        companion object {
+            fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
+        }
+
+        override fun toString() = value
+    }
+
     class General(
             program: String = "Chrome",
             pause: Boolean = false
@@ -407,25 +419,23 @@ data class KancolleAutoProfile(
     }
 
     class Pvp(
-            enabled: Boolean = false
-            /* TODO Disabled temporarily till kcauto-kai is finalized
-            fleetComp: Int = 1*/
+            enabled: Boolean = false,
+            fleet: String = ""
     ) {
         @IniConfig(key = "Enabled")
         val enabledProperty = enabled.toProperty()
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        @IniConfig(key = "FleetComp") val fleetCompProperty = fleetComp.toProperty()*/
+        @IniConfig(key = "Fleet")
+        val fleetProperty = fleet.toProperty()
 
         var enabled by enabledProperty
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        var fleetComp by fleetCompProperty*/
+        var fleet by fleetProperty
     }
 
     class Sortie(
             enabled: Boolean = false,
             engine: Engine = Engine.LEGACY,
             map: String = "1-1",
-            nodes: Int = 5,
+            retreatNodes: List<String> = mutableListOf("1"),
             fleetMode: FleetMode = FleetMode.STANDARD,
             nodeSelects: List<String> = mutableListOf(),
             formations: List<String> = mutableListOf(),
@@ -445,8 +455,8 @@ data class KancolleAutoProfile(
         val engineProperty = engine.toProperty()
         @IniConfig(key = "Map")
         val mapProperty = map.toProperty()
-        @IniConfig(key = "CombatNodes")
-        val nodesProperty = nodes.toProperty()
+        @IniConfig(key = "RetreatNodes")
+        val retreatNodesProperty = retreatNodes.toProperty()
         @IniConfig(key = "FleetMode")
         val fleetModeProperty = fleetMode.toProperty()
         @IniConfig(key = "NodeSelects")
@@ -475,7 +485,7 @@ data class KancolleAutoProfile(
         var enabled by enabledProperty
         var engine by engineProperty
         var map by mapProperty
-        var nodes by nodesProperty
+        var retreatNodes by retreatNodesProperty
         var fleetMode by fleetModeProperty
         var nodeSelects by nodeSelectsProperty
         var formations by formationsProperty
@@ -548,21 +558,16 @@ data class KancolleAutoProfile(
     }
 
     class Quests(
-            enabled: Boolean = true
-            /* TODO Disabled temporarily till kcauto-kai is finalized
-            quests: List<String> = listOf("bd1", "bd2", "bd3", "bd4", "bd5", "bd6", "bd7", "bd8", "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "bw7", "bw8", "bw9", "bw10", "c2", "c3", "c4", "c8", "d2", "d3", "d4", "d9", "d11", "e3", "e4"),
-            checkSchedule: Int = 5*/
+            enabled: Boolean = true,
+            questGroups: List<QuestGroups> = mutableListOf(QuestGroups.DAILY, QuestGroups.WEEKLY, QuestGroups.MONTHLY)
     ) {
         @IniConfig(key = "Enabled")
         val enabledProperty = enabled.toProperty()
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        @IniConfig(key = "Quests") val questsProperty = quests.toProperty()
-        @IniConfig(key = "CheckSchedule") val checkScheduleProperty = checkSchedule.toProperty()*/
+        @IniConfig(key = "QuestGroups")
+        val questGroupsProperty = questGroups.toProperty()
 
         var enabled by enabledProperty
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        var quests by questsProperty
-        var checkSchedule by checkScheduleProperty*/
+        var questGroups by questGroupsProperty
     }
 
     override fun toString(): String = fxJacksonObjectMapper().writeValueAsString(this)

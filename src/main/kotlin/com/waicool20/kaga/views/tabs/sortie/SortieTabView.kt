@@ -21,16 +21,20 @@
 package com.waicool20.kaga.views.tabs.sortie
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.kaga.config.KancolleAutoProfile
 import com.waicool20.kaga.config.KancolleAutoProfile.*
+import com.waicool20.waicoolutils.controlsfx.bind
+import com.waicool20.waicoolutils.controlsfx.checkAll
 import com.waicool20.waicoolutils.javafx.addListener
 import com.waicool20.waicoolutils.javafx.asTimeSpinner
-import com.waicool20.waicoolutils.javafx.bind
 import com.waicool20.waicoolutils.javafx.cellfactories.NoneSelectableCellFactory
 import javafx.beans.binding.Bindings
+import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
+import org.controlsfx.control.CheckComboBox
 import tornadofx.*
 import java.util.concurrent.TimeUnit
 
@@ -41,6 +45,7 @@ class SortieTabView {
     @FXML private lateinit var mapComboBox: ComboBox<String>
     @FXML private lateinit var nodesSpinner: Spinner<Int>
     @FXML private lateinit var fleetModeComboBox: ComboBox<FleetMode>
+    @FXML private lateinit var retreatNodesBox: CheckComboBox<String>
     @FXML private lateinit var retreatLimitComboBox: ComboBox<DamageLevel>
     @FXML private lateinit var repairLimitComboBox: ComboBox<DamageLevel>
     @FXML private lateinit var repairTimeHourSpinner: Spinner<Int>
@@ -95,6 +100,12 @@ class SortieTabView {
 
         nodesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12)
 
+        retreatNodesBox.items.setAll(KancolleAutoProfile.VALID_NODES.filter { it.toIntOrNull() == null })
+        with(Kaga.PROFILE.sortie.retreatNodes) {
+            nodesSpinner.valueFactory.value = mapNotNull { it.toIntOrNull() }.firstOrNull() ?: 1
+            retreatNodesBox.checkModel.checkAll(filter { it.toIntOrNull() == null })
+        }
+
         val fleetModeConverter = object : StringConverter<FleetMode>() {
             override fun toString(fleetMode: FleetMode) = fleetMode.prettyString
             override fun fromString(string: String) = FleetMode.fromPrettyString(string)
@@ -131,7 +142,6 @@ class SortieTabView {
             enableButton.bind(enabledProperty)
             engineComboBox.bind(engineProperty)
             mapComboBox.valueProperty().addListener("SortieMap") { newVal -> map = newVal }
-            nodesSpinner.bind(nodesProperty)
             fleetModeComboBox.bind(fleetModeProperty)
 
             retreatLimitComboBox.bind(retreatLimitProperty)
@@ -139,6 +149,16 @@ class SortieTabView {
             val binding = Bindings.concat(repairTimeHourSpinner.valueProperty().asString("%02d"),
                     repairTimeMinSpinner.valueProperty().asString("%02d"))
             repairTimeLimitProperty.bind(binding)
+
+            nodesSpinner.valueProperty().addListener("NodeCount") { newVal ->
+                retreatNodes.removeAll { it.toIntOrNull() != null }
+                retreatNodes.add("$newVal")
+            }
+
+            retreatNodesBox.checkModel.checkedItems.addListener { newVal: ListChangeListener.Change<out String> ->
+                retreatNodes.removeAll { it.toIntOrNull() == null }
+                retreatNodes.addAll(newVal.list)
+            }
         }
 
         with(Kaga.PROFILE.sortie.miscOptions) {
@@ -156,7 +176,7 @@ class SortieTabView {
             }
         }
 
-        content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
+        content.disableProperty().bind(enableButton.selectedProperty().not())
     }
 
     private fun setupButtons() {

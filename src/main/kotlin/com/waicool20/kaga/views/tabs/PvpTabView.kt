@@ -21,17 +21,17 @@
 package com.waicool20.kaga.views.tabs
 
 import com.waicool20.kaga.Kaga
+import com.waicool20.waicoolutils.javafx.bind
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
-import javafx.scene.layout.GridPane
+import javafx.scene.control.ComboBox
+import javafx.scene.layout.VBox
 import tornadofx.*
 
 class PvpTabView {
     @FXML private lateinit var enableButton: CheckBox
-    /* TODO Disabled temporarily till kcauto-kai is finalized
-    @FXML private lateinit var fleetCompComboBox: ComboBox<Int>*/
-
-    @FXML private lateinit var content: GridPane
+    @FXML private lateinit var presetComboBox: ComboBox<String>
+    @FXML private lateinit var content: VBox
 
     @FXML
     fun initialize() {
@@ -40,15 +40,13 @@ class PvpTabView {
     }
 
     private fun setValues() {
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        fleetCompComboBox.items.setAll((1..5).toList())*/
+        presetComboBox.items.setAll(listOf("") + (1..12).map(Int::toString))
     }
 
     private fun createBindings() {
         with(Kaga.PROFILE.pvp) {
             enableButton.bind(enabledProperty)
-            /* TODO Disabled temporarily till kcauto-kai is finalized
-            fleetCompComboBox.bind(fleetCompProperty)*/
+            presetComboBox.bind(fleetProperty)
         }
         content.disableProperty().bind(enableButton.selectedProperty().not())
     }
