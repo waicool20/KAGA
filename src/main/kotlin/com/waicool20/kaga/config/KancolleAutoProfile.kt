@@ -436,6 +436,7 @@ data class KancolleAutoProfile(
             engine: Engine = Engine.LEGACY,
             map: String = "1-1",
             retreatNodes: List<String> = mutableListOf("1"),
+            fleets: List<Int> = mutableListOf(),
             fleetMode: FleetMode = FleetMode.STANDARD,
             nodeSelects: List<String> = mutableListOf(),
             formations: List<String> = mutableListOf(),
@@ -457,6 +458,8 @@ data class KancolleAutoProfile(
         val mapProperty = map.toProperty()
         @IniConfig(key = "RetreatNodes")
         val retreatNodesProperty = retreatNodes.toProperty()
+        @IniConfig(key = "Fleets")
+        val fleetsProperty = fleets.toProperty()
         @IniConfig(key = "FleetMode")
         val fleetModeProperty = fleetMode.toProperty()
         @IniConfig(key = "NodeSelects")
@@ -486,6 +489,7 @@ data class KancolleAutoProfile(
         var engine by engineProperty
         var map by mapProperty
         var retreatNodes by retreatNodesProperty
+        var fleets by fleetsProperty
         var fleetMode by fleetModeProperty
         var nodeSelects by nodeSelectsProperty
         var formations by formationsProperty

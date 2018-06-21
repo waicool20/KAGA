@@ -136,6 +136,10 @@
     "description": "Maximum number of combat nodes to run. Resource/hazard nodes do not count"
   },
   {
+    "id": "Sortie-fleetsLabel",
+    "description": "Fleet presets to use during sortie as ordered in the fleet preset screen"
+  },
+  {
     "id": "Sortie-retreatNodesLabel",
     "description": "Forces the script to retreat at the specified nodes"
   },

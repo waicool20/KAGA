@@ -46,6 +46,7 @@
          <rowConstraints>
              <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES"/>
              <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES"/>
+             <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES"/>
              <RowConstraints minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES"/>
              <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES"/>
              <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES"/>
@@ -86,7 +87,7 @@
                    <Spinner fx:id="nodesSpinner" editable="true" prefWidth="75.0"/>
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="4">
+             <HBox alignment="CENTER" GridPane.rowIndex="5">
                <children>
                    <Label fx:id="nodeSelectsLabel" text="Node Selects:"/>
                </children>
@@ -95,12 +96,12 @@
                </padding>
             </HBox>
              <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1"
-                   GridPane.rowIndex="4">
+                   GridPane.rowIndex="5">
                <children>
                    <Button fx:id="nodeSelectsButton" mnemonicParsing="false" text="Configure"/>
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="5">
+             <HBox alignment="CENTER" GridPane.rowIndex="6">
                <children>
                    <Label fx:id="formationsLabel" text="Formations:"/>
                </children>
@@ -109,12 +110,12 @@
                </padding>
             </HBox>
              <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1"
-                   GridPane.rowIndex="5">
+                   GridPane.rowIndex="6">
                <children>
                    <Button fx:id="formationsButton" mnemonicParsing="false" text="Configure"/>
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="7">
+             <HBox alignment="CENTER" GridPane.rowIndex="8">
                <children>
                    <Label fx:id="retreatLimitLabel" text="Retreat Limit:"/>
                </children>
@@ -122,12 +123,12 @@
                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                </padding>
             </HBox>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
+             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <children>
                    <ComboBox fx:id="retreatLimitComboBox" prefHeight="28.0" prefWidth="180.0"/>
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="8">
+             <HBox alignment="CENTER" GridPane.rowIndex="9">
                <children>
                    <Label fx:id="repairLimitLabel" text="Repair Limit:"/>
                </children>
@@ -135,12 +136,12 @@
                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                </padding>
             </HBox>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="8">
+             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <children>
                    <ComboBox fx:id="repairLimitComboBox" prefHeight="28.0" prefWidth="180.0"/>
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="9">
+             <HBox alignment="CENTER" GridPane.rowIndex="10">
                <children>
                    <Label fx:id="repairTimeLimitLabel" text="Repair &#10;Time Limit:"
                           textAlignment="CENTER"/>
@@ -149,7 +150,7 @@
                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                </padding>
             </HBox>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="9">
+             <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <children>
                   <HBox alignment="CENTER_LEFT">
                      <children>
@@ -168,7 +169,7 @@
                   </CheckBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="10">
+             <HBox alignment="CENTER" GridPane.rowIndex="11">
                <children>
                    <Label fx:id="checksLabel" text="Checks:"/>
                </children>
@@ -177,14 +178,14 @@
                </padding>
             </HBox>
              <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1"
-                   GridPane.rowIndex="10">
+                   GridPane.rowIndex="11">
                <children>
                    <CheckBox fx:id="checkFatigueCheckBox" mnemonicParsing="false" text="Fatigue"/>
                    <CheckBox fx:id="checkPortCheckBox" mnemonicParsing="false" text="Port"/>
                    <CheckBox fx:id="clearStopCheckBox" mnemonicParsing="false" text="Clear"/>
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="3">
+             <HBox alignment="CENTER" GridPane.rowIndex="4">
                <children>
                    <Label fx:id="fleetModeLabel" text="Fleet Mode:"/>
                </children>
@@ -193,24 +194,31 @@
                </padding>
             </HBox>
              <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1"
-                   GridPane.rowIndex="3">
+                   GridPane.rowIndex="4">
                <children>
                    <ComboBox fx:id="fleetModeComboBox" prefHeight="28.0" prefWidth="180.0"/>
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="6">
+             <HBox alignment="CENTER" GridPane.rowIndex="7">
                <children>
                    <Label fx:id="nightBattlesLabel" text="Night Battles:"/>
                </children>
             </HBox>
+             <HBox alignment="CENTER" GridPane.rowIndex="3">
+                 <children>
+                     <Label fx:id="retreatNodesLabel" text="Retreat Nodes:"/>
+                 </children>
+             </HBox>
+             <Button fx:id="nightBattlesButton" mnemonicParsing="false" text="Configure"
+                     GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+             <CheckComboBox fx:id="retreatNodesBox" prefWidth="180.0" GridPane.columnIndex="1"
+                            GridPane.rowIndex="3"/>
             <HBox alignment="CENTER" GridPane.rowIndex="2">
                <children>
-                   <Label fx:id="retreatNodesLabel" text="Retreat Nodes:"/>
+                   <Label fx:id="fleetsLabel" text="Fleets:"/>
                </children>
             </HBox>
-             <Button fx:id="nightBattlesButton" mnemonicParsing="false" text="Configure"
-                     GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-             <CheckComboBox fx:id="retreatNodesBox" prefWidth="180.0" GridPane.columnIndex="1"
+             <CheckComboBox fx:id="fleetsComboBox" prefWidth="180.0" GridPane.columnIndex="1"
                             GridPane.rowIndex="2"/>
          </children>
       </GridPane>

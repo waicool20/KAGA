@@ -44,6 +44,7 @@ class SortieTabView {
     @FXML private lateinit var engineComboBox: ComboBox<Engine>
     @FXML private lateinit var mapComboBox: ComboBox<String>
     @FXML private lateinit var nodesSpinner: Spinner<Int>
+    @FXML private lateinit var fleetsComboBox: CheckComboBox<Int>
     @FXML private lateinit var fleetModeComboBox: ComboBox<FleetMode>
     @FXML private lateinit var retreatNodesBox: CheckComboBox<String>
     @FXML private lateinit var retreatLimitComboBox: ComboBox<DamageLevel>
@@ -99,6 +100,7 @@ class SortieTabView {
         mapComboBox.value = Kaga.PROFILE.sortie.map
 
         nodesSpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12)
+        fleetsComboBox.items.setAll((1..12).toList())
 
         retreatNodesBox.items.setAll(KancolleAutoProfile.VALID_NODES.filter { it.toIntOrNull() == null })
         with(Kaga.PROFILE.sortie.retreatNodes) {
@@ -143,6 +145,7 @@ class SortieTabView {
             engineComboBox.bind(engineProperty)
             mapComboBox.valueProperty().addListener("SortieMap") { newVal -> map = newVal }
             fleetModeComboBox.bind(fleetModeProperty)
+            fleetsComboBox.bind(fleetsProperty)
 
             retreatLimitComboBox.bind(retreatLimitProperty)
             repairLimitComboBox.bind(repairLimitProperty)
