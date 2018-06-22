@@ -23,6 +23,8 @@ package com.waicool20.kaga.views.tabs
 import com.waicool20.kaga.Kaga
 import com.waicool20.kaga.config.KancolleAutoProfile.QuestGroups
 import com.waicool20.waicoolutils.controlsfx.bind
+import com.waicool20.waicoolutils.controlsfx.checkAll
+import com.waicool20.waicoolutils.javafx.addListener
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
@@ -54,7 +56,18 @@ class QuestsTabView {
     private fun createBindings() {
         with(Kaga.PROFILE.quests) {
             enableButton.bind(enabledProperty)
+            enableButton.selectedProperty().addListener("QuestsEnableListener") { newVal ->
+                if (newVal && questBox.checkModel.checkedItems.isEmpty()) {
+                    questBox.checkModel.checkAll(QuestGroups.values().toList())
+                }
+            }
+
+            if (enabled && questGroups.isEmpty()) questGroups.addAll(QuestGroups.values().toList())
+
             questBox.bind(questGroupsProperty)
+            questBox.checkModel.checkedItems.addListener("QuestGroupsListener") { change ->
+                if (change.list.isEmpty()) enableButton.isSelected = false
+            }
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
     }
