@@ -75,7 +75,9 @@
                 <CheckBox fx:id="preventLockCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <HBox alignment="CENTER" prefHeight="100.0" GridPane.columnSpan="2147483647">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOTE: The options listed here are stored independently from your KCAuto-Kai profiles!&#10;Any changes to the options are applied immediately but are only persisted if saved." textAlignment="CENTER" wrappingWidth="330.0" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                              text="NOTE: The options listed here are stored independently from your KCAuto profiles!&#10;Any changes to the options are applied immediately but are only persisted if saved."
+                              textAlignment="CENTER" wrappingWidth="330.0" HBox.hgrow="ALWAYS"/>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="13">

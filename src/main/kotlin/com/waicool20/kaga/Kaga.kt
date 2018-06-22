@@ -29,7 +29,7 @@ import com.waicool20.kaga.handlers.GlobalShortcutHandler
 import com.waicool20.kaga.handlers.KeyboardIncrementHandler
 import com.waicool20.kaga.handlers.MouseIncrementHandler
 import com.waicool20.kaga.handlers.ToolTipHandler
-import com.waicool20.kaga.kcauto.KancolleAutoKai
+import com.waicool20.kaga.kcauto.KCAuto
 import com.waicool20.kaga.kcauto.YuuBot
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
@@ -158,7 +158,7 @@ object Kaga {
         KancolleAutoProfile()
     }
 
-    val KCAUTO_KAI by lazy { KancolleAutoKai() }
+    val KCAUTO by lazy { KCAuto() }
 
     fun startMainApplication() {
         SikuliXLoader.loadAndTest(CONFIG.sikulixJarPath)
@@ -191,14 +191,14 @@ object Kaga {
 
     fun exit() {
         System.setSecurityManager(null)
-        KCAUTO_KAI.stop()
+        KCAUTO.stop()
         Platform.exit()
         System.exit(0)
     }
 
     fun checkForUpdates(showNoUpdatesDialog: Boolean = false) {
         logger.info("KAGA - ${VERSION_INFO.version}")
-        logger.info("KCAuto-Kai Compatibility: v${VERSION_INFO.kcAutoCompatibility}")
+        logger.info("KCAuto Compatibility: v${VERSION_INFO.kcAutoCompatibility}")
         if (!CONFIG.checkForUpdates) {
             logger.info("Update checking disabled, skipping")
             return

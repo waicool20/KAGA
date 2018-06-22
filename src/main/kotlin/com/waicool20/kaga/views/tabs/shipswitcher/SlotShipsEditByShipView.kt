@@ -29,7 +29,7 @@ class SlotShipsEditByShipView : SlotShipsEditByShipClassView<String>() {
 
     init {
         commonLabel.text = "Select Ship:"
-        // TODO Scan /kcauto-kai.sikuli/shipswitcher.sikuli for assets and add it to items
+        // TODO Scan /kcauto.sikuli/shipswitcher.sikuli for assets and add it to items
         commonComboBox.items.addAll(ShipSpecificationByShip.Submarines.values().map { it.prettyString })
         commonComboBox.selectionModel.select(commonComboBox.items.find { it.equals(spec.ship, true) })
         spec.level?.let { levelSpinner.valueFactory.value = it }

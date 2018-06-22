@@ -168,7 +168,7 @@
         </TabPane>
         <HBox alignment="CENTER_LEFT" fillHeight="false" style="-fx-border-width: 1 0 0 0; -fx-border-color: black;" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
             <children>
-                <Label fx:id="kagaStatus" text="Status: KCAuto-Kai is not running" />
+                <Label fx:id="kagaStatus" text="Status: KCAuto is not running"/>
             </children>
             <GridPane.margin>
                 <Insets />

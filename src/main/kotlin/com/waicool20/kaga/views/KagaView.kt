@@ -33,13 +33,11 @@ import com.waicool20.waicoolutils.javafx.setSideWithHorizontalText
 import com.waicool20.waicoolutils.javafx.tooltips.TooltipSide
 import com.waicool20.waicoolutils.javafx.tooltips.fadeAfter
 import com.waicool20.waicoolutils.javafx.tooltips.showAt
-import javafx.animation.PauseTransition
 import javafx.fxml.FXML
 import javafx.geometry.Side
 import javafx.scene.control.*
 import javafx.scene.layout.HBox
 import javafx.stage.WindowEvent
-import javafx.util.Duration
 import org.controlsfx.glyphfont.Glyph
 import org.slf4j.LoggerFactory
 import tornadofx.*
@@ -78,7 +76,7 @@ class KagaView {
 
     @FXML
     fun initialize() {
-        Kaga.ROOT_STAGE.addEventHandler(WindowEvent.WINDOW_HIDDEN, { Kaga.KCAUTO_KAI.stop() })
+        Kaga.ROOT_STAGE.addEventHandler(WindowEvent.WINDOW_HIDDEN, { Kaga.KCAUTO.stop() })
         tabpane.setSideWithHorizontalText(Side.LEFT)
         createBindings()
         checkStartStopButton()
@@ -107,7 +105,7 @@ class KagaView {
         }
 
         val profileListener: (Boolean) -> Unit = { switchDown ->
-            if (!Kaga.KCAUTO_KAI.isRunning() && canSwitch.get()) {
+            if (!Kaga.KCAUTO.isRunning() && canSwitch.get()) {
                 runLater {
                     canSwitch.set(false)
                     updateProfileItems()
@@ -241,10 +239,10 @@ class KagaView {
 
     @FXML
     private fun onStartStopButton() {
-        if (!Kaga.KCAUTO_KAI.isRunning()) {
+        if (!Kaga.KCAUTO.isRunning()) {
             startKancolleAuto()
         } else {
-            Kaga.KCAUTO_KAI.stop()
+            Kaga.KCAUTO.stop()
             pauseButton.isDisable = true
             pauseButton.isSelected = false
         }
@@ -252,26 +250,26 @@ class KagaView {
 
     @FXML
     private fun startWithoutWritingConfig() {
-        if (!Kaga.KCAUTO_KAI.isRunning()) startKancolleAuto(false)
+        if (!Kaga.KCAUTO.isRunning()) startKancolleAuto(false)
     }
 
     @FXML
     private fun stopAtPort() {
-        if (Kaga.KCAUTO_KAI.isRunning()) Kaga.KCAUTO_KAI.stopAtPort()
+        if (Kaga.KCAUTO.isRunning()) Kaga.KCAUTO.stopAtPort()
     }
 
     private fun startKancolleAuto(saveConfig: Boolean = true) {
         thread {
             runLater {
-                kagaStatus.text = "KCAuto-Kai is running!"
+                kagaStatus.text = "KCAuto is running!"
                 startStopButton.text = "Stop"
                 pauseButton.isDisable = false
                 checkStartStopButton()
                 profileSelectionHBox.isDisable = true
             }
-            Kaga.KCAUTO_KAI.startAndWait(saveConfig)
+            Kaga.KCAUTO.startAndWait(saveConfig)
             runLater {
-                kagaStatus.text = "KCAuto-Kai is not running!"
+                kagaStatus.text = "KCAuto is not running!"
                 startStopButton.text = "Start"
                 pauseButton.isDisable = true
                 pauseButton.isSelected = false
@@ -300,7 +298,7 @@ class KagaView {
     @FXML
     private fun clearCrashLogs() {
         var count = 0
-        Files.walk(Kaga.CONFIG.kcaKaiRootDirPath.resolve("crashes"))
+        Files.walk(Kaga.CONFIG.kcaRootDirPath.resolve("crashes"))
                 .filter { Files.isRegularFile(it) }
                 .filter { it.toString().endsWith(".log") }
                 .peek { count++ }
@@ -313,7 +311,7 @@ class KagaView {
 
     @FXML
     private fun openLatestCrashLog() {
-        val log = Files.walk(Kaga.CONFIG.kcaKaiRootDirPath.resolve("crashes"), 1)
+        val log = Files.walk(Kaga.CONFIG.kcaRootDirPath.resolve("crashes"), 1)
                 .filter { Files.isRegularFile(it) }
                 .filter { it.fileName.toString().endsWith(".log") }
                 .map(Path::toFile)
@@ -357,8 +355,8 @@ class KagaView {
         AlertFactory.info(
                 title = "KAGA - About",
                 content = helpText.replace("<KAGA_VERSION>", Kaga.VERSION_INFO.version)
-                        .replace("<KCAUTO_KAI_COMPAT>", Kaga.VERSION_INFO.kcAutoCompatibility)
-                        .replace("<KCAUTO_KAI_VERSION>", Kaga.KCAUTO_KAI.version)
+                        .replace("<KCAUTO_COMPAT>", Kaga.VERSION_INFO.kcAutoCompatibility)
+                        .replace("<KCAUTO_VERSION>", Kaga.KCAUTO.version)
         ).showAndWait()
     }
 

@@ -341,7 +341,7 @@
     "description": "Path to the sikuli script Jar"
   },
   {
-    "id": "Paths-kcaKaiRootLabel",
-    "description": "Path to kcauto-kai root directory"
+    "id": "Paths-kcaRootLabel",
+    "description": "Path to kcauto root directory"
   }
 ]

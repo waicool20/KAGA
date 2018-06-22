@@ -39,7 +39,7 @@ import java.util.jar.JarFile
 @JsonIgnoreProperties(ignoreUnknown = true)
 class KagaConfig(currentProfile: String = "",
                  sikulixJarPath: Path = Paths.get(""),
-                 kcaKaiRootDirPath: Path = Paths.get(""),
+                 kcaRootDirPath: Path = Paths.get(""),
                  preventLock: Boolean = false,
                  clearConsoleOnStart: Boolean = true,
                  autoRestartOnKCAutoCrash: Boolean = true,
@@ -53,7 +53,7 @@ class KagaConfig(currentProfile: String = "",
 ) {
     val currentProfileProperty = currentProfile.toProperty()
     val sikulixJarPathProperty = sikulixJarPath.toProperty()
-    val kcaKaiRootDirPathProperty = kcaKaiRootDirPath.toProperty()
+    val kcaRootDirPathProperty = kcaRootDirPath.toProperty()
     val preventLockProperty = preventLock.toProperty()
     val clearConsoleOnStartProperty = clearConsoleOnStart.toProperty()
     val autoRestartOnKCAutoCrashProperty = autoRestartOnKCAutoCrash.toProperty()
@@ -67,7 +67,7 @@ class KagaConfig(currentProfile: String = "",
 
     var currentProfile by currentProfileProperty
     var sikulixJarPath by sikulixJarPathProperty
-    var kcaKaiRootDirPath by kcaKaiRootDirPathProperty
+    var kcaRootDirPath by kcaRootDirPathProperty
     var preventLock by preventLockProperty
     var clearConsoleOnStart by clearConsoleOnStartProperty
     var autoRestartOnKCAutoCrash by autoRestartOnKCAutoCrashProperty
@@ -124,7 +124,7 @@ class KagaConfig(currentProfile: String = "",
     }
 
     fun kancolleAutoRootDirPathIsValid(): Boolean =
-            Files.exists(kcaKaiRootDirPath.resolve("kcauto-kai.sikuli"))
+            Files.exists(kcaRootDirPath.resolve("kcauto.sikuli"))
 
     @JsonIgnore
     fun isValid(): Boolean =

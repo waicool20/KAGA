@@ -98,8 +98,6 @@ data class KancolleAutoProfile(
         add("PvP").fromObject(pvp)
         add("Combat").fromObject(sortie)
         add("ShipSwitcher").fromObject(shipSwitcher)
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        quests.quests.setAll(quests.quests.map(String::toLowerCase))*/
         add("Quests").fromObject(quests)
     }
 
@@ -126,7 +124,7 @@ data class KancolleAutoProfile(
                 .plus(listOf("Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZZ1", "ZZ2", "ZZ3"))
                 .toProperty()
 
-        fun load(path: Path = Kaga.CONFIG.kcaKaiRootDirPath.resolve("config.ini")): KancolleAutoProfile {
+        fun load(path: Path = Kaga.CONFIG.kcaRootDirPath.resolve("config.ini")): KancolleAutoProfile {
             if (Files.exists(path)) {
                 loaderLogger.info("Attempting to load KancolleAuto Profile")
                 loaderLogger.debug("Loading KancolleAuto Profile from $path")
@@ -268,12 +266,6 @@ data class KancolleAutoProfile(
     class General(
             program: String = "Chrome",
             pause: Boolean = false
-            /* TODO Disabled temporarily till kcauto-kai is finalized
-            recoveryMethod: RecoveryMethod = RecoveryMethod.KC3,
-            basicRecovery: Boolean = true,
-            sleepCycle: Int = 20,
-            paranoia: Int = 1,
-            sleepModifier: Int = 0*/
     ) {
         @IniConfig(key = "Program")
         val programProperty = program.toProperty()
@@ -281,22 +273,10 @@ data class KancolleAutoProfile(
         val jstOffsetProperty = ((TimeZone.getDefault().rawOffset - TimeZone.getTimeZone("Japan").rawOffset) / 3600000).toProperty()
         @IniConfig(key = "Pause")
         val pauseProperty = pause.toProperty()
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        @IniConfig(key = "RecoveryMethod") val recoveryMethodProperty = SimpleObjectProperty<RecoveryMethod>(recoveryMethod)
-        @IniConfig(key = "BasicRecovery") val basicRecoveryProperty: BooleanProperty = basicRecovery.toProperty()
-        @IniConfig(key = "SleepCycle") val sleepCycleProperty: IntegerProperty = sleepCycle.toProperty()
-        @IniConfig(key = "Paranoia") val paranoiaProperty: IntegerProperty = paranoia.toProperty()
-        @IniConfig(key = "SleepModifier") val sleepModifierProperty: IntegerProperty = sleepModifier.toProperty()*/
 
         var program by programProperty
         var jstOffset by jstOffsetProperty
         var pause by pauseProperty
-        /* TODO Disabled temporarily till kcauto-kai is finalized
-        var recoveryMethod by recoveryMethodProperty
-        var basicRecovery by basicRecoveryProperty
-        var sleepCycle by sleepCycleProperty
-        var paranoia by paranoiaProperty
-        var sleepModifier by sleepModifierProperty*/
     }
 
     class ScheduledSleep(

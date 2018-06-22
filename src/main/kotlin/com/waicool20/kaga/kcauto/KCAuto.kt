@@ -35,15 +35,15 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
 
-class KancolleAutoKai {
+class KCAuto {
     private val logger = LoggerFactory.getLogger(javaClass)
     private var kancolleAutoProcess: Process? = null
     private val shouldStop = AtomicBoolean(false)
 
-    val statsTracker = KancolleAutoKaiStatsTracker
+    val statsTracker = KCAutoStatsTracker
 
     val version by lazy {
-        Files.readAllLines(Kaga.CONFIG.kcaKaiRootDirPath.resolve("CHANGELOG.md")).first().let {
+        Files.readAllLines(Kaga.CONFIG.kcaRootDirPath.resolve("CHANGELOG.md")).first().let {
             it.dropWhile { !it.isDigit() }
         }
     }
@@ -53,7 +53,7 @@ class KancolleAutoKai {
         val args = listOf(
                 "java", "-jar",
                 "${Kaga.CONFIG.sikulixJarPath}", "-r",
-                "${Kaga.CONFIG.kcaKaiRootDirPath.resolve("kcauto-kai.sikuli")}",
+                "${Kaga.CONFIG.kcaRootDirPath.resolve("kcauto.sikuli")}",
                 "--", "cfg", "${Kaga.PROFILE.path()}"
         )
         val lockPreventer = LockPreventer().takeIf { Kaga.CONFIG.preventLock }
@@ -61,7 +61,7 @@ class KancolleAutoKai {
         shouldStop.set(false)
         KCAutoLoop@ while (true) {
             if (Kaga.CONFIG.clearConsoleOnStart) println("\u001b[2J\u001b[H") // Clear console
-            logger.info("Starting new KCAuto-Kai session (Version: $version)")
+            logger.info("Starting new KCAuto session (Version: $version)")
             logger.debug("Launching with command: ${args.joinToString(" ")}")
             logger.debug("Session profile: ${Kaga.PROFILE}")
             // Start Processes
@@ -75,14 +75,14 @@ class KancolleAutoKai {
             val exitVal = kancolleAutoProcess?.waitFor()
             streamGobbler?.waitFor()
 
-            logger.info("KCAuto-Kai session has terminated!")
+            logger.info("KCAuto session has terminated!")
             logger.debug("Exit value was $exitVal")
             lockPreventer?.stop()
             Kaga.PROFILE.general.pause = false
 
             // Detect Crash
             val scriptCrashed = exitVal !in listOf(0, 143)
-            if (scriptCrashed) logger.info("KCAuto-Kai crashed!")
+            if (scriptCrashed) logger.info("KCAuto crashed!")
 
             YuuBot.reportStats()
 
@@ -112,13 +112,13 @@ class KancolleAutoKai {
     }
 
     fun stop() {
-        logger.info("Terminating current KCAuto-Kai session")
+        logger.info("Terminating current KCAuto session")
         kancolleAutoProcess?.destroy()
         shouldStop.set(true)
     }
 
     fun stopAtPort() {
-        logger.info("Will wait for any ongoing battle to finish first before terminating current KCAuto-Kai session!")
+        logger.info("Will wait for any ongoing battle to finish first before terminating current KCAuto session!")
         thread {
             while (!statsTracker.atPort) TimeUnit.MILLISECONDS.sleep(10)
             stop()
@@ -131,7 +131,7 @@ class KancolleAutoKai {
         val template = Kaga::class.java.classLoader.getResourceAsStream("crashlog_template.md").bufferedReader().readText()
         val logs = find<ConsoleView>().logs()
         val crashTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss"))
-        val logFile = Kaga.CONFIG.kcaKaiRootDirPath.resolve("crashes/$crashTime.log")
+        val logFile = Kaga.CONFIG.kcaRootDirPath.resolve("crashes/$crashTime.log")
         if (Files.notExists(logFile)) Files.createDirectories(logFile.parent)
         val logSection = template.replace("<DateTime>", crashTime)
                 .replace("<Version>", version)

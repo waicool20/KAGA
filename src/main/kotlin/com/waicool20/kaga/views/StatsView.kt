@@ -21,7 +21,7 @@
 package com.waicool20.kaga.views
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.kcauto.KancolleAutoKaiStats
+import com.waicool20.kaga.kcauto.KCAutoStats
 import javafx.application.Platform
 import javafx.beans.value.ChangeListener
 import javafx.scene.control.Label
@@ -73,35 +73,35 @@ class StatsView : View() {
         questsTitledPane.heightProperty().addListener(listener)
         miscTitledPane.heightProperty().addListener(listener)
         fixedRateTimer(period = 1000L) {
-            if (Kaga.KCAUTO_KAI.isRunning()) {
+            if (Kaga.KCAUTO.isRunning()) {
                 Platform.runLater { updateStats() }
             }
         }
     }
 
-    private fun updateStats() = Kaga.KCAUTO_KAI.statsTracker.run {
+    private fun updateStats() = Kaga.KCAUTO.statsTracker.run {
         timeElapsedLabel.text = timeDelta(startingTime)
         startingTimeLabel.text = startingTime?.atZone(ZoneId.systemDefault())
                 ?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: ""
 
-        sortiesDoneLabel.text = get(KancolleAutoKaiStats::sortiesDone).toString()
-        sortiesAttemptedLabel.text = get(KancolleAutoKaiStats::sortiesAttempted).toString()
-        sortiesPerHourLabel.text = formatDecimal(get(KancolleAutoKaiStats::sortiesDone) / hoursSince(startingTime))
+        sortiesDoneLabel.text = get(KCAutoStats::sortiesDone).toString()
+        sortiesAttemptedLabel.text = get(KCAutoStats::sortiesAttempted).toString()
+        sortiesPerHourLabel.text = formatDecimal(get(KCAutoStats::sortiesDone) / hoursSince(startingTime))
 
-        expeditionsSentLabel.text = get(KancolleAutoKaiStats::expeditionsSent).toString()
-        expeditionsReceivedLabel.text = get(KancolleAutoKaiStats::expeditionsReceived).toString()
+        expeditionsSentLabel.text = get(KCAutoStats::expeditionsSent).toString()
+        expeditionsReceivedLabel.text = get(KCAutoStats::expeditionsReceived).toString()
 
-        pvpsConductedLabel.text = get(KancolleAutoKaiStats::pvpsDone).toString()
+        pvpsConductedLabel.text = get(KCAutoStats::pvpsDone).toString()
 
-        questsDoneLabel.text = get(KancolleAutoKaiStats::questsDone).toString()
-        questsStartedLabel.text = get(KancolleAutoKaiStats::questsStarted).toString()
+        questsDoneLabel.text = get(KCAutoStats::questsDone).toString()
+        questsStartedLabel.text = get(KCAutoStats::questsStarted).toString()
 
-        repairsLabel.text = get(KancolleAutoKaiStats::repairs).toString()
-        resuppliesLabel.text = get(KancolleAutoKaiStats::resupplies).toString()
-        bucketsUsedLabel.text = get(KancolleAutoKaiStats::bucketsUsed).toString()
-        shipsSwitchedLabel.text = get(KancolleAutoKaiStats::shipsSwitched).toString()
+        repairsLabel.text = get(KCAutoStats::repairs).toString()
+        resuppliesLabel.text = get(KCAutoStats::resupplies).toString()
+        bucketsUsedLabel.text = get(KCAutoStats::bucketsUsed).toString()
+        shipsSwitchedLabel.text = get(KCAutoStats::shipsSwitched).toString()
         crashesLabel.text = crashes.toString()
-        recoveriesLabel.text = get(KancolleAutoKaiStats::recoveries).toString()
+        recoveriesLabel.text = get(KCAutoStats::recoveries).toString()
     }
 
     private fun timeDelta(time: Instant?): String {

@@ -29,7 +29,7 @@ import kotlin.concurrent.thread
 
 class PathsTabView {
     @FXML private lateinit var sikulixJarPathLink: Hyperlink
-    @FXML private lateinit var kcaKaiRootPathLink: Hyperlink
+    @FXML private lateinit var kcaRootPathLink: Hyperlink
 
     @FXML
     fun initialize() {
@@ -39,9 +39,9 @@ class PathsTabView {
     fun setValues() {
         with(Kaga.CONFIG) {
             sikulixJarPathLink.setOnAction { openFile(sikulixJarPath.parent) }
-            kcaKaiRootPathLink.setOnAction { openFile(kcaKaiRootDirPath) }
+            kcaRootPathLink.setOnAction { openFile(kcaRootDirPath) }
             sikulixJarPathLink.text = sikulixJarPath.toString()
-            kcaKaiRootPathLink.text = kcaKaiRootDirPath.toString()
+            kcaRootPathLink.text = kcaRootDirPath.toString()
         }
     }
 

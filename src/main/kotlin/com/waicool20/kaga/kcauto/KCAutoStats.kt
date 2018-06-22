@@ -24,11 +24,11 @@ import com.waicool20.waicoolutils.logging.LoggingEventBus
 import java.time.Instant
 import kotlin.reflect.KMutableProperty1
 
-object KancolleAutoKaiStatsTracker {
+object KCAutoStatsTracker {
     var startingTime: Instant? = null
     var crashes = 0
     var atPort = true
-    val history = mutableListOf<KancolleAutoKaiStats>()
+    val history = mutableListOf<KCAutoStats>()
 
     init {
         val stat = Regex("(\\d+)(?: \\(.+?\\))?")
@@ -81,7 +81,7 @@ object KancolleAutoKaiStatsTracker {
             }
 
             // Track crashes occurred
-            subscribe(Regex(".*KCAuto-Kai crashed!.*")) {
+            subscribe(Regex(".*KCAuto crashed!.*")) {
                 crashes++
             }
 
@@ -107,14 +107,14 @@ object KancolleAutoKaiStatsTracker {
         trackNewChild()
     }
 
-    fun trackNewChild() = history.add(KancolleAutoKaiStats())
+    fun trackNewChild() = history.add(KCAutoStats())
 
-    operator fun get(stat: KMutableProperty1<KancolleAutoKaiStats, Int>) = history.sumBy { stat.get(it) }
+    operator fun get(stat: KMutableProperty1<KCAutoStats, Int>) = history.sumBy { stat.get(it) }
 
     private fun currentStats() = history.last()
 }
 
-data class KancolleAutoKaiStats(
+data class KCAutoStats(
         var sortiesDone: Int = 0,
         var sortiesAttempted: Int = 0,
         var expeditionsSent: Int = 0,

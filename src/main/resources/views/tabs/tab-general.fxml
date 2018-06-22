@@ -50,63 +50,11 @@
                         <Label fx:id="programLabel" text="Program:"/>
                     </children>
                 </HBox>
-                <!-- TODO Disabled temporarily till kcauto-kai is finalized
-                <HBox alignment="CENTER" GridPane.rowIndex="1">
-                    <children>
-                        <Label fx:id="recoveryMethodLabel" text="Recovery Method:"/>
-                    </children>
-                </HBox>-->
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                     <children>
                         <TextField fx:id="programTextField"/>
                     </children>
                 </HBox>
-                <!-- TODO Disabled temporarily till kcauto-kai is finalized
-                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <children>
-                        <ChoiceBox fx:id="recoveryMethodChoiceBox" prefWidth="150.0"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER" GridPane.rowIndex="4">
-                    <children>
-                        <Label fx:id="sleepCycleLabel" text="Sleep Cycle:"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER" GridPane.rowIndex="3">
-                    <children>
-                        <Label fx:id="paranoiaLabel" text="Paranoia:"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                    <children>
-                        <Spinner fx:id="sleepCycleSpinner" editable="true"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                    <children>
-                        <Spinner fx:id="paranoiaSpinner" editable="true"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER" GridPane.rowIndex="5">
-                    <children>
-                        <Label fx:id="sleepModifierLabel" text="Sleep Modifier:"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                    <children>
-                        <Spinner fx:id="sleepModifierSpinner" editable="true"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER" GridPane.rowIndex="2">
-                    <children>
-                        <Label fx:id="basicRecoveryLabel" text="Basic Recovery:"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <children>
-                        <CheckBox fx:id="basicRecoveryCheckBox" mnemonicParsing="false"/>
-                    </children>
-                </HBox>-->
             </children>
         </GridPane>
     </children>

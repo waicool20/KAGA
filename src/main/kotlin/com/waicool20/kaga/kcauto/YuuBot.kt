@@ -53,7 +53,7 @@ object YuuBot {
 
     init {
         with(LoggingEventBus) {
-            // Listen to the end when kca-kai is done report stats
+            // Listen to the end when kca is done report stats
             subscribe(Regex(".*Recoveries done:.*")) { reportStats() }
         }
     }
@@ -64,7 +64,7 @@ object YuuBot {
             readResources()
             logger.info("Reporting stats to YuuBot!")
             try {
-                val stats = KCAutoKaiStatsDto(KancolleAutoKaiStatsTracker, resources)
+                val stats = KCAutoStatsDto(KCAutoStatsTracker, resources)
                 val response = HttpPost(endpoint + Kaga.CONFIG.apiKey + "/stats").apply {
                     entity = StringEntity(mapper.writeValueAsString(stats), ContentType.APPLICATION_JSON)
                 }.let { client.execute(it) }.statusLine.statusCode
@@ -140,7 +140,7 @@ object YuuBot {
 
 data class CrashInfoDto(val log: String)
 
-data class KCAutoKaiStatsDto(
+data class KCAutoStatsDto(
         val profileName: String,
         val isRunning: Boolean,
         val startingTime: Instant,
@@ -159,23 +159,23 @@ data class KCAutoKaiStatsDto(
         val recoveries: Int,
         val resources: Resources
 ) {
-    constructor(tracker: KancolleAutoKaiStatsTracker, resources: Resources) : this(
+    constructor(tracker: KCAutoStatsTracker, resources: Resources) : this(
             profileName = Kaga.PROFILE.name,
-            isRunning = Kaga.KCAUTO_KAI.isRunning(),
+            isRunning = Kaga.KCAUTO.isRunning(),
             startingTime = tracker.startingTime ?: Instant.now(),
             crashes = tracker.crashes,
-            sortiesDone = tracker[KancolleAutoKaiStats::sortiesDone],
-            sortiesAttempted = tracker[KancolleAutoKaiStats::sortiesAttempted],
-            expeditionsSent = tracker[KancolleAutoKaiStats::expeditionsSent],
-            expeditionsReceived = tracker[KancolleAutoKaiStats::expeditionsReceived],
-            pvpsDone = tracker[KancolleAutoKaiStats::pvpsDone],
-            questsDone = tracker[KancolleAutoKaiStats::questsDone],
-            questsStarted = tracker[KancolleAutoKaiStats::questsStarted],
-            resupplies = tracker[KancolleAutoKaiStats::resupplies],
-            repairs = tracker[KancolleAutoKaiStats::repairs],
-            bucketsUsed = tracker[KancolleAutoKaiStats::bucketsUsed],
-            shipsSwitched = tracker[KancolleAutoKaiStats::shipsSwitched],
-            recoveries = tracker[KancolleAutoKaiStats::recoveries],
+            sortiesDone = tracker[KCAutoStats::sortiesDone],
+            sortiesAttempted = tracker[KCAutoStats::sortiesAttempted],
+            expeditionsSent = tracker[KCAutoStats::expeditionsSent],
+            expeditionsReceived = tracker[KCAutoStats::expeditionsReceived],
+            pvpsDone = tracker[KCAutoStats::pvpsDone],
+            questsDone = tracker[KCAutoStats::questsDone],
+            questsStarted = tracker[KCAutoStats::questsStarted],
+            resupplies = tracker[KCAutoStats::resupplies],
+            repairs = tracker[KCAutoStats::repairs],
+            bucketsUsed = tracker[KCAutoStats::bucketsUsed],
+            shipsSwitched = tracker[KCAutoStats::shipsSwitched],
+            recoveries = tracker[KCAutoStats::recoveries],
             resources = resources
     )
 }

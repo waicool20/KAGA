@@ -3,16 +3,16 @@ Kancolle Auto GUI App by waicool20
 https://github.com/waicool20/KAGA
 
 Version: <KAGA_VERSION>
-KCAuto Kai Compatibility: <KCAUTO_KAI_COMPAT>
+KCAuto Compatibility: <KCAUTO_COMPAT>
 
 Licensed under GPLv3
 
 -------------------------------------------------
 
-KCAuto Kai Script by mrmin123
+KCAuto Script by mrmin123
 
-https://github.com/mrmin123/kcauto-kai
+https://github.com/mrmin123/kcauto
 
-Version: <KCAUTO_KAI_VERSION>
+Version: <KCAUTO_VERSION>
 
 Licensed under GPLv3
