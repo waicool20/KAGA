@@ -158,9 +158,9 @@ class SortieTabView {
                 retreatNodes.add("$newVal")
             }
 
-            retreatNodesBox.checkModel.checkedItems.addListener { newVal: ListChangeListener.Change<out String> ->
+            retreatNodesBox.checkModel.checkedItems.addListener("RetreatNodesListener") { change ->
                 retreatNodes.removeAll { it.toIntOrNull() == null }
-                retreatNodes.addAll(newVal.list)
+                retreatNodes.addAll(change.list)
             }
         }
 
