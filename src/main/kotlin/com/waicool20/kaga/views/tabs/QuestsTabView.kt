@@ -33,7 +33,6 @@ import javafx.util.StringConverter
 import org.controlsfx.control.CheckComboBox
 import tornadofx.*
 
-
 class QuestsTabView {
     @FXML private lateinit var enableButton: CheckBox
     @FXML private lateinit var content: VBox
@@ -55,18 +54,19 @@ class QuestsTabView {
 
     private fun createBindings() {
         with(Kaga.PROFILE.quests) {
+            if (enabled && questGroups.isEmpty()) {
+                questGroups.addAll(QuestGroups.values().toList())
+                enabled = true
+            }
+
             enableButton.bind(enabledProperty)
+            questBox.bind(questGroupsProperty) { change ->
+                if (change.list.isEmpty()) enableButton.isSelected = false
+            }
             enableButton.selectedProperty().addListener("QuestsEnableListener") { newVal ->
                 if (newVal && questBox.checkModel.checkedItems.isEmpty()) {
                     questBox.checkModel.checkAll(QuestGroups.values().toList())
                 }
-            }
-
-            if (enabled && questGroups.isEmpty()) questGroups.addAll(QuestGroups.values().toList())
-
-            questBox.bind(questGroupsProperty)
-            questBox.checkModel.checkedItems.addListener("QuestGroupsListener") { change ->
-                if (change.list.isEmpty()) enableButton.isSelected = false
             }
         }
         content.disableProperty().bind(Bindings.not(enableButton.selectedProperty()))
