@@ -38,10 +38,18 @@ class ExpeditionsTabView {
 
     @FXML private lateinit var content: VBox
 
-    private val specialExpediions = mapOf(
+    private val supportExpeditions = mapOf(
             "9998" to "Pre-Boss Node Support",
             "9999" to "Boss Node Support"
     )
+
+    private val expeditions =
+            (1..8).map(Int::toString) +
+                    listOf("A1", "A2", "A3") +
+                    (9..16).map(Int::toString) +
+                    listOf("B1", "B2") +
+                    (17..40).map(Int::toString) +
+                    supportExpeditions.keys
 
     @FXML
     fun initialize() {
@@ -50,13 +58,13 @@ class ExpeditionsTabView {
     }
 
     private fun setValues() {
-        (1..41).map(Int::toString).plus(specialExpediions.keys).also {
+        expeditions.also {
             fleet2CheckComboBox.items.setAll(it)
             fleet3CheckComboBox.items.setAll(it)
             fleet4CheckComboBox.items.setAll(it)
         }
         val converter = object : StringConverter<String>() {
-            override fun toString(expNumber: String) = specialExpediions[expNumber] ?: expNumber
+            override fun toString(expedition: String) = supportExpeditions[expedition] ?: expedition
             override fun fromString(string: String?): String = ""
         }
         fleet2CheckComboBox.converter = converter
