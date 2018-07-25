@@ -66,12 +66,16 @@ object KCAutoStatsTracker {
                 currentStats().pvpsDone = it.groupValues[1].toInt()
             }
 
-            // Track buckets used
-            subscribe(Regex(".*Resupplies: $stat \\|\\| Repairs: $stat \\|\\| Buckets: $stat.*")) {
+            // Track resupplies
+            subscribe(Regex(".*Resupplies: $stat \\|\\| Fairy resupplies: $stat.*")) {
+                currentStats().resupplies = it.groupValues[1].toInt() + it.groupValues[2].toInt()
+            }
+
+            // Track repairs and buckets
+            subscribe(Regex(".*Repairs: $stat \\|\\| Buckets: $stat.*")) {
                 currentStats().apply {
-                    resupplies = it.groupValues[1].toInt()
-                    repairs = it.groupValues[2].toInt()
-                    bucketsUsed = it.groupValues[3].toInt()
+                    repairs = it.groupValues[1].toInt()
+                    bucketsUsed = it.groupValues[2].toInt()
                 }
             }
 
@@ -86,7 +90,7 @@ object KCAutoStatsTracker {
             }
 
             // Track recoveries
-            subscribe(Regex(".*Recoveries done: (\\d+).*")) {
+            subscribe(Regex(".*Recoveries done: $stat.*")) {
                 currentStats().recoveries = it.groupValues[1].toInt()
             }
 
