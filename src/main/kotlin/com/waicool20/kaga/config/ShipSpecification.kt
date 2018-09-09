@@ -41,12 +41,10 @@ sealed class ShipSpecification {
 
     companion object {
         private val positionRegex = Regex("P:([NCL]):([SE]):(\\d{1,3})")
-        private val shipRegex = Regex("S:(.+?):([><_])(\\d{0,3}):([_LN]):([_RN])")
-        private val classRegex = Regex("C:(.+?):([><_])(\\d{0,3}):([_LN]):([_RN])")
+        private val assetRegex = Regex("A:(.+?):([><_])(\\d{0,3}):([_LN]):([_RN])")
         val values = mapOf(
                 ShipSpecificationByPosition::class to "Position",
-                ShipSpecificationByShip::class to "Ship/Custom",
-                ShipSpecificationByClass::class to "Class"
+                ShipSpecificationByAsset::class to "Asset"
         )
 
         fun parse(string: String): ShipSpecification {
@@ -58,21 +56,12 @@ sealed class ShipSpecification {
                         ShipSpecificationByPosition(criteria, order, offset.toInt())
                     }
                 }
-                string.matches(shipRegex) -> {
-                    shipRegex.matchEntire(string)!!.destructured.let { (ship, levelCriteriaString, level, lockCriteriaString, ringCriteriaString) ->
+                string.matches(assetRegex) -> {
+                    assetRegex.matchEntire(string)!!.destructured.let { (asset, levelCriteriaString, level, lockCriteriaString, ringCriteriaString) ->
                         val levelCriteria = LevelCriteria.values().find { it.value == levelCriteriaString }!!
                         val lockCriteria = LockCriteria.values().find { it.value == lockCriteriaString }!!
                         val ringCriteria = RingCriteria.values().find { it.value == ringCriteriaString }!!
-                        ShipSpecificationByShip(ship, levelCriteria, level.toIntOrNull(), lockCriteria, ringCriteria)
-                    }
-                }
-                string.matches(classRegex) -> {
-                    classRegex.matchEntire(string)!!.destructured.let { (shipClassString, levelCriteriaString, level, lockCriteriaString, ringCriteriaString) ->
-                        val shipClass = ShipSpecificationByClass.ShipClass.valueOf(shipClassString)
-                        val levelCriteria = LevelCriteria.values().find { it.value == levelCriteriaString }!!
-                        val lockCriteria = LockCriteria.values().find { it.value == lockCriteriaString }!!
-                        val ringCriteria = RingCriteria.values().find { it.value == ringCriteriaString }!!
-                        ShipSpecificationByClass(shipClass, levelCriteria, level.toIntOrNull(), lockCriteria, ringCriteria)
+                        ShipSpecificationByAsset(asset, levelCriteria, level.toIntOrNull(), lockCriteria, ringCriteria)
                     }
                 }
                 else -> kotlin.error("Could not parse ship specification: $string")
@@ -104,34 +93,8 @@ data class ShipSpecificationByPosition(
     override fun asConfigString() = "P:${sortBy.value}:${order.value}:$offset"
 }
 
-data class ShipSpecificationByShip(
-        var ship: String = "U-511",
-        var levelCriteria: LevelCriteria = LevelCriteria.NONE,
-        var level: Int? = null,
-        var lockCriteria: LockCriteria = LockCriteria.IGNORE_LOCKS,
-        var ringCriteria: RingCriteria = RingCriteria.IGNORE_RINGS
-) : ShipSpecification() {
-    enum class Submarines(val prettyString: String, val isSSV: Boolean) {
-        I_8("I-8", false), I_8_KAI("I-8 Kai", true),
-        I_13("I-13", true), I_14("I-14", true),
-        I_19("I-19", false), I_19_KAI("I-19 Kai", true),
-        I_26("I-26", false), I_26_KAI("I-26 Kai", true),
-        I_58("I-58", false), I_58_KAI("I-58 Kai", true),
-        I_168("I-168", false),
-        I_400("I-400", true), I_401("I-401", true),
-        MARUYU("Maruyu", false), RO_500("Ro-500", false),
-        U_511("U-511", false), LUIGI("Luigi", false),
-        UIT_25("UIT-25", false), I_504("I-504", false);
-
-        override fun toString() = prettyString.toLowerCase().replace(" ", "-")
-    }
-
-    override fun asConfigString() = "S:$ship:${levelCriteria.value}${level
-            ?: ""}:${lockCriteria.value}:${ringCriteria.value}"
-}
-
-data class ShipSpecificationByClass(
-        var shipClass: ShipClass = ShipClass.SS,
+data class ShipSpecificationByAsset(
+        var asset: String = "SS",
         var levelCriteria: LevelCriteria = LevelCriteria.NONE,
         var level: Int? = null,
         var lockCriteria: LockCriteria = LockCriteria.IGNORE_LOCKS,
@@ -144,7 +107,7 @@ data class ShipSpecificationByClass(
         DE, LHA, SS, SSV
     }
 
-    override fun asConfigString() = "C:$shipClass:${levelCriteria.value}${level
+    override fun asConfigString() = "A:$asset:${levelCriteria.value}${level
             ?: ""}:${lockCriteria.value}:${ringCriteria.value}"
 }
 

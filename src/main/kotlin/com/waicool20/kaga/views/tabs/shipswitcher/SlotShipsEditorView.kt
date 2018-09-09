@@ -21,9 +21,8 @@
 package com.waicool20.kaga.views.tabs.shipswitcher
 
 import com.waicool20.kaga.config.ShipSpecification
-import com.waicool20.kaga.config.ShipSpecificationByClass
+import com.waicool20.kaga.config.ShipSpecificationByAsset
 import com.waicool20.kaga.config.ShipSpecificationByPosition
-import com.waicool20.kaga.config.ShipSpecificationByShip
 import javafx.scene.Parent
 import javafx.scene.control.ComboBox
 import javafx.scene.control.ListView
@@ -57,8 +56,7 @@ class SlotShipsEditorView : Fragment() {
             val param = "spec" to (specification ?: newVal.createInstance())
             val view = when (param.second) {
                 is ShipSpecificationByPosition -> find<SlotShipsEditByPositionView>(Scope(editModel), param)
-                is ShipSpecificationByShip -> find<SlotShipsEditByShipView>(Scope(editModel), param)
-                is ShipSpecificationByClass -> find<SlotShipsEditByClassView>(Scope(editModel), param)
+                is ShipSpecificationByAsset -> find<SlotShipsEditByAssetView>(Scope(editModel), param)
             }
             currentEditView.replaceWith(view.root)
             currentEditView = view.root

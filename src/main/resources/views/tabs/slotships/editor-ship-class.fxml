@@ -3,6 +3,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.SegmentedButton?>
@@ -29,8 +30,10 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="commonLabel" text="Class or Ship:" />
-      <ComboBox fx:id="commonComboBox" prefWidth="200.0" />
+      <Label text="Select Ship Class:" />
+      <ComboBox fx:id="classComboBox" prefWidth="200.0" />
+      <Label text="Or use a custom asset:" />
+      <TextField fx:id="assetTextField" />
       <Label text="Level Filter:" />
       <HBox prefWidth="200.0" spacing="10.0">
          <children>
