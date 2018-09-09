@@ -129,6 +129,11 @@
                         <fx:include fx:id="sortieTab" source="tabs/tab-sortie.fxml" />
                     </content>
                 </Tab>
+                <Tab text="EventReset">
+                    <content>
+                        <fx:include fx:id="eventResetTab" source="tabs/tab-eventreset.fxml" />
+                    </content>
+                </Tab>
                 <Tab text="PvP">
                     <content>
                         <fx:include fx:id="pvpTab" source="tabs/tab-pvp.fxml" />
