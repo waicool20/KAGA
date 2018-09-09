@@ -21,7 +21,9 @@
 package com.waicool20.kaga.config
 
 import com.waicool20.kaga.Kaga
-import com.waicool20.kaga.util.*
+import com.waicool20.kaga.util.IniConfig
+import com.waicool20.kaga.util.fromObject
+import com.waicool20.kaga.util.toObject
 import com.waicool20.waicoolutils.javafx.json.fxJacksonObjectMapper
 import com.waicool20.waicoolutils.javafx.toProperty
 import org.ini4j.Wini
@@ -41,6 +43,7 @@ data class KancolleAutoProfile(
         val expeditions: Expeditions = Expeditions(),
         val pvp: Pvp = Pvp(),
         val sortie: Sortie = Sortie(),
+        val eventReset: EventReset = EventReset(),
         val shipSwitcher: ShipSwitcher = ShipSwitcher(),
         val quests: Quests = Quests()
 ) {
@@ -52,9 +55,10 @@ data class KancolleAutoProfile(
             expeditions: Expeditions = Expeditions(),
             pvp: Pvp = Pvp(),
             sortie: Sortie = Sortie(),
+            eventReset: EventReset,
             shipSwitcher: ShipSwitcher = ShipSwitcher(),
             quests: Quests = Quests()
-    ) : this(general, scheduledSleep, scheduledStop, expeditions, pvp, sortie, shipSwitcher, quests) {
+    ) : this(general, scheduledSleep, scheduledStop, expeditions, pvp, sortie, eventReset, shipSwitcher, quests) {
         this.name = name
     }
 
@@ -97,6 +101,7 @@ data class KancolleAutoProfile(
         add("Expeditions").fromObject(expeditions)
         add("PvP").fromObject(pvp)
         add("Combat").fromObject(sortie)
+        add("EventReset").fromObject(eventReset)
         add("ShipSwitcher").fromObject(shipSwitcher)
         add("Quests").fromObject(quests)
     }
@@ -148,6 +153,7 @@ data class KancolleAutoProfile(
                         expeditions = loadSection(ini),
                         pvp = loadSection(ini, "PvP"),
                         sortie = loadSection(ini, "Combat"),
+                        eventReset = loadSection(ini),
                         shipSwitcher = loadSection(ini),
                         quests = loadSection(ini)
                 ).apply {
@@ -237,6 +243,18 @@ data class KancolleAutoProfile(
         CLEAR_STOP("ClearStop");
 
         override fun toString() = value
+    }
+
+    enum class EventDifficulty {
+        CASUAL, EASY, MEDIUM, HARD;
+
+        val prettyString = name.toLowerCase().capitalize()
+
+        companion object {
+            fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
+        }
+
+        override fun toString() = name.toLowerCase()
     }
 
     enum class SwitchCriteria(val prettyString: String, val value: String) {
@@ -482,6 +500,27 @@ data class KancolleAutoProfile(
         var lbasGroup2Nodes by lbasGroup2NodesProperty
         var lbasGroup3Nodes by lbasGroup3NodesProperty
         var miscOptions by miscOptionsProperty
+    }
+
+    class EventReset(
+            enabled: Boolean = false,
+            frequency: Int = 3,
+            farmDifficulty: EventDifficulty = EventDifficulty.EASY,
+            resetDifficulty: EventDifficulty = EventDifficulty.MEDIUM
+    ) {
+        @IniConfig("Enabled")
+        val enabledProperty = enabled.toProperty()
+        @IniConfig("Frequency")
+        val frequencyProperty = frequency.toProperty()
+        @IniConfig("FarmDifficulty")
+        val farmDifficultyProperty = farmDifficulty.toProperty()
+        @IniConfig("ResetDifficulty")
+        val resetDifficultyProperty = resetDifficulty.toProperty()
+
+        var enabled by enabledProperty
+        var frequency by frequencyProperty
+        var farmDifficulty by farmDifficultyProperty
+        var resetDifficulty by resetDifficultyProperty
     }
 
     class ShipSwitcher(
