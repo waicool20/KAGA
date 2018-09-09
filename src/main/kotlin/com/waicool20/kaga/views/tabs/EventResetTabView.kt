@@ -31,6 +31,7 @@ import javafx.scene.control.ComboBox
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.layout.VBox
+import javafx.util.StringConverter
 import tornadofx.*
 
 class EventResetTabView {
@@ -48,9 +49,15 @@ class EventResetTabView {
     }
 
     private fun setValues() {
+        val converter = object: StringConverter<EventDifficulty>() {
+            override fun toString(ed: EventDifficulty) = ed.prettyString
+            override fun fromString(s: String) = EventDifficulty.fromPrettyString(s)
+        }
         frequencySpinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5)
         farmDifficultyComboBox.items.setAll(EventDifficulty.values().toList())
         resetDifficultyComboBox.items.setAll(EventDifficulty.values().toList())
+        farmDifficultyComboBox.converter = converter
+        resetDifficultyComboBox.converter = converter
         root.sceneProperty().addListener("EventResetSceneListener") { newScene ->
             newScene.window.setOnShown { updateRoot() }
         }
