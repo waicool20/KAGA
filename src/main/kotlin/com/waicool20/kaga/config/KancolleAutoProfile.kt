@@ -177,14 +177,16 @@ data class KancolleAutoProfile(
 
     enum class RecoveryMethod { BROWSER, KC3, KCV, KCT, EO, NONE }
 
-    enum class ScheduledStopMode(val prettyString: String) {
-        MODULE("Module"), SCRIPT("Script");
+    enum class ScheduledStopMode {
+        MODULE, SCRIPT;
+
+        val prettyString = name.toLowerCase().capitalize()
 
         companion object {
             fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
         }
 
-        override fun toString(): String = name.toLowerCase()
+        override fun toString() = name.toLowerCase()
     }
 
     enum class CombatFormation(val prettyString: String) {
@@ -257,28 +259,28 @@ data class KancolleAutoProfile(
         override fun toString() = name.toLowerCase()
     }
 
-    enum class SwitchCriteria(val prettyString: String, val value: String) {
-        FATIGUE("Fatigue", "fatigue"),
-        DAMAGE("Damage", "damage"),
-        SPARKLE("Sparkle", "sparkle");
+    enum class SwitchCriteria {
+        FATIGUE, DAMAGE, SPARKLE;
+
+        val prettyString = name.toLowerCase().capitalize()
 
         companion object {
             fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
         }
 
-        override fun toString() = value
+        override fun toString() = name.toLowerCase()
     }
 
-    enum class QuestGroups(val prettyString: String, val value: String) {
-        DAILY("Daily", "daily"),
-        WEEKLY("Weekly", "weekly"),
-        MONTHLY("Monthly", "monthly");
+    enum class QuestGroups {
+        DAILY, WEEKLY, MONTHLY;
+
+        val prettyString = name.toLowerCase().capitalize()
 
         companion object {
             fun fromPrettyString(string: String) = values().first { it.prettyString.equals(string, true) }
         }
 
-        override fun toString() = value
+        override fun toString() = name.toLowerCase()
     }
 
     class General(
