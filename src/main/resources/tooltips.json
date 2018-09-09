@@ -192,6 +192,22 @@
     "description": "Set whether or not to 'push' past the max number of defined combat nodes, REGARDLESS OF THE STATE OF YOUR FLEET. Only do this if the last node is a resource/non-combat node, like the end of 1-6, and only if your path is 100% fixed!\n\nWARNING: YOU MAY LOSE SHIPS WITH THIS SET TO TRUE. PLEASE STUDY THE MAP YOU ARE SORTIEING TO AND MAKE AN EDUCATED DECISION"
   },
   {
+    "id": "EventReset-enableButton",
+    "description": "Check this box if you want to enable automatic reset of event difficulty (Map gauge)"
+  },
+  {
+    "id": "EventReset-frequencyLabel",
+    "description": "Sets the frequency of resetting the event difficulty in units of sorties"
+  },
+  {
+    "id": "EventReset-farmDifficultyLabel",
+    "description": "The difficulty you want to farm the map with"
+  },
+  {
+    "id": "EventReset-resetDifficultyLabel",
+    "description": "The difficulty that the script tries to reset to temporarily then back to farm difficulty"
+  },
+  {
     "id": "PvP-enableButton",
     "description": "Check this box if you want to enable pvp"
   },
