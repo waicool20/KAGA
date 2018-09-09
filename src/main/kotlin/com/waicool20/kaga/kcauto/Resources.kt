@@ -41,12 +41,12 @@ data class Resources(
         fun readResources(): Resources {
             if (SikuliXLoader.SIKULI_WORKING) {
                 Screen().exists("fuel.png")?.apply {
-                    val fuelCountRegion = Region(x + 25, y, 44, 17)
-                    val ammoCountRegion = Region(x + 25, y + 19, 44, 17)
-                    val steelCountRegion = Region(x + 95, y, 44, 17)
-                    val bauxCountRegion = Region(x + 95, y + 19, 44, 17)
-                    val bucketRegion = Region(x + 34, y - 21, 36, 14)
-                    val devmatRegion = Region(x + 101, y - 21, 36, 14)
+                    val fuelCountRegion = Region(x + 24, y -2, 75, 20)
+                    val ammoCountRegion = Region(x + 24, y + 26, 75, 20)
+                    val steelCountRegion = Region(x + 131, y - 2, 75, 20)
+                    val bauxCountRegion = Region(x + 131, y + 26, 75, 20)
+                    val bucketRegion = Region(x + 44, y - 37, 60, 20)
+                    val devmatRegion = Region(x + 144, y - 37, 60, 20)
                     logger.info("Reading Resources")
                     val fuel = fuelCountRegion.readNumber()
                     val ammo = ammoCountRegion.readNumber()
