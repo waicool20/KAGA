@@ -272,7 +272,7 @@ data class KancolleAutoProfile(
     }
 
     enum class QuestGroups {
-        DAILY, WEEKLY, MONTHLY;
+        DAILY, WEEKLY, MONTHLY, OTHERS;
 
         val prettyString = name.toLowerCase().capitalize()
 
