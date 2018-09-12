@@ -20,7 +20,12 @@
 
 package com.waicool20.kaga.config
 
+import com.waicool20.waicoolutils.logging.loggerFor
+import kotlin.concurrent.thread
+
 sealed class ShipSpecification {
+    private val logger = loggerFor<ShipSpecification>()
+
     enum class LockCriteria(val value: String) {
         IGNORE_LOCKS("_"),
         ONLY_LOCKED("L"),
@@ -47,7 +52,7 @@ sealed class ShipSpecification {
                 ShipSpecificationByAsset::class to "Asset"
         )
 
-        fun parse(string: String): ShipSpecification {
+        fun parse(string: String): ShipSpecification? {
             return when {
                 string.matches(positionRegex) -> {
                     positionRegex.matchEntire(string)!!.destructured.let { (sortCriteriaString, orderString, offset) ->
@@ -64,7 +69,10 @@ sealed class ShipSpecification {
                         ShipSpecificationByAsset(asset, levelCriteria, level.toIntOrNull(), lockCriteria, ringCriteria)
                     }
                 }
-                else -> kotlin.error("Could not parse ship specification: $string")
+                else -> {
+                    thread { kotlin.error("Could not parse ship specification: $string, it will be ignored") }
+                    null
+                }
             }
         }
     }

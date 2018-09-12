@@ -110,7 +110,7 @@ class SlotShipsListView : Fragment() {
     }
 
     override fun onRefresh() {
-        slotShipsListView.items = SimpleListProperty(scope.slot.map(::parse).observable())
+        slotShipsListView.items = SimpleListProperty(scope.slot.mapNotNull(::parse).observable())
     }
 
     override fun onDelete() {
