@@ -26,7 +26,10 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 
 # Installation and Usage
 
-* A working copy of KAGA, either download from [release page](https://github.com/waicool20/KAGA/releases) or build a copy from the latest commit (Instructions below)
+* A working copy of KAGA:
+    * You can find official releases on the [Release Page](https://github.com/waicool20/KAGA/releases) (Recommended) 
+    * You can find per-commit based builds on [AppVeyor](https://ci.appveyor.com/project/waicool20/kaga) (Possibly unstable but bleeding edge)
+    * You can clone and build a copy from the latest commit (Possibly unstable but bleeding edge, instructions below)
 * Install [Java JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
 * A working copy of [KCAuto](https://github.com/mrmin123/kcauto)
 
