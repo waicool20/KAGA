@@ -40,24 +40,30 @@ data class Resources(
         private val logger = LoggerFactory.getLogger(Resources::class.java)
         fun readResources(): Resources {
             if (SikuliXLoader.SIKULI_WORKING) {
+                var fuel = -1
+                var ammo = -1
+                var steel = -1
+                var bauxite = -1
+                var buckets = -1
+                var devmats = -1
+                logger.info("Reading Resources")
                 Screen().exists("fuel.png")?.apply {
-                    val fuelCountRegion = Region(x + 24, y -2, 75, 20)
-                    val ammoCountRegion = Region(x + 24, y + 26, 75, 20)
-                    val steelCountRegion = Region(x + 131, y - 2, 75, 20)
-                    val bauxCountRegion = Region(x + 131, y + 26, 75, 20)
-                    val bucketRegion = Region(x + 44, y - 37, 60, 20)
-                    val devmatRegion = Region(x + 144, y - 37, 60, 20)
-                    logger.info("Reading Resources")
-                    val fuel = fuelCountRegion.readNumber()
-                    val ammo = ammoCountRegion.readNumber()
-                    val steel = steelCountRegion.readNumber()
-                    val bauxite = bauxCountRegion.readNumber()
-                    val buckets = bucketRegion.readNumber()
-                    val devmats = devmatRegion.readNumber()
-                    logger.info("Fuel: $fuel | Ammo: $ammo | Steel: $steel | Bauxite: $bauxite | Buckets: $buckets | DevMats: $devmats")
-                    return Resources(fuel, ammo, steel, bauxite, buckets, devmats)
-                }
-                logger.warn("Resources unreadable, maybe something is blocking it.")
+                    fuel = Region(x + 24, y - 2, 75, 20).readNumber()
+                    ammo = Region(x + 24, y + 26, 75, 20).readNumber()
+                    steel = Region(x + 131, y - 2, 75, 20).readNumber()
+                    bauxite = Region(x + 131, y + 26, 75, 20).readNumber()
+                } ?: logger.warn("Resources unreadable, maybe something is blocking it.")
+
+                Screen().exists("bucket.png")?.apply {
+                    buckets = Region(x + 17, y - 4, 60, 25).readNumber()
+                } ?: logger.warn("Buckets unreadable, maybe something is blocking it.")
+
+                Screen().exists("devmat.png")?.apply {
+                    devmats = Region(x + 21, y - 5, 70, 25).readNumber()
+                } ?: logger.warn("Devmats unreadable, maybe something is blocking it.")
+
+                logger.info("Fuel: $fuel | Ammo: $ammo | Steel: $steel | Bauxite: $bauxite | Buckets: $buckets | DevMats: $devmats")
+                return Resources(fuel, ammo, steel, bauxite, buckets, devmats)
             }
             return Resources(-1, -1, -1, -1, -1, -1)
         }
