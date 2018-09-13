@@ -67,6 +67,7 @@ class KagaView {
     @FXML private lateinit var expeditionsTabController: ExpeditionsTabView
     @FXML private lateinit var pvpTabController: PvpTabView
     @FXML private lateinit var sortieTabController: SortieTabView
+    @FXML private lateinit var eventResetTabController: EventResetTabView
     @FXML private lateinit var lbasTabController: LbasTabView
     @FXML private lateinit var shipSwitcherTabController: ShipSwitcherTabView
     @FXML private lateinit var questsTabController: QuestsTabView
@@ -180,6 +181,7 @@ class KagaView {
                     expeditionsTabController.initialize()
                     pvpTabController.initialize()
                     sortieTabController.initialize()
+                    eventResetTabController.initialize()
                     lbasTabController.initialize()
                     questsTabController.initialize()
                     shipSwitcherTabController.initialize()
