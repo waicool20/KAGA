@@ -49,9 +49,11 @@ Prerequisites:
 
 Git clone instructions: 
 
-> git clone https://github.com/waicool20/KAGA.git   // Clone repository, replace with ssh url if you prefer that  
-> cd KAGA/  
-> git submodule update --init --recursive           // Pull all submodules, this includes the utility library
+```bash
+git clone https://github.com/waicool20/KAGA.git     // Clone repository, replace with ssh url if you prefer that  
+cd KAGA/                                            // Make sure you are in the KAGA directory
+git submodule update --init --recursive             // Pull all submodules, this includes the utility library
+```
 
 To build the jar file after cloning/pulling the latest commits, go into the repo directory and run the right command
 
