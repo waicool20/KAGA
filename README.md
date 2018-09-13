@@ -2,7 +2,7 @@
 Kancolle Auto Gui App or KAGA 
 
 A GUI for the tool over here: https://github.com/mrmin123/kancolle-auto (Versions below 2.0.0)  
-And here: https://github.com/mrmin123/kcauto-kai (Versions 2.0.0 and above)
+And here: https://github.com/mrmin123/kcauto (Versions 2.0.0 and above)
 
 ---
 **ALL WARNINGS/DISCLAIMERS FROM KANCOLLE-AUTO ALSO APPLY HERE,  
@@ -13,14 +13,14 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 # Features
 
 - No more hassling with the command line, just click away admiral!
-- More human friendly values instead of pure numbers used to configure KCAuto-Kai
-- Profile saving, for easy switching between different routines from orel cruising to your 3-2 grind
-- Automatic restart of KCAuto-Kai, KAGA makes sure those subs return to 2-3 even after an internet hiccup!
-- Saves crash logs automatically to <KCAuto-Kai Directory>/crashes with details filled in ready for bug reporting
+- More human friendly values instead of pure numbers used to configure KCAuto
+- Profile saving, for easy switching between different routines 
+- Automatic restart of KCAuto, ~~KAGA makes sure those subs return to 2-3 even after an internet hiccup!~~ Orel is dead T_T
+- Saves crash logs automatically to <KCAuto Directory>/crashes with details filled in ready for bug reporting
 - Prevents lockscreen(configurable) in case you're too lazy to turn off your screensaver
-- Tooltips to help you configure KCAuto-Kai, press Shift Key while hovering over an option to see what it does
+- Tooltips to help you configure KCAuto, press Shift Key while hovering over an option to see what it does
 - Statistics to help you know what the script is doing! eg. Buckets used, sorties per hour etc. (See screenshots)
-- Discord integration, basic crash notification and script status queries via YuuBot, a sassy bot that resides in our server.
+- Discord integration, basic crash notification and script status queries via YuuBot, a cute bot that resides in our server.
 - Global shortcut key that can be rebinded to start and stop the script even when your mouse is out of control.
 - KC3 Ship list importer for convenience when configuring the ShipSwitcher module.
 
@@ -28,10 +28,10 @@ WE SHALL NOT BE HELD LIABLE FOR THE EXCESSIVE SALT CREATED IF YOU ARE BANNED OR 
 
 * A working copy of KAGA, either download from [release page](https://github.com/waicool20/KAGA/releases) or build a copy from the latest commit (Instructions below)
 * Install [Java JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
-* A working copy of [KCAuto-Kai](https://github.com/mrmin123/kcauto-kai)
+* A working copy of [KCAuto](https://github.com/mrmin123/kcauto)
 
-After you install the dependencies, you may run the JAR executable directly, after which you will be presented a screen to configure paths to the Sikuli Script Jar file and the KCAuto-Kai Root directory.
-After that the main application will start and you may begin configuring and saving profiles for KCAuto-Kai, it's pretty straight forward with Kaga as your secretary!
+After you install the dependencies, you may run the JAR executable directly, after which you will be presented a screen to configure paths to the Sikuli Script Jar file and the KCAuto Root directory.
+After that the main application will start and you may begin configuring and saving profiles for KCAuto, it's pretty straight forward with Kaga as your secretary!
 
 # Help
 
@@ -45,6 +45,13 @@ If you have any further questions, you're welcome to contact me on Discord (Invi
 Prerequisites: 
 
 * [Java JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) is needed to build KAGA as opposed to Java JRE 8
+* [My Utility Library](https://github.com/waicool20/waicoolUtils), place this inside the project directory, you don't need to do this if you are cloning and pulling all submodules
+
+Git clone instructions: 
+
+> git clone https://github.com/waicool20/KAGA.git   // Clone repository, replace with ssh url if you prefer that  
+> cd KAGA/  
+> git submodule update --init --recursive           // Pull all submodules, this includes the utility library
 
 To build the jar file after cloning/pulling the latest commits, go into the repo directory and run the right command
 
@@ -64,7 +71,7 @@ Looks may vary on different OS but should run the same regardless, I'm currently
 It may also vary between current release and latest commit, so if you want the eye candy learn how to build it from source, it's easy!
 
 
-Main window and debug window showing the console output of both KAGA and KCAuto-Kai:
+Main window and debug window showing the console output of both KAGA and KCAuto:
 ![Main and Debug window](screenshots/Main_and_Debug_window.png?raw=true)
 
 Configuring the formations for each node is easy with a dropdown list:
