@@ -1,4 +1,4 @@
 {
-    "version": "v4.0.0",
+    "version": "v4.0.1",
     "kcAutoCompatibility": "6.2.0"
 }
