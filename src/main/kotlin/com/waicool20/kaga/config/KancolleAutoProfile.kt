@@ -215,7 +215,7 @@ data class KancolleAutoProfile(
     enum class FleetMode(val prettyString: String, val value: String) {
         STANDARD("Standard", ""),
         CTF("Carrier Task Force", "ctf"),
-        STF("Strike Task Force", "stf"),
+        STF("Surface Task Force", "stf"),
         TRANSPORT("Transport Escort", "transport"),
         STRIKING("Striking Fleet", "striking");
 
