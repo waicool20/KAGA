@@ -70,7 +70,8 @@ class SleepTabView {
     ) {
         init {
             val sTime = startTime.get().padStart(4, '0').let {
-                LocalTime.of(it.substring(0, 2).toInt(), it.substring(2, 4).toInt())
+                val hour = it.substring(0, 2).toInt()
+                LocalTime.of(if (hour > 23) 0 else hour, it.substring(2, 4).toInt())
             }
             val eTime = sTime.plusMinutes((length.get() * 60).toLong())
 

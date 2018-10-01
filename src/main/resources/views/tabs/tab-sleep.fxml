@@ -44,7 +44,10 @@
       </HBox>
       <VBox fx:id="scriptSleepContent" alignment="CENTER">
          <children>
-            <RangeSlider fx:id="scriptSleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" stylesheets="@../../styles/rangeslider.css" />
+            <RangeSlider fx:id="scriptSleepRangeSlider" blockIncrement="1.0" highValue="8.0"
+                         lowValue="0.0" majorTickUnit="24.0" max="23.999" minWidth="325.0"
+                         minorTickCount="48" showTickMarks="true"
+                         stylesheets="@../../styles/rangeslider.css"/>
             <Label fx:id="scriptSleepTimeLabel" alignment="CENTER" contentDisplay="CENTER" text="00:00 - 23:00" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
@@ -70,7 +73,10 @@
       </HBox>
       <VBox fx:id="expSleepContent" alignment="CENTER">
          <children>
-            <RangeSlider fx:id="expSleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" stylesheets="@../../styles/rangeslider.css" />
+            <RangeSlider fx:id="expSleepRangeSlider" blockIncrement="1.0" highValue="8.0"
+                         lowValue="0.0" majorTickUnit="24.0" max="23.999" minWidth="325.0"
+                         minorTickCount="48" showTickMarks="true"
+                         stylesheets="@../../styles/rangeslider.css"/>
             <Label fx:id="expSleepTimeLabel" alignment="CENTER" contentDisplay="CENTER" text="00:00 - 23:00" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
@@ -96,7 +102,10 @@
       </HBox>
       <VBox fx:id="sortieSleepContent" alignment="CENTER">
          <children>
-            <RangeSlider fx:id="sortieSleepRangeSlider" blockIncrement="1.0" highValue="8.0" lowValue="0.0" majorTickUnit="24.0" max="24.0" minWidth="325.0" minorTickCount="48" showTickLabels="true" showTickMarks="true" stylesheets="@../../styles/rangeslider.css" />
+            <RangeSlider fx:id="sortieSleepRangeSlider" blockIncrement="1.0" highValue="8.0"
+                         lowValue="0.0" majorTickUnit="24.0" max="23.999" minWidth="325.0"
+                         minorTickCount="48" showTickMarks="true"
+                         stylesheets="@../../styles/rangeslider.css"/>
             <Label fx:id="sortieSleepTimeLabel" alignment="CENTER" contentDisplay="CENTER" text="00:00 - 23:00" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
