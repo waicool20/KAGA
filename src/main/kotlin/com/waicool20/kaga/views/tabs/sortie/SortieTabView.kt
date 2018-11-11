@@ -29,7 +29,6 @@ import com.waicool20.waicoolutils.javafx.addListener
 import com.waicool20.waicoolutils.javafx.asTimeSpinner
 import com.waicool20.waicoolutils.javafx.cellfactories.NoneSelectableCellFactory
 import javafx.beans.binding.Bindings
-import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.layout.GridPane
@@ -55,6 +54,7 @@ class SortieTabView {
     @FXML private lateinit var checkFatigueCheckBox: CheckBox
     @FXML private lateinit var checkPortCheckBox: CheckBox
     @FXML private lateinit var clearStopCheckBox: CheckBox
+    @FXML private lateinit var lastNodePushCheckBox: CheckBox
 
     @FXML private lateinit var nodeSelectsButton: Button
     @FXML private lateinit var formationsButton: Button
@@ -138,6 +138,7 @@ class SortieTabView {
             checkFatigueCheckBox.isSelected = contains(SortieOptions.CHECK_FATIGUE)
             checkPortCheckBox.isSelected = contains(SortieOptions.PORT_CHECK)
             clearStopCheckBox.isSelected = contains(SortieOptions.CLEAR_STOP)
+            lastNodePushCheckBox.isSelected = contains(SortieOptions.LAST_NODE_PUSH)
         }
     }
 
@@ -178,6 +179,9 @@ class SortieTabView {
             }
             clearStopCheckBox.selectedProperty().addListener("ClearStopCheckBox") { newVal ->
                 if (newVal) add(SortieOptions.CLEAR_STOP) else remove(SortieOptions.CLEAR_STOP)
+            }
+            lastNodePushCheckBox.selectedProperty().addListener("LastNodePushCheckBox") { newVal ->
+                if (newVal) add(SortieOptions.LAST_NODE_PUSH) else remove(SortieOptions.LAST_NODE_PUSH)
             }
         }
 

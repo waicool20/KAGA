@@ -242,7 +242,8 @@ data class KancolleAutoProfile(
         CHECK_FATIGUE("CheckFatigue"),
         RESERVE_DOCKS("ReserveDocks"),
         PORT_CHECK("PortCheck"),
-        CLEAR_STOP("ClearStop");
+        CLEAR_STOP("ClearStop"),
+        LAST_NODE_PUSH("LastNodePush");
 
         override fun toString() = value
     }
