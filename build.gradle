@@ -91,6 +91,8 @@ dependencies {
         exclude group: "com.sikulix"
         exclude group: 'com.github.vidstige'
     }
+    
+    compile group: 'net.java.dev.jna', name: 'jna', version: '5.2.0'
 }
 
 shadowJar {

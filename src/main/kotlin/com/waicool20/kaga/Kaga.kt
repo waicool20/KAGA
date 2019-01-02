@@ -34,6 +34,7 @@ import com.waicool20.kaga.kcauto.YuuBot
 import com.waicool20.kaga.views.ConsoleView
 import com.waicool20.kaga.views.PathChooserView
 import com.waicool20.kaga.views.StatsView
+import com.waicool20.waicoolutils.CLib
 import com.waicool20.waicoolutils.SikuliXLoader
 import com.waicool20.waicoolutils.javafx.AlertFactory
 import com.waicool20.waicoolutils.logging.LoggerUtils
@@ -161,6 +162,13 @@ object Kaga {
     val KCAUTO by lazy { KCAuto() }
 
     fun startMainApplication() {
+        // Try and set the locale for to C for tesseract 4.0 +
+        try {
+            CLib.Locale.setLocale(CLib.Locale.LC_ALL, "C")
+        } catch (t: Throwable) {
+            logger.warn("Could not set locale to C, application may crash if using tesseract 4.0+")
+            t.printStackTrace()
+        }
         SikuliXLoader.loadAndTest(CONFIG.sikulixJarPath)
         CONFIG.currentProfile = PROFILE.name
         CONFIG.save()
