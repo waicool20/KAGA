@@ -126,7 +126,7 @@ data class KancolleAutoProfile(
         const val DEFAULT_NAME = "[Current Profile]"
         val VALID_NODES = (1..12).map { it.toString() }
                 .plus("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter { it.isNotEmpty() })
-                .plus(listOf("Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZZ1", "ZZ2", "ZZ3"))
+                .plus(listOf("Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZZ", "ZZ1", "ZZ2", "ZZ3"))
                 .toProperty()
 
         fun load(path: Path = Kaga.CONFIG.kcaRootDirPath.resolve("config.ini")): KancolleAutoProfile {
