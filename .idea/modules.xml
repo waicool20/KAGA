@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-859097479/KAGA.iml" filepath="$PROJECT_DIR$/.idea/modules/-859097479/KAGA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-859097479/KAGA.iml" filepath="$PROJECT_DIR$/.idea/modules/-859097479/KAGA.iml" group="KAGA" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-859097479/KAGA_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-859097479/KAGA_main.iml" group="KAGA" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-859097479/KAGA_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-859097479/KAGA_test.iml" group="KAGA" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils.iml" filepath="$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils.iml" group="waicoolUtils" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils_main.iml" filepath="$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils_main.iml" group="waicoolUtils" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils_test.iml" filepath="$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils_test.iml" group="waicoolUtils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils.iml" filepath="$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils.iml" group="KAGA/waicoolUtils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils_main.iml" filepath="$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils_main.iml" group="KAGA/waicoolUtils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils_test.iml" filepath="$PROJECT_DIR$/.idea/modules/waicoolUtils/waicoolUtils_test.iml" group="KAGA/waicoolUtils" />
     </modules>
   </component>
 </project>
