@@ -38,9 +38,9 @@ data class NodeSelect(val source: SimpleStringProperty, val destination: SimpleS
 
 class NodeSelectsChooserView : SingleListView<NodeSelect>(showControlButtons = true) {
 
-    private val VALID_NODES = KancolleAutoProfile.VALID_NODES.filterNot { it.matches("^\\d+".toRegex()) }.let {
-        FXCollections.observableList(it)
-    }
+    private val VALID_NODES = KancolleAutoProfile.VALID_NODES
+            .filterNot { it.matches("^\\d+".toRegex()) }
+            .let { FXCollections.observableList(it) }
 
     init {
         title = "KAGA - Node Selects Chooser"
