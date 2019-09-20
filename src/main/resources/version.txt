@@ -1,4 +1,4 @@
 {
-    "version": "v4.1.0",
-    "kcAutoCompatibility": "7.0.0"
+    "version": "v4.2.0",
+    "kcAutoCompatibility": "7.5.1"
 }
