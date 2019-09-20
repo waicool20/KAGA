@@ -39,16 +39,16 @@ class ExpeditionsTabView {
     @FXML private lateinit var content: VBox
 
     private val supportExpeditions = mapOf(
-            "9998" to "Pre-Boss Node Support",
-            "9999" to "Boss Node Support"
+            "S1" to "Pre-Boss Node Support",
+            "S2" to "Boss Node Support"
     )
 
     private val expeditions =
             (1..8).map(Int::toString) +
-                    listOf("A1", "A2", "A3") +
+                    listOf("A1", "A2", "A3", "A4") +
                     (9..16).map(Int::toString) +
                     listOf("B1", "B2") +
-                    (17..40).map(Int::toString) +
+                    (17..42).map(Int::toString) +
                     supportExpeditions.keys
 
     @FXML
